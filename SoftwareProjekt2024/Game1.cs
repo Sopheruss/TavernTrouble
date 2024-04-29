@@ -1,8 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-// moin
-//yooooooo
+
 namespace SoftwareProjekt2024
 {
     public class Game1 : Game
