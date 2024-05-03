@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 // moin
 //yooooooo
+
+// <==3
 namespace SoftwareProjekt2024
 {
     public class Game1 : Game
