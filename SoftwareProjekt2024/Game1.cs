@@ -6,19 +6,32 @@ namespace SoftwareProjekt2024
 {
     public class Game1 : Game
     {
+        Texture2D ballTexture;
+        Vector2 ballPosition;
+        float ballSpeed;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+
+            this._graphics.PreferredBackBufferWidth = 1920;
+            this._graphics.PreferredBackBufferHeight = 1080;
+
+            this._graphics.IsFullScreen = true;
+
             Content.RootDirectory = "Content";
+
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            //starting position centered based on screen dimensions 
+            ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+            ballSpeed = 300f;
 
             base.Initialize();
         }
@@ -28,6 +41,7 @@ namespace SoftwareProjekt2024
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            ballTexture = Content.Load<Texture2D>("Oger_Koch");
         }
 
         protected override void Update(GameTime gameTime)
@@ -36,6 +50,50 @@ namespace SoftwareProjekt2024
                 Exit();
 
             // TODO: Add your update logic here
+            //line-by-line analysis of code 
+            var kstate = Keyboard.GetState();
+
+            //fetches current keyvoard state, stores variables in kstate 
+            if (kstate.IsKeyDown(Keys.Up))
+            {
+                //checks if up buton is pressed; *gameTime... moving regardesless of framerate
+                ballPosition.Y -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if (kstate.IsKeyDown(Keys.Down))
+            {
+                ballPosition.Y += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if (kstate.IsKeyDown(Keys.Left))
+            {
+                ballPosition.X -= ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if (kstate.IsKeyDown(Keys.Right))
+            {
+                ballPosition.X += ballSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            //setting bounds to screen (ball cant go off screen) 
+
+            if (ballPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
+            {
+                ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
+            }
+            else if (ballPosition.X < ballTexture.Width / 2)
+            {
+                ballPosition.X = ballTexture.Width / 2;
+            }
+
+            if (ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Width / 2)
+            {
+                ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Width / 2;
+            }
+            else if (ballPosition.Y < ballTexture.Height / 2)
+            {
+                ballPosition.Y = ballTexture.Height / 2;
+            }
 
             base.Update(gameTime);
         }
@@ -45,6 +103,18 @@ namespace SoftwareProjekt2024
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            //centers correctly (calculating image into center)
+            _spriteBatch.Draw(ballTexture,
+                ballPosition,
+                null,
+                Color.White,
+                0f,
+                new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
+                0.3f,
+                SpriteEffects.None,
+                0f);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
