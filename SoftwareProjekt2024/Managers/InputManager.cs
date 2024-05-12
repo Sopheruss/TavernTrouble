@@ -1,0 +1,32 @@
+﻿using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SoftwareProjekt2024.Managers
+{
+    public static class InputManager
+    {
+        private static Vector2 _direction; 
+        public static Vector2 Directions => _direction; //arrow function 
+        public static bool Moving => _direction != Vector2.Zero;
+        
+        public static void Update()
+        {
+            _direction = Vector2.Zero;
+            var keyboardState = Keyboard.GetState();
+
+            if(keyboardState.GetPressedKeyCount() > 0)
+            {
+                if (keyboardState.IsKeyDown(Keys.A)) _direction.X--;
+                if (keyboardState.IsKeyDown(Keys.D)) _direction.X++;
+                if (keyboardState.IsKeyDown(Keys.W)) _direction.Y--;
+                if (keyboardState.IsKeyDown(Keys.S)) _direction.Y++;
+            }
+        }
+
+    }
+}
