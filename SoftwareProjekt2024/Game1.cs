@@ -6,7 +6,7 @@ namespace SoftwareProjekt2024
 {
     public class Game1 : Game
     {
-        Texture2D ballTexture;
+        Texture2D cookTexture;
         Vector2 ballPosition;
         float ballSpeed;
 
@@ -20,7 +20,7 @@ namespace SoftwareProjekt2024
             this._graphics.PreferredBackBufferWidth = 1920;
             this._graphics.PreferredBackBufferHeight = 1080;
 
-            this._graphics.IsFullScreen = true;
+            //this._graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 
@@ -40,8 +40,8 @@ namespace SoftwareProjekt2024
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            ballTexture = Content.Load<Texture2D>("Oger_Koch");
+           
+            cookTexture = Content.Load<Texture2D>("Oger_Koch");
         }
 
         protected override void Update(GameTime gameTime)
@@ -49,7 +49,7 @@ namespace SoftwareProjekt2024
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+           
             //line-by-line analysis of code 
             var kstate = Keyboard.GetState();
 
@@ -77,22 +77,22 @@ namespace SoftwareProjekt2024
 
             //setting bounds to screen (ball cant go off screen) 
 
-            if (ballPosition.X > _graphics.PreferredBackBufferWidth - ballTexture.Width / 2)
+            if (ballPosition.X > _graphics.PreferredBackBufferWidth - cookTexture.Width / 2)
             {
-                ballPosition.X = _graphics.PreferredBackBufferWidth - ballTexture.Width / 2;
+                ballPosition.X = _graphics.PreferredBackBufferWidth - cookTexture.Width / 2;
             }
-            else if (ballPosition.X < ballTexture.Width / 2)
+            else if (ballPosition.X < cookTexture.Width / 2)
             {
-                ballPosition.X = ballTexture.Width / 2;
+                ballPosition.X = cookTexture.Width / 2;
             }
 
-            if (ballPosition.Y > _graphics.PreferredBackBufferHeight - ballTexture.Width / 2)
+            if (ballPosition.Y > _graphics.PreferredBackBufferHeight - cookTexture.Width / 2)
             {
-                ballPosition.Y = _graphics.PreferredBackBufferHeight - ballTexture.Width / 2;
+                ballPosition.Y = _graphics.PreferredBackBufferHeight - cookTexture.Width / 2;
             }
-            else if (ballPosition.Y < ballTexture.Height / 2)
+            else if (ballPosition.Y < cookTexture.Height / 2)
             {
-                ballPosition.Y = ballTexture.Height / 2;
+                ballPosition.Y = cookTexture.Height / 2;
             }
 
             base.Update(gameTime);
@@ -105,12 +105,12 @@ namespace SoftwareProjekt2024
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
             //centers correctly (calculating image into center)
-            _spriteBatch.Draw(ballTexture,
+            _spriteBatch.Draw(cookTexture,
                 ballPosition,
                 null,
                 Color.White,
                 0f,
-                new Vector2(ballTexture.Width / 2, ballTexture.Height / 2),
+                new Vector2(cookTexture.Width / 2, cookTexture.Height / 2),
                 0.3f,
                 SpriteEffects.None,
                 0f);
