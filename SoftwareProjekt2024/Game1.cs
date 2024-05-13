@@ -176,7 +176,7 @@ namespace SoftwareProjekt2024
                 Color.White,
                 0f,
                 new Vector2(cookTexture.Width / 2, cookTexture.Height / 2),
-                0.3f,
+                0.2f,
                 SpriteEffects.None,
                 0f);
             _spriteBatch.End();
