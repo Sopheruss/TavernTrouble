@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
+
+
 
 namespace SoftwareProjekt2024
 {
@@ -12,6 +18,12 @@ namespace SoftwareProjekt2024
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        TiledMap _tiledMap;
+        TiledMapRenderer _tiledMapRenderer;
+        private OrthographicCamera _camera;
+        private Vector2 _cameraPosition;
+
 
         public Game1()
         {
@@ -32,6 +44,8 @@ namespace SoftwareProjekt2024
             //starting position centered based on screen dimensions 
             ballPosition = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
             ballSpeed = 300f;
+            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 800, 600);
+            _camera = new OrthographicCamera(viewportadapter);
 
             base.Initialize();
         }
@@ -39,17 +53,65 @@ namespace SoftwareProjekt2024
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-           
+            _tiledMap = Content.Load<TiledMap>("samplemap");
+            _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
             cookTexture = Content.Load<Texture2D>("Oger_Koch");
         }
 
+
+        private Vector2 GetMovementDirection()
+        {
+            var movementDirection = Vector2.Zero;
+            var state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Down))
+            {
+                movementDirection += Vector2.UnitY;
+            }
+            if (state.IsKeyDown(Keys.Up))
+            {
+                movementDirection -= Vector2.UnitY;
+            }
+            if (state.IsKeyDown(Keys.Left))
+            {
+                movementDirection -= Vector2.UnitX;
+            }
+            if (state.IsKeyDown(Keys.Right))
+            {
+                movementDirection += Vector2.UnitX;
+            }
+
+            // Can't normalize the zero vector so test for it before normalizing
+            if (movementDirection != Vector2.Zero)
+            {
+                movementDirection.Normalize();
+            }
+
+            return movementDirection;
+        }
+
+        private void MoveCamera(GameTime gameTime)
+        {
+            var speed = 200;
+            var seconds = gameTime.GetElapsedSeconds();
+            var movementDirection = GetMovementDirection();
+            _cameraPosition += speed * movementDirection * seconds;
+        }
+
+
         protected override void Update(GameTime gameTime)
         {
+
+            _tiledMapRenderer.Update(gameTime);
+
+            MoveCamera(gameTime);
+            _camera.LookAt(_cameraPosition);
+
+            /*
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-           
+            _tiledMapRenderer.Update(gameTime);
+
             //line-by-line analysis of code 
             var kstate = Keyboard.GetState();
 
@@ -94,13 +156,16 @@ namespace SoftwareProjekt2024
             {
                 ballPosition.Y = cookTexture.Height / 2;
             }
+            */
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            GraphicsDevice.Clear(Color.Black);
+            _tiledMapRenderer.Draw(_camera.GetViewMatrix());
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
