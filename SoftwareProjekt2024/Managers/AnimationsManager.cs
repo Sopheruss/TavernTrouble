@@ -1,4 +1,4 @@
-﻿using SoftwareProjekt2024.Managers.Models;
+﻿using SoftwareProjekt2024.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,35 +8,40 @@ using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024.Managers
 {
-    public class AnimationsManager
+    public class AnimationManager
     {
-        private readonly Dictionary<object, Animation> _animation = new();
-        private object _lastKey; 
+        private readonly Dictionary<object, Animation> _anims = new();
+        private object _lastKey;
 
         public void AddAnimation(object key, Animation animation)
         {
-            _animation.Add(key, animation);
-            _lastKey ??= key; 
+            _anims.Add(key, animation);
+            _lastKey ??= key;
         }
 
-        public void Update (object key)
+        public void Update(object key)
         {
-            if (_animation.ContainsKey(key))
+            if (_anims.TryGetValue(key, out Animation value))
             {
-                _animation[key].Start();
-                _animation[key].Update();
+                value.Start();
+                _anims[key].Update();
                 _lastKey = key;
-            } 
+            }
             else
             {
-                _animation[_lastKey].Stopp();
-                _animation[_lastKey].Reset();
+                _anims[_lastKey].Stop();
+                _anims[_lastKey].Reset();
             }
         }
 
         public void Draw(Vector2 position)
         {
-            _animation[_lastKey].Draw(position);
+            _anims[_lastKey].Draw(position);
+        }
+
+        internal void Draw(Microsoft.Xna.Framework.Vector2 position)
+        {
+            throw new NotImplementedException();
         }
     }
 }

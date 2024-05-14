@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using SoftwareProjekt2024.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +7,18 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareProjekt2024.Managers.Models
+namespace SoftwareProjekt2024.Models
 {
     public class Oger_Cook
     {
         private Vector2 _position;
         private readonly float _speed = 200f;
-        private readonly AnimationsManager _animations = new(); 
+        private readonly AnimationsManager _animations = new();
 
         public Oger_Cook()
         {
             //TODO: add spritesheet 
-            var ogerTexture = Globals.ContentManager.Load<Texture2D>("oger_cook_spritesheet");
+            var ogerTexture = Globals.Content.Load<Texture2D>("oger_cook_spritesheet");
             //direction left -> A; might need to change 8 to proper size 
             _animations.AddAnimation(new Vector2(-1, 0), new(ogerTexture, 8, 8, 0.1f, 1));
             //direction right -> D

@@ -12,12 +12,12 @@ namespace SoftwareProjekt2024
     public static class Globals
     {
         public static float TotalSeconds { get; set; }
-        public static ContentManager ContentManager { get; set;}
-        public static SpriteBatch SpriteBatch { get; set;}
+        public static ContentManager Content { get; set; }
+        public static SpriteBatch SpriteBatch { get; set; }
 
-        public static void Update(GameTime gameTime)
+        public static void Update(GameTime gt)
         {
-            TotalSeconds = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            TotalSeconds = (float)gt.ElapsedGameTime.TotalSeconds;
         }
     }
 }

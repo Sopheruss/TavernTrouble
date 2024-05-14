@@ -1,4 +1,4 @@
-﻿using SoftwareProjekt2024.Managers.Models;
+﻿using SoftwareProjekt2024.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +9,26 @@ namespace SoftwareProjekt2024.Managers
 {
     public class GameManager
     {
-        private Oger_Cook _ogerCook;
+        private Coin _coin;
+        private Hero _hero;
+
         public void Init()
         {
-            _ogerCook = new Oger_Cook();
+            _coin = new(new(300, 300));
+            _hero = new();
         }
 
         public void Update()
         {
             InputManager.Update();
-            _ogerCook.Update();
+            _coin.Update();
+            _hero.Update();
         }
 
         public void Draw()
         {
-            _ogerCook.Draw();
+            _coin.Draw();
+            _hero.Draw();
         }
     }
 }
