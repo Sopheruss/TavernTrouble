@@ -5,9 +5,6 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
-
-
-
 namespace SoftwareProjekt2024
 {
     public class Game1 : Game
