@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace SoftwareProjekt2024
+namespace SoftwareProjekt2024.Managers
 {
     internal class AnimationManager
     {
@@ -17,7 +17,8 @@ namespace SoftwareProjekt2024
         int rowPos;
         int colPos;
 
-        public AnimationManager(int numFrames, int numColumns, Vector2 size) {
+        public AnimationManager(int numFrames, int numColumns, Vector2 size)
+        {
             this.numFrames = numFrames;
             this.numColumns = numColumns;
             this.size = size;
@@ -28,7 +29,7 @@ namespace SoftwareProjekt2024
 
             rowPos = 0;
             colPos = 0;
-        }    
+        }
 
         public void Update()
         {
@@ -45,12 +46,12 @@ namespace SoftwareProjekt2024
         {
             activeFrame++;
             colPos++;
-            if(activeFrame >= numFrames) //reset active frames 
+            if (activeFrame >= numFrames) //reset active frames 
             {
                 ResetAnimation();
             }
 
-            if(colPos >= numColumns) //reset columns
+            if (colPos >= numColumns) //reset columns
             {
                 colPos = 0;
                 rowPos++;
@@ -67,9 +68,9 @@ namespace SoftwareProjekt2024
         public Rectangle GetFrame()
         {
             return new Rectangle(
-                colPos * (int)size.X, 
-                rowPos * (int)size.Y, 
-                (int)size.X, 
+                colPos * (int)size.X,
+                rowPos * (int)size.Y,
+                (int)size.X,
                 (int)size.Y);
         }
     }
