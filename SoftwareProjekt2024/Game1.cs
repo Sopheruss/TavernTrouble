@@ -109,11 +109,11 @@ namespace SoftwareProjekt2024
                 _animationManager.GetFrame(),   //sourceRectangle (frame) 
                 Color.White,                    //color
                 0f,                             //rotation 
-                new Vector2(19/2, 32/2),        //origin -> to place center texture correctly 
+                new Vector2(                    //origin -> to place center texture correctly
+                    ogerSprite.texture.Width/4, 
+                    ogerSprite.texture.Width/4),         
                 SpriteEffects.None,             //effects
                 0f);                            //layer depth
-
-            
             
             _spriteBatch.End();
 
