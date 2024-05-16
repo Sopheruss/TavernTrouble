@@ -13,7 +13,7 @@ namespace SoftwareProjekt2024
         private SpriteBatch _spriteBatch;
 
         //it is possible to initialize a List of Sprites!!!
-        ScaledSprite ogerSprite; 
+        Oger_Cook ogerCook; 
 
         int screenWidth = 1920;
         int screenHeight = 1080;
@@ -32,7 +32,7 @@ namespace SoftwareProjekt2024
             this._graphics.PreferredBackBufferWidth = screenWidth;
             this._graphics.PreferredBackBufferHeight = screenHeight;
 
-            this._graphics.IsFullScreen = true;
+            //this._graphics.IsFullScreen = true;
         }
 
         protected override void Initialize()
@@ -48,14 +48,14 @@ namespace SoftwareProjekt2024
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //constructing new Animation with 16 Frames in 4 Rows 
+            _animationManager = new(4, 4, new Vector2(19, 32));
+
             //local implementation, cuz accec to texture via Sprite class 
             Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet_lowRes");
-            ogerSprite = new ScaledSprite(_ogerCookSpritesheet,
-                new Vector2(midScreenWidth, midScreenHeight)); //oger Position 
+            ogerCook = new Oger_Cook(_ogerCookSpritesheet,
+                new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
                 //1f); //ogerSpeed    just for MovingSprite
-
-            //constructing new Animation with 16 Frames in 4 Rows 
-            _animationManager = new(16, 4, new Vector2(19, 32));
         }
 
         protected override void Update(GameTime gameTime)
@@ -63,55 +63,27 @@ namespace SoftwareProjekt2024
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            ogerSprite.Update();
+            ogerCook.Update();
             _animationManager.Update();
-            
-
-            /*//Movement in Porgess 
-
-            //line-by-line analysis of code 
-            var kstate = Keyboard.GetState();
-
-            //fetches current keyvoard state, stores variables in kstate 
-            if (kstate.IsKeyDown(Keys.A))
-            {
-                //checks if up buton is pressed; *gameTime... moving regardesless of framerate
-                //_ogerPosition.Y -= _ogerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            if (kstate.IsKeyDown(Keys.D))
-            {
-                //_ogerPosition.Y += _ogerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            if (kstate.IsKeyDown(Keys.W))
-            {
-                //_ogerPosition.X -= _ogerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-
-            if (kstate.IsKeyDown(Keys.S))
-            {
-                //_ogerPosition.X += _ogerSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            } */
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Beige);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
             _spriteBatch.Draw(
-                ogerSprite.texture,             //texture 
-                ogerSprite.Rect,                //destinationRectangle
+                ogerCook.texture,             //texture 
+                ogerCook.Rect,                //destinationRectangle
                 _animationManager.GetFrame(),   //sourceRectangle (frame) 
                 Color.White,                    //color
                 0f,                             //rotation 
                 new Vector2(                    //origin -> to place center texture correctly
-                    ogerSprite.texture.Width/4, 
-                    ogerSprite.texture.Width/4),         
+                    ogerCook.texture.Width/4, 
+                    ogerCook.texture.Width/4),         
                 SpriteEffects.None,             //effects
                 0f);                            //layer depth
             

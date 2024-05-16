@@ -1,77 +1,115 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
-namespace SoftwareProjekt2024.Managers
+namespace SoftwareProjekt2024.Managers;
+
+//Enum to figure out which Part of the Animation is played 
+enum RowCounter
 {
-    internal class AnimationManager
+    Left,
+    Right, 
+    Up,
+    Down
+}
+
+public class AnimationManager
+{
+    readonly int numFrames;
+    readonly int numColumns;
+    Vector2 size;
+
+    int counter;
+    int activeFrame;
+    readonly int interval;
+
+    public int RowPos {  get; set; }
+    int colPos;
+
+    readonly RowCounter rowCounter;
+
+    public AnimationManager(int numFrames, int numColumns, Vector2 size)
     {
-        int numFrames;
-        int numColumns;
-        Vector2 size;
+        this.numFrames = numFrames;
+        this.numColumns = numColumns;
+        this.size = size;
 
-        int counter;
-        int activeFrame;
-        int interval;
+        counter = 0;
+        activeFrame = 0;
+        interval = 15; //30 Frames Intervall 
 
-        int rowPos;
-        int colPos;
+        RowPos = 0;
+        colPos = 0;
+    }
 
-        public AnimationManager(int numFrames, int numColumns, Vector2 size)
+    public void Update()
+    {
+        //couter for animation 
+        counter++;
+        if (counter > interval) //animation changes every interval frames 
         {
-            this.numFrames = numFrames;
-            this.numColumns = numColumns;
-            this.size = size;
+            counter = 0; //counter reset 
+            NextFrame();
+        }
+    }
 
-            counter = 0;
-            activeFrame = 0;
-            interval = 30; //30 Frames Intervall 
+    private void NextFrame()
+    {
+        activeFrame++;
+        colPos++;
 
-            rowPos = 0;
+        if (activeFrame >= numFrames) //reset active frames 
+        {
+            ResetAnimation();
+        }
+
+        if (colPos >= numColumns) //reset columns
+        {
             colPos = 0;
+            //rowPos is changing based RowCounter
+            WhichRow();
         }
+    }
 
-        public void Update()
+    private void WhichRow()
+    {
+        //sets which Animation Playes based on which Row takes Place 
+        if (rowCounter == RowCounter.Left)
         {
-            //couter for animation 
-            counter++;
-            if (counter > interval) //animation changes every 30 frames 
-            {
-                counter = 0; //counter reset 
-                NextFrame();
-            }
+            RowPos = 1;
         }
 
-        private void NextFrame()
+        if (rowCounter == RowCounter.Right)
         {
-            activeFrame++;
-            colPos++;
-            if (activeFrame >= numFrames) //reset active frames 
-            {
-                ResetAnimation();
-            }
-
-            if (colPos >= numColumns) //reset columns
-            {
-                colPos = 0;
-                rowPos++;
-            }
+            RowPos = 2;
         }
 
-        private void ResetAnimation()
+        if(rowCounter == RowCounter.Up)
         {
-            activeFrame = 0;
-            colPos = 0;
-            rowPos = 0;
+            RowPos = 3; 
         }
 
-        public Rectangle GetFrame()
+        if(rowCounter == RowCounter.Down)
         {
-            return new Rectangle(
-                colPos * (int)size.X,
-                rowPos * (int)size.Y,
-                (int)size.X,
-                (int)size.Y);
+            RowPos = 4;
         }
+    }
+
+    
+
+    private void ResetAnimation()
+    {
+        activeFrame = 0;
+        colPos = 0;
+    }
+
+    public Rectangle GetFrame()
+    {
+        return new Rectangle(
+            colPos * (int)size.X,
+            RowPos * (int)size.Y,
+            (int)size.X,
+            (int)size.Y);
     }
 }
