@@ -10,6 +10,21 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\..\..\..\..\..\.nuget\packages\monogame.extended\3.9.0-alpha0107\lib\net6.0\MonoGame.Extended.dll
+/reference:..\..\..\..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.9.0-alpha0107\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\..\..\..\..\..\..\.nuget\packages\monogame.extended.tiled\3.9.0-alpha0107\lib\net6.0\MonoGame.Extended.Tiled.dll
 
 #---------------------------------- Content ---------------------------------#
+
+#begin Models/oger_cook_spritesheet_lowRes.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/oger_cook_spritesheet_lowRes.PNG
 
