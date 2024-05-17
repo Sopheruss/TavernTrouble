@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024
 {
-    internal class Oger_Cook : SpriteClasses.ScaledSprite
+    internal class Player : SpriteClasses.ScaledSprite
     {
         AnimationManager _animManager;
-        public Oger_Cook(Texture2D texture, Vector2 position, AnimationManager animationManager) : base(texture, position)
+        public Player(Texture2D texture, Vector2 position, AnimationManager animationManager) : base(texture, position)
         { 
             _animManager = animationManager;
         }

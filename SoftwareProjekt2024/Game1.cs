@@ -13,7 +13,7 @@ namespace SoftwareProjekt2024
         private SpriteBatch _spriteBatch;
 
         //it is possible to initialize a List of Sprites!!!
-        Oger_Cook ogerCook; 
+        Player ogerCook; 
 
         int screenWidth = 1920;
         int screenHeight = 1080;
@@ -53,7 +53,7 @@ namespace SoftwareProjekt2024
 
             //local implementation, cuz accec to texture via Sprite class 
             Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet_lowRes");
-            ogerCook = new Oger_Cook(_ogerCookSpritesheet,
+            ogerCook = new Player(_ogerCookSpritesheet,
                 new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
                 //1f); //ogerSpeed    just for MovingSprite
         }
