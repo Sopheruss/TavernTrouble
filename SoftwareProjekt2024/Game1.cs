@@ -30,6 +30,7 @@ public class Game1 : Game
     AnimationManager _animationManager;
     TileManager _tileManager;
     CameraManager _cameraManager;
+    private CollisionManager _collisionManager;
 
     public Game1()
     {
@@ -51,6 +52,7 @@ public class Game1 : Game
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+       
 
         base.Initialize();
     }
@@ -69,7 +71,9 @@ public class Game1 : Game
             //1f); //ogerSpeed    just for MovingSprite
 
 
-            _tileManager = new TileManager(Content, GraphicsDevice);
+        _tileManager = new TileManager(Content, GraphicsDevice);
+
+        _collisionManager = new CollisionManager(_tileManager._tiledMap);
     }
 
     protected override void Update(GameTime gameTime)
@@ -77,10 +81,17 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        ogerCook.Update();
+
+        if (_collisionManager.IsPositionWithinBounds(ogerCook.position))
+        {
+            // ???
+        }
+
+
         _animationManager.Update();
         _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime);
+        ogerCook.Update();
 
         base.Update(gameTime);
     }

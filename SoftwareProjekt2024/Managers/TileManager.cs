@@ -9,8 +9,10 @@ namespace SoftwareProjekt2024
 {
     public class TileManager
     {
-        private TiledMap _tiledMap;
+        public TiledMap _tiledMap;
         private TiledMapRenderer _tiledMapRenderer;
+
+
 
         public TileManager(ContentManager content, GraphicsDevice graphicsDevice)
         {
