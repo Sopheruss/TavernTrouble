@@ -21,6 +21,23 @@
 /processor:TiledMapProcessor
 /build:Maps/map1.tmx
 
+#begin Maps/placeholder_ext.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/placeholder_ext.png
+
+#begin Maps/placeholder_ext.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/placeholder_ext.tsx
+
 #begin Maps/sophieTextures.png
 /importer:TextureImporter
 /processor:TextureProcessor

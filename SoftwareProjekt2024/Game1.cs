@@ -28,6 +28,8 @@ public class Game1 : Game
     int midScreenHeight;
 
     AnimationManager _animationManager;
+    TileManager _tileManager;
+    CameraManager _cameraManager;
 
     public Game1()
     {
@@ -47,6 +49,9 @@ public class Game1 : Game
         midScreenWidth = _graphics.PreferredBackBufferWidth / 2;
         midScreenHeight = _graphics.PreferredBackBufferHeight / 2;
 
+
+        _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+
         base.Initialize();
     }
 
@@ -62,6 +67,9 @@ public class Game1 : Game
         ogerCook = new Player(_ogerCookSpritesheet,
             new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
             //1f); //ogerSpeed    just for MovingSprite
+
+
+            _tileManager = new TileManager(Content, GraphicsDevice);
     }
 
     protected override void Update(GameTime gameTime)
@@ -71,6 +79,8 @@ public class Game1 : Game
 
         ogerCook.Update();
         _animationManager.Update();
+        _tileManager.Update(gameTime);
+        _cameraManager.Update(gameTime);
 
         base.Update(gameTime);
     }
@@ -78,21 +88,24 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
 
-        GraphicsDevice.Clear(Color.Beige);
+        GraphicsDevice.Clear(Color.Black);
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+         // Sharp images while scaling
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+        _tileManager.Draw(_cameraManager.GetViewMatrix());
 
         _spriteBatch.Draw(
-            ogerCook.texture,               //texture 
-            ogerCook.Rect,                  //destinationRectangle
-            _animationManager.GetFrame(),   //sourceRectangle (frame) 
-            Color.White,                    //color
-            0f,                             //rotation 
-            new Vector2(                    //origin -> to place center texture correctly
+            ogerCook.texture,                                //texture 
+            ogerCook.Rect,                                  //destinationRectangle
+            _animationManager.GetFrame(),     //sourceRectangle (frame) 
+            Color.White,                                   //color
+            0f,                                    //rotation 
+            new Vector2(                            //origin -> to place center texture correctly
                 ogerCook.texture.Width/4, 
                 ogerCook.texture.Width/4),         
-            SpriteEffects.None,             //effects
-            0f);                            //layer depth
+            SpriteEffects.None,                        //effects
+            1f);                            //layer depth
         
         _spriteBatch.End();
 
