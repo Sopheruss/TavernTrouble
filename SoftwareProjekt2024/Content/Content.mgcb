@@ -16,8 +16,29 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Models/oger_cook_spritesheet_lowRes.PNG
+#begin Maps/map1.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/map1.tmx
 
+#begin Maps/sophieTextures.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Maps/sophieTextures.png
+
+#begin Maps/sophieTextures.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:Maps/sophieTextures.tsx
+
+#begin Models/oger_cook_spritesheet_lowRes.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -28,3 +49,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Models/oger_cook_spritesheet_lowRes.PNG
+
