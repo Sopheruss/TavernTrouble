@@ -45,9 +45,9 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //to make using calc for middel of Screen shorter 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2;
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2;
+        //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 175; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
