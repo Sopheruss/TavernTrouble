@@ -1,14 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
-using SoftwareProjekt2024.SpriteClasses;
-using System.Diagnostics;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-using MonoGame.Extended;
-using MonoGame.Extended.ViewportAdapters;
 
 namespace SoftwareProjekt2024;
 
@@ -19,7 +14,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     //it is possible to initialize a List of Sprites!!!
-    Player ogerCook; 
+    Player ogerCook;
 
     int screenWidth = 1920;
     int screenHeight = 1080;
@@ -30,7 +25,7 @@ public class Game1 : Game
     AnimationManager _animationManager;
     TileManager _tileManager;
     CameraManager _cameraManager;
-    private CollisionManager _collisionManager;
+    CollisionManager _collisionManager;
 
     public Game1()
     {
@@ -52,7 +47,8 @@ public class Game1 : Game
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
-       
+
+
 
         base.Initialize();
     }
@@ -68,7 +64,7 @@ public class Game1 : Game
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet_lowRes");
         ogerCook = new Player(_ogerCookSpritesheet,
             new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
-            //1f); //ogerSpeed    just for MovingSprite
+                                                                              //1f); //ogerSpeed    just for MovingSprite
 
 
         _tileManager = new TileManager(Content, GraphicsDevice);
@@ -82,9 +78,20 @@ public class Game1 : Game
             Exit();
 
 
+        //Helper bzgl Position and Bounds: Ausgabe -> Debuggen
+        Debug.WriteLine($"Player Position: {ogerCook.position}");
+        Debug.WriteLine($"Map Bounds: {_collisionManager.MapBounds}");
+
+
         if (_collisionManager.IsPositionWithinBounds(ogerCook.position))
         {
-            // ???
+            Debug.WriteLine("Player is within bounds.");
+
+        }
+        else
+        {
+            Debug.WriteLine("Player is out of bounds.");
+
         }
 
 
@@ -101,7 +108,7 @@ public class Game1 : Game
 
         GraphicsDevice.Clear(Color.Black);
 
-         // Sharp images while scaling
+        // Sharp images while scaling
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         _tileManager.Draw(_cameraManager.GetViewMatrix());
@@ -109,15 +116,15 @@ public class Game1 : Game
         _spriteBatch.Draw(
             ogerCook.texture,                                //texture 
             ogerCook.Rect,                                  //destinationRectangle
-            _animationManager.GetFrame(),     //sourceRectangle (frame) 
+            _animationManager.GetFrame(),                   //sourceRectangle (frame) 
             Color.White,                                   //color
-            0f,                                    //rotation 
-            new Vector2(                            //origin -> to place center texture correctly
-                ogerCook.texture.Width/4, 
-                ogerCook.texture.Width/4),         
+            0f,                                           //rotation 
+            new Vector2(                                 //origin -> to place center texture correctly
+                ogerCook.texture.Width / 4,
+                ogerCook.texture.Width / 4),
             SpriteEffects.None,                        //effects
-            1f);                            //layer depth
-        
+            1f);                                      //layer depth
+
         _spriteBatch.End();
 
         base.Draw(gameTime);
