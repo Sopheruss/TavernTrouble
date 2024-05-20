@@ -5,10 +5,15 @@ using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.SpriteClasses;
 using System.Diagnostics;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace SoftwareProjekt2024;
 
 public class Game1 : Game
+
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -72,6 +77,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
+
         GraphicsDevice.Clear(Color.Beige);
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
@@ -91,5 +97,6 @@ public class Game1 : Game
         _spriteBatch.End();
 
         base.Draw(gameTime);
+
     }
 }
