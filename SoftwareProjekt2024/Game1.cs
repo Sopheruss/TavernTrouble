@@ -16,8 +16,8 @@ public class Game1 : Game
     //it is possible to initialize a List of Sprites!!!
     Player ogerCook;
 
-    int screenWidth = 1920;
-    int screenHeight = 1080;
+    int screenWidth = 720;
+    int screenHeight = 480;
 
     int midScreenWidth;
     int midScreenHeight;
@@ -57,15 +57,14 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        //constructing new Animation with 16 Frames in 4 Rows 
+        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
         _animationManager = new(4, 4, new Vector2(19, 32));
 
-        //local implementation, cuz accec to texture via Sprite class 
-        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet_lowRes");
+        //local implementation, cuz acces to texture via Sprite class 
+        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
         ogerCook = new Player(_ogerCookSpritesheet,
-            new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
-                                                                              //1f); //ogerSpeed    just for MovingSprite
-
+                              new Vector2(midScreenWidth, midScreenHeight), 
+                              _animationManager); //oger Position 
 
         _tileManager = new TileManager(Content, GraphicsDevice);
 

@@ -1,17 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Managers;
 
 //Enum to figure out which Part of the Animation is played 
-enum RowCounter
+enum EnumRowCounter
 {
     Left,
-    Right, 
+    Right,
     Up,
-    Down
+    Down,
+    Stop
 }
 
 public class AnimationManager
@@ -24,10 +22,12 @@ public class AnimationManager
     int activeFrame;
     readonly int interval;
 
-    public int RowPos {  get; set; }
+    public int RowPos { get; set; }
     int colPos;
 
-    readonly RowCounter rowCounter;
+    public bool PlayAnimation { get; set; }
+
+    readonly EnumRowCounter rowCounter;
 
     public AnimationManager(int numFrames, int numColumns, Vector2 size)
     {
@@ -37,15 +37,29 @@ public class AnimationManager
 
         counter = 0;
         activeFrame = 0;
-        interval = 15; //30 Frames Intervall 
+        interval = 10; //Frames Intervall 
 
         RowPos = 0;
         colPos = 0;
+
+        PlayAnimation = true;
     }
 
     public void Update()
     {
-        //couter for animation 
+        if (PlayAnimation == true)
+        {
+            StartAnimation();
+        }
+        else
+        {
+            StopAnimation();
+        }
+    }
+
+    private void StartAnimation()
+    {
+        //counter for animation 
         counter++;
         if (counter > interval) //animation changes every interval frames 
         {
@@ -75,33 +89,26 @@ public class AnimationManager
     private void WhichRow()
     {
         //sets which Animation Playes based on which Row takes Place 
-        if (rowCounter == RowCounter.Left)
+        switch (rowCounter)
         {
-            RowPos = 1;
-        }
-
-        if (rowCounter == RowCounter.Right)
-        {
-            RowPos = 2;
-        }
-
-        if(rowCounter == RowCounter.Up)
-        {
-            RowPos = 3; 
-        }
-
-        if(rowCounter == RowCounter.Down)
-        {
-            RowPos = 4;
+            case EnumRowCounter.Left: RowPos = 1; break;
+            case EnumRowCounter.Right: RowPos = 2; break;
+            case EnumRowCounter.Up: RowPos = 3; break;
+            case EnumRowCounter.Down: RowPos = 4; break;
+            case EnumRowCounter.Stop: StopAnimation(); break;
         }
     }
-
-    
 
     private void ResetAnimation()
     {
         activeFrame = 0;
         colPos = 0;
+    }
+
+    private void StopAnimation()
+    {
+        activeFrame = 2; //sets Animation to "still" image 
+        colPos = 2;
     }
 
     public Rectangle GetFrame()
