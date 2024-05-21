@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
@@ -22,7 +23,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     //it is possible to initialize a List of Sprites!!!
-    Player ogerCook; 
+    Player ogerCook;
 
     int screenWidth = 720;
     int screenHeight = 480;
@@ -31,6 +32,9 @@ public class Game1 : Game
     int midScreenHeight;
 
     AnimationManager _animationManager;
+    TileManager _tileManager;
+    CameraManager _cameraManager;
+    CollisionManager _collisionManager;
 
     public Game1()
     {
@@ -46,9 +50,14 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //to make using calc for middel of Screen shorter 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2;
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2;
+        //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 175; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
+
+
+        _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+
+
 
         base.Initialize();
     }
@@ -65,6 +74,10 @@ public class Game1 : Game
         ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(midScreenWidth, midScreenHeight), 
                               _animationManager); //oger Position 
+
+        _tileManager = new TileManager(Content, GraphicsDevice);
+
+        _collisionManager = new CollisionManager(_tileManager._tiledMap);
     }
 
     protected override void Update(GameTime gameTime)
@@ -72,8 +85,28 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        ogerCook.Update();
+
+        //Helper bzgl Position and Bounds: Ausgabe -> Debuggen
+        Debug.WriteLine($"Player Position: {ogerCook.position}");
+        Debug.WriteLine($"Map Bounds: {_collisionManager.MapBounds}");
+
+
+        if (_collisionManager.IsPositionWithinBounds(ogerCook.position))
+        {
+            Debug.WriteLine("Player is within bounds.");
+
+        }
+        else
+        {
+            Debug.WriteLine("Player is out of bounds.");
+
+        }
+
+
         _animationManager.Update();
+        _tileManager.Update(gameTime);
+        _cameraManager.Update(gameTime);
+        ogerCook.Update();
 
         base.Update(gameTime);
     }
@@ -82,22 +115,26 @@ public class Game1 : Game
     {
 
 
-        GraphicsDevice.Clear(Color.Beige);
+        GraphicsDevice.Clear(Color.Black);
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+
+        // Sharp images while scaling
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+        _tileManager.Draw(_cameraManager.GetViewMatrix());
 
         _spriteBatch.Draw(
-            ogerCook.texture,               //texture 
-            ogerCook.Rect,                  //destinationRectangle
-            _animationManager.GetFrame(),   //sourceRectangle (frame) 
-            Color.White,                    //color
-            0f,                             //rotation 
-            new Vector2(                    //origin -> to place center texture correctly
-                ogerCook.texture.Width/4, 
-                ogerCook.texture.Width/4),         
-            SpriteEffects.None,             //effects
-            0f);                            //layer depth
-        
+            ogerCook.texture,                                //texture 
+            ogerCook.Rect,                                  //destinationRectangle
+            _animationManager.GetFrame(),                   //sourceRectangle (frame) 
+            Color.White,                                   //color
+            0f,                                           //rotation 
+            new Vector2(                                 //origin -> to place center texture correctly
+                ogerCook.texture.Width / 4,
+                ogerCook.texture.Width / 4),
+            SpriteEffects.None,                        //effects
+            1f);                                      //layer depth
+
         _spriteBatch.End();
 
         base.Draw(gameTime);
