@@ -104,6 +104,11 @@ public class AnimationManager
         colPos = 0;
     }
 
+    private void StopAnimation() //TODO -> if not walking stop animation in frame 
+    {
+
+    }
+
     public Rectangle GetFrame()
     {
         return new Rectangle(
