@@ -220,7 +220,6 @@ public class Game1 : Game
             texture1.texture = Content.Load<Texture2D>("Oger_Koch");
             texture2.texture = Content.Load<Texture2D>("Oger_Koch");
             texture3.texture = Content.Load<Texture2D>("Oger_Koch");
-            
         }
 
 
@@ -349,4 +348,4 @@ public class Game1 : Game
             base.Draw(gameTime);
         }
     }
-}
+

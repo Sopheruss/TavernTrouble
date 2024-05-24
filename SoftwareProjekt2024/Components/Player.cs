@@ -5,11 +5,11 @@ using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Components;
 
-internal class Player : SpriteClasses.ScaledSprite
+internal class Player : Component
 {
 
     AnimationManager _animManager;
-    public Player(Texture2D texture, Vector2 position, AnimationManager animationManager) : base(texture, position)
+    public Player(Texture2D texture, Vector2 position, AnimationManager animationManager, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
         _animManager = animationManager;
     }
