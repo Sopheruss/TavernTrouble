@@ -9,12 +9,23 @@ using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
+
+public enum Scenes
+{ 
+    MAINMENU,
+    GAMEPLAY,
+    PAUSEMENU, 
+    OPTIONMENU
+};
 
 public class Game1 : Game
 
 {
+    public bool _exit = false;
+
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -29,6 +40,14 @@ public class Game1 : Game
 
     AnimationManager _animationManager;
 
+    public Scenes activeScene; 
+
+    private MainMenu _mainMenu;
+    private GamePlay _gamePlay;
+    private PauseMenu _pauseMenu;
+    private OptionMenu _optionMenu;
+    
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -39,6 +58,8 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
         //this._graphics.IsFullScreen = true;
+
+        activeScene = Scenes.MAINMENU;
     }
 
     protected override void Initialize()
@@ -54,6 +75,11 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _gamePlay = new GamePlay();
+        _pauseMenu = new PauseMenu();
+        _optionMenu = new OptionMenu();
+
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
         _animationManager = new(4, 4, new Vector2(19, 32));
 
@@ -67,10 +93,42 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+            Quit();
 
-        ogerCook.Update();
-        _animationManager.Update();
+        if (_exit)
+        {
+            Exit();
+        }
+
+        switch (activeScene)
+        {
+            case Scenes.MAINMENU:
+                //main menu logic
+
+                _mainMenu.Update(this);
+
+                break;
+            case Scenes.GAMEPLAY:
+                //game logic 
+
+                ogerCook.Update();
+                _animationManager.Update();
+
+                _gamePlay.Update();
+
+                break;
+            case Scenes.PAUSEMENU:
+                //pause logic 
+
+                _pauseMenu.Update();
+                break;
+            case Scenes.OPTIONMENU:
+                //option logic 
+
+                _optionMenu.Update();
+
+                break;
+        }
 
         base.Update(gameTime);
     }
@@ -78,25 +136,63 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
 
-        GraphicsDevice.Clear(Color.Beige);
-
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
-        _spriteBatch.Draw(
-            ogerCook.texture,               //texture 
-            ogerCook.Rect,                  //destinationRectangle
-            _animationManager.GetFrame(),   //sourceRectangle (frame) 
-            Color.White,                    //color
-            0f,                             //rotation 
-            new Vector2(                    //origin -> to place center texture correctly
-                ogerCook.texture.Width/4, 
-                ogerCook.texture.Width/4),         
-            SpriteEffects.None,             //effects
-            0f);                            //layer depth
+        switch (activeScene)
+        {
+            case Scenes.MAINMENU:
+                //main menu logic
+
+                GraphicsDevice.Clear(Color.LightBlue);
+                _mainMenu.Draw(_spriteBatch);
+
+                break;
+            case Scenes.GAMEPLAY:
+                //game logic 
+                GraphicsDevice.Clear(Color.Beige);
+
+                _spriteBatch.Draw(ogerCook.texture,               //texture 
+                                  ogerCook.Rect,                  //destinationRectangle
+                                  _animationManager.GetFrame(),   //sourceRectangle (frame) 
+                                  Color.White,                    //color
+                                  0f,                             //rotation 
+                                  new Vector2(ogerCook.texture.Width / 4, //origin -> to place center texture correctly
+                                              ogerCook.texture.Width / 4),
+                                  SpriteEffects.None,             //effects
+                                  0f);                            //layer depth
+
+                _gamePlay.Draw();
+
+                break;
+            case Scenes.PAUSEMENU:
+                //pause logic 
+                GraphicsDevice.Clear(Color.LightBlue);
+
+                Quit();
+
+                _pauseMenu.Draw();
+
+                break;
+            case Scenes.OPTIONMENU:
+                //option menu logic
+
+                Quit();
+
+                _optionMenu.Draw();
+
+                break;
+
+                
+        }
         
         _spriteBatch.End();
 
         base.Draw(gameTime);
 
+    }
+
+    public void Quit()
+    {
+        this.Exit();
     }
 }

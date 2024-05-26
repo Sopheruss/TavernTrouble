@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024.Screens;
 
-internal class PauseMenu
+internal class OptionMenu
 {
-    Button _mainMenuButton;
-    Button _retryButton;
-    Button _quitButton;
-    Button _optionButton;
     Button _returnButton; 
-    public PauseMenu() { 
+    public OptionMenu() { 
     
     }
 
