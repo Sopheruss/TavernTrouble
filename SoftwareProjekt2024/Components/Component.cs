@@ -11,25 +11,25 @@ namespace SoftwareProjekt2024.Components
 {
     internal class Component : SpriteClasses.ScaledSprite,IComparable<Component> 
     {
-        public Texture2D texture;
-        public Vector2 position;
 
         public Component(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position)
         {
-            perspectiveManager.sortedComponents.Add(this);
+            perspectiveManager._sortedComponents.Add(this);
         }
 
-        public void draw(SpriteBatch _spriteBatch)
+        public void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
         {
-            _spriteBatch.Draw(texture,
-            position,
-            null,
-            Color.White,
-            0f,
-            new Vector2(texture.Width / 2, texture.Height / 2),
-            0.2f,
-            SpriteEffects.None,
-            0f);
+            _spriteBatch.Draw(
+            this.texture,                                //texture 
+            this.Rect,                                  //destinationRectangle
+            _animationManager.GetFrame(),                   //sourceRectangle (frame) 
+            Color.White,                                   //color
+            0f,                                           //rotation 
+            new Vector2(                                 //origin -> to place center texture correctly
+                this.texture.Width / 4,
+                this.texture.Width / 4),
+            SpriteEffects.None,                        //effects
+            1f);                                      //layer depth
         }
 
 
