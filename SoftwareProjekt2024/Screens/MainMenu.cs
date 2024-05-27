@@ -25,8 +25,7 @@ public class MainMenu
         midScreenHeight = screenHeight / 2; 
 
         _startButton = new Button(Content.Load<Texture2D>("Buttons/startButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight - 100), _mouse);
-        //not texture yet for option Button, hier grade retry als ersatz
-        _optionButton = new Button(Content.Load<Texture2D>("Buttons/retryButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight), _mouse);
+        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight), _mouse);
         _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight + 100), _mouse);
     }
 

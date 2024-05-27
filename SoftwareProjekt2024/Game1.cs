@@ -46,7 +46,6 @@ public class Game1 : Game
     private GamePlay _gamePlay;
     private PauseMenu _pauseMenu;
     private OptionMenu _optionMenu;
-    
 
     public Game1()
     {
@@ -76,9 +75,9 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _gamePlay = new GamePlay();
-        _pauseMenu = new PauseMenu();
-        _optionMenu = new OptionMenu();
+        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, Mouse.GetState());
+        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _optionMenu = new OptionMenu(Content, screenWidth, screenHeight, Mouse.GetState());
 
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
         _animationManager = new(4, 4, new Vector2(19, 32));
@@ -92,8 +91,8 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Quit();
+        /*if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Quit();*/
 
         if (_exit)
         {
@@ -114,18 +113,18 @@ public class Game1 : Game
                 ogerCook.Update();
                 _animationManager.Update();
 
-                _gamePlay.Update();
+                _gamePlay.Update(this);
 
                 break;
             case Scenes.PAUSEMENU:
                 //pause logic 
 
-                _pauseMenu.Update();
+                _pauseMenu.Update(this);
                 break;
             case Scenes.OPTIONMENU:
                 //option logic 
 
-                _optionMenu.Update();
+                _optionMenu.Update(this);
 
                 break;
         }
@@ -161,28 +160,23 @@ public class Game1 : Game
                                   SpriteEffects.None,             //effects
                                   0f);                            //layer depth
 
-                _gamePlay.Draw();
+                _gamePlay.Draw(_spriteBatch);
 
                 break;
             case Scenes.PAUSEMENU:
                 //pause logic 
-                GraphicsDevice.Clear(Color.LightBlue);
+                GraphicsDevice.Clear(Color.LightPink);
 
-                Quit();
-
-                _pauseMenu.Draw();
+                _pauseMenu.Draw(_spriteBatch);
 
                 break;
             case Scenes.OPTIONMENU:
                 //option menu logic
+                GraphicsDevice.Clear(Color.LightGreen);
 
-                Quit();
-
-                _optionMenu.Draw();
+                _optionMenu.Draw(_spriteBatch);
 
                 break;
-
-                
         }
         
         _spriteBatch.End();
