@@ -18,7 +18,6 @@ namespace SoftwareProjekt2024
 
         private void Initialize()
         {
-
             // Debug statements to check the values
             Debug.WriteLine($"Map Width in Tiles: {_tiledMap.Width}");
             Debug.WriteLine($"Map Height in Tiles: {_tiledMap.Height}");
@@ -42,8 +41,17 @@ namespace SoftwareProjekt2024
         // Check if a position is within the map bounds
         public bool IsPositionWithinBounds(Vector2 position)
         {
-            // Use the X and Y properties of the Vector2 to check if the point is within bounds
-            return MapBounds.Contains((int)position.X, (int)position.Y);
+            {
+                bool withinBounds = MapBounds.Contains((int)position.X, (int)position.Y);
+
+                // Debugging information
+                Debug.WriteLine($"Player Position: {position}");
+                Debug.WriteLine($"Map Bounds: {MapBounds}");
+                Debug.WriteLine($"Player is {(withinBounds ? "within" : "out of")} bounds.");
+
+                return withinBounds;
+            }
+
         }
     }
 }

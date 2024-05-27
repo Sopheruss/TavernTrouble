@@ -96,7 +96,7 @@ public class Game1 : Game
 
         _animationManager.Update();
         _tileManager.Update(gameTime);
-        _cameraManager.Update(gameTime);
+        _cameraManager.Update(gameTime, ogerCook.position);
         ogerCook.Update();
 
         base.Update(gameTime);
