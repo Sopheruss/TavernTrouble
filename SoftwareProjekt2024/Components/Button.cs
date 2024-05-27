@@ -8,6 +8,7 @@ namespace SoftwareProjekt2024.Components
     internal class Button
     {
         private MouseState _currentMouse;
+        private MouseState _previousMouse;
 
         Texture2D _texture;
         Vector2 _position;
@@ -25,13 +26,14 @@ namespace SoftwareProjekt2024.Components
 
         public void Update(MouseState mouse)
         {
+            _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
 
             var mouseRect = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
 
             if (mouseRect.Intersects(_rectangle))
             {
-                if (_currentMouse.LeftButton == ButtonState.Pressed)
+                if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
                 {
                     isClicked = true;
                 }

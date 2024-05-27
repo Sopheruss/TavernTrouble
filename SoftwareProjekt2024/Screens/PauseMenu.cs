@@ -52,9 +52,9 @@ public class PauseMenu
         else if(_optionButton.isClicked)
         {
             game.activeScene = Scenes.OPTIONMENU;
-        } else if(_returnButton.isClicked || (Keyboard.GetState().IsKeyDown(Keys.Escape) && Keyboard.GetState().IsKeyUp(Keys.Escape)))
+        } else if(_returnButton.isClicked)
         {
-            //works kinda? -> grafik fehler?; also pausiert spiel, aber sehr laggy?
+            //works kinda? -> grafik fehler?; also pausiert spiel, aber weird 
             game.activeScene = Scenes.GAMEPLAY;
         } else if (_quitButton.isClicked)
         {
