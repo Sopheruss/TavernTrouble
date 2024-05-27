@@ -18,6 +18,7 @@ internal class Player : SpriteClasses.ScaledSprite
     {
         base.Update();
 
+
         Moving(); 
 
         //if collision stop moving 

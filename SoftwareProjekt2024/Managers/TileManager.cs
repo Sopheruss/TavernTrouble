@@ -13,7 +13,7 @@ namespace SoftwareProjekt2024
 
         public TileManager(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            _tiledMap = content.Load<TiledMap>("Maps/map7");
+            _tiledMap = content.Load<TiledMap>("Maps/tims_map5");
             _tiledMapRenderer = new TiledMapRenderer(graphicsDevice, _tiledMap);
 
         }

@@ -38,6 +38,31 @@
 /processor:TiledMapTilesetProcessor
 /build:Maps/texture.tsx
 
+#begin Maps/tims_map.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/tims_map.tmx
+
+#begin Maps/tims_map2.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/tims_map2.tmx
+
+#begin Maps/tims_map3.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/tims_map3.tmx
+
+#begin Maps/tims_map4.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/tims_map4.tmx
+
+#begin Maps/tims_map5.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/tims_map5.tmx
+
 #begin Models/oger_cook_spritesheet.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -49,5 +74,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Models/oger_cook_spritesheet.PNG
-
 

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended.Tiled;
 
@@ -6,43 +7,43 @@ namespace SoftwareProjekt2024
 {
     public class CollisionManager
     {
-        TiledMap _tiledMap;
+        private List<Rectangle> _collisionObjects;
+        public int _offsetX;                    
+        public int _offsetY;                    
 
-        public Rectangle MapBounds { get; private set; }
-
-        public CollisionManager(TiledMap tiledMap)
+        public CollisionManager(TiledMap map, string collisionLayerName)
         {
-            _tiledMap = tiledMap;
-            Initialize();
+            _collisionObjects = new List<Rectangle>();
+            LoadCollisionObjects(map, collisionLayerName);
+            _offsetX = 605 - 47;                                            //hardcoded for the beginning
+            _offsetY = 449 - 110;                                           //hardcoded for the beginning
         }
 
-        private void Initialize()
+        private void LoadCollisionObjects(TiledMap map, string collisionLayerName)
         {
-            // Debug statements to check the values
-            Debug.WriteLine($"Map Width in Tiles: {_tiledMap.Width}");
-            Debug.WriteLine($"Map Height in Tiles: {_tiledMap.Height}");
-            Debug.WriteLine($"Tile Width in Pixels: {_tiledMap.TileWidth}");
-            Debug.WriteLine($"Tile Height in Pixels: {_tiledMap.TileHeight}");
+            var collisionLayer = map.GetLayer<TiledMapObjectLayer>(collisionLayerName);
 
-            int mapWidthInPixels = _tiledMap.Width * _tiledMap.TileWidth;
-            int mapHeightInPixels = _tiledMap.Height * _tiledMap.TileHeight;
-
-            // Debug statements to check calculated dimensions
-            Debug.WriteLine($"Calculated Map Width in Pixels: {mapWidthInPixels}");
-            Debug.WriteLine($"Calculated Map Height in Pixels: {mapHeightInPixels}");
-
-            // Calculate the bounds of the map
-            MapBounds = new Rectangle(0, 0, mapWidthInPixels, mapHeightInPixels);
-
-            // Debug statement to check the final bounds
-            Debug.WriteLine($"Map Bounds: {MapBounds}");
+            if (collisionLayer != null)
+            {
+                foreach (var obj in collisionLayer.Objects)
+                {
+                    var rect = new Rectangle((int)obj.Position.X, (int)obj.Position.Y, (int)obj.Size.Width, (int)obj.Size.Height);
+                    _collisionObjects.Add(rect);
+                }
+            }
         }
 
-        // Check if a position is within the map bounds
-        public bool IsPositionWithinBounds(Vector2 position)
+        public bool CheckCollision(Rectangle playerBounds)
         {
-            // Use the X and Y properties of the Vector2 to check if the point is within bounds
-            return MapBounds.Contains((int)position.X, (int)position.Y);
+            foreach (var rect in _collisionObjects)
+            {
+                if (playerBounds.Intersects(rect))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
+

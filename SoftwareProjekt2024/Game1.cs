@@ -16,8 +16,8 @@ public class Game1 : Game
     //it is possible to initialize a List of Sprites!!!
     Player ogerCook;
 
-    int screenWidth = 720;
-    int screenHeight = 480;
+    int screenWidth = 1080;
+    int screenHeight = 720;
 
     int midScreenWidth;
     int midScreenHeight;
@@ -42,8 +42,8 @@ public class Game1 : Game
     protected override void Initialize()
     {
         //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 175; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 200; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 150; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
@@ -67,8 +67,7 @@ public class Game1 : Game
                               _animationManager); //oger Position 
 
         _tileManager = new TileManager(Content, GraphicsDevice);
-
-        _collisionManager = new CollisionManager(_tileManager._tiledMap);
+        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer");
     }
 
     protected override void Update(GameTime gameTime)
@@ -76,29 +75,27 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-
         //Helper bzgl Position and Bounds: Ausgabe -> Debuggen
-        Debug.WriteLine($"Player Position: {ogerCook.position}");
-        Debug.WriteLine($"Map Bounds: {_collisionManager.MapBounds}");
+        //Debug.WriteLine($"Player Position: {ogerCook.position}");
 
-
-        if (_collisionManager.IsPositionWithinBounds(ogerCook.position))
+        Rectangle newPlayerBounds = new Rectangle((int)ogerCook.position.X - _collisionManager._offsetX,
+                                                  (int)ogerCook.position.Y - _collisionManager._offsetY, 19, 32);
+        
+        if (!_collisionManager.CheckCollision(newPlayerBounds))
         {
-            Debug.WriteLine("Player is within bounds.");
-
+            //keep moving
+            Debug.WriteLine("go");
         }
         else
         {
-            Debug.WriteLine("Player is out of bounds.");
-
+            //stop moving
+            Debug.WriteLine("COLLISION");
         }
-
 
         _animationManager.Update();
         _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime);
         ogerCook.Update();
-
         base.Update(gameTime);
     }
 
@@ -113,8 +110,8 @@ public class Game1 : Game
         _tileManager.Draw(_cameraManager.GetViewMatrix());
 
         _spriteBatch.Draw(
-            ogerCook.texture,                                //texture 
-            ogerCook.Rect,                                  //destinationRectangle
+            ogerCook.texture,                                 //texture 
+            ogerCook.Rect,                                   //destinationRectangle
             _animationManager.GetFrame(),                   //sourceRectangle (frame) 
             Color.White,                                   //color
             0f,                                           //rotation 
