@@ -17,8 +17,8 @@ public class Game1 : Game
     Player ogerCook;
     Player ogerCook2;
 
-    int screenWidth = 720;
-    int screenHeight = 480;
+    int screenWidth = 1920;
+    int screenHeight = 1080;
 
     int midScreenWidth;
     int midScreenHeight;
