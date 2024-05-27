@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="31">
+ <tileset firstgid="1" source="texture.tsx"/>
+ <layer id="1" name="groundwork" width="10" height="10">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+1,1,1,1,1,1,1,1,1,1,
+1,2,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,2,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="6" name="collisionlayer">
+  <object id="15" gid="2" x="-0.343967" y="352.783" width="321.311" height="32"/>
+  <object id="19" gid="2" x="-1.01063" y="61.4492" width="321.311" height="32"/>
+  <object id="25" x="32" y="96.0909" width="32" height="32"/>
+  <object id="27" x="-31.9375" y="64" width="32" height="256"/>
+  <object id="28" x="319.813" y="64.1667" width="32" height="256"/>
+  <object id="29" name="spawn" x="131.333" y="123.333">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="spawn"/>
+</map>

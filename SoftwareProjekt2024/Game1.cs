@@ -42,8 +42,8 @@ public class Game1 : Game
     protected override void Initialize()
     {
         //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 200; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 150; // lower val => up
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 150; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
@@ -67,7 +67,11 @@ public class Game1 : Game
                               _animationManager); //oger Position 
 
         _tileManager = new TileManager(Content, GraphicsDevice);
-        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer");
+
+        //Debug.WriteLine("Pos Oger X: " + ogerCook.position.X);
+        //Debug.WriteLine("Pos Oger Y: " + ogerCook.position.Y);
+        
+        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", ogerCook.position.X, ogerCook.position.Y);
     }
 
     protected override void Update(GameTime gameTime)
@@ -75,11 +79,11 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        //Helper bzgl Position and Bounds: Ausgabe -> Debuggen
-        //Debug.WriteLine($"Player Position: {ogerCook.position}");
+        //Debug.WriteLine("update offset X: " + _collisionManager._offsetX);
+        //Debug.WriteLine("update offset Y: " + _collisionManager._offsetY);
 
-        Rectangle newPlayerBounds = new Rectangle((int)ogerCook.position.X - _collisionManager._offsetX,
-                                                  (int)ogerCook.position.Y - _collisionManager._offsetY, 19, 32);
+        Rectangle newPlayerBounds = new Rectangle((int)(ogerCook.position.X - _collisionManager._offsetX),
+                                                  (int)(ogerCook.position.Y - _collisionManager._offsetY), 19, 32);
         
         if (!_collisionManager.CheckCollision(newPlayerBounds))
         {

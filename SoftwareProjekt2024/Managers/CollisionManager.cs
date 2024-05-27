@@ -8,28 +8,38 @@ namespace SoftwareProjekt2024
     public class CollisionManager
     {
         private List<Rectangle> _collisionObjects;
-        public int _offsetX;                    
-        public int _offsetY;                    
+        public float _offsetX;                    
+        public float _offsetY;                    
 
-        public CollisionManager(TiledMap map, string collisionLayerName)
+        public CollisionManager(TiledMap map, string collisionLayerName, float ogerX, float ogerY)
         {
             _collisionObjects = new List<Rectangle>();
+            _offsetX = ogerX;                                            
+            _offsetY = ogerY;                                            
             LoadCollisionObjects(map, collisionLayerName);
-            _offsetX = 605 - 47;                                            //hardcoded for the beginning
-            _offsetY = 449 - 110;                                           //hardcoded for the beginning
         }
 
         private void LoadCollisionObjects(TiledMap map, string collisionLayerName)
         {
             var collisionLayer = map.GetLayer<TiledMapObjectLayer>(collisionLayerName);
-
             if (collisionLayer != null)
             {
                 foreach (var obj in collisionLayer.Objects)
                 {
-                    var rect = new Rectangle((int)obj.Position.X, (int)obj.Position.Y, (int)obj.Size.Width, (int)obj.Size.Height);
-                    _collisionObjects.Add(rect);
+                    if (obj.Name == "spawn")
+                    {                                                     
+                        //Debug.WriteLine("Obj Pos X: " + obj.Position.X);
+                        _offsetX -= obj.Position.X;                     
+                        //Debug.WriteLine("Obj Pos Y: " + obj.Position.Y);
+                        _offsetY -= obj.Position.Y;
+                    }
+                    else {
+                        var rect = new Rectangle((int)obj.Position.X, (int)obj.Position.Y, (int)obj.Size.Width, (int)obj.Size.Height);
+                        _collisionObjects.Add(rect);
+                    }
                 }
+                Debug.WriteLine(_offsetX);
+                Debug.WriteLine(_offsetY);
             }
         }
 
@@ -43,6 +53,11 @@ namespace SoftwareProjekt2024
                 }
             }
             return false;
+        }
+
+        public void Update(float ogerX, float ogerY)
+        {
+
         }
     }
 }
