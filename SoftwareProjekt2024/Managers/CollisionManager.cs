@@ -18,6 +18,7 @@ namespace SoftwareProjekt2024
 
         private void Initialize()
         {
+
             // Debug statements to check the values
             Debug.WriteLine($"Map Width in Tiles: {_tiledMap.Width}");
             Debug.WriteLine($"Map Height in Tiles: {_tiledMap.Height}");

@@ -16,8 +16,8 @@ public class Game1 : Game
     //it is possible to initialize a List of Sprites!!!
     Player ogerCook;
 
-    int screenWidth = 720;
-    int screenHeight = 480;
+    int screenWidth = 1920;
+    int screenHeight = 1080;
 
     int midScreenWidth;
     int midScreenHeight;
@@ -41,9 +41,9 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 175; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
+        //calc for middle of screen 
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 ; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 ; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
