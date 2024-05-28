@@ -4,23 +4,34 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
+
+public enum Scenes
+{ 
+    MAINMENU,
+    GAMEPLAY,
+    PAUSEMENU, 
+    OPTIONMENU
+};
 
 public class Game1 : Game
 
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
+    public bool _exit = false;
 
-  
-    Player _ogerCook;
+
+    private GraphicsDeviceManager _graphics;
+    private SpriteBatch _spriteBatch; 
 
     int screenWidth = 1080;
     int screenHeight = 720;
 
-    int midScreenWidth;
-    int midScreenHeight;
+    public Scenes activeScene;  
+    
+    Player _ogerCook;
+
 
     AnimationManager _animationManager;
     TileManager _tileManager;
@@ -28,6 +39,12 @@ public class Game1 : Game
     CollisionManager _collisionManager;
     PerspectiveManager _perspectiveManager;
     InputManager _inputManager;
+
+
+    private MainMenu _mainMenu;
+    private GamePlay _gamePlay;
+    private PauseMenu _pauseMenu;
+    private OptionMenu _optionMenu;
 
 
     public Game1()
@@ -40,10 +57,13 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
         //this._graphics.IsFullScreen = true;
+
+        activeScene = Scenes.MAINMENU;
     }
 
     protected override void Initialize()
     {
+
 
         //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
         midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
@@ -62,8 +82,11 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
-        _animationManager = new(4, 4, new Vector2(19, 32));
+        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
+        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _optionMenu = new OptionMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
@@ -79,10 +102,14 @@ public class Game1 : Game
         
         _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
         _inputManager = new InputManager(this, _ogerCook, _collisionManager, _animationManager);
+
+        _gamePlay.LoadContent(Content);
+
     }
 
     protected override void Update(GameTime gameTime)
     {
+
 
         _animationManager.Update();
         _tileManager.Update(gameTime);
@@ -90,24 +117,82 @@ public class Game1 : Game
         _ogerCook.Update();
         _inputManager.Update();
 
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Quit();
+
+        if (_exit)
+        {
+            Exit();
+        }
+
+        switch (activeScene)
+        {
+            case Scenes.MAINMENU:
+                _mainMenu.Update(this);
+                break;
+            case Scenes.GAMEPLAY:
+                _gamePlay.Update(this);
+                break;
+            case Scenes.PAUSEMENU:
+                _pauseMenu.Update(this);
+                break;
+            case Scenes.OPTIONMENU:
+                _optionMenu.Update(this);
+                break;
+        }
+
+
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
 
+
         GraphicsDevice.Clear(Color.Black);
 
-        // Sharp images while scaling
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
         _tileManager.Draw(_cameraManager.GetViewMatrix());
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
+        
+        switch (activeScene)
+        {
+            case Scenes.MAINMENU:
+
+                GraphicsDevice.Clear(Color.LightBlue);
+                _mainMenu.Draw(_spriteBatch);
+
+                break;
+            case Scenes.GAMEPLAY:
+                GraphicsDevice.Clear(Color.Beige);
+
+                _gamePlay.Draw(_spriteBatch);
+
+                break;
+            case Scenes.PAUSEMENU:
+                GraphicsDevice.Clear(Color.LightPink);
+
+                _pauseMenu.Draw(_spriteBatch);
+
+                break;
+            case Scenes.OPTIONMENU:
+                GraphicsDevice.Clear(Color.LightGreen);
+
+                _optionMenu.Draw(_spriteBatch);
+
+                break;
+        }
+        
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
 
+    public void Quit()
+    {
+        this.Exit();
     }
 }
 
