@@ -60,6 +60,11 @@
 /processor:TiledMapTilesetProcessor
 /build:Maps/tileset2.tsx
 
+#begin Maps/tims_map6.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:Maps/tims_map6.tmx
+
 #begin Models/oger_cook_spritesheet.PNG
 /importer:TextureImporter
 /processor:TextureProcessor

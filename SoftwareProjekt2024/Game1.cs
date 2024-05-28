@@ -13,12 +13,12 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    //it is possible to initialize a List of Sprites!!!
     Player ogerCook;
     Player ogerCook2;
+    Player _ogerCook;
 
-    int screenWidth = 1920;
-    int screenHeight = 1080;
+    int screenWidth = 1080;
+    int screenHeight = 720;
 
     int midScreenWidth;
     int midScreenHeight;
@@ -28,6 +28,8 @@ public class Game1 : Game
     CameraManager _cameraManager;
     CollisionManager _collisionManager;
     PerspectiveManager _perspectiveManager;
+    InputManager _inputManager;
+
 
     public Game1()
     {
@@ -43,9 +45,10 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //calc for middle of screen 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 ; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 ; // lower val => up
+
+        //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 150; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
@@ -65,6 +68,7 @@ public class Game1 : Game
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+
         ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(midScreenWidth, midScreenHeight),
                               _animationManager,
@@ -75,39 +79,28 @@ public class Game1 : Game
                               _animationManager,
                               _perspectiveManager); //oger Position
 
+        _ogerCook = new Player(_ogerCookSpritesheet,
+                              new Vector2(midScreenWidth, midScreenHeight)); //oger Position 
+
+
         _tileManager = new TileManager(Content, GraphicsDevice);
 
-        _collisionManager = new CollisionManager(_tileManager._tiledMap);
+        //Debug.WriteLine("Pos Oger X: " + ogerCook.position.X);
+        //Debug.WriteLine("Pos Oger Y: " + ogerCook.position.Y);
+        
+        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
+        _inputManager = new InputManager(this, _ogerCook, _collisionManager, _animationManager);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
-        /*
-        //Helper bzgl Position and Bounds: Ausgabe -> Debuggen
-        Debug.WriteLine($"Player Position: {ogerCook.position}");
-        Debug.WriteLine($"Map Bounds: {_collisionManager.MapBounds}");
-
-
-        if (_collisionManager.IsPositionWithinBounds(ogerCook.position))
-        {
-            Debug.WriteLine("Player is within bounds.");
-
-        }
-        else
-        {
-            Debug.WriteLine("Player is out of bounds.");
-
-        }
-        */
 
         _animationManager.Update();
         _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime, ogerCook.position);
         ogerCook.Update();
-
+        _ogerCook.Update();
+        _inputManager.Update();
 
         base.Update(gameTime);
     }
@@ -121,19 +114,6 @@ public class Game1 : Game
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         _tileManager.Draw(_cameraManager.GetViewMatrix());
-        /*
-        _spriteBatch.Draw(
-            ogerCook.texture,                                //texture 
-            ogerCook.Rect,                                  //destinationRectangle
-            _animationManager.GetFrame(),                   //sourceRectangle (frame) 
-            Color.White,                                   //color
-            0f,                                           //rotation 
-            new Vector2(                                 //origin -> to place center texture correctly
-                ogerCook.texture.Width / 4,
-                ogerCook.texture.Width / 4),
-            SpriteEffects.None,                        //effects
-            1f);                                      //layer depth
-        */
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
         _spriteBatch.End();
