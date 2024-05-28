@@ -15,6 +15,7 @@ public class Game1 : Game
 
     //it is possible to initialize a List of Sprites!!!
     Player ogerCook;
+    Player ogerCook2;
 
     int screenWidth = 1920;
     int screenHeight = 1080;
@@ -26,6 +27,7 @@ public class Game1 : Game
     TileManager _tileManager;
     CameraManager _cameraManager;
     CollisionManager _collisionManager;
+    PerspectiveManager _perspectiveManager;
 
     public Game1()
     {
@@ -47,6 +49,7 @@ public class Game1 : Game
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+        _perspectiveManager = new PerspectiveManager();
 
 
 
@@ -63,8 +66,14 @@ public class Game1 : Game
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
         ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(midScreenWidth, midScreenHeight), 
-                              _animationManager); //oger Position 
+                              new Vector2(midScreenWidth, midScreenHeight),
+                              _animationManager,
+                              _perspectiveManager); //oger Position 
+
+        ogerCook2 = new Player(_ogerCookSpritesheet,
+                              new Vector2(midScreenWidth-175, midScreenHeight-100),
+                              _animationManager,
+                              _perspectiveManager); //oger Position
 
         _tileManager = new TileManager(Content, GraphicsDevice);
 
@@ -76,7 +85,7 @@ public class Game1 : Game
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-
+        /*
         //Helper bzgl Position and Bounds: Ausgabe -> Debuggen
         Debug.WriteLine($"Player Position: {ogerCook.position}");
         Debug.WriteLine($"Map Bounds: {_collisionManager.MapBounds}");
@@ -92,12 +101,13 @@ public class Game1 : Game
             Debug.WriteLine("Player is out of bounds.");
 
         }
-
+        */
 
         _animationManager.Update();
         _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime, ogerCook.position);
         ogerCook.Update();
+
 
         base.Update(gameTime);
     }
@@ -111,7 +121,7 @@ public class Game1 : Game
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         _tileManager.Draw(_cameraManager.GetViewMatrix());
-
+        /*
         _spriteBatch.Draw(
             ogerCook.texture,                                //texture 
             ogerCook.Rect,                                  //destinationRectangle
@@ -123,10 +133,13 @@ public class Game1 : Game
                 ogerCook.texture.Width / 4),
             SpriteEffects.None,                        //effects
             1f);                                      //layer depth
+        */
 
+        _perspectiveManager.draw(_spriteBatch, _animationManager);
         _spriteBatch.End();
 
         base.Draw(gameTime);
 
     }
 }
+

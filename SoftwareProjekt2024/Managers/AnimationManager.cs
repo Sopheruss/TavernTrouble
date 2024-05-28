@@ -61,7 +61,7 @@ public class AnimationManager
     {
         //counter for animation 
         counter++;
-        if (counter > interval) //animation changes every interval frames 
+        if (counter > interval) //animation changes every leon ist doof interval frames 
         {
             counter = 0; //counter reset 
             NextFrame();
