@@ -72,7 +72,7 @@ public class Game1 : Game
         //Debug.WriteLine("Pos Oger Y: " + ogerCook.position.Y);
         
         _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
-        _inputManager = new InputManager(_ogerCook, _collisionManager, _animationManager);
+        _inputManager = new InputManager(this, _ogerCook, _collisionManager, _animationManager);
     }
 
     protected override void Update(GameTime gameTime)
@@ -96,8 +96,8 @@ public class Game1 : Game
         _tileManager.Draw(_cameraManager.GetViewMatrix());
 
         _spriteBatch.Draw(
-            _ogerCook.texture,                                 //texture 
-            _ogerCook.Rect,                                   //destinationRectangle
+            _ogerCook.texture,                                //texture 
+            _ogerCook.Rect,                                  //destinationRectangle
             _animationManager.GetFrame(),                   //sourceRectangle (frame) 
             Color.White,                                   //color
             0f,                                           //rotation 

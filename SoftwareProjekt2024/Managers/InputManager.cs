@@ -8,13 +8,15 @@ namespace SoftwareProjekt2024.Managers;
 
 internal class InputManager
 {
+    Game1 _game;
     Player _ogerCook;
     float newOgerPosX;
     float newOgerPosY;
     CollisionManager _collisionManager;
     AnimationManager _animationManager;
-    public InputManager(Player ogerCook, CollisionManager collisionManager, AnimationManager animationManager)
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, AnimationManager animationManager)
     {
+        _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
         _animationManager = animationManager;
@@ -22,10 +24,16 @@ internal class InputManager
 
     public void Update()
     {
+        Commands();
         Moving();
+    }
+    
+    public void Commands()
+    {
+        // exit, pause, ...
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
-            
+            _game.Exit();
         }
     }
     public void Moving()
