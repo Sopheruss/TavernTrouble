@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="12">
  <editorsettings>
-  <export target="../output/TestMap.tmx" format="tmx"/>
+  <export format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="tileset2.tsx"/>
  <layer id="1" name="Map" width="30" height="20">
@@ -13,9 +13,9 @@
 0,9,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,10,0,0,0,0,0,0,0,0,0,0,
 0,5,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,6,0,0,0,0,0,0,0,0,0,0,
 0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
-0,13,11,11,11,11,11,11,11,11,1,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
-0,13,11,11,11,11,11,11,11,11,1,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
-0,13,11,11,11,11,11,11,11,11,1,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
+0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
+0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
+0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
 0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
 0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
 0,13,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,12,0,0,0,0,0,0,0,0,0,0,
@@ -52,4 +52,15 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="3" name="collisionlayer">
+  <object id="3" name="right-lower border" x="624.043" y="190.625" width="16" height="248.473"/>
+  <object id="4" name="left-lower-border" x="31.8617" y="190.182" width="16" height="248.916"/>
+  <object id="6" name="bottom-border" x="47" y="436" width="578" height="3.09091"/>
+  <object id="9" name="top-border" x="60.8485" y="92.7576" width="549.909" height="3.09091"/>
+  <object id="7" name="left-upper-border" x="47" y="73.1136" width="16.483" height="118.96"/>
+  <object id="8" name="right-upper-border" x="607.727" y="73.11" width="16.483" height="118.96"/>
+  <object id="10" name="spawn" x="274" y="295">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

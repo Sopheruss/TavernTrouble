@@ -13,8 +13,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    Player ogerCook;
-    Player ogerCook2;
+  
     Player _ogerCook;
 
     int screenWidth = 1080;
@@ -47,8 +46,8 @@ public class Game1 : Game
     {
 
         //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 150; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
@@ -68,19 +67,9 @@ public class Game1 : Game
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
-
-        ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(midScreenWidth, midScreenHeight),
-                              _animationManager,
-                              _perspectiveManager); //oger Position 
-
-        ogerCook2 = new Player(_ogerCookSpritesheet,
-                              new Vector2(midScreenWidth-175, midScreenHeight-100),
-                              _animationManager,
-                              _perspectiveManager); //oger Position
-
+        
         _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(midScreenWidth, midScreenHeight)); //oger Position 
+                              new Vector2(midScreenWidth, midScreenHeight), _perspectiveManager); //oger Position 
 
 
         _tileManager = new TileManager(Content, GraphicsDevice);
@@ -97,8 +86,7 @@ public class Game1 : Game
 
         _animationManager.Update();
         _tileManager.Update(gameTime);
-        _cameraManager.Update(gameTime, ogerCook.position);
-        ogerCook.Update();
+        _cameraManager.Update(gameTime, _ogerCook.position);
         _ogerCook.Update();
         _inputManager.Update();
 
