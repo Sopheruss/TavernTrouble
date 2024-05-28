@@ -9,6 +9,8 @@ namespace SoftwareProjekt2024.Managers;
 internal class InputManager
 {
     Player _ogerCook;
+    float newOgerPosX;
+    float newOgerPosY;
     CollisionManager _collisionManager;
     AnimationManager _animationManager;
     public InputManager(Player ogerCook, CollisionManager collisionManager, AnimationManager animationManager)
@@ -28,12 +30,19 @@ internal class InputManager
     }
     public void Moving()
     {
-        Rectangle newPlayerBounds = new Rectangle((int)(_ogerCook.position.X - _collisionManager._offsetX),
-                                                  (int)(_ogerCook.position.Y - _collisionManager._offsetY), 19, 32);
+        newOgerPosX = _ogerCook.position.X - _collisionManager._offsetX;
+        newOgerPosY = _ogerCook.position.Y - _collisionManager._offsetY;
+        
+        Rectangle newPlayerBounds = new Rectangle((int)newOgerPosX, (int)newOgerPosY, 19, 32);
+        
+        Rectangle leftBounds = new Rectangle((int)newOgerPosX - 1, (int)newOgerPosY, 19, 32);
+        Rectangle rightBounds = new Rectangle((int)newOgerPosX + 1, (int)newOgerPosY, 19, 32);
+        Rectangle upBounds = new Rectangle((int)newOgerPosX, (int)newOgerPosY - 1, 19, 32);
+        Rectangle downBounds = new Rectangle((int)newOgerPosX, (int)newOgerPosY + 1, 19, 32);
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-            if (!_collisionManager.CheckCollision(newPlayerBounds))
+            if (!_collisionManager.CheckCollision(leftBounds))
             {
                 _ogerCook.position.X -= 1;
                 _animationManager.PlayAnimation = true; //playes Animation
@@ -42,7 +51,7 @@ internal class InputManager
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
-            if (!_collisionManager.CheckCollision(newPlayerBounds))
+            if (!_collisionManager.CheckCollision(rightBounds))
             {
                 _ogerCook.position.X += 1;
                 _animationManager.PlayAnimation = true;
@@ -51,7 +60,7 @@ internal class InputManager
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.W))
         {
-            if (!_collisionManager.CheckCollision(newPlayerBounds))
+            if (!_collisionManager.CheckCollision(upBounds))
             {
                 _ogerCook.position.Y -= 1;
                 _animationManager.PlayAnimation = true;
@@ -60,7 +69,7 @@ internal class InputManager
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.S))
         {
-            if (!_collisionManager.CheckCollision(newPlayerBounds))
+            if (!_collisionManager.CheckCollision(downBounds))
             {
                 _ogerCook.position.Y += 1;
                 _animationManager.PlayAnimation = true;
