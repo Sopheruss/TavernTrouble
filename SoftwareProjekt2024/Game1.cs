@@ -46,6 +46,9 @@ public class Game1 : Game
     private PauseMenu _pauseMenu;
     private OptionMenu _optionMenu;
 
+    int midScreenHeight;
+    int midScreenWidth;
+
 
     public Game1()
     {
@@ -72,6 +75,7 @@ public class Game1 : Game
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
         _perspectiveManager = new PerspectiveManager();
+        _animationManager = new(4, 4, new Vector2(19, 32));
 
 
 
@@ -83,7 +87,7 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
+        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState(), _perspectiveManager);
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
         _optionMenu = new OptionMenu(Content, screenWidth, screenHeight, Mouse.GetState());
 

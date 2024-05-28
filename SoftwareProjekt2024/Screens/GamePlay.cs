@@ -10,7 +10,7 @@ namespace SoftwareProjekt2024.Screens;
 internal class GamePlay
 {
     Button _pauseButton;
-
+    PerspectiveManager _perspectiveManager;
     AnimationManager _animationManager;
 
     //it is possible to initialize a List of Sprites!!!
@@ -21,9 +21,9 @@ internal class GamePlay
     int _screenWidth;
     int _screenHeight;
 
-    public GamePlay(int screenWidth, int screenHeight, MouseState mouse) { 
+    public GamePlay(int screenWidth, int screenHeight, MouseState mouse, PerspectiveManager perspectiveManager) { 
         _mouse = mouse;
-
+        _perspectiveManager = perspectiveManager;
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
     }
@@ -37,7 +37,7 @@ internal class GamePlay
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
         ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(_screenWidth/2, _screenHeight/2),
-                              _animationManager); //oger Position 
+                              _perspectiveManager); //oger Position 
 
         Texture2D _pauseButtonTexture = Content.Load<Texture2D>("Buttons/pauseButton");
         _pauseButton = new Button(_pauseButtonTexture, _screenWidth, _screenHeight, new Vector2(20, 20), _mouse);
