@@ -13,7 +13,8 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    //it is possible to initialize a List of Sprites!!!
+    Player ogerCook;
+    Player ogerCook2;
     Player _ogerCook;
 
     int screenWidth = 1080;
@@ -26,7 +27,9 @@ public class Game1 : Game
     TileManager _tileManager;
     CameraManager _cameraManager;
     CollisionManager _collisionManager;
+    PerspectiveManager _perspectiveManager;
     InputManager _inputManager;
+
 
     public Game1()
     {
@@ -42,12 +45,14 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+
         //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
         midScreenWidth = _graphics.PreferredBackBufferWidth / 2 + 150; // higer val => right
         midScreenHeight = _graphics.PreferredBackBufferHeight / 2 + 100; // lower val => up
 
 
         _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+        _perspectiveManager = new PerspectiveManager();
 
 
 
@@ -63,8 +68,20 @@ public class Game1 : Game
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+
+        ogerCook = new Player(_ogerCookSpritesheet,
+                              new Vector2(midScreenWidth, midScreenHeight),
+                              _animationManager,
+                              _perspectiveManager); //oger Position 
+
+        ogerCook2 = new Player(_ogerCookSpritesheet,
+                              new Vector2(midScreenWidth-175, midScreenHeight-100),
+                              _animationManager,
+                              _perspectiveManager); //oger Position
+
         _ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(midScreenWidth, midScreenHeight)); //oger Position 
+
 
         _tileManager = new TileManager(Content, GraphicsDevice);
 
@@ -77,11 +94,14 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+
         _animationManager.Update();
         _tileManager.Update(gameTime);
-        _cameraManager.Update(gameTime);
+        _cameraManager.Update(gameTime, ogerCook.position);
+        ogerCook.Update();
         _ogerCook.Update();
         _inputManager.Update();
+
         base.Update(gameTime);
     }
 
@@ -95,21 +115,11 @@ public class Game1 : Game
 
         _tileManager.Draw(_cameraManager.GetViewMatrix());
 
-        _spriteBatch.Draw(
-            _ogerCook.texture,                                //texture 
-            _ogerCook.Rect,                                  //destinationRectangle
-            _animationManager.GetFrame(),                   //sourceRectangle (frame) 
-            Color.White,                                   //color
-            0f,                                           //rotation 
-            new Vector2(                                 //origin -> to place center texture correctly
-                _ogerCook.texture.Width / 4,
-                _ogerCook.texture.Width / 4),
-            SpriteEffects.None,                        //effects
-            1f);                                      //layer depth
-
+        _perspectiveManager.draw(_spriteBatch, _animationManager);
         _spriteBatch.End();
 
         base.Draw(gameTime);
 
     }
 }
+

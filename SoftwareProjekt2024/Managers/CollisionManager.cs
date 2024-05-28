@@ -19,6 +19,7 @@ namespace SoftwareProjekt2024
             LoadCollisionObjects(map, collisionLayerName);
         }
 
+
         private void LoadCollisionObjects(TiledMap map, string collisionLayerName)
         {
             var collisionLayer = map.GetLayer<TiledMapObjectLayer>(collisionLayerName);
@@ -41,10 +42,12 @@ namespace SoftwareProjekt2024
                 Debug.WriteLine(_offsetX);
                 Debug.WriteLine(_offsetY);
             }
+
         }
 
         public bool CheckCollision(Rectangle playerBounds)
         {
+
             foreach (var rect in _collisionObjects)
             {
                 if (playerBounds.Intersects(rect))

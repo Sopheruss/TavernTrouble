@@ -5,10 +5,11 @@ using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Components;
 
-internal class Player : SpriteClasses.ScaledSprite
+internal class Player : Component
 {
+    
+    public Player(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
 
-    public Player(Texture2D texture, Vector2 position) : base(texture, position)
     {
         
     }

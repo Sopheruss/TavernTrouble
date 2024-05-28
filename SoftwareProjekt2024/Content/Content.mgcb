@@ -60,31 +60,6 @@
 /processor:TiledMapTilesetProcessor
 /build:Maps/tileset2.tsx
 
-#begin Maps/tims_map.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map.tmx
-
-#begin Maps/tims_map2.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map2.tmx
-
-#begin Maps/tims_map3.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map3.tmx
-
-#begin Maps/tims_map4.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map4.tmx
-
-#begin Maps/tims_map5.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map5.tmx
-
 #begin Maps/tims_map6.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
