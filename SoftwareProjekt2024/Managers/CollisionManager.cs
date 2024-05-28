@@ -54,11 +54,6 @@ namespace SoftwareProjekt2024
             }
             return false;
         }
-
-        public void Update(float ogerX, float ogerY)
-        {
-
-        }
     }
 }
 

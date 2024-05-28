@@ -14,7 +14,7 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
 
     //it is possible to initialize a List of Sprites!!!
-    Player ogerCook;
+    Player _ogerCook;
 
     int screenWidth = 1080;
     int screenHeight = 720;
@@ -26,6 +26,7 @@ public class Game1 : Game
     TileManager _tileManager;
     CameraManager _cameraManager;
     CollisionManager _collisionManager;
+    InputManager _inputManager;
 
     public Game1()
     {
@@ -62,44 +63,25 @@ public class Game1 : Game
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
-        ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(midScreenWidth, midScreenHeight), 
-                              _animationManager); //oger Position 
+        _ogerCook = new Player(_ogerCookSpritesheet,
+                              new Vector2(midScreenWidth, midScreenHeight)); //oger Position 
 
         _tileManager = new TileManager(Content, GraphicsDevice);
 
         //Debug.WriteLine("Pos Oger X: " + ogerCook.position.X);
         //Debug.WriteLine("Pos Oger Y: " + ogerCook.position.Y);
         
-        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", ogerCook.position.X, ogerCook.position.Y);
+        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
+        _inputManager = new InputManager(_ogerCook, _collisionManager, _animationManager);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
-        //Debug.WriteLine("update offset X: " + _collisionManager._offsetX);
-        //Debug.WriteLine("update offset Y: " + _collisionManager._offsetY);
-
-        Rectangle newPlayerBounds = new Rectangle((int)(ogerCook.position.X - _collisionManager._offsetX),
-                                                  (int)(ogerCook.position.Y - _collisionManager._offsetY), 19, 32);
-        
-        if (!_collisionManager.CheckCollision(newPlayerBounds))
-        {
-            //keep moving
-            Debug.WriteLine("go");
-        }
-        else
-        {
-            //stop moving
-            Debug.WriteLine("COLLISION");
-        }
-
         _animationManager.Update();
         _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime);
-        ogerCook.Update();
+        _ogerCook.Update();
+        _inputManager.Update();
         base.Update(gameTime);
     }
 
@@ -114,14 +96,14 @@ public class Game1 : Game
         _tileManager.Draw(_cameraManager.GetViewMatrix());
 
         _spriteBatch.Draw(
-            ogerCook.texture,                                 //texture 
-            ogerCook.Rect,                                   //destinationRectangle
+            _ogerCook.texture,                                 //texture 
+            _ogerCook.Rect,                                   //destinationRectangle
             _animationManager.GetFrame(),                   //sourceRectangle (frame) 
             Color.White,                                   //color
             0f,                                           //rotation 
             new Vector2(                                 //origin -> to place center texture correctly
-                ogerCook.texture.Width / 4,
-                ogerCook.texture.Width / 4),
+                _ogerCook.texture.Width / 4,
+                _ogerCook.texture.Width / 4),
             SpriteEffects.None,                        //effects
             1f);                                      //layer depth
 
