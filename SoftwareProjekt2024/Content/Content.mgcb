@@ -16,33 +16,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/MapAssetsNew.PNG
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/MapAssetsNew.PNG;Maps/MapAssetsNew.PNG
-
-#begin ../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/test.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/test.tmx;Maps/test.tmx
-
-#begin ../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/Tiles.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/Tiles.tsx;Maps/Tiles.tsx
-
-#begin ../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/tileset2.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:../../../../../Downloads/Tavern_Trouble/Tavern Trouble/Content/tileset2.tsx;Maps/tileset2.tsx
-
 #begin Maps/map7.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
