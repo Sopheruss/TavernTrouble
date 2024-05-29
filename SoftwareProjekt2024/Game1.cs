@@ -13,8 +13,8 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     Player ogerCook;
 
-    int screenWidth = 720;
-    int screenHeight = 480;
+    int screenWidth = 1920;
+    int screenHeight = 1080;
 
     int midScreenWidth;
     int midScreenHeight;
@@ -94,78 +94,7 @@ public class Game1 : Game
             0f);                            //layer depth
 
 
-
-        int display_tilesize = 32;
-        int num_tiles_per_row = 8;
-        int pixel_tilesize = 32;
-
-        foreach (var item in _tileManager.groundworkLayer)
-        {
-            Rectangle dest = new(
-                (int)item.Key.X * display_tilesize,
-                (int)item.Key.Y * display_tilesize,
-                display_tilesize, display_tilesize); // change to greater value e.g. 64 to create gaps between tiles
-
-            int x = item.Value % num_tiles_per_row;
-            int y = item.Value / num_tiles_per_row;
-
-            Rectangle src = new(
-
-                x * pixel_tilesize,
-                y * pixel_tilesize,
-                pixel_tilesize,
-                pixel_tilesize);
-
-
-            _spriteBatch.Draw(_tileManager.textureAtlas, dest, src, Color.White);
-
-
-        }
-        foreach (var item in _tileManager.objectsLayer)
-        {
-            Rectangle dest = new(
-                (int)item.Key.X * display_tilesize,
-                (int)item.Key.Y * display_tilesize,
-                display_tilesize, display_tilesize);
-
-            int x = item.Value % num_tiles_per_row;
-            int y = item.Value / num_tiles_per_row;
-
-            Rectangle src = new(
-
-                x * pixel_tilesize,
-                y * pixel_tilesize,
-                pixel_tilesize,
-                pixel_tilesize);
-
-
-            _spriteBatch.Draw(_tileManager.textureAtlas, dest, src, Color.White);
-
-
-        }
-
-        foreach (var item in _tileManager.collisionLayer) // to visualize hitboxes
-        {
-            Rectangle dest = new(
-                (int)item.Key.X * display_tilesize,
-                (int)item.Key.Y * display_tilesize,
-                display_tilesize, display_tilesize);
-
-            int x = item.Value % 1;
-            int y = item.Value / 1;
-
-            Rectangle src = new(
-
-                x * pixel_tilesize,
-                y * pixel_tilesize,
-                pixel_tilesize,
-                pixel_tilesize);
-
-
-            _spriteBatch.Draw(_tileManager.hitboxes, dest, src, Color.White);
-
-
-        }
+        _tileManager.Draw(_spriteBatch, 32, 8, 32);
 
         _spriteBatch.End();
 
