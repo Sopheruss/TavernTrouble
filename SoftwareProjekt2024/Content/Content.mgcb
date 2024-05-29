@@ -16,7 +16,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin atlas.PNG
+#begin atlasNew.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -26,7 +26,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:atlas.PNG
+/build:atlasNew.png;atlas.png
 
 #begin Models/oger_cook_spritesheet.PNG
 /importer:TextureImporter

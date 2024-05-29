@@ -52,13 +52,13 @@ public class Game1 : Game
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
         _animationManager = new(4, 4, new Vector2(19, 32));
 
-        _tileManager = new TileManager();
+
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
         ogerCook = new Player(_ogerCookSpritesheet, new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
 
-
+        _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
     }
 
@@ -94,15 +94,27 @@ public class Game1 : Game
 
 
 
+        int display_tilesize = 32;
+        int num_tiles_per_row = 8;
+        int pixel_tilesize = 32;
 
-        foreach (var item in _tileManager.tilemap)
+        foreach (var item in _tileManager.groundworkLayer)
         {
             Rectangle dest = new(
-                (int)item.Key.X * 32,
-                (int)item.Key.Y * 32,
-                32, 32);
+                (int)item.Key.X * display_tilesize,
+                (int)item.Key.Y * display_tilesize,
+                display_tilesize, display_tilesize); // change to greater value e.g. 64 to create gaps between tiles
 
-            Rectangle src = _tileManager.textureStore[item.Value]; // include id "0", if not change here and in tileManager
+            int x = item.Value % num_tiles_per_row;
+            int y = item.Value / num_tiles_per_row;
+
+            Rectangle src = new(
+
+                x * pixel_tilesize,
+                y * pixel_tilesize,
+                pixel_tilesize,
+                pixel_tilesize);
+
 
             _spriteBatch.Draw(_tileManager.textureAtlas, dest, src, Color.White);
 

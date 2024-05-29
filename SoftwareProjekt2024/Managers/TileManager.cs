@@ -7,14 +7,18 @@ namespace SoftwareProjekt2024
 {
     public class TileManager
     {
-        public Dictionary<Vector2, int> tilemap;
+        public Dictionary<Vector2, int> groundworkLayer;
+        public Dictionary<Vector2, int> objectsLayer;
+        public Dictionary<Vector2, int> collisionLayer;
         public List<Rectangle> textureStore;
         public Texture2D textureAtlas;
 
 
         public TileManager()
         {
-            tilemap = LoadMap("../../../Data/a1.csv");
+            groundworkLayer = LoadMap("../../../Data/tavern_groundworkLayer.csv");
+            objectsLayer = LoadMap("../../../Data/tavern_objectsLayer.csv");
+            collisionLayer = LoadMap("../../../Data/tavern_collisionLayer.csv");
 
             textureStore = new()
             {
@@ -43,7 +47,7 @@ namespace SoftwareProjekt2024
                     {
                         if (int.TryParse(items[x], out int value)) // if we parse our value successfully into an integer, cont
                         {
-                            if (value >= 0)  // = to include 0, otherwise > 
+                            if (value > -1)
                             {
                                 result[new Vector2(x, y)] = value;
                             }
