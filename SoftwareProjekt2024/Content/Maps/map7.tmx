@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="16">
+ <tileset firstgid="1" source="texture.tsx"/>
+ <layer id="1" name="groundwork" width="10" height="10">
+  <data encoding="csv">
+2,2,2,1,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup id="6" name="collisionlayer">
+  <object id="15" gid="2" x="140.897" y="175.714" width="32" height="32"/>
+ </objectgroup>
+</map>

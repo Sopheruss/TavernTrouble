@@ -1,12 +1,15 @@
+
 ﻿using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+
 namespace SoftwareProjekt2024
 {
     public class TileManager
     {
+
         public Dictionary<Vector2, int> groundworkLayer;
         public Dictionary<Vector2, int> objectsLayer;
         public Dictionary<Vector2, int> collisionLayer;
@@ -79,3 +82,4 @@ namespace SoftwareProjekt2024
         }
     }
 }
+

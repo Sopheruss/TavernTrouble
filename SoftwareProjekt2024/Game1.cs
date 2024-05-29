@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
@@ -13,14 +14,24 @@ public class Game1 : Game
     private SpriteBatch _spriteBatch;
     Player ogerCook;
 
-    int screenWidth = 1920;
-    int screenHeight = 1080;
+
+  
+    Player _ogerCook;
+
+    int screenWidth = 1080;
+    int screenHeight = 720;
+
 
     int midScreenWidth;
     int midScreenHeight;
 
     AnimationManager _animationManager;
     TileManager _tileManager;
+
+    CameraManager _cameraManager;
+    CollisionManager _collisionManager;
+    PerspectiveManager _perspectiveManager;
+    InputManager _inputManager;
 
 
 
@@ -38,9 +49,17 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //to make using calc for middle of Screen shorter 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2;
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2;
+
+
+        //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
+        midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
+        midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
+
+
+        _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+        _perspectiveManager = new PerspectiveManager();
+
+
 
         base.Initialize();
     }
@@ -53,23 +72,29 @@ public class Game1 : Game
         _animationManager = new(4, 4, new Vector2(19, 32));
 
 
-
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
-        ogerCook = new Player(_ogerCookSpritesheet, new Vector2(midScreenWidth, midScreenHeight), _animationManager); //oger Position 
+
+        
+        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
+        _inputManager = new InputManager(this, _ogerCook, _collisionManager, _animationManager);
+        
+        ogerCook = new Player(_ogerCookSpritesheet, new Vector2(midScreenWidth, midScreenHeight), _perspectiveManager); //oger Position 
 
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
+        
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
 
-        ogerCook.Update();
         _animationManager.Update();
+        _tileManager.Update(gameTime);
+        _cameraManager.Update(gameTime, _ogerCook.position);
+        _ogerCook.Update();
+        _inputManager.Update();
 
         base.Update(gameTime);
     }
@@ -77,9 +102,16 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
 
-        GraphicsDevice.Clear(Color.Beige);
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+        GraphicsDevice.Clear(Color.Black);
+
+        // Sharp images while scaling
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        
+        _tileManager.Draw(_spriteBatch, 32, 8, 32);
+
+        _perspectiveManager.draw(_spriteBatch, _animationManager);
+
 
         _spriteBatch.Draw(
             ogerCook.texture,               //texture 
@@ -94,7 +126,6 @@ public class Game1 : Game
             0f);                            //layer depth
 
 
-        _tileManager.Draw(_spriteBatch, 32, 8, 32);
 
         _spriteBatch.End();
 
@@ -102,3 +133,4 @@ public class Game1 : Game
 
     }
 }
+
