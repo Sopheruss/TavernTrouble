@@ -60,6 +60,7 @@ public class Game1 : Game
 
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
+        _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
     }
 
     protected override void Update(GameTime gameTime)
@@ -120,10 +121,53 @@ public class Game1 : Game
 
 
         }
+        foreach (var item in _tileManager.objectsLayer)
+        {
+            Rectangle dest = new(
+                (int)item.Key.X * display_tilesize,
+                (int)item.Key.Y * display_tilesize,
+                display_tilesize, display_tilesize);
+
+            int x = item.Value % num_tiles_per_row;
+            int y = item.Value / num_tiles_per_row;
+
+            Rectangle src = new(
+
+                x * pixel_tilesize,
+                y * pixel_tilesize,
+                pixel_tilesize,
+                pixel_tilesize);
+
+
+            _spriteBatch.Draw(_tileManager.textureAtlas, dest, src, Color.White);
+
+
+        }
+
+        foreach (var item in _tileManager.collisionLayer) // to visualize hitboxes
+        {
+            Rectangle dest = new(
+                (int)item.Key.X * display_tilesize,
+                (int)item.Key.Y * display_tilesize,
+                display_tilesize, display_tilesize);
+
+            int x = item.Value % 1;
+            int y = item.Value / 1;
+
+            Rectangle src = new(
+
+                x * pixel_tilesize,
+                y * pixel_tilesize,
+                pixel_tilesize,
+                pixel_tilesize);
+
+
+            _spriteBatch.Draw(_tileManager.hitboxes, dest, src, Color.White);
+
+
+        }
 
         _spriteBatch.End();
-
-
 
         base.Draw(gameTime);
 

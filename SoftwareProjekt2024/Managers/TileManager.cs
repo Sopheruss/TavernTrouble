@@ -12,6 +12,7 @@ namespace SoftwareProjekt2024
         public Dictionary<Vector2, int> collisionLayer;
         public List<Rectangle> textureStore;
         public Texture2D textureAtlas;
+        public Texture2D hitboxes;
 
 
         public TileManager()
@@ -19,14 +20,6 @@ namespace SoftwareProjekt2024
             groundworkLayer = LoadMap("../../../Data/tavern_groundworkLayer.csv");
             objectsLayer = LoadMap("../../../Data/tavern_objectsLayer.csv");
             collisionLayer = LoadMap("../../../Data/tavern_collisionLayer.csv");
-
-            textureStore = new()
-            {
-                new Rectangle(0,0,32,32),
-                new Rectangle(0,32,32,32)
-
-
-            };
 
 
             Dictionary<Vector2, int> LoadMap(string filepath)
@@ -60,5 +53,7 @@ namespace SoftwareProjekt2024
                 return result;
             }
         }
+
+
     }
 }
