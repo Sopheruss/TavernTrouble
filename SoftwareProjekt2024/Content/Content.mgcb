@@ -16,12 +16,8 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Maps/map7.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/map7.tmx
 
-#begin Maps/MapAssetsNew.PNG
+#begin atlas.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -31,14 +27,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Maps/MapAssetsNew.PNG
+/build:atlas.PNG
 
-#begin Maps/test99.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/test99.tmx
-
-#begin Maps/texture.png
+#begin hitboxes.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -48,27 +39,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Maps/texture.png
-
-#begin Maps/texture.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:Maps/texture.tsx
-
-#begin Maps/tileset2.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:Maps/tileset2.tsx
-
-#begin Maps/tims_map6.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map6.tmx
-
-#begin Maps/tims_map8.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:Maps/tims_map8.tmx
+/build:hitboxes.png
 
 #begin Models/oger_cook_spritesheet.PNG
 /importer:TextureImporter

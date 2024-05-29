@@ -1,34 +1,85 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+
+﻿using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
+
 
 namespace SoftwareProjekt2024
 {
     public class TileManager
     {
-        public TiledMap _tiledMap;
-        private TiledMapRenderer _tiledMapRenderer;
 
-        public TileManager(ContentManager content, GraphicsDevice graphicsDevice)
+        public Dictionary<Vector2, int> groundworkLayer;
+        public Dictionary<Vector2, int> objectsLayer;
+        public Dictionary<Vector2, int> collisionLayer;
+        public Texture2D textureAtlas;
+        public Texture2D hitboxes;
+
+        public TileManager()
         {
+            groundworkLayer = LoadMap("../../../Data/tavern_groundworkLayer.csv");
+            objectsLayer = LoadMap("../../../Data/tavern_objectsLayer.csv");
+            collisionLayer = LoadMap("../../../Data/tavern_collisionLayer.csv");
 
-            _tiledMap = content.Load<TiledMap>("Maps/tims_map8");
+            Dictionary<Vector2, int> LoadMap(string filepath)
+            {
+                Dictionary<Vector2, int> result = new();
 
-            _tiledMapRenderer = new TiledMapRenderer(graphicsDevice, _tiledMap);
+                using StreamReader reader = new(filepath);
 
+                int y = 0;
+                string line;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+                    string[] items = line.Split(',');
+
+                    for (int x = 0; x < items.Length; x++)
+                    {
+                        if (int.TryParse(items[x], out int value))
+                        {
+                            if (value > -1)
+                            {
+                                result[new Vector2(x, y)] = value;
+                            }
+                        }
+                    }
+
+                    y++;
+                }
+
+                return result;
+            }
         }
 
-        public void Update(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize)
         {
-            _tiledMapRenderer.Update(gameTime);
+            DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
 
-        // Draw method now accepts the view matrix
-        public void Draw(Matrix viewMatrix)
+        private void DrawLayer(SpriteBatch spriteBatch, Dictionary<Vector2, int> layer, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize)
         {
-            _tiledMapRenderer.Draw(viewMatrix);
+            foreach (var item in layer)
+            {
+                Rectangle dest = new(
+                    (int)item.Key.X * displayTileSize,
+                    (int)item.Key.Y * displayTileSize,
+                    displayTileSize, displayTileSize);
+
+                int x = item.Value % numTilesPerRow;
+                int y = item.Value / numTilesPerRow;
+
+                Rectangle src = new(
+                    x * pixelTileSize,
+                    y * pixelTileSize,
+                    pixelTileSize, pixelTileSize);
+
+                spriteBatch.Draw(texture, dest, src, Color.White);
+            }
         }
     }
 }
+
