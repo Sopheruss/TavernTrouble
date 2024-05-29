@@ -1,5 +1,5 @@
 
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,7 +39,7 @@ namespace SoftwareProjekt2024
                     {
                         if (int.TryParse(items[x], out int value))
                         {
-                            if (value > -1)
+                            if (value > -1) // -1 is "nothing", tile id starts with 0. 
                             {
                                 result[new Vector2(x, y)] = value;
                             }

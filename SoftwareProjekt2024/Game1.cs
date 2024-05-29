@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 
@@ -15,8 +13,9 @@ public class Game1 : Game
     Player ogerCook;
 
 
-  
+
     Player _ogerCook;
+    Player testDummy;
 
     int screenWidth = 1080;
     int screenHeight = 720;
@@ -51,7 +50,7 @@ public class Game1 : Game
     {
 
 
-        //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
+        //calc for middle of screen 
         midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
         midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
 
@@ -75,23 +74,21 @@ public class Game1 : Game
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
-        
-        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
+        _ogerCook = new Player(_ogerCookSpritesheet, new Vector2(midScreenWidth, midScreenHeight), _perspectiveManager); //oger Position 
+        testDummy = new Player(_ogerCookSpritesheet, new Vector2(midScreenWidth, midScreenHeight), _perspectiveManager);
+
         _inputManager = new InputManager(this, _ogerCook, _collisionManager, _animationManager);
-        
-        ogerCook = new Player(_ogerCookSpritesheet, new Vector2(midScreenWidth, midScreenHeight), _perspectiveManager); //oger Position 
 
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        
+
     }
 
     protected override void Update(GameTime gameTime)
     {
 
         _animationManager.Update();
-        _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime, _ogerCook.position);
         _ogerCook.Update();
         _inputManager.Update();
@@ -107,25 +104,10 @@ public class Game1 : Game
 
         // Sharp images while scaling
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        
+
         _tileManager.Draw(_spriteBatch, 32, 8, 32);
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
-
-
-        _spriteBatch.Draw(
-            ogerCook.texture,               //texture 
-            ogerCook.Rect,                  //destinationRectangle
-            _animationManager.GetFrame(),   //sourceRectangle (frame) 
-            Color.White,                    //color
-            0f,                             //rotation 
-            new Vector2(                    //origin -> to place center texture correctly
-                ogerCook.texture.Width / 4,
-                ogerCook.texture.Width / 4),
-            SpriteEffects.None,             //effects
-            0f);                            //layer depth
-
-
 
         _spriteBatch.End();
 
