@@ -29,17 +29,6 @@ public class Game1 : Game
     int screenHeight = 720;
 
     public Scenes activeScene;  
-    
-    Player _ogerCook;
-
-
-    AnimationManager _animationManager;
-    TileManager _tileManager;
-    CameraManager _cameraManager;
-    CollisionManager _collisionManager;
-    PerspectiveManager _perspectiveManager;
-    InputManager _inputManager;
-
 
     private MainMenu _mainMenu;
     private GamePlay _gamePlay;
@@ -48,7 +37,6 @@ public class Game1 : Game
 
     int midScreenHeight;
     int midScreenWidth;
-
 
     public Game1()
     {
@@ -66,18 +54,9 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-
-
         //calc for middle of screen + hack to spawn into middle of first iteration of map (TEMPORARY)
         midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
         midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
-
-
-        _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
-        _perspectiveManager = new PerspectiveManager();
-        _animationManager = new(4, 4, new Vector2(19, 32));
-
-
 
         base.Initialize();
     }
@@ -87,40 +66,16 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState(), _perspectiveManager);
+        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
         _optionMenu = new OptionMenu(Content, screenWidth, screenHeight, Mouse.GetState());
 
-
-        //local implementation, cuz acces to texture via Sprite class 
-        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+        _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
         
-        _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(midScreenWidth, midScreenHeight), _perspectiveManager); //oger Position 
-
-
-        _tileManager = new TileManager(Content, GraphicsDevice);
-
-        //Debug.WriteLine("Pos Oger X: " + ogerCook.position.X);
-        //Debug.WriteLine("Pos Oger Y: " + ogerCook.position.Y);
-        
-        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
-        _inputManager = new InputManager(this, _ogerCook, _collisionManager, _animationManager);
-
-        _gamePlay.LoadContent(Content);
-
     }
 
     protected override void Update(GameTime gameTime)
     {
-
-
-        _animationManager.Update();
-        _tileManager.Update(gameTime);
-        _cameraManager.Update(gameTime, _ogerCook.position);
-        _ogerCook.Update();
-        _inputManager.Update();
-
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             Quit();
 
@@ -135,7 +90,7 @@ public class Game1 : Game
                 _mainMenu.Update(this);
                 break;
             case Scenes.GAMEPLAY:
-                _gamePlay.Update(this);
+                _gamePlay.Update(this, gameTime);
                 break;
             case Scenes.PAUSEMENU:
                 _pauseMenu.Update(this);
@@ -151,15 +106,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-
-
-        GraphicsDevice.Clear(Color.Black);
-
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
-
-        _tileManager.Draw(_cameraManager.GetViewMatrix());
-
-        _perspectiveManager.draw(_spriteBatch, _animationManager);
         
         switch (activeScene)
         {
@@ -170,7 +117,7 @@ public class Game1 : Game
 
                 break;
             case Scenes.GAMEPLAY:
-                GraphicsDevice.Clear(Color.Beige);
+                GraphicsDevice.Clear(Color.Black);
 
                 _gamePlay.Draw(_spriteBatch);
 
