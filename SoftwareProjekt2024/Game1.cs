@@ -117,7 +117,7 @@ public class Game1 : Game
 
                 break;
             case Scenes.GAMEPLAY:
-                GraphicsDevice.Clear(Color.Black);
+                GraphicsDevice.Clear(Color.Beige);
 
                 _gamePlay.Draw(_spriteBatch);
 
