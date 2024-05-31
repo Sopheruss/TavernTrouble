@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Managers;
 
-namespace SoftwareProjekt2024.Screens
+namespace SoftwareProjekt2024.Screens;
+
+internal class GamePlay
 {
-
-    internal class GamePlay
-    {
     Button _pauseButton;
 
     PerspectiveManager _perspectiveManager;

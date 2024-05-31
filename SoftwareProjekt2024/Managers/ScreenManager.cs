@@ -1,11 +1,29 @@
-﻿using System;
+﻿using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024.Managers;
 
-internal class ScreenManager
+//WIP -> vielleicht weglassen, weil grade umständlich 
+/*public class ScreenManager
 {
-}
+    private readonly Stack<IScreen> screenStack;
+
+    public ScreenManager()
+    {
+        screenStack = new();
+    }
+
+    public void AddScreen(IScreen screen)
+    {
+        screenStack.Push(screen);
+    }
+
+    public void RemoveScreen()
+    {
+        screenStack.Pop();
+    }
+
+    public IScreen GetCurrentScreen() { 
+        return screenStack.Peek();
+    }
+}*/
