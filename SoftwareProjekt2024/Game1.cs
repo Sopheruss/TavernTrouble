@@ -20,6 +20,10 @@ public class Game1 : Game
     int screenWidth = 1080;
     int screenHeight = 720;
 
+
+    int midScreenWidth;
+    int midScreenHeight;
+
     AnimationManager _animationManager;
     TileManager _tileManager;
 
@@ -29,16 +33,6 @@ public class Game1 : Game
     InputManager _inputManager;
 
 
-
-    public Scenes activeScene;  
-
-    private MainMenu _mainMenu;
-    private GamePlay _gamePlay;
-    private PauseMenu _pauseMenu;
-    private OptionMenu _optionMenu;
-
-    int midScreenHeight;
-    int midScreenWidth;
 
     public Game1()
     {
@@ -54,10 +48,17 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //calc for middle of screen 
 
+
+        //calc for middle of screen 
         midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
         midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
+
+
+        _cameraManager = new CameraManager(Window, GraphicsDevice, screenWidth, screenHeight);
+        _perspectiveManager = new PerspectiveManager();
+
+
 
         base.Initialize();
     }
@@ -68,6 +69,7 @@ public class Game1 : Game
 
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
         _animationManager = new(4, 4, new Vector2(19, 32));
+
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
@@ -81,68 +83,31 @@ public class Game1 : Game
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
 
-        _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
     }
 
     protected override void Update(GameTime gameTime)
     {
+
         _animationManager.Update();
         _cameraManager.Update(gameTime, _ogerCook.position);
         _ogerCook.Update();
         _inputManager.Update();
-        
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Quit();
-
-        if (_exit)
-        {
-            Exit();
-        }
-
-        switch (activeScene)
-        {
-            case Scenes.MAINMENU:
-                _mainMenu.Update(this);
-                break;
-            case Scenes.GAMEPLAY:
-                _gamePlay.Update(this, gameTime);
-                break;
-            case Scenes.PAUSEMENU:
-                _pauseMenu.Update(this);
-                break;
-            case Scenes.OPTIONMENU:
-                _optionMenu.Update(this);
-                break;
-        }
 
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
-        
+
+
+        GraphicsDevice.Clear(Color.Black);
+
+        // Sharp images while scaling
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
         _tileManager.Draw(_spriteBatch, 32, 8, 32);
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
-        
-        switch (activeScene)
-        {
-            case Scenes.MAINMENU:
-
-                GraphicsDevice.Clear(Color.LightBlue);
-                _mainMenu.Draw(_spriteBatch);
-
-                break;
-            case Scenes.GAMEPLAY:
-                GraphicsDevice.Clear(Color.Beige);
-
-                _gamePlay.Draw(_spriteBatch);
-
-                break;
-            case Scenes.PAUSEMENU:
-                GraphicsDevice.Clear(Color.LightPink);
-        }
 
         _spriteBatch.End();
 
