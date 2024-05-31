@@ -16,7 +16,9 @@ namespace SoftwareProjekt2024.SpriteClasses
             {
                 //100/200 has to change acordingly (is the scale of the sprite)
                 //property that is dependent on position 
-                return new Rectangle((int)position.X, (int)position.Y, 100, 200);
+
+                return new Rectangle((int)position.X, (int)position.Y, 30, 60);
+
             }
         }
 

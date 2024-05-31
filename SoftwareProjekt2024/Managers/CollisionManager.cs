@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
+using MonoGame.Extended.Tiled;
 
-namespace SoftwareProjekt2024.Managers;
-
-internal class CollisionManager
+namespace SoftwareProjekt2024
 {
+    public class CollisionManager
+    {   
+    }
 }
+

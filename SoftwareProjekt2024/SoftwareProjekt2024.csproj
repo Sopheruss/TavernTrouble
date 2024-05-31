@@ -11,12 +11,24 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Components\Objects\**" />
+    <EmbeddedResource Remove="Components\Objects\**" />
+    <None Remove="Components\Objects\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
-    <EmbeddedResource Include="Icon.bmp" />
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico">
+	  <LogicalName>Icon.ico</LogicalName>
+	</EmbeddedResource>
+    <EmbeddedResource Include="Icon.bmp">
+	  <LogicalName>Icon.bmp</LogicalName>
+	</EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Extended" Version="3.9.0-alpha0107" />
@@ -33,8 +45,8 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\Objects\" />
     <Folder Include="Content\Models\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
