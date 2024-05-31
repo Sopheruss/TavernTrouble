@@ -1,18 +1,15 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
 
 public enum Scenes
-{ 
+{
     MAINMENU,
     GAMEPLAY,
-    PAUSEMENU, 
+    PAUSEMENU,
     OPTIONMENU
 };
 
@@ -23,20 +20,17 @@ public class Game1 : Game
 
 
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch; 
+    private SpriteBatch _spriteBatch;
 
     int screenWidth = 1080;
     int screenHeight = 720;
 
-    public Scenes activeScene;  
+    public Scenes activeScene;
 
     private MainMenu _mainMenu;
     private GamePlay _gamePlay;
     private PauseMenu _pauseMenu;
     private OptionMenu _optionMenu;
-
-    int midScreenWidth;
-    int midScreenHeight;
 
     public Game1()
     {
@@ -47,17 +41,13 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferWidth = screenWidth;
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
-        //this._graphics.IsFullScreen = true;
+        this._graphics.IsFullScreen = true;
 
         activeScene = Scenes.MAINMENU;
     }
 
     protected override void Initialize()
     {
-        //calc for middle of screen 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
-
         base.Initialize();
     }
 
@@ -135,7 +125,7 @@ public class Game1 : Game
 
                 break;
         }
-        
+
         _spriteBatch.End();
 
         base.Draw(gameTime);
