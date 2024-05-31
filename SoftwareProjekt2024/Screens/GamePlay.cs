@@ -21,6 +21,7 @@ internal class GamePlay
 
     //it is possible to initialize a List of Sprites!!!
     Player _ogerCook;
+    Player testDummy;
 
     MouseState _mouse;
 
@@ -44,17 +45,22 @@ internal class GamePlay
 
         //local implementation, cuz acces to texture via Sprite class 
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+
         _ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(_screenWidth / 2, _screenHeight / 2),
                               _perspectiveManager); //oger Position 
 
+        testDummy = new Player(_ogerCookSpritesheet, new Vector2(_screenWidth / 2, _screenHeight / 2), _perspectiveManager);
+
+
         Texture2D _pauseButtonTexture = Content.Load<Texture2D>("Buttons/pauseButton");
         _pauseButton = new Button(_pauseButtonTexture, _screenWidth, _screenHeight, new Vector2(20, 20), _mouse);
 
-        _tileManager = new TileManager(Content, graphicsDevice);
-
-        _collisionManager = new CollisionManager(_tileManager._tiledMap, "collisionlayer", _ogerCook.position.X, _ogerCook.position.Y);
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _animationManager);
+
+        _tileManager = new TileManager();
+        _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
+        _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
     }
 
     public void Update(Game1 game, GameTime gameTime)
@@ -68,7 +74,6 @@ internal class GamePlay
 
         _ogerCook.Update();
         _animationManager.Update();
-        _tileManager.Update(gameTime);
         _cameraManager.Update(gameTime, _ogerCook.position);
         _inputManager.Update();
     }
@@ -87,7 +92,7 @@ internal class GamePlay
                          SpriteEffects.None,             //effects
                          0f);                            //layer depth
 
-        _tileManager.Draw(_cameraManager.GetViewMatrix());
+        _tileManager.Draw(spriteBatch, 32, 8, 32);
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
     }
