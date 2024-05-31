@@ -9,6 +9,7 @@ namespace SoftwareProjekt2024.Screens;
 
 internal class GamePlay
 {
+
     Button _pauseButton;
 
     PerspectiveManager _perspectiveManager;
