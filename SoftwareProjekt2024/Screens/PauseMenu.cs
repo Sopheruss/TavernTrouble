@@ -18,8 +18,9 @@ public class PauseMenu
     readonly Button _quitButton;
     readonly Button _optionButton;
     readonly Button _returnButton;
-    
-    public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse) { 
+
+    public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse)
+    {
         _mouse = mouse;
 
         midScreenWidth = screenWidth / 2;
@@ -49,14 +50,16 @@ public class PauseMenu
             //not right -> must start gamplay from beginning 
             game.activeScene = Scenes.GAMEPLAY;
         }
-        else if(_optionButton.isClicked)
+        else if (_optionButton.isClicked)
         {
-            game.activeScene = Scenes.OPTIONMENU;
-        } else if(_returnButton.isClicked)
+            game.activeScene = Scenes.OPTIONMENUPAUSE;
+        }
+        else if (_returnButton.isClicked)
         {
             //works kinda? -> grafik fehler?; also pausiert spiel, aber weird 
             game.activeScene = Scenes.GAMEPLAY;
-        } else if (_quitButton.isClicked)
+        }
+        else if (_quitButton.isClicked)
         {
             game.Quit();
         }

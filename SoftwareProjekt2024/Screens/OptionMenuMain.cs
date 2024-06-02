@@ -3,19 +3,19 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
-internal class OptionMenu
+internal class OptionMenuMain
 {
     MouseState _mouse;
 
-    int midScreenWidth; 
+    int midScreenWidth;
     int midScreenHeight;
 
-    Button _returnButton; 
-    public OptionMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse) { 
+    Button _returnButton;
+    public OptionMenuMain(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse)
+    {
         _mouse = mouse;
 
         midScreenWidth = screenWidth / 2;
@@ -30,8 +30,7 @@ internal class OptionMenu
 
         if (_returnButton.isClicked)
         {
-            //game.activeScene = Scenes.PAUSEMENU; 
-            Debug.WriteLine("return pressed");
+            game.activeScene = Scenes.MAINMENU;
         }
     }
 
