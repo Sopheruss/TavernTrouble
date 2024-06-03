@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,9 +21,11 @@ namespace SoftwareProjekt2024
 
         public TileManager()
         {
-            groundworkLayer = LoadMap("../../../Data/tavern_groundworkLayer.csv");
-            objectsLayer = LoadMap("../../../Data/tavern_objectsLayer.csv");
-            collisionLayer = LoadMap("../../../Data/tavern_collisionLayer.csv");
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+            groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_groundworkLayer.csv"));
+            objectsLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_objectsLayer.csv"));
+            collisionLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_collisionLayer.csv"));
             //interactionLayer = LoadMap("../../../Data/tavern_interactionLayer.csv");
 
             Dictionary<Vector2, int> LoadMap(string filepath)
@@ -60,7 +63,7 @@ namespace SoftwareProjekt2024
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
 
         private void DrawLayer(SpriteBatch spriteBatch, Dictionary<Vector2, int> layer, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize)
