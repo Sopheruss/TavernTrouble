@@ -11,6 +11,10 @@ internal class InputManager
     Player _ogerCook;
     CollisionManager _collisionManager;
     AnimationManager _animationManager;
+    int halftileOffsetX = 32 / 2;       //offset oger middle to left
+    int halftileOffsetY = 32 / 2;       //offset oger míddle to top
+    int cosmeticOffsetX = 8;            //for the looks
+    int cosmeticOffsetY = 8;            //for the looks
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, AnimationManager animationManager)
     {
         _game = game;
@@ -35,10 +39,12 @@ internal class InputManager
     }
     public void Moving()
     {
-        Rectangle leftBounds = new Rectangle((int)_ogerCook.position.X - 1, (int)_ogerCook.position.Y, 19, 32);
-        Rectangle rightBounds = new Rectangle((int)_ogerCook.position.X + 1, (int)_ogerCook.position.Y, 19, 32);
-        Rectangle upBounds = new Rectangle((int)_ogerCook.position.X, (int)_ogerCook.position.Y - 1, 19, 32);
-        Rectangle downBounds = new Rectangle((int)_ogerCook.position.X, (int)_ogerCook.position.Y + 1, 19, 32);
+        int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
+        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+        Rectangle leftBounds = new Rectangle(ogerXwithOffset - cosmeticOffsetX, ogerYwithOffset, 19, 32);
+        Rectangle rightBounds = new Rectangle(ogerXwithOffset + cosmeticOffsetX, ogerYwithOffset, 19, 32);
+        Rectangle upBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset - cosmeticOffsetY, 19, 32);
+        Rectangle downBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset + cosmeticOffsetY, 19, 32);
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
