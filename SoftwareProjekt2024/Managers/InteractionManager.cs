@@ -6,22 +6,23 @@ using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Components;
 
 namespace SoftwareProjekt2024
-{   
-    internal class CollisionManager
+{
+    internal class InteractionManager
     {
         TileManager _tileManager;
         List<Rectangle> intersections;
+        int TILESIZE = 32;
 
-        public CollisionManager(TileManager tilemanager) 
+        public InteractionManager(TileManager tilemanager)
         {
             _tileManager = tilemanager;
         }
 
-        public bool CheckCollision(Rectangle playerBounds)
+        public bool CheckInteraction(Rectangle playerBounds)
         {
             intersections = _tileManager.getIntersectingTilesHorizontal(playerBounds);
-            foreach(var rect in intersections)
-            {
+            foreach (var rect in intersections)
+            {                 //.interactionLayer !!!
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;
@@ -30,7 +31,7 @@ namespace SoftwareProjekt2024
 
             intersections = _tileManager.getIntersectingTilesVertical(playerBounds);
             foreach (var rect in intersections)
-            {
+            {                 //.interactionLayer !!!
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;
@@ -40,4 +41,3 @@ namespace SoftwareProjekt2024
         }
     }
 }
-

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
@@ -10,16 +12,18 @@ internal class InputManager
     Game1 _game;
     Player _ogerCook;
     CollisionManager _collisionManager;
+    InteractionManager _interactionManager;
     AnimationManager _animationManager;
     int halftileOffsetX = 32 / 2;       //offset oger middle to left
     int halftileOffsetY = 32 / 2;       //offset oger míddle to top
     int cosmeticOffsetX = 8;            //for the looks
     int cosmeticOffsetY = 8;            //for the looks
-    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, AnimationManager animationManager)
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
+        _interactionManager = interactionManager;
         _animationManager = animationManager;
     }
 
@@ -27,6 +31,7 @@ internal class InputManager
     {
         Commands();
         Moving();
+        Interacting();
     }
 
     public void Commands()
@@ -41,6 +46,7 @@ internal class InputManager
     {
         int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
         int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+
         Rectangle leftBounds = new Rectangle(ogerXwithOffset - cosmeticOffsetX, ogerYwithOffset, 19, 32);
         Rectangle rightBounds = new Rectangle(ogerXwithOffset + cosmeticOffsetX, ogerYwithOffset, 19, 32);
         Rectangle upBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset - cosmeticOffsetY, 19, 32);
@@ -48,7 +54,7 @@ internal class InputManager
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-            if (!_collisionManager.checkCollision(leftBounds))
+            if (!_collisionManager.CheckCollision(leftBounds))
             {
                 _ogerCook.position.X -= 1;
                 _animationManager.PlayAnimation = true; //playes Animation
@@ -57,7 +63,7 @@ internal class InputManager
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
-            if (!_collisionManager.checkCollision(rightBounds))
+            if (!_collisionManager.CheckCollision(rightBounds))
             {
                 _ogerCook.position.X += 1;
                 _animationManager.PlayAnimation = true;
@@ -66,7 +72,7 @@ internal class InputManager
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.W))
         {
-            if (!_collisionManager.checkCollision(upBounds))
+            if (!_collisionManager.CheckCollision(upBounds))
             {
                 _ogerCook.position.Y -= 1;
                 _animationManager.PlayAnimation = true;
@@ -75,7 +81,7 @@ internal class InputManager
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.S))
         {
-            if (!_collisionManager.checkCollision(downBounds))
+            if (!_collisionManager.CheckCollision(downBounds))
             {
                 _ogerCook.position.Y += 1;
                 _animationManager.PlayAnimation = true;
@@ -85,6 +91,22 @@ internal class InputManager
         else
         {
             _animationManager.PlayAnimation = false; //stopps Animation
+        }
+    }
+    public void Interacting()
+    {
+        int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
+        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+
+        Rectangle playerBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset, 19, 32);
+
+        if (_interactionManager.CheckInteraction(playerBounds))
+        {
+            Debug.WriteLine("Interaction possible");
+            if (Keyboard.GetState().IsKeyDown(Keys.E)) 
+            {
+                Debug.WriteLine("INTERACTION");
+            }
         }
     }
 }

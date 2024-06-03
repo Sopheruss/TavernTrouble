@@ -12,14 +12,18 @@ namespace SoftwareProjekt2024
         public Dictionary<Vector2, int> groundworkLayer;
         public Dictionary<Vector2, int> objectsLayer;
         public Dictionary<Vector2, int> collisionLayer;
+        //public Dictionary<Vector2, int> interactionLayer;
+
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
+        int TILESIZE = 32;
 
         public TileManager()
         {
             groundworkLayer = LoadMap("../../../Data/tavern_groundworkLayer.csv");
             objectsLayer = LoadMap("../../../Data/tavern_objectsLayer.csv");
             collisionLayer = LoadMap("../../../Data/tavern_collisionLayer.csv");
+            //interactionLayer = LoadMap("../../../Data/tavern_interactionLayer.csv");
 
             Dictionary<Vector2, int> LoadMap(string filepath)
             {
@@ -78,6 +82,48 @@ namespace SoftwareProjekt2024
 
                 spriteBatch.Draw(texture, dest, src, Color.White);
             }
+        }
+
+        public List<Rectangle> getIntersectingTilesHorizontal(Rectangle target)
+        {
+            List<Rectangle> intersections = new();
+            int widthInTiles = (target.Width - (target.Width % TILESIZE)) / TILESIZE;
+            int heightInTiles = (target.Height - (target.Height % TILESIZE)) / TILESIZE;
+
+            for (int x = 0; x <= widthInTiles; x++)
+            {
+                for (int y = 0; y <= heightInTiles; y++)
+                {
+                    intersections.Add(new Rectangle(
+                        (target.X + x * TILESIZE) / TILESIZE,
+                        (target.Y + y * TILESIZE - 1) / TILESIZE,
+                        TILESIZE,
+                        TILESIZE
+                    ));
+                }
+            }
+            return intersections;
+        }
+
+        public List<Rectangle> getIntersectingTilesVertical(Rectangle target)
+        {
+            List<Rectangle> intersections = new();
+            int widthInTiles = (target.Width - (target.Width % TILESIZE)) / TILESIZE;
+            int heightInTiles = (target.Height - (target.Height % TILESIZE)) / TILESIZE;
+
+            for (int x = 0; x <= widthInTiles; x++)
+            {
+                for (int y = 0; y <= heightInTiles; y++)
+                {
+                    intersections.Add(new Rectangle(
+                        (target.X + x * TILESIZE - 1) / TILESIZE,
+                        (target.Y + y * TILESIZE) / TILESIZE,
+                        TILESIZE,
+                        TILESIZE
+                    ));
+                }
+            }
+            return intersections;
         }
     }
 }

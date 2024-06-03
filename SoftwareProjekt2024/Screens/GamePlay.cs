@@ -17,6 +17,7 @@ internal class GamePlay
     TileManager _tileManager;
     CameraManager _cameraManager;
     CollisionManager _collisionManager;
+    InteractionManager _interactionManager;
     InputManager _inputManager;
 
     //it is possible to initialize a List of Sprites!!!
@@ -60,8 +61,9 @@ internal class GamePlay
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
         
-        _collisionManager = new CollisionManager(_ogerCook, _tileManager);
-        _inputManager = new InputManager(game, _ogerCook, _collisionManager, _animationManager);
+        _collisionManager = new CollisionManager(_tileManager);
+        _interactionManager = new InteractionManager(_tileManager);
+        _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
     }
 
     public void Update(Game1 game, GameTime gameTime)
