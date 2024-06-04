@@ -1,5 +1,11 @@
+
 ﻿//Shoutout an Jan lol 
 
+
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 using System.Numerics;
@@ -11,6 +17,7 @@ internal class InputManager
     Game1 _game;
     Player _ogerCook;
     CollisionManager _collisionManager;
+    InteractionManager _interactionManager;
     AnimationManager _animationManager;
 
     Vector2 _previous_direction; //zitat Jan: "misleading name" -> was es macht ist sich die Direction zu speichern, die davor wichtig war 
@@ -20,11 +27,16 @@ internal class InputManager
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
 
-    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, AnimationManager animationManager)
+    int halftileOffsetX = 32 / 2;       //offset oger middle to left
+    int halftileOffsetY = 32 / 2;       //offset oger míddle to top
+    int cosmeticOffsetX = 8;            //for the looks
+    int cosmeticOffsetY = 8;            //for the looks
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
+        _interactionManager = interactionManager;
         _animationManager = animationManager;
     }
 
@@ -32,6 +44,7 @@ internal class InputManager
     {
         Commands();
         Moving();
+        Interacting();
     }
 
     public void Commands()
@@ -44,6 +57,14 @@ internal class InputManager
     }
     public void Moving()
     {
+      int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
+        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+
+        Rectangle leftBounds = new Rectangle(ogerXwithOffset - cosmeticOffsetX, ogerYwithOffset, 19, 32);
+        Rectangle rightBounds = new Rectangle(ogerXwithOffset + cosmeticOffsetX, ogerYwithOffset, 19, 32);
+        Rectangle upBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset - cosmeticOffsetY, 19, 32);
+        Rectangle downBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset + cosmeticOffsetY, 19, 32);
+      
         Vector2 _currentDirection = ConvertKeyToVector();
 
         //stopps movement if no key is pressed 
@@ -73,33 +94,46 @@ internal class InputManager
         _ogerCook.position += _currentDirection;
         _animationManager.PlayAnimation = true;
         AnimationRow(_currentDirection); //sets row for animation 
-    }
+    } //moving close bracket 
 
     private Vector2 ConvertKeyToVector()
     {
-        Vector2 _currentDirection = Vector2.Zero;
+      Vector2 _currentDirection = Vector2.Zero;
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
+		if (!_collisionManager.CheckCollision(leftBounds))
+            {
             _currentDirection += _left;
+}
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
+ if (!_collisionManager.CheckCollision(rightBounds))
+            {
             _currentDirection += _right;
+}
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.W))
         {
+if (!_collisionManager.CheckCollision(upBounds))
+            {
             _currentDirection += _up;
+}
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.S))
         {
+if (!_collisionManager.CheckCollision(downBounds))
+            {
             _currentDirection += _down;
+}
         }
 
         return _currentDirection;
+
     }
 
     private void AnimationRow(Vector2 currentDirection)
@@ -111,6 +145,7 @@ internal class InputManager
         else if (currentDirection == _right)
         {
             _animationManager.RowPos = 1; //changes Animation to right
+
         }
         else if (currentDirection == _up)
         {
@@ -126,5 +161,21 @@ internal class InputManager
     {
         _previous_direction = Vector2.Zero;
         _animationManager.PlayAnimation = false;
+    }
+    public void Interacting()
+    {
+        int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
+        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+
+        Rectangle playerBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset, 19, 32);
+
+        if (_interactionManager.CheckInteraction(playerBounds))
+        {
+            Debug.WriteLine("Interaction possible");
+            if (Keyboard.GetState().IsKeyDown(Keys.E)) 
+            {
+                Debug.WriteLine("INTERACTION");
+            }
+        }
     }
 }
