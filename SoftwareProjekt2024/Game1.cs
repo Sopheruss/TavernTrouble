@@ -1,19 +1,17 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
 
 public enum Scenes
-{ 
+{
     MAINMENU,
     GAMEPLAY,
-    PAUSEMENU, 
-    OPTIONMENU
+    PAUSEMENU,
+    OPTIONMENUMAIN,
+    OPTIONMENUPAUSE
 };
 
 public class Game1 : Game
@@ -23,20 +21,18 @@ public class Game1 : Game
 
 
     private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch; 
+    private SpriteBatch _spriteBatch;
 
-    int screenWidth = 1080;
-    int screenHeight = 720;
+    readonly int screenWidth = 1080;
+    readonly int screenHeight = 720;
 
-    public Scenes activeScene;  
+    public Scenes activeScene;
 
     private MainMenu _mainMenu;
     private GamePlay _gamePlay;
     private PauseMenu _pauseMenu;
-    private OptionMenu _optionMenu;
-
-    int midScreenWidth;
-    int midScreenHeight;
+    private OptionMenuMain _optionMenuMain;
+    private OptionMenuPause _optionMenuPause;
 
     public Game1()
     {
@@ -54,10 +50,6 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        //calc for middle of screen 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
-
         base.Initialize();
     }
 
@@ -68,7 +60,8 @@ public class Game1 : Game
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
         _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _optionMenu = new OptionMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, Mouse.GetState());
+        _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, Mouse.GetState());
 
         _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
     }
@@ -95,9 +88,13 @@ public class Game1 : Game
             case Scenes.PAUSEMENU:
                 _pauseMenu.Update(this);
                 break;
-            case Scenes.OPTIONMENU:
-                _optionMenu.Update(this);
+            case Scenes.OPTIONMENUMAIN:
+                _optionMenuMain.Update(this);
                 break;
+            case Scenes.OPTIONMENUPAUSE:
+                _optionMenuPause.Update(this);
+                break;
+
         }
 
         base.Update(gameTime);
@@ -128,14 +125,19 @@ public class Game1 : Game
                 _pauseMenu.Draw(_spriteBatch);
 
                 break;
-            case Scenes.OPTIONMENU:
+            case Scenes.OPTIONMENUMAIN:
                 GraphicsDevice.Clear(Color.LightGreen);
 
-                _optionMenu.Draw(_spriteBatch);
+                _optionMenuMain.Draw(_spriteBatch);
 
                 break;
+            case Scenes.OPTIONMENUPAUSE:
+                GraphicsDevice.Clear(Color.LightBlue);
+
+                _optionMenuPause.Draw(_spriteBatch);
+                break;
         }
-        
+
         _spriteBatch.End();
 
         base.Draw(gameTime);

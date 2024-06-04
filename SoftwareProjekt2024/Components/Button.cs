@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components
 {
@@ -20,9 +19,8 @@ namespace SoftwareProjekt2024.Components
         {
             _texture = texture;
             _position = position;
-            _rectangle = new Rectangle((int)_position.X - (_texture.Width/2), (int)_position.Y - (_texture.Height/2), _texture.Width, _texture.Height);
+            _rectangle = new Rectangle((int)_position.X - (_texture.Width / 2), (int)_position.Y - (_texture.Height / 2), _texture.Width, _texture.Height);
         }
-
 
         public void Update(MouseState mouse)
         {
