@@ -2,14 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024.Components
 {
-    internal class Component : SpriteClasses.ScaledSprite,IComparable<Component> 
+    internal class Component : SpriteClasses.ScaledSprite, IComparable<Component>
     {
 
         public Component(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position)
@@ -39,6 +35,6 @@ namespace SoftwareProjekt2024.Components
             if (this.position.Y == other.position.Y) return 0;
             return 1;
         }
-    
+
     }
 }
