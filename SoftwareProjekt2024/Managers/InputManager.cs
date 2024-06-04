@@ -1,14 +1,12 @@
 
-﻿//Shoutout an Jan lol 
+//Shoutout an Jan lol 
 
 
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
-using System.Numerics;
+using System.Diagnostics;
+//using System.Numerics;
 
 namespace SoftwareProjekt2024.Managers;
 
@@ -57,14 +55,8 @@ internal class InputManager
     }
     public void Moving()
     {
-      int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
-        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
 
-        Rectangle leftBounds = new Rectangle(ogerXwithOffset - cosmeticOffsetX, ogerYwithOffset, 19, 32);
-        Rectangle rightBounds = new Rectangle(ogerXwithOffset + cosmeticOffsetX, ogerYwithOffset, 19, 32);
-        Rectangle upBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset - cosmeticOffsetY, 19, 32);
-        Rectangle downBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset + cosmeticOffsetY, 19, 32);
-      
+
         Vector2 _currentDirection = ConvertKeyToVector();
 
         //stopps movement if no key is pressed 
@@ -98,38 +90,46 @@ internal class InputManager
 
     private Vector2 ConvertKeyToVector()
     {
-      Vector2 _currentDirection = Vector2.Zero;
+        Vector2 _currentDirection = Vector2.Zero;
+
+        int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
+        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+
+        Rectangle leftBounds = new Rectangle(ogerXwithOffset - cosmeticOffsetX, ogerYwithOffset, 19, 32);
+        Rectangle rightBounds = new Rectangle(ogerXwithOffset + cosmeticOffsetX, ogerYwithOffset, 19, 32);
+        Rectangle upBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset - cosmeticOffsetY, 19, 32);
+        Rectangle downBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset + cosmeticOffsetY, 19, 32);
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-		if (!_collisionManager.CheckCollision(leftBounds))
+            if (!_collisionManager.CheckCollision(leftBounds))
             {
-            _currentDirection += _left;
-}
+                _currentDirection += _left;
+            }
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
- if (!_collisionManager.CheckCollision(rightBounds))
+            if (!_collisionManager.CheckCollision(rightBounds))
             {
-            _currentDirection += _right;
-}
+                _currentDirection += _right;
+            }
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.W))
         {
-if (!_collisionManager.CheckCollision(upBounds))
+            if (!_collisionManager.CheckCollision(upBounds))
             {
-            _currentDirection += _up;
-}
+                _currentDirection += _up;
+            }
         }
 
         if (Keyboard.GetState().IsKeyDown(Keys.S))
         {
-if (!_collisionManager.CheckCollision(downBounds))
+            if (!_collisionManager.CheckCollision(downBounds))
             {
-            _currentDirection += _down;
-}
+                _currentDirection += _down;
+            }
         }
 
         return _currentDirection;
@@ -172,7 +172,7 @@ if (!_collisionManager.CheckCollision(downBounds))
         if (_interactionManager.CheckInteraction(playerBounds))
         {
             Debug.WriteLine("Interaction possible");
-            if (Keyboard.GetState().IsKeyDown(Keys.E)) 
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
                 Debug.WriteLine("INTERACTION");
             }
