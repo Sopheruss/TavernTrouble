@@ -9,7 +9,6 @@ internal class Player : Component
 {
     
     public Player(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
-
     {
         
     }

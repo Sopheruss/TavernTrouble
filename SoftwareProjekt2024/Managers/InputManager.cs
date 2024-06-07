@@ -1,6 +1,7 @@
 //Shoutout an Jan lol 
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 using System.Diagnostics;
@@ -23,10 +24,12 @@ internal class InputManager
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
 
-    int halftileOffsetX = 32 / 2;       //offset oger middle to left
-    int halftileOffsetY = 32 / 2;       //offset oger míddle to top
-    int cosmeticOffsetX = 8;            //for the looks
-    int cosmeticOffsetY = 8;            //for the looks
+    int halftileOffsetX = 0;       //offset oger middle to left
+    int halftileOffsetY = 0;       //offset oger míddle to top
+    int cosmeticOffsetX = 1;            //for the looks
+    int cosmeticOffsetY = 1;            //for the looks
+
+    
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
@@ -158,7 +161,52 @@ internal class InputManager
         _previous_direction = Vector2.Zero;
         _animationManager.PlayAnimation = false;
     }
-    public void Interacting()
+
+    public void DrawRectHollow(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
+    {
+        spriteBatch.Draw(
+            rectangleTexture,
+            new Rectangle(
+                rect.X,
+                rect.Y,
+                rect.Width,
+                thickness
+            ),
+            Color.White
+        );
+        spriteBatch.Draw(
+            rectangleTexture,
+            new Rectangle(
+                rect.X,
+                rect.Bottom - thickness,
+                rect.Width,
+                thickness
+            ),
+            Color.White
+        );
+        spriteBatch.Draw(
+            rectangleTexture,
+            new Rectangle(
+                rect.X,
+                rect.Y,
+                thickness,
+                rect.Height
+            ),
+            Color.White
+        );
+        spriteBatch.Draw(
+            rectangleTexture,
+            new Rectangle(
+                rect.Right - thickness,
+                rect.Y,
+                thickness,
+                rect.Height
+            ),
+            Color.White
+        );
+    }
+
+        public void Interacting()
     {
         int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
         int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
