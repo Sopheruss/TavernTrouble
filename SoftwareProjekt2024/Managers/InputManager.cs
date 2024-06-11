@@ -1,5 +1,3 @@
-//Shoutout an Jan lol 
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,10 +22,15 @@ internal class InputManager
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
 
-    int halftileOffsetX = 0;       //offset oger middle to left
-    int halftileOffsetY = 0;       //offset oger míddle to top
-    int cosmeticOffsetX = 1;            //for the looks
-    int cosmeticOffsetY = 1;            //for the looks
+    readonly int halftileOffset = 16;       // half a tile -> 32px / 2 = 16px
+
+    readonly int halfOgerOffsetX = 19/2;    // player rectangle draws in the middle, offset to left edge
+    readonly int halfOgerOffsetY = 32/2;    // player rectangle draws in the middle, offset to left top
+
+    readonly int cosmeticOffsetX = 5;       // for the looks (hardcoding)
+    readonly int cosmeticOffsetY = 4;       // for the looks (hardcoding)
+
+    Rectangle playerBounds;
 
     
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
@@ -91,13 +94,21 @@ internal class InputManager
     {
         Vector2 _currentDirection = Vector2.Zero;
 
-        int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
-        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+        playerBounds = _ogerCook.Rect;
+        playerBounds.X -= (halftileOffset + halfOgerOffsetX + cosmeticOffsetX);
+        playerBounds.Y -= (halftileOffset + halfOgerOffsetY + cosmeticOffsetY);
 
-        Rectangle leftBounds = new Rectangle(ogerXwithOffset - cosmeticOffsetX, ogerYwithOffset, 19, 32);
-        Rectangle rightBounds = new Rectangle(ogerXwithOffset + cosmeticOffsetX, ogerYwithOffset, 19, 32);
-        Rectangle upBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset - cosmeticOffsetY, 19, 32);
-        Rectangle downBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset + cosmeticOffsetY, 19, 32);
+        Rectangle leftBounds = playerBounds;
+        leftBounds.X -= 1;
+
+        Rectangle rightBounds = playerBounds;
+        rightBounds.X += playerBounds.Width;        // +width because manager tracks left side of rectangle (dunno why)
+
+        Rectangle upBounds = playerBounds;
+        upBounds.Y -= 1;
+
+        Rectangle downBounds = playerBounds;
+        downBounds.Y += halftileOffset;
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
@@ -206,13 +217,13 @@ internal class InputManager
         );
     }
 
-        public void Interacting()
+    public Rectangle GetPlayerbounds()
     {
-        int ogerXwithOffset = (int)_ogerCook.position.X - halftileOffsetX;
-        int ogerYwithOffset = (int)_ogerCook.position.Y - halftileOffsetY;
+        return playerBounds;
+    }
 
-        Rectangle playerBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset, 19, 32);
-
+    public void Interacting() // needs some changes, will not work atm
+    {
         if (_interactionManager.CheckInteraction(playerBounds))
         {
             Debug.WriteLine("Interaction possible");

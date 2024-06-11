@@ -69,8 +69,8 @@ internal class GamePlay
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
 
-        rectangleTexture = new Texture2D(graphicsDevice, 1, 1);
-        rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });
+        rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // for player rectangle
+        rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
     }
 
     public void Update(Game1 game, GameTime gameTime)
@@ -106,13 +106,7 @@ internal class GamePlay
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
 
-        int ogerXwithOffset = (int)_ogerCook.position.X;
-        int ogerYwithOffset = (int)_ogerCook.position.Y;
-
-
-        
-
-        Rectangle playerBounds = new Rectangle(ogerXwithOffset, ogerYwithOffset, 19, 32);
-        _inputManager.DrawRectHollow(spriteBatch, playerBounds, 4, rectangleTexture);
-        }
+        _inputManager.DrawRectHollow(spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle
+        _inputManager.DrawRectHollow(spriteBatch, _inputManager.GetPlayerbounds(), 1, rectangleTexture); // drawing player rectangle
+    }
 }
