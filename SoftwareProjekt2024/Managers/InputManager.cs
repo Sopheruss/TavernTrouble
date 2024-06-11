@@ -1,6 +1,4 @@
-
 //Shoutout an Jan lol 
-
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;

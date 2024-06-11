@@ -57,11 +57,11 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
         _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
-        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, Mouse.GetState());
-        _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, Mouse.GetState());
+        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
+        _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
+        _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
 
         _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
     }
@@ -80,19 +80,19 @@ public class Game1 : Game
         switch (activeScene)
         {
             case Scenes.MAINMENU:
-                _mainMenu.Update(this);
+                _mainMenu.Update();
                 break;
             case Scenes.GAMEPLAY:
                 _gamePlay.Update(this, gameTime);
                 break;
             case Scenes.PAUSEMENU:
-                _pauseMenu.Update(this);
+                _pauseMenu.Update();
                 break;
             case Scenes.OPTIONMENUMAIN:
-                _optionMenuMain.Update(this);
+                _optionMenuMain.Update();
                 break;
             case Scenes.OPTIONMENUPAUSE:
-                _optionMenuPause.Update(this);
+                _optionMenuPause.Update();
                 break;
 
         }
@@ -110,7 +110,7 @@ public class Game1 : Game
             case Scenes.MAINMENU:
                 GraphicsDevice.Clear(Color.LightBlue);
 
-                _mainMenu.Draw(_spriteBatch);
+                _mainMenu.Draw();
 
                 break;
             case Scenes.GAMEPLAY:
@@ -122,19 +122,19 @@ public class Game1 : Game
             case Scenes.PAUSEMENU:
                 GraphicsDevice.Clear(Color.LightPink);
 
-                _pauseMenu.Draw(_spriteBatch);
+                _pauseMenu.Draw();
 
                 break;
             case Scenes.OPTIONMENUMAIN:
                 GraphicsDevice.Clear(Color.LightGreen);
 
-                _optionMenuMain.Draw(_spriteBatch);
+                _optionMenuMain.Draw();
 
                 break;
             case Scenes.OPTIONMENUPAUSE:
                 GraphicsDevice.Clear(Color.LightBlue);
 
-                _optionMenuPause.Draw(_spriteBatch);
+                _optionMenuPause.Draw();
                 break;
         }
 

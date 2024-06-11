@@ -8,6 +8,9 @@ namespace SoftwareProjekt2024.Screens;
 
 public class OptionMenuPause
 {
+    readonly Game1 _game;
+    readonly SpriteBatch _spriteBatch;
+
     readonly MouseState _mouse;
 
     readonly int midScreenWidth;
@@ -15,8 +18,11 @@ public class OptionMenuPause
 
     readonly Button _returnButton;
 
-    public OptionMenuPause(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse)
+    public OptionMenuPause(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse, Game1 game, SpriteBatch spriteBatch)
     {
+        _game = game;
+        _spriteBatch = spriteBatch;
+
         _mouse = mouse;
 
         midScreenWidth = screenWidth / 2;
@@ -25,18 +31,18 @@ public class OptionMenuPause
         _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight), _mouse);
     }
 
-    public void Update(Game1 game)
+    public void Update()
     {
         _returnButton.Update(_mouse);
 
         if (_returnButton.isClicked)
         {
-            game.activeScene = Scenes.PAUSEMENU;
+            _game.activeScene = Scenes.PAUSEMENU;
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw()
     {
-        _returnButton.Draw(spriteBatch);
+        _returnButton.Draw(_spriteBatch);
     }
 }

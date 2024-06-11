@@ -8,10 +8,13 @@ namespace SoftwareProjekt2024.Screens;
 
 public class PauseMenu
 {
+    readonly Game1 _game;
+    readonly SpriteBatch _spriteBatch;
+
     MouseState _mouse;
 
-    int midScreenWidth;
-    int midScreenHeight;
+    readonly int midScreenWidth;
+    readonly int midScreenHeight;
 
     readonly Button _mainMenuButton;
     readonly Button _retryButton;
@@ -19,8 +22,11 @@ public class PauseMenu
     readonly Button _optionButton;
     readonly Button _returnButton;
 
-    public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse)
+    public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse, Game1 game, SpriteBatch spriteBatch)
     {
+        _game = game;
+        _spriteBatch = spriteBatch;
+
         _mouse = mouse;
 
         midScreenWidth = screenWidth / 2;
@@ -33,7 +39,7 @@ public class PauseMenu
         _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight + 200), _mouse);
     }
 
-    public void Update(Game1 game)
+    public void Update()
     {
         _mainMenuButton.Update(_mouse);
         _retryButton.Update(_mouse);
@@ -43,34 +49,34 @@ public class PauseMenu
 
         if (_mainMenuButton.isClicked)
         {
-            game.activeScene = Scenes.MAINMENU;
+            _game.activeScene = Scenes.MAINMENU;
         }
         else if (_retryButton.isClicked)
         {
             //not right -> must start gamplay from beginning 
-            game.activeScene = Scenes.GAMEPLAY;
+            _game.activeScene = Scenes.GAMEPLAY;
         }
         else if (_optionButton.isClicked)
         {
-            game.activeScene = Scenes.OPTIONMENUPAUSE;
+            _game.activeScene = Scenes.OPTIONMENUPAUSE;
         }
         else if (_returnButton.isClicked)
         {
             //works kinda? -> grafik fehler?; also pausiert spiel, aber weird 
-            game.activeScene = Scenes.GAMEPLAY;
+            _game.activeScene = Scenes.GAMEPLAY;
         }
         else if (_quitButton.isClicked)
         {
-            game.Quit();
+            _game.Quit();
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw()
     {
-        _mainMenuButton.Draw(spriteBatch);
-        _retryButton.Draw(spriteBatch);
-        _quitButton.Draw(spriteBatch);
-        _optionButton.Draw(spriteBatch);
-        _returnButton.Draw(spriteBatch);
+        _mainMenuButton.Draw(_spriteBatch);
+        _retryButton.Draw(_spriteBatch);
+        _quitButton.Draw(_spriteBatch);
+        _optionButton.Draw(_spriteBatch);
+        _returnButton.Draw(_spriteBatch);
     }
 }
