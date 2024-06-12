@@ -18,28 +18,24 @@ namespace SoftwareProjekt2024
 
         public (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player ogerCook)
         {
-            int halftileOffset = 16;              //half a tile -> 32px / 2 = 16px
-            int halfOgerOffsetX = 19 / 2;        //player rectangle draws in the middle, offset to left edge
-            int halfOgerOffsetY = 32 / 2;        //player rectangle draws in the middle, offset to left top
-            int cosmeticOffsetX = 5;            //(hardcoding)
-            int cosmeticOffsetY = 4;           //(hardcoding)
+            int halfOgerOffset = 32 / 2;       
 
             Rectangle playerBounds = ogerCook.Rect;
-            playerBounds.X -= (halftileOffset + halfOgerOffsetX + cosmeticOffsetX);
-            playerBounds.Y -= (halftileOffset + halfOgerOffsetY + cosmeticOffsetY);
+            playerBounds.X -= (halfOgerOffset);
+            playerBounds.Y -= (halfOgerOffset);
 
             // Create and calculate bounds
             Rectangle leftBounds = playerBounds;
             leftBounds.X -= 1;
 
             Rectangle rightBounds = playerBounds;
-            rightBounds.X += playerBounds.Width; // +width because manager tracks left side of rectangle (dunno why)
+            rightBounds.X += 1; // +width because manager tracks left side of rectangle (dunno why)
 
             Rectangle upBounds = playerBounds;
             upBounds.Y -= 1;
 
             Rectangle downBounds = playerBounds;
-            downBounds.Y += halftileOffset;
+            downBounds.Y += 1;
 
             // Return the single bounds as a tuple
             return (leftBounds, rightBounds, upBounds, downBounds);
@@ -48,8 +44,10 @@ namespace SoftwareProjekt2024
         public bool CheckCollision(Rectangle playerBounds)
         {
             intersections = GetIntersectingTilesHorizontal(playerBounds);
+
             foreach (var rect in intersections)
             {
+
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;
