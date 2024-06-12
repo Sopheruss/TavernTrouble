@@ -9,6 +9,7 @@ namespace SoftwareProjekt2024
         TileManager _tileManager;
         List<Rectangle> intersections;
 
+        private const int TILESIZE = 32; // Assuming TILESIZE is 32, adjust as necessary
 
         public CollisionManager(TileManager tilemanager)
         {
@@ -17,10 +18,6 @@ namespace SoftwareProjekt2024
 
         public (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player ogerCook)
         {
-            /*
-             this needs proper implementation/fixes. Currently bugged.
-             */
-
             int halftileOffset = 16;              //half a tile -> 32px / 2 = 16px
             int halfOgerOffsetX = 19 / 2;        //player rectangle draws in the middle, offset to left edge
             int halfOgerOffsetY = 32 / 2;        //player rectangle draws in the middle, offset to left top
@@ -42,7 +39,7 @@ namespace SoftwareProjekt2024
             upBounds.Y -= 1;
 
             Rectangle downBounds = playerBounds;
-            downBounds.Y += halftileOffset; 
+            downBounds.Y += halftileOffset;
 
             // Return the single bounds as a tuple
             return (leftBounds, rightBounds, upBounds, downBounds);
@@ -50,7 +47,7 @@ namespace SoftwareProjekt2024
 
         public bool CheckCollision(Rectangle playerBounds)
         {
-            intersections = _tileManager.getIntersectingTilesHorizontal(playerBounds);
+            intersections = GetIntersectingTilesHorizontal(playerBounds);
             foreach (var rect in intersections)
             {
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
@@ -59,7 +56,7 @@ namespace SoftwareProjekt2024
                 }
             }
 
-            intersections = _tileManager.getIntersectingTilesVertical(playerBounds);
+            intersections = GetIntersectingTilesVertical(playerBounds);
             foreach (var rect in intersections)
             {
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
@@ -69,6 +66,47 @@ namespace SoftwareProjekt2024
             }
             return false;
         }
+
+        public List<Rectangle> GetIntersectingTilesHorizontal(Rectangle target)
+        {
+            List<Rectangle> intersections = new();
+            int widthInTiles = (target.Width - (target.Width % TILESIZE)) / TILESIZE;
+            int heightInTiles = (target.Height - (target.Height % TILESIZE)) / TILESIZE;
+
+            for (int x = 0; x <= widthInTiles; x++)
+            {
+                for (int y = 0; y <= heightInTiles; y++)
+                {
+                    intersections.Add(new Rectangle(
+                        (target.X + x * TILESIZE) / TILESIZE,
+                        (target.Y + y * TILESIZE - 1) / TILESIZE,
+                        TILESIZE,
+                        TILESIZE
+                    ));
+                }
+            }
+            return intersections;
+        }
+
+        public List<Rectangle> GetIntersectingTilesVertical(Rectangle target)
+        {
+            List<Rectangle> intersections = new();
+            int widthInTiles = (target.Width - (target.Width % TILESIZE)) / TILESIZE;
+            int heightInTiles = (target.Height - (target.Height % TILESIZE)) / TILESIZE;
+
+            for (int x = 0; x <= widthInTiles; x++)
+            {
+                for (int y = 0; y <= heightInTiles; y++)
+                {
+                    intersections.Add(new Rectangle(
+                        (target.X + x * TILESIZE - 1) / TILESIZE,
+                        (target.Y + y * TILESIZE) / TILESIZE,
+                        TILESIZE,
+                        TILESIZE
+                    ));
+                }
+            }
+            return intersections;
+        }
     }
 }
-
