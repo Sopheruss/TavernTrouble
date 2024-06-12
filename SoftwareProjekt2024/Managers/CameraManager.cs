@@ -5,23 +5,5 @@ using MonoGame.Extended;
 
 public class CameraManager
 {
-    private OrthographicCamera _camera;
-    private Vector2 _cameraPosition;
 
-    public CameraManager(GameWindow window, GraphicsDevice graphicsDevice, int virtualWidth, int virtualHeight)
-    {
-        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, virtualWidth, virtualHeight);
-        _camera = new OrthographicCamera(viewportAdapter);
-    }
-
-    public void Update(GameTime gameTime, Vector2 playerPosition)
-    {
-        _cameraPosition = playerPosition; // Set camera to follow player
-        _camera.LookAt(_cameraPosition);
-    }
-
-    public Matrix GetViewMatrix()
-    {
-        return _camera.GetViewMatrix();
-    }
 }

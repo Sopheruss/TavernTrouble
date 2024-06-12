@@ -41,7 +41,7 @@ internal class GamePlay
 
     public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice)
     {
-        _cameraManager = new CameraManager(window, graphicsDevice, _screenWidth, _screenHeight);
+       
         _perspectiveManager = new PerspectiveManager();
 
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
@@ -84,7 +84,6 @@ internal class GamePlay
 
         _ogerCook.Update();
         _animationManager.Update();
-        _cameraManager.Update(gameTime, _ogerCook.position);
         _inputManager.Update();
     }
 
