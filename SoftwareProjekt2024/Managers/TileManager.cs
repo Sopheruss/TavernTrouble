@@ -17,7 +17,7 @@ namespace SoftwareProjekt2024
 
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
-        int TILESIZE = 32;
+       
 
         public TileManager()
         {

@@ -28,7 +28,6 @@ internal class GamePlay
     int _screenWidth;
     int _screenHeight;
 
-
     Texture2D rectangleTexture;
 
     public GamePlay(int screenWidth, int screenHeight, MouseState mouse) { 
@@ -67,7 +66,6 @@ internal class GamePlay
         _interactionManager = new InteractionManager(_tileManager);
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
-
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // for player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
     }
@@ -104,7 +102,8 @@ internal class GamePlay
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
 
-        _inputManager.DrawRectHollow(spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle
-        //_inputManager.DrawRectHollow(spriteBatch, _inputManager.GetPlayerbounds(), 1, rectangleTexture); // drawing player rectangle, int value is thickness
+        
+       
+        _collisionManager.DrawDebugRect(spriteBatch,_ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
     }
 }

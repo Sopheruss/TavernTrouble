@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
 using System.Collections.Generic;
 
@@ -9,6 +10,7 @@ namespace SoftwareProjekt2024
         TileManager _tileManager;
         List<Rectangle> intersections;
 
+
         private const int TILESIZE = 32; // Assuming TILESIZE is 32, adjust as necessary
 
         public CollisionManager(TileManager tilemanager)
@@ -18,7 +20,7 @@ namespace SoftwareProjekt2024
 
         public (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player ogerCook)
         {
-            int halfOgerOffset = 32 / 2;       
+            int halfOgerOffset = 32 / 2;
 
             Rectangle playerBounds = ogerCook.Rect;
             playerBounds.X -= (halfOgerOffset);
@@ -29,7 +31,7 @@ namespace SoftwareProjekt2024
             leftBounds.X -= 1;
 
             Rectangle rightBounds = playerBounds;
-            rightBounds.X += 1; // +width because manager tracks left side of rectangle (dunno why)
+            rightBounds.X += 1;
 
             Rectangle upBounds = playerBounds;
             upBounds.Y -= 1;
@@ -105,6 +107,51 @@ namespace SoftwareProjekt2024
                 }
             }
             return intersections;
+        }
+
+
+        public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
+        {
+            spriteBatch.Draw(
+                rectangleTexture,
+                new Rectangle(
+                    rect.X,
+                    rect.Y,
+                    rect.Width,
+                    thickness
+                ),
+                Color.White
+            );
+            spriteBatch.Draw(
+                rectangleTexture,
+                new Rectangle(
+                    rect.X,
+                    rect.Bottom - thickness,
+                    rect.Width,
+                    thickness
+                ),
+                Color.White
+            );
+            spriteBatch.Draw(
+                rectangleTexture,
+                new Rectangle(
+                    rect.X,
+                    rect.Y,
+                    thickness,
+                    rect.Height
+                ),
+                Color.White
+            );
+            spriteBatch.Draw(
+                rectangleTexture,
+                new Rectangle(
+                    rect.Right - thickness,
+                    rect.Y,
+                    thickness,
+                    rect.Height
+                ),
+                Color.White
+            );
         }
     }
 }

@@ -143,48 +143,4 @@ internal class InputManager
         _previous_direction = Vector2.Zero;
         _animationManager.PlayAnimation = false;
     }
-
-    public void DrawRectHollow(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
-    {
-        spriteBatch.Draw(
-            rectangleTexture,
-            new Rectangle(
-                rect.X,
-                rect.Y,
-                rect.Width,
-                thickness
-            ),
-            Color.White
-        );
-        spriteBatch.Draw(
-            rectangleTexture,
-            new Rectangle(
-                rect.X,
-                rect.Bottom - thickness,
-                rect.Width,
-                thickness
-            ),
-            Color.White
-        );
-        spriteBatch.Draw(
-            rectangleTexture,
-            new Rectangle(
-                rect.X,
-                rect.Y,
-                thickness,
-                rect.Height
-            ),
-            Color.White
-        );
-        spriteBatch.Draw(
-            rectangleTexture,
-            new Rectangle(
-                rect.Right - thickness,
-                rect.Y,
-                thickness,
-                rect.Height
-            ),
-            Color.White
-        );
-    }
 }
