@@ -4,14 +4,16 @@ using Microsoft.Xna.Framework;
 using MonoGame.Extended.Tiled;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Components;
+using Microsoft.Xna.Framework.Input;
 
 namespace SoftwareProjekt2024
 {
+    /* Folgender Code ist nur Template-Work-In-Progress */
+
     internal class InteractionManager
     {
         TileManager _tileManager;
         List<Rectangle> intersections;
-        int TILESIZE = 32;
 
         public InteractionManager(TileManager tilemanager)
         {
@@ -22,7 +24,7 @@ namespace SoftwareProjekt2024
         {
             intersections = _tileManager.getIntersectingTilesHorizontal(playerBounds);
             foreach (var rect in intersections)
-            {                 //.interactionLayer !!!
+            {                 //change '.collisionLayer' to '.interactionLayer' upon implementation 
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;
@@ -31,7 +33,7 @@ namespace SoftwareProjekt2024
 
             intersections = _tileManager.getIntersectingTilesVertical(playerBounds);
             foreach (var rect in intersections)
-            {                 //.interactionLayer !!!
+            {                 //change '.collisionLayer' to '.interactionLayer' upon implementation 
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;

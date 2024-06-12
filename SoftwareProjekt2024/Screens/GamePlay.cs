@@ -15,7 +15,6 @@ internal class GamePlay
     PerspectiveManager _perspectiveManager;
     AnimationManager _animationManager;
     TileManager _tileManager;
-    CameraManager _cameraManager;
     CollisionManager _collisionManager;
     InteractionManager _interactionManager;
     InputManager _inputManager;
@@ -106,6 +105,6 @@ internal class GamePlay
         _perspectiveManager.draw(spriteBatch, _animationManager);
 
         _inputManager.DrawRectHollow(spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle
-        _inputManager.DrawRectHollow(spriteBatch, _inputManager.GetPlayerbounds(), 1, rectangleTexture); // drawing player rectangle
+        //_inputManager.DrawRectHollow(spriteBatch, _inputManager.GetPlayerbounds(), 1, rectangleTexture); // drawing player rectangle, int value is thickness
     }
 }

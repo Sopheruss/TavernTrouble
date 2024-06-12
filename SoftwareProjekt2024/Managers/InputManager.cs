@@ -12,33 +12,20 @@ internal class InputManager
     Game1 _game;
     Player _ogerCook;
     CollisionManager _collisionManager;
-    InteractionManager _interactionManager;
     AnimationManager _animationManager;
 
-    Vector2 _previous_direction; //zitat Jan: "misleading name" -> was es macht ist sich die Direction zu speichern, die davor wichtig war 
+    Vector2 _previous_direction; //Direction speichern, die davor wichtig war 
 
     readonly Vector2 _left = new(-1, 0);
     readonly Vector2 _right = new(1, 0);
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
-
-    readonly int halftileOffset = 16;       // half a tile -> 32px / 2 = 16px
-
-    readonly int halfOgerOffsetX = 19/2;    // player rectangle draws in the middle, offset to left edge
-    readonly int halfOgerOffsetY = 32/2;    // player rectangle draws in the middle, offset to left top
-
-    readonly int cosmeticOffsetX = 5;       // for the looks (hardcoding)
-    readonly int cosmeticOffsetY = 4;       // for the looks (hardcoding)
-
-    Rectangle playerBounds;
-
     
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
-        _interactionManager = interactionManager;
         _animationManager = animationManager;
     }
 
@@ -46,7 +33,6 @@ internal class InputManager
     {
         Commands();
         Moving();
-        Interacting();
     }
 
     public void Commands()
@@ -59,7 +45,7 @@ internal class InputManager
     }
     public void Moving()
     {
-        Vector2 _currentDirection = ConvertKeyToVector();
+        Vector2 _currentDirection = ConvertKeyToVector(_collisionManager);
 
         //stopps movement if no key is pressed 
         if (_currentDirection.Length() == 0)
@@ -90,25 +76,10 @@ internal class InputManager
         AnimationRow(_currentDirection); //sets row for animation 
     } //moving close bracket 
 
-    private Vector2 ConvertKeyToVector()
+    private Vector2 ConvertKeyToVector(CollisionManager collisionManager)
     {
         Vector2 _currentDirection = Vector2.Zero;
-
-        playerBounds = _ogerCook.Rect;
-        playerBounds.X -= (halftileOffset + halfOgerOffsetX + cosmeticOffsetX);
-        playerBounds.Y -= (halftileOffset + halfOgerOffsetY + cosmeticOffsetY);
-
-        Rectangle leftBounds = playerBounds;
-        leftBounds.X -= 1;
-
-        Rectangle rightBounds = playerBounds;
-        rightBounds.X += playerBounds.Width;        // +width because manager tracks left side of rectangle (dunno why)
-
-        Rectangle upBounds = playerBounds;
-        upBounds.Y -= 1;
-
-        Rectangle downBounds = playerBounds;
-        downBounds.Y += halftileOffset;
+        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
@@ -215,22 +186,5 @@ internal class InputManager
             ),
             Color.White
         );
-    }
-
-    public Rectangle GetPlayerbounds()
-    {
-        return playerBounds;
-    }
-
-    public void Interacting() // needs some changes, will not work atm
-    {
-        if (_interactionManager.CheckInteraction(playerBounds))
-        {
-            Debug.WriteLine("Interaction possible");
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
-            {
-                Debug.WriteLine("INTERACTION");
-            }
-        }
     }
 }
