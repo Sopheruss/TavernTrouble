@@ -29,9 +29,10 @@ internal class GamePlay
     int _screenWidth;
     int _screenHeight;
 
-    public GamePlay(int screenWidth, int screenHeight, MouseState mouse) { 
+    public GamePlay(int screenWidth, int screenHeight, MouseState mouse)
+    {
         _mouse = mouse;
-     
+
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
     }
@@ -60,7 +61,7 @@ internal class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        
+
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager);
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
@@ -95,7 +96,7 @@ internal class GamePlay
                          SpriteEffects.None,             //effects
                          0f);                            //layer depth
 
-        _tileManager.Draw(spriteBatch, 32, 8, 32);
+        _tileManager.Draw(spriteBatch, 32, 8, 32, _perspectiveManager);
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
     }
