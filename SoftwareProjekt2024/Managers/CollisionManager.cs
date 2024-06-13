@@ -22,7 +22,7 @@ namespace SoftwareProjekt2024
         }
 
 
-        // Hier potentieller Fehler, da CalcPlayerBounds static?
+       
         public (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player ogerCook)
         {
 
