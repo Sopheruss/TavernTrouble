@@ -104,6 +104,6 @@ internal class GamePlay
 
         
        
-        _collisionManager.DrawDebugRect(spriteBatch,_ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
+        _collisionManager.DrawDebugRect(spriteBatch,_ogerCook.Rect, 1, rectangleTexture); // drawing bugged player rectangle, int value is thickness
     }
 }

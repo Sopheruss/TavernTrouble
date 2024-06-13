@@ -28,6 +28,13 @@ namespace SoftwareProjekt2024
             collisionLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_collisionLayer.csv"));
             //interactionLayer = LoadMap("../../../Data/tavern_interactionLayer.csv");
 
+
+
+
+            // Opens a CSV file, reads it line by line, splits the line into
+            // an array of integers. Converts data into a Dictionary where the
+            // keys is the physical position of the number in the file
+            // (e.g. line 3, column 2) => (2, 1)).
             Dictionary<Vector2, int> LoadMap(string filepath)
             {
                 Dictionary<Vector2, int> result = new();
@@ -75,6 +82,8 @@ namespace SoftwareProjekt2024
                     (int)item.Key.Y * displayTileSize,
                     displayTileSize, displayTileSize);
 
+
+                // get the src rect (the part of the image drawn) from the value
                 int x = item.Value % numTilesPerRow;
                 int y = item.Value / numTilesPerRow;
 

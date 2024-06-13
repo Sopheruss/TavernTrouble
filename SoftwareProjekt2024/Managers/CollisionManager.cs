@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.SpriteClasses;
 using System.Collections.Generic;
 
 namespace SoftwareProjekt2024
@@ -11,20 +12,21 @@ namespace SoftwareProjekt2024
         List<Rectangle> intersections;
 
 
-        private const int TILESIZE = 32; // Assuming TILESIZE is 32, adjust as necessary
+        private const int TILESIZE = 32; // Assuming Tilesize in pixel is 32, adjust as necessary
 
+
+        // load in map from our tilemanager
         public CollisionManager(TileManager tilemanager)
         {
             _tileManager = tilemanager;
         }
 
+
+        // Hier potentieller Fehler, da CalcPlayerBounds static?
         public (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player ogerCook)
         {
-            int halfOgerOffset = 32 / 2;
 
             Rectangle playerBounds = ogerCook.Rect;
-            playerBounds.X -= (halfOgerOffset);
-            playerBounds.Y -= (halfOgerOffset);
 
             // Create and calculate bounds
             Rectangle leftBounds = playerBounds;
@@ -45,15 +47,18 @@ namespace SoftwareProjekt2024
 
         public bool CheckCollision(Rectangle playerBounds)
         {
+
+            // grab intersecting tiles
             intersections = GetIntersectingTilesHorizontal(playerBounds);
 
             foreach (var rect in intersections)
             {
-
+                // handle collisions if the tile position exists in the tile map layer.
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;
                 }
+              
             }
 
             intersections = GetIntersectingTilesVertical(playerBounds);
@@ -64,9 +69,14 @@ namespace SoftwareProjekt2024
                     return true;
                 }
             }
-            return false;
+
+        return false;
         }
 
+
+
+        // grabs the intersecting tiles for a Rect. This grabs all tile positions where
+        // an intersection is __possible__, not if a tile actually exists there.
         public List<Rectangle> GetIntersectingTilesHorizontal(Rectangle target)
         {
             List<Rectangle> intersections = new();
@@ -109,6 +119,9 @@ namespace SoftwareProjekt2024
             return intersections;
         }
 
+
+
+        // This should be the rectangle used for debugging collision, gets drawn/called in GamePlay.cs
 
         public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
         {
