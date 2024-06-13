@@ -30,7 +30,7 @@ namespace SoftwareProjekt2024
 
             // Create and calculate bounds
             Rectangle leftBounds = playerBounds;
-            leftBounds.X -= 1;
+            leftBounds.X -= 34;
 
             Rectangle rightBounds = playerBounds;
             rightBounds.X += 1;
