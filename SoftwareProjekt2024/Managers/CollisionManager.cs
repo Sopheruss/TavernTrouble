@@ -122,45 +122,49 @@ namespace SoftwareProjekt2024
 
 
         // This should be the rectangle used for debugging collision, gets drawn/called in GamePlay.cs
-        // for collision, it seems that only the half of left side of rectangle is used ???
+        // for collision, it seems that only the lower half of right side of rectangle is used ???
 
         public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
         {
+            // upper line of rectangle
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.X,
-                    rect.Y,
+                    rect.X - 32,
+                    rect.Y - 32,
                     rect.Width,
                     thickness
                 ),
                 Color.White
             );
+            // lower line of rectangle
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.X,
-                    rect.Bottom - thickness,
+                    rect.X -32,
+                    rect.Bottom - thickness -32,
                     rect.Width,
                     thickness
                 ),
                 Color.White
             );
+            // left line of rectangle
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.X,
-                    rect.Y,
+                    rect.X -32,
+                    rect.Y -32,
                     thickness,
                     rect.Height
                 ),
                 Color.White
             );
+            // right line of rectangle
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.Right - thickness,
-                    rect.Y,
+                    rect.Right - thickness - 32,
+                    rect.Y - 32,
                     thickness,
                     rect.Height
                 ),
