@@ -122,6 +122,7 @@ namespace SoftwareProjekt2024
 
 
         // This should be the rectangle used for debugging collision, gets drawn/called in GamePlay.cs
+        // for collision, it seems that only the half of left side of rectangle is used ???
 
         public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
         {
