@@ -62,6 +62,7 @@ namespace SoftwareProjekt2024
             }
 
             intersections = GetIntersectingTilesVertical(playerBounds);
+
             foreach (var rect in intersections)
             {
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
@@ -87,10 +88,11 @@ namespace SoftwareProjekt2024
             {
                 for (int y = 0; y <= heightInTiles; y++)
                 {
+                    // adds Tiles that are intersected to a List as a Rectangle
                     intersections.Add(new Rectangle(
-                        (target.X + x * TILESIZE) / TILESIZE,
-                        (target.Y + y * TILESIZE - 1) / TILESIZE,
-                        TILESIZE,
+                        (target.X + x * TILESIZE) / TILESIZE,       //X-Position
+                        (target.Y + y * TILESIZE - 1) / TILESIZE,   //Y-Position
+                        TILESIZE,                                   //Size
                         TILESIZE
                     ));
                 }
