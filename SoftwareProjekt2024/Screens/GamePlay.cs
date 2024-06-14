@@ -50,8 +50,8 @@ internal class GamePlay
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
         _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(_screenWidth / 2, _screenHeight / 2),
-                              _perspectiveManager); //oger Position 
+                              new Vector2(_screenWidth / 2, _screenHeight / 2), //oger Position 
+                              _perspectiveManager);
 
         testDummy = new Player(_ogerCookSpritesheet, new Vector2(_screenWidth / 2, _screenHeight / 2), _perspectiveManager);
 
