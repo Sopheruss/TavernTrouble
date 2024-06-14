@@ -1,31 +1,27 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.Tiled;
 using SoftwareProjekt2024.Components;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static SoftwareProjekt2024.Game1;
 
 namespace SoftwareProjekt2024.Managers
 {
-    internal class PerspectiveManager
+    public class PerspectiveManager
     {
-        public List<Component> _sortedComponents;
+        internal List<Component> _sortedComponents; //Liste aller objekte die in Perspektive relevant sind
+        internal List<Component> _staticObjects; //unused for now
 
-        public PerspectiveManager() {
-            _sortedComponents = new List<Component>();
+        public PerspectiveManager()
+        {
+            _sortedComponents = new List<Component>(); //erstellt Liste
+
         }
 
         public void draw(SpriteBatch spriteBatch, AnimationManager _animationManager)
         {
-            _sortedComponents.Sort();
+            _sortedComponents.Sort(); //sortiert Objekte in Liste nach Y-Werten
 
             foreach (var component in _sortedComponents)
             {
-                component.draw(spriteBatch, _animationManager);
+                component.draw(spriteBatch, _animationManager); //drawt Objekte in der sortierten Reihenfolge
             }
         }
     }

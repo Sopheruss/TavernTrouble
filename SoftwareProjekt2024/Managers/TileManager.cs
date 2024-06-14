@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Managers;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 
 namespace SoftwareProjekt2024
@@ -17,7 +19,7 @@ namespace SoftwareProjekt2024
 
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
-       
+
 
         public TileManager()
         {
@@ -52,7 +54,7 @@ namespace SoftwareProjekt2024
                     {
                         if (int.TryParse(items[x], out int value))
                         {
-                            if (value > -1) // -1 is "nothing", tile id starts with 0. 
+                            if (value > -1) // -1 is "nothing", tile id starts with 0.
                             {
                                 result[new Vector2(x, y)] = value;
                             }
@@ -66,12 +68,35 @@ namespace SoftwareProjekt2024
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize)
+        public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
+        public void LoadLayer(SpriteBatch spriteBatch, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
+        {
+            foreach (var item in objectsLayer)
+            {
+                Rectangle dest = new(
+                    (int)item.Key.X * displayTileSize,
+                    (int)item.Key.Y * displayTileSize,
+                    displayTileSize, displayTileSize);
+
+                int x = item.Value % numTilesPerRow;
+                int y = item.Value / numTilesPerRow;
+
+                Rectangle src = new(
+                    x * pixelTileSize,
+                    y * pixelTileSize,
+                    pixelTileSize, pixelTileSize);
+
+                _perspectiveManager._staticObjects.Add(
+                    new StaticObject(texture, new Vector2((int)item.Key.X, (int)item.Key.Y), dest, src, _perspectiveManager));
+            }
+        }
+
+
 
         private void DrawLayer(SpriteBatch spriteBatch, Dictionary<Vector2, int> layer, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize)
         {

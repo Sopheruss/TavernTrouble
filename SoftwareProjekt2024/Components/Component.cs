@@ -2,22 +2,28 @@
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024.Components
 {
-    internal class Component : SpriteClasses.ScaledSprite,IComparable<Component> 
+    internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //erbt von ScaledSprite, implementiert Comparable
     {
 
         public Component(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position)
         {
-            perspectiveManager._sortedComponents.Add(this);
+            perspectiveManager._sortedComponents.Add(this); //bei Erstellung von Components werden sie in Liste geaddet
         }
 
-        public void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+
+
+
+        public int CompareTo(Component other) //sortiere nach Y Werten
+        {
+            if (this.position.Y < other.position.Y) return -1;
+            if (this.position.Y == other.position.Y) return 0;
+            return 1;
+        }
+
+        public void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager) // generalisierter Aufruf der Spritedraw Methode
         {
             _spriteBatch.Draw(
             this.texture,                                //texture 
@@ -31,14 +37,5 @@ namespace SoftwareProjekt2024.Components
             SpriteEffects.None,                        //effects
             1f);                                      //layer depth
         }
-
-
-        public int CompareTo(Component other)
-        {
-            if (this.position.Y < other.position.Y) return -1;
-            if (this.position.Y == other.position.Y) return 0;
-            return 1;
-        }
-    
     }
 }
