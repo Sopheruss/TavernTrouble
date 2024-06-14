@@ -30,16 +30,17 @@ internal class GamePlay
 
     Texture2D rectangleTexture;
 
-    public GamePlay(int screenWidth, int screenHeight, MouseState mouse) { 
+    public GamePlay(int screenWidth, int screenHeight, MouseState mouse)
+    {
         _mouse = mouse;
-     
+
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
     }
 
     public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice)
     {
-       
+
         _perspectiveManager = new PerspectiveManager();
 
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image 
@@ -61,7 +62,7 @@ internal class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        
+
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager);
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
@@ -102,8 +103,8 @@ internal class GamePlay
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
 
-        
-       
-        _collisionManager.DrawDebugRect(spriteBatch,_ogerCook.Rect, 1, rectangleTexture); // drawing bugged player rectangle, int value is thickness
+
+
+        _collisionManager.DrawDebugRect(spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
     }
 }

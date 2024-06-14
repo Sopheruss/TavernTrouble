@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.SpriteClasses;
-using System.Collections.Generic;
 
 namespace SoftwareProjekt2024
 {
@@ -22,13 +21,16 @@ namespace SoftwareProjekt2024
         }
 
 
-       
+
         public (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player ogerCook)
         {
 
             Rectangle playerBounds = ogerCook.Rect;
 
             // Create and calculate bounds
+            // Certain offsets are added to our bounds so that the collision __looks__ okay-ish
+            // Collision implementation has certain features/checks missing/bugged so this is a dirty workaround
+
             Rectangle leftBounds = playerBounds;
             leftBounds.X -= 34;
 
@@ -53,12 +55,13 @@ namespace SoftwareProjekt2024
 
             foreach (var rect in intersections)
             {
-                // handle collisions if the tile position exists in the tile map layer.
+                // handle collisions if the tile position exists in the tile map layer. 
+                // "Does our collisionLayer contain a tile at this position?"
                 if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
                 {
                     return true;
                 }
-              
+
             }
 
             intersections = GetIntersectingTilesVertical(playerBounds);
@@ -71,7 +74,7 @@ namespace SoftwareProjekt2024
                 }
             }
 
-        return false;
+            return false;
         }
 
 
@@ -89,10 +92,14 @@ namespace SoftwareProjekt2024
                 for (int y = 0; y <= heightInTiles; y++)
                 {
                     // adds Tiles that are intersected to a List as a Rectangle
+                    // this rectangle has to be in tile coordinates, not in pixel (!)
+                    // eg. if player is at pixel-pos (32,32) then he is at tile-pos (1,1)
+                    // values truncate down to nearest tile, so if player at pixel-pos (43,37), still at tile-pos (1,1)
+
                     intersections.Add(new Rectangle(
-                        (target.X + x * TILESIZE) / TILESIZE,       //X-Position
-                        (target.Y + y * TILESIZE - 1) / TILESIZE,   //Y-Position
-                        TILESIZE,                                   //Size
+                        (target.X + x * TILESIZE) / TILESIZE,       //X-Position in Tilesize 
+                        (target.Y + y * TILESIZE - 1) / TILESIZE,   //Y-Position in Tilesize
+                        TILESIZE,
                         TILESIZE
                     ));
                 }
@@ -125,7 +132,8 @@ namespace SoftwareProjekt2024
 
         // This should be the rectangle used for debugging collision, gets drawn/called in GamePlay.cs
         // for collision, it seems that only the lower half of right side of rectangle is used ???
-        // something is NOT right with our collision implementation... 
+        // something is NOT right with our collision implementation... I think, the rectangle used for actual collision is drawn to our lower right side
+        // to check: remove values substracted from rect.x and rect.y
 
         public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
         {
@@ -144,8 +152,8 @@ namespace SoftwareProjekt2024
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.X -32,
-                    rect.Bottom - thickness -32,
+                    rect.X - 32,
+                    rect.Bottom - thickness - 32,
                     rect.Width,
                     thickness
                 ),
@@ -155,8 +163,8 @@ namespace SoftwareProjekt2024
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.X -32,
-                    rect.Y -32,
+                    rect.X - 32,
+                    rect.Y - 32,
                     thickness,
                     rect.Height
                 ),
