@@ -30,6 +30,8 @@ namespace SoftwareProjekt2024
             // Create and calculate bounds
             // Certain offsets are added to our bounds so that the collision __looks__ okay-ish
             // Collision implementation has certain features/checks missing/bugged so this is a dirty workaround
+            // clipping  trough tile still possible, see issue below (DrawDebugRectangle)
+
 
             Rectangle leftBounds = playerBounds;
             leftBounds.X -= 34;
@@ -46,6 +48,9 @@ namespace SoftwareProjekt2024
             // Return the single bounds as a tuple
             return (leftBounds, rightBounds, upBounds, downBounds);
         }
+
+
+
 
         public bool CheckCollision(Rectangle playerBounds)
         {
