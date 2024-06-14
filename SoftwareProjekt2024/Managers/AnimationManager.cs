@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-
 namespace SoftwareProjekt2024.Managers;
 
 //Enum to figure out which Part of the Animation is played 

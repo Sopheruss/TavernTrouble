@@ -14,13 +14,13 @@ internal class InputManager
     CollisionManager _collisionManager;
     AnimationManager _animationManager;
 
-    Vector2 _previous_direction; //Direction speichern, die davor wichtig war 
+    Vector2 _previous_direction; //Direction speichern, die davor wichtig war
 
     readonly Vector2 _left = new(-1, 0);
     readonly Vector2 _right = new(1, 0);
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
-    
+
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
@@ -47,22 +47,22 @@ internal class InputManager
     {
         Vector2 _currentDirection = ConvertKeyToVector(_collisionManager);
 
-        //stopps movement if no key is pressed 
+        //stopps movement if no key is pressed
         if (_currentDirection.Length() == 0)
         {
             StopMovement();
             return;
         }
 
-        //if one key is pressed -> movement in one direction 
+        //if one key is pressed -> movement in one direction
         if (_currentDirection.Length() == 1)
         {
             _previous_direction = _currentDirection;
         }
-        //if more than one key is pressed -> first direction is saved if still pressed and second direction gets executed 
+        //if more than one key is pressed -> first direction is saved if still pressed and second direction gets executed
         else if (_currentDirection.Length() > 1)
         {
-            if (_previous_direction.Length() == 0) //forbids diagonal movement 
+            if (_previous_direction.Length() == 0) //forbids diagonal movement
             {
                 StopMovement();
                 return;
@@ -73,8 +73,8 @@ internal class InputManager
 
         _ogerCook.position += _currentDirection;
         _animationManager.PlayAnimation = true;
-        AnimationRow(_currentDirection); //sets row for animation 
-    } //moving close bracket 
+        AnimationRow(_currentDirection); //sets row for animation
+    } //moving close bracket
 
     private Vector2 ConvertKeyToVector(CollisionManager collisionManager)
     {
@@ -134,7 +134,7 @@ internal class InputManager
         }
         else if (currentDirection == _down)
         {
-            _animationManager.RowPos = 3; //changes Animation to down 
+            _animationManager.RowPos = 3; //changes Animation to down
         }
     }
 
