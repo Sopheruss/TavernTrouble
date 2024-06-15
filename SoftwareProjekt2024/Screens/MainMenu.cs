@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 
 namespace SoftwareProjekt2024.Screens;
@@ -18,29 +17,25 @@ public class MainMenu
     readonly int midScreenWidth;
     readonly int midScreenHeight;
 
-    readonly MouseState _mouse;
-
-    public MainMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse, Game1 game, SpriteBatch spriteBatch)
+    public MainMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
         _spriteBatch = spriteBatch;
 
-        _mouse = mouse;
-
         midScreenWidth = screenWidth / 2;
         midScreenHeight = screenHeight / 2;
 
-        _startButton = new Button(Content.Load<Texture2D>("Buttons/startButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight - 100), _mouse);
-        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight), _mouse);
-        _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight + 100), _mouse);
+        _startButton = new Button(Content.Load<Texture2D>("Buttons/startButton"), new Vector2(midScreenWidth, midScreenHeight - 100));
+        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), new Vector2(midScreenWidth, midScreenHeight));
+        _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), new Vector2(midScreenWidth, midScreenHeight + 100));
         _spriteBatch = spriteBatch;
     }
 
     public void Update()
     {
-        _startButton.Update(_mouse);
-        _optionButton.Update(_mouse);
-        _quitButton.Update(_mouse);
+        _startButton.Update();
+        _optionButton.Update();
+        _quitButton.Update();
 
         if (_startButton.isClicked)
         {

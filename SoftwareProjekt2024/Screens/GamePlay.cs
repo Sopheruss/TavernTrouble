@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 
@@ -23,17 +22,13 @@ internal class GamePlay
     Player _ogerCook;
     Player testDummy;
 
-    MouseState _mouse;
-
-    int _screenWidth;
-    int _screenHeight;
+    readonly int _screenWidth;
+    readonly int _screenHeight;
 
     Texture2D rectangleTexture;
 
-    public GamePlay(int screenWidth, int screenHeight, MouseState mouse)
+    public GamePlay(int screenWidth, int screenHeight)
     {
-        _mouse = mouse;
-
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
     }
@@ -57,7 +52,7 @@ internal class GamePlay
 
 
         Texture2D _pauseButtonTexture = Content.Load<Texture2D>("Buttons/pauseButton");
-        _pauseButton = new Button(_pauseButtonTexture, _screenWidth, _screenHeight, new Vector2(20, 20), _mouse);
+        _pauseButton = new Button(_pauseButtonTexture, new Vector2(20, 20));
 
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
@@ -73,7 +68,7 @@ internal class GamePlay
 
     public void Update(Game1 game, GameTime gameTime)
     {
-        _pauseButton.Update(_mouse);
+        _pauseButton.Update();
 
         if (_pauseButton.isClicked)
         {
@@ -102,8 +97,6 @@ internal class GamePlay
         _tileManager.Draw(spriteBatch, 32, 8, 32, _perspectiveManager);
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
-
-
 
         _collisionManager.DrawDebugRect(spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
     }

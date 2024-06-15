@@ -1,9 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
-using System.Diagnostics;
-//using System.Numerics;
 
 namespace SoftwareProjekt2024.Managers;
 
@@ -37,7 +34,7 @@ internal class InputManager
 
     public void Commands()
     {
-        // exit, pause, ...
+        // exit, pause, ... 
         if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
             _game.Exit();
@@ -69,6 +66,13 @@ internal class InputManager
             }
 
             _currentDirection -= _previous_direction;
+
+            //if one key is pressed and than two in the opposite direction -> forbids diagonal movement 
+            if (_currentDirection.Length() != 1)
+            {
+                StopMovement();
+                return;
+            }
         }
 
         _ogerCook.position += _currentDirection;
