@@ -15,6 +15,8 @@ namespace SoftwareProjekt2024.Components
 
         public bool isClicked;
 
+        public bool isHovering;
+
         public Button(Texture2D texture, Vector2 position)
         {
             _texture = texture;
@@ -25,6 +27,7 @@ namespace SoftwareProjekt2024.Components
         public void Update()
         {
             isClicked = false;
+            isHovering = false;
 
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
@@ -33,6 +36,8 @@ namespace SoftwareProjekt2024.Components
 
             if (mouseRect.Intersects(_rectangle))
             {
+                isHovering = true;
+
                 if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
                 {
                     isClicked = true;

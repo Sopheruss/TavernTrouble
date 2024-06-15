@@ -40,7 +40,7 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/menuButton.png
 
-#begin Buttons/optionsButton.png
+#begin Buttons/optionsButton.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -50,7 +50,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Buttons/optionsButton.png
+/build:Buttons/optionsButton.PNG
+
+#begin Buttons/optionsButtonBlank.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/optionsButtonBlank.PNG
 
 #begin Buttons/pausebutton.png
 /importer:TextureImporter
@@ -64,7 +76,7 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/pausebutton.png
 
-#begin Buttons/quitButton.png
+#begin Buttons/quitButton.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -74,7 +86,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Buttons/quitButton.png
+/build:Buttons/quitButton.PNG
+
+#begin Buttons/quitButtonBlank.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/quitButtonBlank.PNG
 
 #begin Buttons/retryButton.png
 /importer:TextureImporter
@@ -100,7 +124,7 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/returnButton.png
 
-#begin Buttons/shadow.png
+#begin Buttons/startButton.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -110,9 +134,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Buttons/shadow.png
+/build:Buttons/startButton.PNG
 
-#begin Buttons/startButton.png
+#begin Buttons/startButtonBlank.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -122,7 +146,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Buttons/startButton.png
+/build:Buttons/startButtonBlank.PNG
 
 #begin hitboxes.png
 /importer:TextureImporter

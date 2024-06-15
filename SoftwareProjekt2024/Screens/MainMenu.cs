@@ -17,6 +17,7 @@ public class MainMenu
     readonly int midScreenWidth;
     readonly int midScreenHeight;
 
+
     public MainMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
