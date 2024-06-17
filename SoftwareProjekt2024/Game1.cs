@@ -102,7 +102,7 @@ public class Game1 : Game
         switch (activeScene)
         {
             case Scenes.MAINMENU:
-                GraphicsDevice.Clear(Color.LightBlue);
+                GraphicsDevice.Clear(Color.Thistle);
 
                 _mainMenu.Draw();
 
@@ -114,7 +114,7 @@ public class Game1 : Game
 
                 break;
             case Scenes.PAUSEMENU:
-                GraphicsDevice.Clear(Color.LightPink);
+                GraphicsDevice.Clear(Color.LightGreen);
 
                 _pauseMenu.Draw();
 
