@@ -21,26 +21,5 @@ namespace SoftwareProjekt2024
             _tileManager = tilemanager;
         }
 
-        public bool CheckInteraction(Rectangle playerBounds)
-        {
-            intersections = _collisionManager.GetIntersectingTilesHorizontal(playerBounds);
-            foreach (var rect in intersections)
-            {                 //change '.collisionLayer' to '.interactionLayer' upon implementation 
-                if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
-                {
-                    return true;
-                }
-            }
-
-            intersections = _collisionManager.GetIntersectingTilesVertical(playerBounds);
-            foreach (var rect in intersections)
-            {                 //change '.collisionLayer' to '.interactionLayer' upon implementation 
-                if (_tileManager.collisionLayer.TryGetValue(new Vector2(rect.X, rect.Y), out int _val))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }
