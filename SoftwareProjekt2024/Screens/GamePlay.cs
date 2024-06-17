@@ -21,7 +21,6 @@ internal class GamePlay
 
     //it is possible to initialize a List of Sprites!!!
     Player _ogerCook;
-    Player testDummy;
 
     MouseState _mouse;
 
@@ -52,8 +51,6 @@ internal class GamePlay
         _ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(_screenWidth / 2, _screenHeight / 2), //oger Position
                               _perspectiveManager);
-
-        testDummy = new Player(_ogerCookSpritesheet, new Vector2(_screenWidth / 2, _screenHeight / 2), _perspectiveManager);
 
 
         Texture2D _pauseButtonTexture = Content.Load<Texture2D>("Buttons/pauseButton");
