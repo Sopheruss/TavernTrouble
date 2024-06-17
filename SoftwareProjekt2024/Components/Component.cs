@@ -31,9 +31,7 @@ namespace SoftwareProjekt2024.Components
             _animationManager.GetFrame(),                   //sourceRectangle (frame) 
             Color.White,                                   //color
             0f,                                           //rotation 
-            new Vector2(                                 //origin -> to place center texture correctly
-                this.texture.Width / 4,
-                this.texture.Width / 4),
+            Vector2.Zero,                                //origin -> to place center texture correctly
             SpriteEffects.None,                        //effects
             1f);                                      //layer depth
         }

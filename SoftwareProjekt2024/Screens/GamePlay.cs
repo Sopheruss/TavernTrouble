@@ -86,23 +86,10 @@ internal class GamePlay
     {
         _pauseButton.Draw(spriteBatch);
 
-        spriteBatch.Draw(_ogerCook.texture,               //texture
-                         _ogerCook.Rect,                  //destinationRectangle
-                         _animationManager.GetFrame(),   //sourceRectangle (frame)
-                         Color.White,                    //color
-                         0f,                             //rotation
-                         new Vector2(_ogerCook.texture.Width / 4, //origin -> to place center texture correctly
-                                     _ogerCook.texture.Width / 4),
-                         SpriteEffects.None,             //effects
-                         0f);                            //layer depth
-
         _tileManager.Draw(spriteBatch, 32, 8, 32, _perspectiveManager);
 
         _perspectiveManager.draw(spriteBatch, _animationManager);
 
-
         _collisionManager.DrawDebugRect(spriteBatch, _ogerCook.Rect, 1, rectangleTexture);
-
-
     }
 }
