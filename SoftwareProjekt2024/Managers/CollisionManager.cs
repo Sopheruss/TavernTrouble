@@ -100,6 +100,7 @@ namespace SoftwareProjekt2024
                     // this rectangle has to be in tile coordinates, not in pixel (!)
                     // eg. if player is at pixel-pos (32,32) then he is at tile-pos (1,1)
                     // values truncate down to nearest tile, so if player at pixel-pos (43,37), still at tile-pos (1,1)
+                    // maybe there is a discrepancy between ogerCook-rect being in pixel and we checking in tile?
 
                     intersections.Add(new Rectangle(
                         (target.X + x * TILESIZE) / TILESIZE,       //X-Position in Tilesize 
