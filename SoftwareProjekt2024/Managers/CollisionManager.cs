@@ -29,21 +29,54 @@ namespace SoftwareProjekt2024.Managers
 
         internal (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player player)
         {
+            // Fixed dimensions of the player sprite
             int playerWidth = 30;
             int playerHeight = 60;
 
+            // Get the current rectangle representing the player's bounds
             Rectangle playerRect = player.Rect;
 
-            Rectangle leftBounds = new Rectangle(playerRect.Left - 1, playerRect.Top, 1, playerHeight);
-            Rectangle rightBounds = new Rectangle(playerRect.Right, playerRect.Top, 1, playerHeight);
-            Rectangle upBounds = new Rectangle(playerRect.Left, playerRect.Top - 1, playerWidth, 1);
-            Rectangle downBounds = new Rectangle(playerRect.Left, playerRect.Bottom, playerWidth, 1);
+            // Calculate the bounding rectangles for collision detection
 
+            // Left bounding rectangle
+            Rectangle leftBounds = new Rectangle(
+                playerRect.Left - 1,    // Adjusted left side (1 pixel to the left)
+                playerRect.Top,         // Align with the top of the player
+                1,                      // Width of 1 pixel
+                playerHeight            // Height same as player's height
+            );
+
+            // Right bounding rectangle
+            Rectangle rightBounds = new Rectangle(
+                playerRect.Right,       // Right side of the player
+                playerRect.Top,         // Align with the top of the player
+                1,                      // Width of 1 pixel
+                playerHeight            // Height same as player's height
+            );
+
+            // Up bounding rectangle
+            Rectangle upBounds = new Rectangle(
+                playerRect.Left,        // Align with the left side of the player
+                playerRect.Top - 1,     // Adjusted up (1 pixel above)
+                playerWidth,            // Width same as player's width
+                1                       // Height of 1 pixel
+            );
+
+            // Down bounding rectangle
+            Rectangle downBounds = new Rectangle(
+                playerRect.Left,        // Align with the left side of the player
+                playerRect.Bottom,      // Bottom side of the player
+                playerWidth,            // Width same as player's width
+                1                       // Height of 1 pixel
+            );
+
+            // Return all calculated bounding rectangles
             return (leftBounds, rightBounds, upBounds, downBounds);
 
-        }
 
-        public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
+    }
+
+    public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
         {
             // upper line of rectangle
             spriteBatch.Draw(
