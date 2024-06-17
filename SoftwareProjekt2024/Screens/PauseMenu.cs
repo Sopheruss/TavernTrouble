@@ -28,8 +28,8 @@ public class PauseMenu
         midScreenHeight = screenHeight / 2;
 
         _mainMenuButton = new Button(Content.Load<Texture2D>("Buttons/menuButton"), new Vector2(midScreenWidth, midScreenHeight - 150));
-        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), new Vector2(midScreenWidth, midScreenHeight - 50));
-        _retryButton = new Button(Content.Load<Texture2D>("Buttons/retryButton"), new Vector2(midScreenWidth, midScreenHeight + 50));
+        _retryButton = new Button(Content.Load<Texture2D>("Buttons/retryButton"), new Vector2(midScreenWidth, midScreenHeight - 50));
+        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), new Vector2(midScreenWidth, midScreenHeight + 50));
         _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), new Vector2(midScreenWidth, midScreenHeight + 150));
         _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), new Vector2(screenWidth - 70, screenHeight - 70));
     }

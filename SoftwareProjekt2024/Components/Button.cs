@@ -13,12 +13,16 @@ namespace SoftwareProjekt2024.Components
         readonly Vector2 _position;
         readonly Rectangle _rectangle;
 
+        public Color buttonColor;
+
         public bool isClicked;
 
         public bool isHovering;
 
         public Button(Texture2D texture, Vector2 position)
         {
+            buttonColor = Color.White;
+
             _texture = texture;
             _position = position;
             _rectangle = new Rectangle((int)_position.X - (_texture.Width / 2), (int)_position.Y - (_texture.Height / 2), _texture.Width, _texture.Height);
@@ -47,7 +51,14 @@ namespace SoftwareProjekt2024.Components
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _rectangle, Color.White);
+            if (isHovering)
+            {
+                spriteBatch.Draw(_texture, _rectangle, Color.Gray);
+            }
+            else
+            {
+                spriteBatch.Draw(_texture, _rectangle, Color.White);
+            }
         }
     }
 }

@@ -18,7 +18,6 @@ public class Game1 : Game
 {
     public bool _exit = false;
 
-
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 

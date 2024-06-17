@@ -23,7 +23,7 @@ public class OptionMenuPause
         midScreenWidth = screenWidth / 2;
         midScreenHeight = screenHeight / 2;
 
-        _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), new Vector2(screenWidth - 70, screenWidth - 70));
+        _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), new Vector2(screenWidth - 100, screenWidth - 100));
     }
 
     public void Update()
