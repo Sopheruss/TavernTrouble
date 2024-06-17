@@ -17,6 +17,7 @@ namespace SoftwareProjekt2024.Managers
         {
             foreach (var tile in _tileManager.collisionLayer)
             {
+                // Calculate the tile's bounding rectangle
                 Rectangle tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
 
                 if (tileRect.Intersects(bounds))
