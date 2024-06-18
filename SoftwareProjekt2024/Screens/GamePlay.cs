@@ -70,7 +70,7 @@ internal class GamePlay
     {
         _pauseButton.Update();
 
-        if (_pauseButton.isClicked)
+        if (_pauseButton.isClicked || _inputManager._escIsPressed)
         {
             game.activeScene = Scenes.PAUSEMENU;
         }

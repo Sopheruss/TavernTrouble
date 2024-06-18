@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -18,6 +19,8 @@ public class PauseMenu
     readonly Button _quitButton;
     readonly Button _optionButton;
     readonly Button _returnButton;
+
+    readonly InputManager _inputManager;
 
     public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -55,7 +58,7 @@ public class PauseMenu
         {
             _game.activeScene = Scenes.OPTIONMENUPAUSE;
         }
-        else if (_returnButton.isClicked)
+        else if (_returnButton.isClicked || _inputManager._escIsPressed)
         {
             _game.activeScene = Scenes.GAMEPLAY;
         }

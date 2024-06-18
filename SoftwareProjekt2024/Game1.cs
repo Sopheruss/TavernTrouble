@@ -103,7 +103,6 @@ public class Game1 : Game
         {
             case Scenes.MAINMENU:
                 GraphicsDevice.Clear(Color.Thistle);
-
                 _mainMenu.Draw();
 
                 break;
