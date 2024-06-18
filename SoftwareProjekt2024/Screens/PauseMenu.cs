@@ -58,7 +58,7 @@ public class PauseMenu
         {
             _game.activeScene = Scenes.OPTIONMENUPAUSE;
         }
-        else if (_returnButton.isClicked || _inputManager._escIsPressed)
+        else if (_returnButton.isClicked) // || _inputManager._escIsPressed)
         {
             _game.activeScene = Scenes.GAMEPLAY;
         }
