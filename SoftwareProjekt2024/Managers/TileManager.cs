@@ -71,13 +71,15 @@ namespace SoftwareProjekt2024
         public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            //LoadLayer(spriteBatch, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize, _perspectiveManager);
+            //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
-        public void LoadLayer(SpriteBatch spriteBatch, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
+        public void LoadLayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             foreach (var item in objectsLayer)
             {
+
                 Rectangle dest = new(
                     (int)item.Key.X * displayTileSize,
                     (int)item.Key.Y * displayTileSize,
@@ -91,8 +93,13 @@ namespace SoftwareProjekt2024
                     y * pixelTileSize,
                     pixelTileSize, pixelTileSize);
 
-                _perspectiveManager._staticObjects.Add(
-                    new StaticObject(texture, new Vector2((int)item.Key.X, (int)item.Key.Y), dest, src, _perspectiveManager));
+                if (item.Value == 21)
+                {
+                    _perspectiveManager._staticObjects[0].Add(new Tisch(textureAtlas, new Vector2((int)item.Key.X, (int)item.Key.Y), dest, src, _perspectiveManager));
+                }
+
+                //_perspectiveManager._staticObjects.Add(
+                //  new StaticObject(texture, new Vector2((int)item.Key.X, (int)item.Key.Y), dest, src, _perspectiveManager));
             }
         }
 

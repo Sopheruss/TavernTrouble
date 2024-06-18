@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
-using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Managers
 {
@@ -18,8 +17,20 @@ namespace SoftwareProjekt2024.Managers
         {
             foreach (var tile in _tileManager.collisionLayer)
             {
-                // Calculate the tile's bounding rectangle
-                Rectangle tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
+                Rectangle tileRect;
+                if ((int)tile.Value == 4) //Fall für den Tisch: kleineres Rectangle
+                {                            // um Kollision erst ab Hälfte des Tisches beginnen zu lassen
+                    tileRect = new Rectangle((int)tile.Key.X * 32, ((int)tile.Key.Y * 32) + 16, 32, 16);
+                    // Calculate the tile's bounding rectangle
+                }
+
+                else
+                { //Generalfall
+                    tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
+                    // Calculate the tile's bounding rectangle
+                }
+
+
 
                 if (tileRect.Intersects(bounds))
                 {
@@ -76,9 +87,9 @@ namespace SoftwareProjekt2024.Managers
             return (leftBounds, rightBounds, upBounds, downBounds);
 
 
-    }
+        }
 
-    public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
+        public void DrawDebugRect(SpriteBatch spriteBatch, Rectangle rect, int thickness, Texture2D rectangleTexture)
         {
             // upper line of rectangle
             spriteBatch.Draw(
@@ -106,8 +117,8 @@ namespace SoftwareProjekt2024.Managers
             spriteBatch.Draw(
                 rectangleTexture,
                 new Rectangle(
-                    rect.X ,
-                    rect.Y ,
+                    rect.X,
+                    rect.Y,
                     thickness,
                     rect.Height
                 ),

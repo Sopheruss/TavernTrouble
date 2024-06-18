@@ -8,6 +8,7 @@ namespace SoftwareProjekt2024.Components
     {
         Rectangle dest;
         Rectangle src;
+
         public StaticObject(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
             : base(texture, position, perspectiveManager)
         {
@@ -15,7 +16,12 @@ namespace SoftwareProjekt2024.Components
             src = _src;
         }
 
-        new public void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+        public override int getHeight()
+        {
+            return dest.Height;
+        }
+
+        public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
         {
             _spriteBatch.Draw(texture, dest, src, Color.White);
         }
