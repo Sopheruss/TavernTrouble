@@ -1,9 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
-using System.Diagnostics;
-//using System.Numerics;
 
 namespace SoftwareProjekt2024.Managers;
 
@@ -21,6 +18,10 @@ internal class InputManager
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
 
+    public bool _escIsPressed = false;
+
+    public static KeyboardState _currentKeyState;
+    public static KeyboardState _previousKeyState;
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
@@ -31,16 +32,35 @@ internal class InputManager
 
     public void Update()
     {
+        getKeyboardState();
         Commands();
         Moving();
     }
 
+    public void getKeyboardState()
+    {
+        _previousKeyState = _currentKeyState;
+        _currentKeyState = Keyboard.GetState();
+    }
+
+    public static bool IsPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key);
+    }
+
+    public static bool HasBeenPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
+    }
+
     public void Commands()
     {
-        // exit, pause, ...
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        _escIsPressed = false;
+
+        // exit, pause, ... 
+        if (HasBeenPressed(Keys.Escape))
         {
-            _game.Exit();
+            _escIsPressed = true;
         }
     }
     public void Moving()
@@ -69,6 +89,13 @@ internal class InputManager
             }
 
             _currentDirection -= _previous_direction;
+
+            //if one key is pressed and than two in the opposite direction -> forbids diagonal movement 
+            if (_currentDirection.Length() != 1)
+            {
+                StopMovement();
+                return;
+            }
         }
 
         _ogerCook.position += _currentDirection;

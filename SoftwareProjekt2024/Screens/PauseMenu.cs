@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -10,8 +10,6 @@ public class PauseMenu
 {
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
-
-    MouseState _mouse;
 
     readonly int midScreenWidth;
     readonly int midScreenHeight;
@@ -22,30 +20,30 @@ public class PauseMenu
     readonly Button _optionButton;
     readonly Button _returnButton;
 
-    public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse, Game1 game, SpriteBatch spriteBatch)
+    readonly InputManager _inputManager;
+
+    public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
         _spriteBatch = spriteBatch;
 
-        _mouse = mouse;
-
         midScreenWidth = screenWidth / 2;
         midScreenHeight = screenHeight / 2;
 
-        _mainMenuButton = new Button(Content.Load<Texture2D>("Buttons/menuButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight - 200), _mouse);
-        _retryButton = new Button(Content.Load<Texture2D>("Buttons/retryButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight - 100), _mouse);
-        _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight), _mouse);
-        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight + 100), _mouse);
-        _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight + 200), _mouse);
+        _mainMenuButton = new Button(Content.Load<Texture2D>("Buttons/menuButton"), new Vector2(midScreenWidth, midScreenHeight - 150));
+        _retryButton = new Button(Content.Load<Texture2D>("Buttons/retryButton"), new Vector2(midScreenWidth, midScreenHeight - 50));
+        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), new Vector2(midScreenWidth, midScreenHeight + 50));
+        _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), new Vector2(midScreenWidth, midScreenHeight + 150));
+        _returnButton = new Button(Content.Load<Texture2D>("Buttons/returnButton"), new Vector2(screenWidth - 70, screenHeight - 70));
     }
 
     public void Update()
     {
-        _mainMenuButton.Update(_mouse);
-        _retryButton.Update(_mouse);
-        _quitButton.Update(_mouse);
-        _optionButton.Update(_mouse);
-        _returnButton.Update(_mouse);
+        _mainMenuButton.Update();
+        _retryButton.Update();
+        _quitButton.Update();
+        _optionButton.Update();
+        _returnButton.Update();
 
         if (_mainMenuButton.isClicked)
         {
@@ -60,9 +58,8 @@ public class PauseMenu
         {
             _game.activeScene = Scenes.OPTIONMENUPAUSE;
         }
-        else if (_returnButton.isClicked)
+        else if (_returnButton.isClicked || _inputManager._escIsPressed)
         {
-            //works kinda? -> grafik fehler?; also pausiert spiel, aber weird 
             _game.activeScene = Scenes.GAMEPLAY;
         }
         else if (_quitButton.isClicked)

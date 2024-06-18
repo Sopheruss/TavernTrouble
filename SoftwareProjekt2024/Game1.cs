@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
@@ -18,7 +17,6 @@ public class Game1 : Game
 
 {
     public bool _exit = false;
-
 
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -57,21 +55,17 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
-        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
-        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
-        _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
-        _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, Mouse.GetState(), this, _spriteBatch);
+        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _gamePlay = new GamePlay(screenWidth, screenHeight);
+        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
 
         _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
     }
 
     protected override void Update(GameTime gameTime)
     {
-
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Quit();
-
         if (_exit)
         {
             Exit();
@@ -108,8 +102,7 @@ public class Game1 : Game
         switch (activeScene)
         {
             case Scenes.MAINMENU:
-                GraphicsDevice.Clear(Color.LightBlue);
-
+                GraphicsDevice.Clear(Color.Thistle);
                 _mainMenu.Draw();
 
                 break;
@@ -120,7 +113,7 @@ public class Game1 : Game
 
                 break;
             case Scenes.PAUSEMENU:
-                GraphicsDevice.Clear(Color.LightPink);
+                GraphicsDevice.Clear(Color.LightGreen);
 
                 _pauseMenu.Draw();
 

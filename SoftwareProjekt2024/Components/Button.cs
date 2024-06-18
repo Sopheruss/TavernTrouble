@@ -9,21 +9,30 @@ namespace SoftwareProjekt2024.Components
         private MouseState _currentMouse;
         private MouseState _previousMouse;
 
-        Texture2D _texture;
-        Vector2 _position;
-        Rectangle _rectangle;
+        readonly Texture2D _texture;
+        readonly Vector2 _position;
+        readonly Rectangle _rectangle;
+
+        public Color buttonColor;
 
         public bool isClicked;
 
-        public Button(Texture2D texture, int ScreenWidth, int ScreenHeight, Vector2 position, MouseState mouse)
+        public bool isHovering;
+
+        public Button(Texture2D texture, Vector2 position)
         {
+            buttonColor = Color.White;
+
             _texture = texture;
             _position = position;
             _rectangle = new Rectangle((int)_position.X - (_texture.Width / 2), (int)_position.Y - (_texture.Height / 2), _texture.Width, _texture.Height);
         }
 
-        public void Update(MouseState mouse)
+        public void Update()
         {
+            isClicked = false;
+            isHovering = false;
+
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
 
@@ -31,6 +40,8 @@ namespace SoftwareProjekt2024.Components
 
             if (mouseRect.Intersects(_rectangle))
             {
+                isHovering = true;
+
                 if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
                 {
                     isClicked = true;
@@ -40,7 +51,14 @@ namespace SoftwareProjekt2024.Components
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _rectangle, Color.White);
+            if (isHovering)
+            {
+                spriteBatch.Draw(_texture, _rectangle, Color.Gray);
+            }
+            else
+            {
+                spriteBatch.Draw(_texture, _rectangle, Color.White);
+            }
         }
     }
 }
