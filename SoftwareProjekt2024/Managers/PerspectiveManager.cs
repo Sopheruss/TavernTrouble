@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Managers
 {
@@ -9,7 +8,7 @@ namespace SoftwareProjekt2024.Managers
     {
         internal List<Component> _sortedComponents; //Liste aller objekte die in Perspektive relevant sind
         internal List<List<Component>> _staticObjects; //Liste von Listen statischer Objekte
-        internal List<Component> _tische;
+        internal List<Component> _tische; //Liste aller Tische
 
         public PerspectiveManager()
         {
@@ -27,7 +26,7 @@ namespace SoftwareProjekt2024.Managers
 
             foreach (var component in _sortedComponents)
             {
-                Debug.WriteLine(component.position.Y);
+                //Debug.WriteLine(component.position.Y - component.getHeight());
                 component.draw(spriteBatch, _animationManager); //drawt Objekte in der sortierten Reihenfolge
             }
         }

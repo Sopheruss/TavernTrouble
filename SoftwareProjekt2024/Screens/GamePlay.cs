@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
-using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -19,12 +18,8 @@ internal class GamePlay
     InteractionManager _interactionManager;
     InputManager _inputManager;
 
-
-
     //it is possible to initialize a List of Sprites!!!
     Player _ogerCook;
-
-    List<Component> tisches;
 
     readonly int _screenWidth;
     readonly int _screenHeight;
@@ -59,7 +54,7 @@ internal class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        _tileManager.LoadLayer(spriteBatch, 32, 8, 32, _perspectiveManager);
+        _tileManager.LoadObjectlayer(spriteBatch, 32, 8, 32, _perspectiveManager); //Laden aller Objekte von Tiled
 
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager);
@@ -67,8 +62,6 @@ internal class GamePlay
 
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // for player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
-
-        //tisches[0] = _perspectiveManager._staticObjects[0][0];
     }
 
     public void Update(Game1 game, GameTime gameTime)
