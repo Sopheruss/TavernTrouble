@@ -80,7 +80,7 @@ namespace SoftwareProjekt2024
             foreach (var item in layer)
             {
                 Rectangle dest = new(
-                    (int)item.Key.X * displayTileSize,
+                    200 + (int)item.Key.X * displayTileSize, // offset of 200px
                     (int)item.Key.Y * displayTileSize,
                     displayTileSize, displayTileSize);
 
