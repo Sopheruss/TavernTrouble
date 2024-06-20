@@ -18,7 +18,7 @@ internal class GamePlay
     InteractionManager _interactionManager;
     InputManager _inputManager;
 
-    //it is possible to initialize a List of Sprites!!!
+   
     Player _ogerCook;
 
     readonly int _screenWidth;
@@ -44,7 +44,7 @@ internal class GamePlay
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
         _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(_screenWidth / 2, _screenHeight / 2), //oger Position
+                              new Vector2(_screenWidth / 2, _screenHeight / 2-35), //oger Position (plus offset 25px upwards)
                               _perspectiveManager);
 
 
