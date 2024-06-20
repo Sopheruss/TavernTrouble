@@ -26,7 +26,7 @@ internal class OptionMenuMain
 
         _returnButton = new Button(
             Content.Load<Texture2D>("Buttons/returnButton"),
-            Content.Load<Texture2D>("Buttons/returnButton"),
+            Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
 
         _spriteBatch = spriteBatch;

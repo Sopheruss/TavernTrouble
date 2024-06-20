@@ -32,23 +32,23 @@ public class PauseMenu
 
         _mainMenuButton = new Button(
             Content.Load<Texture2D>("Buttons/menuButton"),
-            Content.Load<Texture2D>("Buttons/menuButtonBlank"),
+            Content.Load<Texture2D>("Buttons/menuButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight - 150));
         _retryButton = new Button(
             Content.Load<Texture2D>("Buttons/retryButton"),
-            Content.Load<Texture2D>("Buttons/retryButton"),
+            Content.Load<Texture2D>("Buttons/retryButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight - 50));
         _optionButton = new Button(
-            Content.Load<Texture2D>("Buttons/optionsButton"),
-            Content.Load<Texture2D>("Buttons/optionsButton"),
+            Content.Load<Texture2D>("Buttons/settingsButton"),
+            Content.Load<Texture2D>("Buttons/settingsButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight + 50));
         _quitButton = new Button(
             Content.Load<Texture2D>("Buttons/quitButton"),
-            Content.Load<Texture2D>("Buttons/quitButton"),
+            Content.Load<Texture2D>("Buttons/quitButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight + 150));
         _returnButton = new Button(
             Content.Load<Texture2D>("Buttons/returnButton"),
-            Content.Load<Texture2D>("Buttons/returnButton"),
+            Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
     }
 

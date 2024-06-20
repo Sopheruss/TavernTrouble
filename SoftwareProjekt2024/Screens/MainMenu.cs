@@ -27,16 +27,16 @@ public class MainMenu
         midScreenHeight = screenHeight / 2;
 
         _startButton = new Button(
-            Content.Load<Texture2D>("Buttons/startButton"),
-            Content.Load<Texture2D>("Buttons/startButton"),
+            Content.Load<Texture2D>("Buttons/playButton"),
+            Content.Load<Texture2D>("Buttons/playButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight - 100));
         _optionButton = new Button(
-            Content.Load<Texture2D>("Buttons/optionsButton"),
-            Content.Load<Texture2D>("Buttons/optionsButton"),
+            Content.Load<Texture2D>("Buttons/settingsButton"),
+            Content.Load<Texture2D>("Buttons/settingsButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight));
         _quitButton = new Button(
             Content.Load<Texture2D>("Buttons/quitButton"),
-            Content.Load<Texture2D>("Buttons/quitButton"),
+            Content.Load<Texture2D>("Buttons/quitButtonHovering"),
             new Vector2(midScreenWidth, midScreenHeight + 100));
 
         _spriteBatch = spriteBatch;

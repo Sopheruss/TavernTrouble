@@ -49,7 +49,7 @@ internal class GamePlay
 
         _pauseButton = new Button(
             Content.Load<Texture2D>("Buttons/pauseButton"),
-            Content.Load<Texture2D>("Buttons/pauseButton"),
+            Content.Load<Texture2D>("Buttons/pauseButtonHovering"),
             new Vector2(30, 30));
 
         _tileManager = new TileManager();
