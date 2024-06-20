@@ -26,6 +26,9 @@ internal class GamePlay
 
     Texture2D rectangleTexture;
 
+    
+   
+
     public GamePlay(int screenWidth, int screenHeight)
     {
         _screenWidth = screenWidth;
@@ -47,6 +50,8 @@ internal class GamePlay
                               new Vector2(_screenWidth / 2, _screenHeight / 2-35), //oger Position (plus offset 25px upwards)
                               _perspectiveManager);
 
+
+      
 
         Texture2D _pauseButtonTexture = Content.Load<Texture2D>("Buttons/pauseButton");
         _pauseButton = new Button(_pauseButtonTexture, new Vector2(30, 30));
