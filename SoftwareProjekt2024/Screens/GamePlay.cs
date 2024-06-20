@@ -14,7 +14,6 @@ internal class GamePlay
 
     //camera stuff; using Monogame Extended Camera 
     private OrthographicCamera _camera;
-    const float movementSpeed = 50; //sets the speed of the camera; not quite right? needs to be same speed as oger -> where declared? 
 
     Button _pauseButton;
 
@@ -55,7 +54,7 @@ internal class GamePlay
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
         _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(_screenWidth / 2, _screenHeight / 2 - 20), //oger Position TEMPORARY!!!!
+                              new Vector2(250, 200), //PLS ÄNDERN, dafür MapSize 
                               _perspectiveManager);
 
         _pauseButton = new Button(
@@ -79,7 +78,9 @@ internal class GamePlay
     {
         //uses the move function of monogame extended
         //convert to key -> from input manager, tried to tie the movement to the movement of the oger; doesnt quite work as planed 
-        _camera.Move(_inputManager.ConvertKeyToVector() * movementSpeed * gameTime.GetElapsedSeconds());
+        //_camera.Move(_inputManager.ConvertKeyToVector() * movementSpeed * gameTime.GetElapsedSeconds());
+
+        _camera.LookAt(_ogerCook.position + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
 
         _pauseButton.Update();
 
@@ -97,15 +98,7 @@ internal class GamePlay
     {
         //two spriteBatch.Begin/End to seperate stuff that is affected by camera and static stuff
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
-        _pauseButton.Draw(_spriteBatch);
-
-        _spriteBatch.End();
-
-
         //transformationMatrix is automatically calculated into the draw call 
-        //problem 1: isnt centered on oger
         var transformMatrix = _camera.GetViewMatrix();
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
@@ -115,6 +108,14 @@ internal class GamePlay
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
         _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
+
+        _spriteBatch.End();
+
+
+
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+        _pauseButton.Draw(_spriteBatch);
 
         _spriteBatch.End();
     }

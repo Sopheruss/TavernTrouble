@@ -20,6 +20,9 @@ namespace SoftwareProjekt2024
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
 
+        //implementing for camera? 
+        readonly int mapWidth;
+        readonly int mapHeight;
 
         public TileManager()
         {
