@@ -47,9 +47,10 @@ internal class GamePlay
                               new Vector2(_screenWidth / 2, _screenHeight / 2 - 20), //oger Position TEMPORARY!!!!
                               _perspectiveManager);
 
-
-        Texture2D _pauseButtonTexture = Content.Load<Texture2D>("Buttons/pauseButton");
-        _pauseButton = new Button(_pauseButtonTexture, new Vector2(30, 30));
+        _pauseButton = new Button(
+            Content.Load<Texture2D>("Buttons/pauseButton"),
+            Content.Load<Texture2D>("Buttons/pauseButton"),
+            new Vector2(30, 30));
 
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
