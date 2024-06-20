@@ -12,8 +12,9 @@ internal class GamePlay
 {
     readonly SpriteBatch _spriteBatch;
 
-    //using Monogame Extended Camera 
+    //camera stuff; using Monogame Extended Camera 
     private OrthographicCamera _camera;
+    const float movementSpeed = 50; //sets the speed of the camera; not quite right? needs to be same speed as oger -> where declared? 
 
     Button _pauseButton;
 
@@ -76,7 +77,6 @@ internal class GamePlay
 
     public void Update(Game1 game, GameTime gameTime)
     {
-        const float movementSpeed = 50; //sets the speed of the camera; not quite right? needs to be same speed as oger -> where declared? 
         //uses the move function of monogame extended
         //convert to key -> from input manager, tried to tie the movement to the movement of the oger; doesnt quite work as planed 
         _camera.Move(_inputManager.ConvertKeyToVector() * movementSpeed * gameTime.GetElapsedSeconds());
@@ -95,14 +95,20 @@ internal class GamePlay
 
     public void Draw()
     {
-        var transformMatrix = _camera.GetViewMatrix();
+        //two spriteBatch.Begin/End to seperate stuff that is affected by camera and static stuff
+
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+        _pauseButton.Draw(_spriteBatch);
+
+        _spriteBatch.End();
+
 
         //transformationMatrix is automatically calculated into the draw call 
         //problem 1: isnt centered on oger
-        //problem 2: who to make to layers -> one for game, another for buttons, etc? 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
+        var transformMatrix = _camera.GetViewMatrix();
 
-        _pauseButton.Draw(_spriteBatch);
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
 
         _tileManager.Draw(_spriteBatch, 32, 8, 32, _perspectiveManager);
 
