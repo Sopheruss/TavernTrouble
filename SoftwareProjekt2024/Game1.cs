@@ -56,7 +56,7 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
-        _gamePlay = new GamePlay(screenWidth, screenHeight);
+        _gamePlay = new GamePlay(screenWidth, screenHeight, _spriteBatch);
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
@@ -96,9 +96,6 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
-
         switch (activeScene)
         {
             case Scenes.MAINMENU:
@@ -109,7 +106,7 @@ public class Game1 : Game
             case Scenes.GAMEPLAY:
                 GraphicsDevice.Clear(Color.Beige);
 
-                _gamePlay.Draw(_spriteBatch);
+                _gamePlay.Draw();
 
                 break;
             case Scenes.PAUSEMENU:
@@ -130,8 +127,6 @@ public class Game1 : Game
                 _optionMenuPause.Draw();
                 break;
         }
-
-        _spriteBatch.End();
 
         base.Draw(gameTime);
     }

@@ -6,10 +6,10 @@ namespace SoftwareProjekt2024.Managers;
 
 internal class InputManager
 {
-    Game1 _game;
-    Player _ogerCook;
-    CollisionManager _collisionManager;
-    AnimationManager _animationManager;
+    readonly Game1 _game;
+    readonly Player _ogerCook;
+    readonly CollisionManager _collisionManager;
+    readonly AnimationManager _animationManager;
 
     Vector2 _previous_direction; //Direction speichern, die davor wichtig war
 
@@ -65,7 +65,7 @@ internal class InputManager
     }
     public void Moving()
     {
-        Vector2 _currentDirection = ConvertKeyToVector(_collisionManager);
+        Vector2 _currentDirection = ConvertKeyToVector();
 
         //stopps movement if no key is pressed
         if (_currentDirection.Length() == 0)
@@ -103,7 +103,7 @@ internal class InputManager
         AnimationRow(_currentDirection); //sets row for animation
     } //moving close bracket
 
-    private Vector2 ConvertKeyToVector(CollisionManager collisionManager)
+    public Vector2 ConvertKeyToVector()
     {
         Vector2 _currentDirection = Vector2.Zero;
         (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
@@ -141,7 +141,6 @@ internal class InputManager
         }
 
         return _currentDirection;
-
     }
 
     private void AnimationRow(Vector2 currentDirection)

@@ -64,8 +64,12 @@ public class MainMenu
 
     public void Draw()
     {
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+
         _startButton.Draw(_spriteBatch);
         _optionButton.Draw(_spriteBatch);
         _quitButton.Draw(_spriteBatch);
+
+        _spriteBatch.End();
     }
 }

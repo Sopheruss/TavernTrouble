@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 
@@ -8,6 +10,10 @@ namespace SoftwareProjekt2024.Screens;
 
 internal class GamePlay
 {
+    readonly SpriteBatch _spriteBatch;
+
+    //using Monogame Extended Camera 
+    private OrthographicCamera _camera;
 
     Button _pauseButton;
 
@@ -26,14 +32,18 @@ internal class GamePlay
 
     Texture2D rectangleTexture;
 
-    public GamePlay(int screenWidth, int screenHeight)
+    public GamePlay(int screenWidth, int screenHeight, SpriteBatch spriteBatch)
     {
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
+
+        _spriteBatch = spriteBatch;
     }
 
     public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice)
     {
+        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, 426, 240); //sets the size of the viewport window 
+        _camera = new OrthographicCamera(viewportAdapter);
 
         _perspectiveManager = new PerspectiveManager();
 
@@ -66,6 +76,11 @@ internal class GamePlay
 
     public void Update(Game1 game, GameTime gameTime)
     {
+        const float movementSpeed = 50; //sets the speed of the camera; not quite right? needs to be same speed as oger -> where declared? 
+        //uses the move function of monogame extended
+        //convert to key -> from input manager, tried to tie the movement to the movement of the oger; doesnt quite work as planed 
+        _camera.Move(_inputManager.ConvertKeyToVector() * movementSpeed * gameTime.GetElapsedSeconds());
+
         _pauseButton.Update();
 
         if (_pauseButton.isClicked || _inputManager._escIsPressed)
@@ -78,14 +93,23 @@ internal class GamePlay
         _inputManager.Update();
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw()
     {
-        _pauseButton.Draw(spriteBatch);
+        var transformMatrix = _camera.GetViewMatrix();
 
-        _tileManager.Draw(spriteBatch, 32, 8, 32, _perspectiveManager);
+        //transformationMatrix is automatically calculated into the draw call 
+        //problem 1: isnt centered on oger
+        //problem 2: who to make to layers -> one for game, another for buttons, etc? 
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
 
-        _perspectiveManager.draw(spriteBatch, _animationManager);
+        _pauseButton.Draw(_spriteBatch);
 
-        _collisionManager.DrawDebugRect(spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
+        _tileManager.Draw(_spriteBatch, 32, 8, 32, _perspectiveManager);
+
+        _perspectiveManager.draw(_spriteBatch, _animationManager);
+
+        _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
+
+        _spriteBatch.End();
     }
 }

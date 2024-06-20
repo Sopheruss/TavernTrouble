@@ -41,6 +41,10 @@ public class OptionMenuPause
 
     public void Draw()
     {
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+
         _returnButton.Draw(_spriteBatch);
+
+        _spriteBatch.End();
     }
 }
