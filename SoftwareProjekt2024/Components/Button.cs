@@ -9,7 +9,8 @@ namespace SoftwareProjekt2024.Components
         private MouseState _currentMouse;
         private MouseState _previousMouse;
 
-        readonly Texture2D _texture;
+        readonly Texture2D _textureNotHovering;
+        readonly Texture2D _textureHovering;
         readonly Vector2 _position;
         readonly Rectangle _rectangle;
 
@@ -19,13 +20,14 @@ namespace SoftwareProjekt2024.Components
 
         public bool isHovering;
 
-        public Button(Texture2D texture, Vector2 position)
+        public Button(Texture2D textureNotHvoering, Texture2D textutreHovering, Vector2 position)
         {
             buttonColor = Color.White;
 
-            _texture = texture;
+            _textureNotHovering = textureNotHvoering;
+            _textureHovering = textureNotHvoering;
             _position = position;
-            _rectangle = new Rectangle((int)_position.X - (_texture.Width / 2), (int)_position.Y - (_texture.Height / 2), _texture.Width, _texture.Height);
+            _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2), (int)_position.Y - (_textureNotHovering.Height / 2), _textureNotHovering.Width, _textureNotHovering.Height);
         }
 
         public void Update()
@@ -53,11 +55,11 @@ namespace SoftwareProjekt2024.Components
         {
             if (isHovering)
             {
-                spriteBatch.Draw(_texture, _rectangle, Color.Gray);
+                spriteBatch.Draw(_textureNotHovering, _rectangle, Color.Gray);
             }
             else
             {
-                spriteBatch.Draw(_texture, _rectangle, Color.White);
+                spriteBatch.Draw(_textureHovering, _rectangle, Color.White);
             }
         }
     }
