@@ -61,7 +61,7 @@ public class Game1 : Game
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
 
-        _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
+        _gamePlay.LoadContent(Content, this, Window, GraphicsDevice, _spriteBatch);
     }
 
     protected override void Update(GameTime gameTime)

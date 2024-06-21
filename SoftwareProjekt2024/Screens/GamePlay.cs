@@ -40,10 +40,11 @@ internal class GamePlay
         _spriteBatch = spriteBatch;
     }
 
-    public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice)
+    public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
         var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, 426, 240); //sets the size of the viewport window 
         _camera = new OrthographicCamera(viewportAdapter);
+
 
         _perspectiveManager = new PerspectiveManager();
 
@@ -65,6 +66,7 @@ internal class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
+        _tileManager.LoadObjectlayer(spriteBatch, 32, 8, 32, _perspectiveManager); //Laden aller Objekte von Tiled
 
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager);
@@ -92,6 +94,7 @@ internal class GamePlay
         _ogerCook.Update();
         _animationManager.Update();
         _inputManager.Update();
+
     }
 
     public void Draw()
