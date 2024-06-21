@@ -16,6 +16,8 @@ internal class OptionMenuMain
 
     readonly Button _returnButton;
 
+    SpriteFont font;
+
     public OptionMenuMain(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
@@ -24,11 +26,14 @@ internal class OptionMenuMain
         midScreenWidth = screenWidth / 2;
         midScreenHeight = screenHeight / 2;
 
+
         _returnButton = new Button(
             Content.Load<Texture2D>("Buttons/returnButton"),
             Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
 
+
+        font = Content.Load<SpriteFont>("File");
         _spriteBatch = spriteBatch;
     }
 
@@ -49,6 +54,29 @@ internal class OptionMenuMain
 
         _returnButton.Draw(_spriteBatch);
 
-        _spriteBatch.End();
+     // Placeholder, how to draw "fonts"
+
+        string[] keys = { "W", "A", "S", "D", "E", "Esc" };
+        string[] descriptions = {
+                "Move Up",
+                "Move Left",
+                "Move Down",
+                "Move Right",
+                "Interact",
+                "Pause/Menu"
+            };
+
+        Vector2 position = new Vector2(midScreenWidth -150 , midScreenHeight - 150); // Starting position for the table
+        float lineHeight = font.LineSpacing + 5; // Line height with a small gap
+
+        for (int i = 0; i < keys.Length; i++)
+        {
+            _spriteBatch.DrawString(font, keys[i], position, Color.White);
+            _spriteBatch.DrawString(font, descriptions[i], new Vector2(position.X + 150, position.Y), Color.Black);
+            position.Y += lineHeight; // Move down for the next line
+            
+        }
+
+     _spriteBatch.End();
     }
 }

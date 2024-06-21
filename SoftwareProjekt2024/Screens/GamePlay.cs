@@ -24,7 +24,7 @@ internal class GamePlay
     InteractionManager _interactionManager;
     InputManager _inputManager;
 
-    //it is possible to initialize a List of Sprites!!!
+   
     Player _ogerCook;
 
     readonly int _screenWidth;

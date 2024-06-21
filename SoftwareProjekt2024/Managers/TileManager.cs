@@ -77,36 +77,13 @@ namespace SoftwareProjekt2024
             DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
-        public void LoadLayer(SpriteBatch spriteBatch, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
-        {
-            foreach (var item in objectsLayer)
-            {
-                Rectangle dest = new(
-                    (int)item.Key.X * displayTileSize,
-                    (int)item.Key.Y * displayTileSize,
-                    displayTileSize, displayTileSize);
-
-                int x = item.Value % numTilesPerRow;
-                int y = item.Value / numTilesPerRow;
-
-                Rectangle src = new(
-                    x * pixelTileSize,
-                    y * pixelTileSize,
-                    pixelTileSize, pixelTileSize);
-
-                _perspectiveManager._staticObjects.Add(
-                    new StaticObject(texture, new Vector2((int)item.Key.X, (int)item.Key.Y), dest, src, _perspectiveManager));
-            }
-        }
-
-
-
+        
         private void DrawLayer(SpriteBatch spriteBatch, Dictionary<Vector2, int> layer, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize)
         {
             foreach (var item in layer)
             {
                 Rectangle dest = new(
-                    (int)item.Key.X * displayTileSize,
+                    (int)item.Key.X * displayTileSize, 
                     (int)item.Key.Y * displayTileSize,
                     displayTileSize, displayTileSize);
 
@@ -123,5 +100,6 @@ namespace SoftwareProjekt2024
                 spriteBatch.Draw(texture, dest, src, Color.White);
             }
         }
+    
     }
 }
