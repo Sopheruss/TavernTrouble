@@ -35,6 +35,7 @@ internal class GamePlay
     public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
 
+
         _perspectiveManager = new PerspectiveManager();
 
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
@@ -76,6 +77,7 @@ internal class GamePlay
         _ogerCook.Update();
         _animationManager.Update();
         _inputManager.Update();
+
     }
 
     public void Draw(SpriteBatch spriteBatch)

@@ -7,6 +7,10 @@ namespace SoftwareProjekt2024.Managers
     public class CollisionManager
     {
         private readonly TileManager _tileManager;
+        readonly int halfTileHeight = 16;
+        readonly int quarterTileHeight = 8;
+        readonly int tileSize = 32;
+
 
         public CollisionManager(TileManager tileManager)
         {
@@ -20,7 +24,7 @@ namespace SoftwareProjekt2024.Managers
                 Rectangle tileRect;
                 if ((int)tile.Value == 4) //Fall für den Tisch: kleineres Rectangle
                 {                            // um Kollision erst ab Hälfte des Tisches beginnen zu lassen
-                    tileRect = new Rectangle((int)tile.Key.X * 32, ((int)tile.Key.Y * 32) + 24, 32, 8);
+                    tileRect = new Rectangle((int)tile.Key.X * 32, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight), tileSize, quarterTileHeight);
                     // Calculate the tile's bounding rectangle
                 }
 

@@ -13,8 +13,8 @@ namespace SoftwareProjekt2024.Managers
         public PerspectiveManager()
         {
             _sortedComponents = new List<Component>(); //erstellt Liste
-            _staticObjects = new List<List<Component>>();
-            _tische = new List<Component>();
+            _staticObjects = new List<List<Component>>();  //Zugriff auf den 1. Tisch über _perspectiveManager._staticObjects[0][0]
+            _tische = new List<Component>(); //Zugriff auf den 1. Tisch über _perspectiveManager.
 
 
             _staticObjects.Add(_tische);
