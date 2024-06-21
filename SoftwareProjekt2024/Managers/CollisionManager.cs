@@ -24,8 +24,17 @@ namespace SoftwareProjekt2024.Managers
                 Rectangle tileRect;
                 if ((int)tile.Value == 4) //Fall für den Tisch: kleineres Rectangle
                 {                            // um Kollision erst ab Hälfte des Tisches beginnen zu lassen
-                    tileRect = new Rectangle((int)tile.Key.X * 32, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight), tileSize, quarterTileHeight);
+                    tileRect = new Rectangle(((int)tile.Key.X * 32) + 5 , ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
                     // Calculate the tile's bounding rectangle
+
+                    /*
+                    Example:
+                    tileRect = new Rectangle(
+                        (int)tile.Key.X * 32                                             -> adding to this value shifts the left bound to the right
+                        , (int)tile.Key.Y * 32                                           -> adding to this value shifts the upper bound downwards
+                        , tileSize                                                       -> subtracting from this value shifts the right bound to the left
+                        , tileSize );                                           -> subtracting from this value shifts the lower bound upwards
+                    */
                 }
 
                 else
