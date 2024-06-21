@@ -98,7 +98,7 @@ internal class InputManager
             }
         }
 
-        _ogerCook.position += _currentDirection;
+        _ogerCook.position += _currentDirection; // also dictates speed, multiply currDir with float
         _animationManager.PlayAnimation = true;
         AnimationRow(_currentDirection); //sets row for animation
     } //moving close bracket
