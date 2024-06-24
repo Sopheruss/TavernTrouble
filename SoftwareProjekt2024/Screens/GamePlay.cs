@@ -2,124 +2,143 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using System.Diagnostics;
 
-namespace SoftwareProjekt2024.Screens;
-
-internal class GamePlay
+namespace SoftwareProjekt2024.Screens
 {
-    readonly SpriteBatch _spriteBatch;
-
-    //camera stuff; using Monogame Extended Camera 
-    private OrthographicCamera _camera;
-
-    Button _pauseButton;
-
-    PerspectiveManager _perspectiveManager;
-    AnimationManager _animationManager;
-    TileManager _tileManager;
-    CollisionManager _collisionManager;
-    InteractionManager _interactionManager;
-    InputManager _inputManager;
-
-   
-    Player _ogerCook;
-
-    readonly int _screenWidth;
-    readonly int _screenHeight;
-
-    Texture2D rectangleTexture;
-
-    public GamePlay(int screenWidth, int screenHeight, SpriteBatch spriteBatch)
+    internal class GamePlay
     {
-        _screenWidth = screenWidth;
-        _screenHeight = screenHeight;
+        readonly SpriteBatch _spriteBatch;
 
-        _spriteBatch = spriteBatch;
-    }
+        // Camera stuff; using Monogame Extended Camera 
+        private OrthographicCamera _camera;
 
-    public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
-    {
-        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, 426, 240); //sets the size of the viewport window 
-        _camera = new OrthographicCamera(viewportAdapter);
+        Button _pauseButton;
 
+        PerspectiveManager _perspectiveManager;
+        AnimationManager _animationManager;
+        TileManager _tileManager;
+        CollisionManager _collisionManager;
+        InteractionManager _interactionManager;
+        InputManager _inputManager;
 
-        _perspectiveManager = new PerspectiveManager();
+        BitmapFont bmfont;
+        private int score;
 
-        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
-        _animationManager = new(4, 4, new Vector2(19, 32));
+        Player _ogerCook;
 
-        //local implementation, cuz acces to texture via Sprite class
-        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+        readonly int _screenWidth;
+        readonly int _screenHeight;
 
-        _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(250, 200), //PLS ÄNDERN, dafür MapSize 
-                              _perspectiveManager);
+        Texture2D rectangleTexture;
 
-        _pauseButton = new Button(
-            Content.Load<Texture2D>("Buttons/pauseButton"),
-            Content.Load<Texture2D>("Buttons/pauseButtonHovering"),
-            new Vector2(30, 30));
+        // Stopwatch for tracking elapsed time
+        private Stopwatch _timer;
 
-        _tileManager = new TileManager();
-        _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
-        _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        _tileManager.LoadObjectlayer(spriteBatch, 32, 8, 32, _perspectiveManager); //Laden aller Objekte von Tiled
-
-        _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager);
-        _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
-
-        rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // for player rectangle
-        rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
-    }
-
-    public void Update(Game1 game, GameTime gameTime)
-    {
-        //uses the move function of monogame extended
-        //convert to key -> from input manager, tried to tie the movement to the movement of the oger; doesnt quite work as planed 
-        //_camera.Move(_inputManager.ConvertKeyToVector() * movementSpeed * gameTime.GetElapsedSeconds());
-
-        _camera.LookAt(_ogerCook.position + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
-
-        _pauseButton.Update();
-
-        if (_pauseButton.isClicked || _inputManager._escIsPressed)
+        public GamePlay(int screenWidth, int screenHeight, SpriteBatch spriteBatch)
         {
-            game.activeScene = Scenes.PAUSEMENU;
+            _screenWidth = screenWidth;
+            _screenHeight = screenHeight;
+
+            _spriteBatch = spriteBatch;
+
+            // Initialize the stopwatch
+            _timer = new Stopwatch();
         }
 
-        _ogerCook.Update();
-        _animationManager.Update();
-        _inputManager.Update();
+        public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+        {
+            var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, 426, 240); // Sets the size of the viewport window 
+            _camera = new OrthographicCamera(viewportAdapter);
 
-    }
+            _perspectiveManager = new PerspectiveManager();
 
-    public void Draw()
-    {
-        //two spriteBatch.Begin/End to seperate stuff that is affected by camera and static stuff
+            // Constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
+            _animationManager = new(4, 4, new Vector2(19, 32));
 
-        //transformationMatrix is automatically calculated into the draw call 
-        var transformMatrix = _camera.GetViewMatrix();
+            // Local implementation, because access to texture via Sprite class
+            Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
+            _ogerCook = new Player(_ogerCookSpritesheet,
+                                  new Vector2(250, 200), // Change if necessary for map size 
+                                  _perspectiveManager);
 
-        _tileManager.Draw(_spriteBatch, 32, 8, 32, _perspectiveManager);
+            _pauseButton = new Button(
+                Content.Load<Texture2D>("Buttons/pauseButton"),
+                Content.Load<Texture2D>("Buttons/pauseButtonHovering"),
+                new Vector2(30, 30));
 
-        _perspectiveManager.draw(_spriteBatch, _animationManager);
+            _tileManager = new TileManager();
+            _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
+            _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
+            _tileManager.LoadObjectlayer(spriteBatch, 32, 8, 32, _perspectiveManager); // Load all objects from Tiled
 
-        _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
+            _collisionManager = new CollisionManager(_tileManager);
+            _interactionManager = new InteractionManager(_tileManager);
+            _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
-        _spriteBatch.End();
+            rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
+            rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
 
+            bmfont = Content.Load<BitmapFont>("Fonts/font_new");
 
+            // Start the stopwatch
+            _timer.Start();
+        }
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        public void Update(Game1 game, GameTime gameTime)
+        {
+            _camera.LookAt(_ogerCook.position + new Vector2(10, 16)); // Offset to center ogre -> half of the texture width/height
 
-        _pauseButton.Draw(_spriteBatch);
+            _pauseButton.Update();
 
-        _spriteBatch.End();
+            if (_pauseButton.isClicked || _inputManager._escIsPressed)
+            {
+                game.activeScene = Scenes.PAUSEMENU;
+                _timer.Stop(); // Stop the stopwatch when paused
+            }
+            else
+            {
+                _timer.Start(); // Resume the stopwatch if not paused
+            }
+
+            _ogerCook.Update();
+            _animationManager.Update();
+            _inputManager.Update();
+            score++;
+        }
+
+        public void Draw()
+        {
+            // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
+
+            // TransformationMatrix is automatically calculated into the draw call 
+            var transformMatrix = _camera.GetViewMatrix();
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); // To make sharp images while scaling 
+
+            _tileManager.Draw(_spriteBatch, 32, 8, 32, _perspectiveManager);
+
+            _perspectiveManager.draw(_spriteBatch, _animationManager);
+
+            _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+
+            _spriteBatch.End();
+
+            _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            _spriteBatch.DrawString(bmfont, "Placeholder: " + score, new Vector2(50, 50), Color.White);
+            _pauseButton.Draw(_spriteBatch);
+
+            // Display the elapsed time
+            string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
+            _spriteBatch.DrawString(bmfont, "Time: " + elapsedTime, new Vector2(50, 70), Color.White);
+
+            _spriteBatch.End();
+        }
     }
 }
