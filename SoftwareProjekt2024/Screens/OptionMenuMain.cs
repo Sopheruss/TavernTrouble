@@ -32,6 +32,8 @@ namespace SoftwareProjekt2024.Screens
                 Content.Load<Texture2D>("Buttons/returnButtonHovering"),
                 new Vector2(screenWidth - 70, screenHeight - 70));
 
+
+            // texture as well as fnt file have to be imported via content-pipline and monogame.extended importer. Beware of filestructure
             bmfont = Content.Load<BitmapFont>("Fonts/font_new");
         }
 
