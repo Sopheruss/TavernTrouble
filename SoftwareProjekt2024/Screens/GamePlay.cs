@@ -136,7 +136,7 @@ namespace SoftwareProjekt2024.Screens
 
             // Display the elapsed time
             string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
-            _spriteBatch.DrawString(bmfont, "Time: " + elapsedTime, new Vector2(50, 70), Color.White);
+            _spriteBatch.DrawString(bmfont, "Time: " + elapsedTime, new Vector2(50, 70), Color.LightGreen);
 
             _spriteBatch.End();
         }
