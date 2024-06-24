@@ -33,7 +33,7 @@ public class OptionMenuPause
     {
         _returnButton.Update();
 
-        if (_returnButton.isClicked)
+        if (_returnButton.isClicked || _game._escIsPressed)
         {
             _game.activeScene = Scenes.PAUSEMENU;
         }

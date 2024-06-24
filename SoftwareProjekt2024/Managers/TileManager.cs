@@ -15,7 +15,7 @@ namespace SoftwareProjekt2024
         public Dictionary<Vector2, int> groundworkLayer;
         public Dictionary<Vector2, int> objectsLayer;
         public Dictionary<Vector2, int> collisionLayer;
-        //public Dictionary<Vector2, int> interactionLayer;
+        public Dictionary<Vector2, int> interactionLayer;
 
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
@@ -28,13 +28,15 @@ namespace SoftwareProjekt2024
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
 
-            groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_groundworkLayer.csv"));
+            /*groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_groundworkLayer.csv"));
             objectsLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_objectsLayer.csv"));
             collisionLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_collisionLayer.csv"));
-            //interactionLayer = LoadMap("../../../Data/tavern_interactionLayer.csv");
+            interactionLayer = LoadMap("../../../Data/tavern_interactionLayer.csv");*/
 
-
-
+            groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_groundLayer.csv"));
+            objectsLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_objectLayer.csv"));
+            collisionLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_collisionLayer.csv"));
+            //interactionLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_interactionLayer.csv"));
 
             // Opens a CSV file, reads it line by line, splits the line into
             // an array of integers. Converts data into a Dictionary where the
@@ -74,9 +76,9 @@ namespace SoftwareProjekt2024
         public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             //LoadLayer(spriteBatch, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize, _perspectiveManager);
-            //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
         public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
@@ -110,7 +112,7 @@ namespace SoftwareProjekt2024
             foreach (var item in layer)
             {
                 Rectangle dest = new(
-                    (int)item.Key.X * displayTileSize, 
+                    (int)item.Key.X * displayTileSize,
                     (int)item.Key.Y * displayTileSize,
                     displayTileSize, displayTileSize);
 
@@ -127,6 +129,6 @@ namespace SoftwareProjekt2024
                 spriteBatch.Draw(texture, dest, src, Color.White);
             }
         }
-    
+
     }
 }

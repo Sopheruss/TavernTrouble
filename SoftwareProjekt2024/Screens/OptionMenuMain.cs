@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 
 namespace SoftwareProjekt2024.Screens;
@@ -42,7 +41,7 @@ internal class OptionMenuMain
         _returnButton.Update();
 
 
-        if (_returnButton.isClicked || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (_returnButton.isClicked || _game._escIsPressed)
         {
             _game.activeScene = Scenes.MAINMENU;
         }
@@ -54,7 +53,7 @@ internal class OptionMenuMain
 
         _returnButton.Draw(_spriteBatch);
 
-     // Placeholder, how to draw "fonts"
+        // Placeholder, how to draw "fonts"
 
         string[] keys = { "W", "A", "S", "D", "E", "Esc" };
         string[] descriptions = {
@@ -66,7 +65,7 @@ internal class OptionMenuMain
                 "Pause/Menu"
             };
 
-        Vector2 position = new Vector2(midScreenWidth -150 , midScreenHeight - 150); // Starting position for the table
+        Vector2 position = new Vector2(midScreenWidth - 150, midScreenHeight - 150); // Starting position for the table
         float lineHeight = font.LineSpacing + 5; // Line height with a small gap
 
         for (int i = 0; i < keys.Length; i++)
@@ -74,9 +73,9 @@ internal class OptionMenuMain
             _spriteBatch.DrawString(font, keys[i], position, Color.White);
             _spriteBatch.DrawString(font, descriptions[i], new Vector2(position.X + 150, position.Y), Color.Black);
             position.Y += lineHeight; // Move down for the next line
-            
+
         }
 
-     _spriteBatch.End();
+        _spriteBatch.End();
     }
 }

@@ -24,7 +24,7 @@ internal class GamePlay
     InteractionManager _interactionManager;
     InputManager _inputManager;
 
-   
+
     Player _ogerCook;
 
     readonly int _screenWidth;
@@ -64,7 +64,8 @@ internal class GamePlay
             new Vector2(30, 30));
 
         _tileManager = new TileManager();
-        _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
+        //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
+        _tileManager.textureAtlas = Content.Load<Texture2D>("atlasSophie");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
         _tileManager.LoadObjectlayer(spriteBatch, 32, 8, 32, _perspectiveManager); //Laden aller Objekte von Tiled
 
@@ -86,7 +87,7 @@ internal class GamePlay
 
         _pauseButton.Update();
 
-        if (_pauseButton.isClicked || _inputManager._escIsPressed)
+        if (_pauseButton.isClicked || game._escIsPressed)
         {
             game.activeScene = Scenes.PAUSEMENU;
         }

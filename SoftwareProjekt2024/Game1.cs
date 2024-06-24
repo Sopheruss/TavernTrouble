@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
@@ -17,6 +18,10 @@ public class Game1 : Game
 
 {
     public bool _exit = false;
+
+    public bool _escIsPressed = false;
+    public static KeyboardState _currentKeyState;
+    public static KeyboardState _previousKeyState;
 
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -64,12 +69,41 @@ public class Game1 : Game
         _gamePlay.LoadContent(Content, this, Window, GraphicsDevice, _spriteBatch);
     }
 
+    public void getKeyboardState()
+    {
+        _previousKeyState = _currentKeyState;
+        _currentKeyState = Keyboard.GetState();
+    }
+
+    public static bool IsPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key);
+    }
+
+    public static bool HasBeenPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
+    }
+
+    public void Commands()
+    {
+        _escIsPressed = false;
+
+        // exit, pause, ... 
+        if (HasBeenPressed(Keys.Escape))
+        {
+            _escIsPressed = true;
+        }
+    }
+
     protected override void Update(GameTime gameTime)
     {
         if (_exit)
         {
             Exit();
         }
+
+        Commands();
 
         switch (activeScene)
         {
