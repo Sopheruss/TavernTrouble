@@ -7,19 +7,15 @@ namespace SoftwareProjekt2024.Components
 {
     internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //erbt von ScaledSprite, implementiert Comparable
     {
-        int heigth;
         public Component(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position)
         {
             perspectiveManager._sortedComponents.Add(this); //bei Erstellung von Components werden sie in Liste geaddet
         }
 
-        public virtual int getHeight() { return 0; } //Berechne Höhe in Kindklassen
-
-
         public int CompareTo(Component other) //sortiere nach Y Werten + Höhe -> lower bounds
         {
-            if (this.position.Y + this.heigth < other.position.Y + other.heigth) return -1;
-            if (this.position.Y + this.heigth == other.position.Y + other.heigth) return 0;
+            if (this.position.Y + this.height < other.position.Y + other.height) return -1;
+            if (this.position.Y + this.height == other.position.Y + other.height) return 0;
             return 1;
         }
 

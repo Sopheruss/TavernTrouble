@@ -24,7 +24,7 @@ namespace SoftwareProjekt2024.Managers
                 Rectangle tileRect;
                 if ((int)tile.Value == 4) //Fall für den Tisch: kleineres Rectangle
                 {                            // um Kollision erst ab Hälfte des Tisches beginnen zu lassen
-                    tileRect = new Rectangle(((int)tile.Key.X * 32) + 5 , ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                    tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
                     // Calculate the tile's bounding rectangle
 
                     /*
@@ -55,9 +55,7 @@ namespace SoftwareProjekt2024.Managers
 
         internal (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player player)
         {
-            // Fixed dimensions of the player sprite
-            int playerWidth = 30;
-            int playerHeight = 60;
+            int scaleRec = 4 / 5;
 
             // Get the current rectangle representing the player's bounds
             Rectangle playerRect = player.Rect;
@@ -67,24 +65,24 @@ namespace SoftwareProjekt2024.Managers
             // Left bounding rectangle
             Rectangle leftBounds = new Rectangle(
                 playerRect.Left - 1,    // Adjusted left side (1 pixel to the left)
-                playerRect.Top,         // Align with the top of the player
+                playerRect.Top + 40,         // Align with the top of the player
                 1,                      // Width of 1 pixel
-                playerHeight            // Height same as player's height
+                player.height - 40           // Height same as player's height
             );
 
             // Right bounding rectangle
             Rectangle rightBounds = new Rectangle(
                 playerRect.Right,       // Right side of the player
-                playerRect.Top,         // Align with the top of the player
+                playerRect.Top + 40,         // Align with the top of the player
                 1,                      // Width of 1 pixel
-                playerHeight            // Height same as player's height
+                player.height - 40           // Height same as player's height
             );
 
             // Up bounding rectangle
             Rectangle upBounds = new Rectangle(
                 playerRect.Left,        // Align with the left side of the player
-                playerRect.Top - 1,     // Adjusted up (1 pixel above)
-                playerWidth,            // Width same as player's width
+                playerRect.Top - 1 + 40,     // Adjusted up (1 pixel above) + Offset for optics
+                player.width,            // Width same as player's width
                 1                       // Height of 1 pixel
             );
 
@@ -92,7 +90,7 @@ namespace SoftwareProjekt2024.Managers
             Rectangle downBounds = new Rectangle(
                 playerRect.Left,        // Align with the left side of the player
                 playerRect.Bottom,      // Bottom side of the player
-                playerWidth,            // Width same as player's width
+                player.width,            // Width same as player's width
                 1                       // Height of 1 pixel
             );
 

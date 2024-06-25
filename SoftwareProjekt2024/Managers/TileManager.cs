@@ -77,8 +77,7 @@ namespace SoftwareProjekt2024
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            //LoadLayer(spriteBatch, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize, _perspectiveManager);
-            DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
         public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
@@ -98,7 +97,7 @@ namespace SoftwareProjekt2024
                     y * pixelTileSize,
                     pixelTileSize, pixelTileSize);
 
-                if (item.Value == 21)
+                if (item.Value == 12)
                 {
                     _perspectiveManager._staticObjects[0].Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                 }
