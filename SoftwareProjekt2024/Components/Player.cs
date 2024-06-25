@@ -15,6 +15,13 @@ internal class Player : Component
     {
         base.Update();
     }
+
+    public override int getHeight()
+    {
+        return this.height;
+    }
+
+
     public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager) // generalisierter Aufruf der Spritedraw Methode
     {
         _spriteBatch.Draw(

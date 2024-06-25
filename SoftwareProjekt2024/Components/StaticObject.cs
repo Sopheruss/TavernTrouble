@@ -17,7 +17,7 @@ namespace SoftwareProjekt2024.Components
         }
 
         //Höhe des Destination Rectangle
-        public int getHeight()
+        public override int getHeight()
         {
             return dest.Height;
         }

@@ -55,7 +55,8 @@ namespace SoftwareProjekt2024.Managers
 
         internal (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player player)
         {
-            int scaleRec = 4 / 5;
+            int loweredPlayerBounds = 40;
+            int tightenedPlayerBounds = 3;
 
             // Get the current rectangle representing the player's bounds
             Rectangle playerRect = player.Rect;
@@ -64,34 +65,34 @@ namespace SoftwareProjekt2024.Managers
 
             // Left bounding rectangle
             Rectangle leftBounds = new Rectangle(
-                playerRect.Left - 1,    // Adjusted left side (1 pixel to the left)
-                playerRect.Top + 40,         // Align with the top of the player
-                1,                      // Width of 1 pixel
-                player.height - 40           // Height same as player's height
+                playerRect.Left - 1 + tightenedPlayerBounds,     // Adjusted left side (1 pixel to the left)
+                playerRect.Top + loweredPlayerBounds,           // Align with the top of the player
+                1,                                             // Width of 1 pixel
+                player.height - loweredPlayerBounds           // Height same as player's height
             );
 
             // Right bounding rectangle
             Rectangle rightBounds = new Rectangle(
-                playerRect.Right,       // Right side of the player
-                playerRect.Top + 40,         // Align with the top of the player
-                1,                      // Width of 1 pixel
-                player.height - 40           // Height same as player's height
+                playerRect.Right - tightenedPlayerBounds,       // Right side of the player
+                playerRect.Top + loweredPlayerBounds,          // Align with the top of the player
+                1,                                            // Width of 1 pixel
+                player.height - loweredPlayerBounds          // Height same as player's height
             );
 
             // Up bounding rectangle
             Rectangle upBounds = new Rectangle(
-                playerRect.Left,        // Align with the left side of the player
-                playerRect.Top - 1 + 40,     // Adjusted up (1 pixel above) + Offset for optics
-                player.width,            // Width same as player's width
-                1                       // Height of 1 pixel
+                playerRect.Left + tightenedPlayerBounds,        // Align with the left side of the player
+                playerRect.Top - 1 + loweredPlayerBounds,      // Adjusted up (1 pixel above) + Offset for optics
+                player.width - tightenedPlayerBounds * 2,     // Width same as player's width; oger width != rectangle width
+                1                                            // Height of 1 pixel
             );
 
             // Down bounding rectangle
             Rectangle downBounds = new Rectangle(
-                playerRect.Left,        // Align with the left side of the player
-                playerRect.Bottom,      // Bottom side of the player
-                player.width,            // Width same as player's width
-                1                       // Height of 1 pixel
+                playerRect.Left + tightenedPlayerBounds,        // Align with the left side of the player
+                playerRect.Bottom,                             // Bottom side of the player
+                player.width - tightenedPlayerBounds * 2,     // Width same as player's width; oger width != rectangle width
+                1                                            // Height of 1 pixel
             );
 
             // Return all calculated bounding rectangles

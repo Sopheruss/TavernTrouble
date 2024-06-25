@@ -12,10 +12,15 @@ namespace SoftwareProjekt2024.Components
             perspectiveManager._sortedComponents.Add(this); //bei Erstellung von Components werden sie in Liste geaddet
         }
 
+        public virtual int getHeight()
+        {
+            return 0;
+        }
+
         public int CompareTo(Component other) //sortiere nach Y Werten + Höhe -> lower bounds
         {
-            if (this.position.Y + this.height < other.position.Y + other.height) return -1;
-            if (this.position.Y + this.height == other.position.Y + other.height) return 0;
+            if (this.position.Y + this.getHeight() < other.position.Y + other.getHeight()) return -1;
+            if (this.position.Y + this.getHeight() == other.position.Y + other.getHeight()) return 0;
             return 1;
         }
 

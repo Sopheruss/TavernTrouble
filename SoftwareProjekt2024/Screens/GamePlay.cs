@@ -24,11 +24,15 @@ internal class GamePlay
     InteractionManager _interactionManager;
     InputManager _inputManager;
 
-
     Player _ogerCook;
 
     readonly int _screenWidth;
     readonly int _screenHeight;
+
+    readonly int viewPortWidth = 426;
+    readonly int viewPortHeight = 240;
+
+    readonly int tileSize = 32;
 
     Texture2D rectangleTexture;
 
@@ -42,7 +46,7 @@ internal class GamePlay
 
     public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
-        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, 426, 240); //sets the size of the viewport window 
+        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, viewPortWidth, viewPortHeight); //sets the size of the viewport window 
         _camera = new OrthographicCamera(viewportAdapter);
 
 
@@ -67,7 +71,7 @@ internal class GamePlay
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlasSophie");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        _tileManager.LoadObjectlayer(spriteBatch, 32, 8, 32, _perspectiveManager); //Laden aller Objekte von Tiled
+        _tileManager.LoadObjectlayer(spriteBatch, tileSize, 8, tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
 
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager);
@@ -77,13 +81,27 @@ internal class GamePlay
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
     }
 
+    private void CalculateCameraLookAt()
+    {
+        int TileMapTileWidth = _tileManager.mapWidth;
+        int TileMapTileHeight = _tileManager.mapHeight;
+        int TileMapWidthInPixel = TileMapTileWidth * tileSize;
+        int TileMapHeightInPixel = TileMapTileHeight * tileSize;
+
+        //Begrenzt ogerPosition Werte auf Intervall 
+
+        var x = MathHelper.Clamp(_ogerCook.position.X, viewPortWidth / 2, TileMapWidthInPixel - viewPortWidth / 2);    //min: Hälfte der angezeigten Bildschirmweite
+                                                                                                                       //max: Tilemap-Weite - Hälfte der angezeigten Bildschirmweite
+        var y = MathHelper.Clamp(_ogerCook.position.Y, viewPortHeight / 2, TileMapHeightInPixel - viewPortHeight / 2); //min: Hälfte der angezeigten Bildschirmhöhe 
+                                                                                                                       //max: Tilemap-Höhe - Hälfte der angezeigten Bildschirmhöhe
+        Vector2 ClampedPosition = new Vector2(x, y);
+
+        _camera.LookAt(ClampedPosition + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
+    }
+
     public void Update(Game1 game, GameTime gameTime)
     {
-        //uses the move function of monogame extended
-        //convert to key -> from input manager, tried to tie the movement to the movement of the oger; doesnt quite work as planed 
-        //_camera.Move(_inputManager.ConvertKeyToVector() * movementSpeed * gameTime.GetElapsedSeconds());
-
-        _camera.LookAt(_ogerCook.position + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
+        CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
 
         _pauseButton.Update();
 
@@ -107,11 +125,11 @@ internal class GamePlay
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
 
-        _tileManager.Draw(_spriteBatch, 32, 8, 32, _perspectiveManager);
+        _tileManager.Draw(_spriteBatch, tileSize, 8, tileSize, _perspectiveManager);
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
-        _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
+        //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // drawing player rectangle, int value is thickness
 
         _spriteBatch.End();
 

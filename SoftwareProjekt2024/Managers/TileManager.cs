@@ -4,6 +4,7 @@ using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 
@@ -20,18 +21,12 @@ namespace SoftwareProjekt2024
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
 
-        //implementing for camera? 
-        readonly int mapWidth;
-        readonly int mapHeight;
+        public int mapWidth = 0;
+        public int mapHeight = 0;
 
         public TileManager()
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
-
-            /*groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_groundworkLayer.csv"));
-            objectsLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_objectsLayer.csv"));
-            collisionLayer = LoadMap(Path.Combine(basePath, "Data", "tavern_collisionLayer.csv"));
-            interactionLayer = LoadMap("../../../Data/tavern_interactionLayer.csv");*/
 
             groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_groundLayer.csv"));
             objectsLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_objectLayer.csv"));
@@ -66,8 +61,18 @@ namespace SoftwareProjekt2024
                         }
                     }
 
+                    if (mapWidth < items.Length)
+                    {
+                        mapWidth = items.Length;
+                    }
+
                     y++;
                 }
+
+                mapHeight = y; //counts lines of csv 
+
+                Debug.WriteLine("mapWidth " + mapWidth);
+                Debug.WriteLine("mapHeight " + mapHeight);
 
                 return result;
             }
