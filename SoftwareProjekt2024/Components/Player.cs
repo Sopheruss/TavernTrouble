@@ -21,17 +21,16 @@ internal class Player : Component
         return this.height;
     }
 
-
     public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager) // generalisierter Aufruf der Spritedraw Methode
     {
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _animationManager.GetFrame(),                   //sourceRectangle (frame) 
-        Color.White,                                   //color
-        0f,                                           //rotation 
-        Vector2.Zero,                                //origin -> to place center texture correctly
-        SpriteEffects.None,                        //effects
-        1f);                                      //layer depth
+        _animationManager.GetFrame(),              //sourceRectangle (frame) 
+        Color.White,                              //color
+        0f,                                      //rotation 
+        Vector2.Zero,                           //origin
+        SpriteEffects.None,                    //effects
+        1f);                                  //layer depth
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components
 {
@@ -20,6 +21,11 @@ namespace SoftwareProjekt2024.Components
 
         public bool isHovering;
 
+        public bool _escIsPressed = false;
+
+        public static KeyboardState _currentKeyState;
+        public static KeyboardState _previousKeyState;
+
         public Button(Texture2D textureNotHovering, Texture2D textureHovering, Vector2 position)
         {
             buttonColor = Color.White;
@@ -30,10 +36,40 @@ namespace SoftwareProjekt2024.Components
             _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2), (int)_position.Y - (_textureNotHovering.Height / 2), _textureNotHovering.Width, _textureNotHovering.Height);
         }
 
+        public static void GetKeyboardState()
+        {
+            _previousKeyState = _currentKeyState;
+            _currentKeyState = Keyboard.GetState();
+        }
+
+        public static bool IsPressed(Keys key)
+        {
+            return _currentKeyState.IsKeyDown(key);
+        }
+
+        public static bool HasBeenPressed(Keys key)
+        {
+            return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
+        }
+
+        public void CheckEsc()
+        {
+            _escIsPressed = false;
+
+            if (HasBeenPressed(Keys.Escape))
+            {
+                Debug.WriteLine("esc pressed");
+                _escIsPressed = true;
+            }
+        }
+
         public void Update()
         {
             isClicked = false;
             isHovering = false;
+
+            GetKeyboardState();
+            CheckEsc();
 
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();

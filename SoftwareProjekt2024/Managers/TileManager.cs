@@ -4,7 +4,6 @@ using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 
@@ -28,10 +27,10 @@ namespace SoftwareProjekt2024
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
 
-            groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_groundLayer.csv"));
-            objectsLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_objectLayer.csv"));
-            collisionLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_collisionLayer.csv"));
-            //interactionLayer = LoadMap(Path.Combine(basePath, "Data", "sophieTestetMapAus_interactionLayer.csv"));
+            groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "map_groundLayer.csv"));
+            objectsLayer = LoadMap(Path.Combine(basePath, "Data", "map_objectLayer.csv"));
+            collisionLayer = LoadMap(Path.Combine(basePath, "Data", "map_collisionLayer.csv"));
+            //interactionLayer = LoadMap(Path.Combine(basePath, "Data", "map_interactionLayer.csv"));
 
             // Opens a CSV file, reads it line by line, splits the line into
             // an array of integers. Converts data into a Dictionary where the
@@ -70,9 +69,6 @@ namespace SoftwareProjekt2024
                 }
 
                 mapHeight = y; //counts lines of csv 
-
-                Debug.WriteLine("mapWidth " + mapWidth);
-                Debug.WriteLine("mapHeight " + mapHeight);
 
                 return result;
             }

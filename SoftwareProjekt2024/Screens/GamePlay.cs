@@ -29,10 +29,15 @@ internal class GamePlay
     readonly int _screenWidth;
     readonly int _screenHeight;
 
-    readonly int viewPortWidth = 426;
-    readonly int viewPortHeight = 240;
+    readonly int _viewPortWidth = 426;
+    readonly int _viewPortHeight = 240;
 
-    readonly int tileSize = 32;
+    readonly int _tileSize = 32;
+
+    int _mapWidth = 0;
+    int _mapHeight = 0;
+    int _mapWidthPx = 0;
+    int _mapHeightPx = 0;
 
     Texture2D rectangleTexture;
 
@@ -46,54 +51,61 @@ internal class GamePlay
 
     public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
-        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, viewPortWidth, viewPortHeight); //sets the size of the viewport window 
+        /* camera */
+        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, _viewPortWidth, _viewPortHeight); //sets the size of the viewport window 
         _camera = new OrthographicCamera(viewportAdapter);
 
-
+        /* perspective */
         _perspectiveManager = new PerspectiveManager();
 
+        /* animation */
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
+        //Vector decides size of the size for the frame (one Oger Frame = 19/32) 
         _animationManager = new(4, 4, new Vector2(19, 32));
 
-        //local implementation, cuz acces to texture via Sprite class
-        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
-
-        _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(250, 200), //PLS ÄNDERN, dafür MapSize 
-                              _perspectiveManager);
-
+        /* button */
         _pauseButton = new Button(
             Content.Load<Texture2D>("Buttons/pauseButton"),
             Content.Load<Texture2D>("Buttons/pauseButtonHovering"),
             new Vector2(30, 30));
 
+        /* map */
         _tileManager = new TileManager();
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.textureAtlas = Content.Load<Texture2D>("atlasSophie");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
-        _tileManager.LoadObjectlayer(spriteBatch, tileSize, 8, tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
+        _tileManager.LoadObjectlayer(spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
 
-        _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager);
-        _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
+        _mapHeight = _tileManager.mapHeight;
+        _mapWidth = _tileManager.mapWidth;
+        _mapHeightPx = _tileManager.mapHeight * _tileSize;
+        _mapWidthPx = _tileManager.mapWidth * _tileSize;
+
+        /* player */
+        //local implementation, cuz acces to texture via Sprite class
+        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+
+        _ogerCook = new Player(_ogerCookSpritesheet,
+                              new Vector2(_mapWidthPx / 2, _mapHeightPx / 2), //PLS ÄNDERN, dafür MapSize 
+                              _perspectiveManager);
 
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // for player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
+
+        /* collision, interaction, input */
+        _collisionManager = new CollisionManager(_tileManager);
+        _interactionManager = new InteractionManager(_tileManager);
+        _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
     }
 
     private void CalculateCameraLookAt()
     {
-        int TileMapTileWidth = _tileManager.mapWidth;
-        int TileMapTileHeight = _tileManager.mapHeight;
-        int TileMapWidthInPixel = TileMapTileWidth * tileSize;
-        int TileMapHeightInPixel = TileMapTileHeight * tileSize;
-
         //Begrenzt ogerPosition Werte auf Intervall 
 
-        var x = MathHelper.Clamp(_ogerCook.position.X, viewPortWidth / 2, TileMapWidthInPixel - viewPortWidth / 2);    //min: Hälfte der angezeigten Bildschirmweite
-                                                                                                                       //max: Tilemap-Weite - Hälfte der angezeigten Bildschirmweite
-        var y = MathHelper.Clamp(_ogerCook.position.Y, viewPortHeight / 2, TileMapHeightInPixel - viewPortHeight / 2); //min: Hälfte der angezeigten Bildschirmhöhe 
-                                                                                                                       //max: Tilemap-Höhe - Hälfte der angezeigten Bildschirmhöhe
+        var x = MathHelper.Clamp(_ogerCook.position.X, _viewPortWidth / 2, _mapWidthPx - _viewPortWidth / 2);    //min: Hälfte der angezeigten Bildschirmweite
+                                                                                                                 //max: Tilemap-Weite - Hälfte der angezeigten Bildschirmweite
+        var y = MathHelper.Clamp(_ogerCook.position.Y, _viewPortHeight / 2, _mapHeightPx - _viewPortHeight / 2); //min: Hälfte der angezeigten Bildschirmhöhe 
+                                                                                                                 //max: Tilemap-Höhe - Hälfte der angezeigten Bildschirmhöhe
         Vector2 ClampedPosition = new Vector2(x, y);
 
         _camera.LookAt(ClampedPosition + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
@@ -105,7 +117,7 @@ internal class GamePlay
 
         _pauseButton.Update();
 
-        if (_pauseButton.isClicked || game._escIsPressed)
+        if (_pauseButton.isClicked || _pauseButton._escIsPressed)
         {
             game.activeScene = Scenes.PAUSEMENU;
         }
@@ -125,7 +137,7 @@ internal class GamePlay
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); //to make sharp images while scaling 
 
-        _tileManager.Draw(_spriteBatch, tileSize, 8, tileSize, _perspectiveManager);
+        _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 

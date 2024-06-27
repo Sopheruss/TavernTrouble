@@ -49,25 +49,16 @@
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Data\sophieTestetMapAus_collisionLayer.csv">
+    <None Update="Data\map_collisionLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\sophieTestetMapAus_groundLayer.csv">
+    <None Update="Data\map_groundLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\sophieTestetMapAus_interactionLayer.csv">
+    <None Update="Data\map_interactionLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\sophieTestetMapAus_objectLayer.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\tavern_collisionLayer.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\tavern_groundworkLayer.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\tavern_objectsLayer.csv">
+    <None Update="Data\map_objectLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
