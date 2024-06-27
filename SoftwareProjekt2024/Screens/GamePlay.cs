@@ -72,7 +72,7 @@ internal class GamePlay
         /* map */
         _tileManager = new TileManager();
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
-        _tileManager.textureAtlas = Content.Load<Texture2D>("atlasSophie");
+        _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
         _tileManager.LoadObjectlayer(spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
 

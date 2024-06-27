@@ -6,6 +6,23 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+/* ID-Katalouge: 
+ * table: 12
+ * trash can: 7, 15
+ * grill: 32, 33, 40, 41, 48, 49
+ * beer barrel: 34, 42
+ * plate stack: 35, 43
+ * beer mug: 36, 44
+ * salad box: 37, 45
+ * meat box: 38, 46
+ * bun box: 39, 47
+ * potato box: 54, 62
+ * bar: 50 - 53
+ * counter top: 55, 63
+ * cook book: 56, 64
+ * boiler: 57, 65
+ * cutting board: 58, 66
+ */
 
 namespace SoftwareProjekt2024
 {
@@ -77,7 +94,7 @@ namespace SoftwareProjekt2024
         public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
         public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
@@ -105,8 +122,6 @@ namespace SoftwareProjekt2024
             }
         }
 
-
-
         private void DrawLayer(SpriteBatch spriteBatch, Dictionary<Vector2, int> layer, Texture2D texture, int displayTileSize, int numTilesPerRow, int pixelTileSize)
         {
             foreach (var item in layer)
@@ -129,6 +144,5 @@ namespace SoftwareProjekt2024
                 spriteBatch.Draw(texture, dest, src, Color.White);
             }
         }
-
     }
 }

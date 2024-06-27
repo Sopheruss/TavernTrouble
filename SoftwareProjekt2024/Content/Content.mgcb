@@ -16,7 +16,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin atlasSophie.PNG
+#begin atlas.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -26,7 +26,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:atlasSophie.PNG
+/build:atlas.PNG
 
 #begin Buttons/menuButton.PNG
 /importer:TextureImporter
