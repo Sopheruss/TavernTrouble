@@ -46,7 +46,7 @@ namespace SoftwareProjekt2024.Screens
 
             _spriteBatch = spriteBatch;
 
-            // Initialize the stopwatch
+            // Initialize stopwatch
             _timer = new Stopwatch();
         }
 
