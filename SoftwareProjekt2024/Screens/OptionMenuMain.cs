@@ -15,7 +15,7 @@ internal class OptionMenuMain
 
     readonly Button _returnButton;
 
-    SpriteFont font;
+    readonly SpriteFont font;
 
     public OptionMenuMain(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {

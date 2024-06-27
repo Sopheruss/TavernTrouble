@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components
 {
@@ -33,7 +32,10 @@ namespace SoftwareProjekt2024.Components
             _textureNotHovering = textureNotHovering;
             _textureHovering = textureHovering;
             _position = position;
-            _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2), (int)_position.Y - (_textureNotHovering.Height / 2), _textureNotHovering.Width, _textureNotHovering.Height);
+            _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2),
+                                        (int)_position.Y - (_textureNotHovering.Height / 2),
+                                        _textureNotHovering.Width,
+                                        _textureNotHovering.Height);
         }
 
         public static void GetKeyboardState()
@@ -58,7 +60,6 @@ namespace SoftwareProjekt2024.Components
 
             if (HasBeenPressed(Keys.Escape))
             {
-                Debug.WriteLine("esc pressed");
                 _escIsPressed = true;
             }
         }

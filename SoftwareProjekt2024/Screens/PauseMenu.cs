@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
@@ -20,8 +19,6 @@ public class PauseMenu
     readonly Button _quitButton;
     readonly Button _optionButton;
     readonly Button _returnButton;
-
-    readonly InputManager _inputManager;
 
     public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {

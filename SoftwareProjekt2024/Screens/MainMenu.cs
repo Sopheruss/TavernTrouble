@@ -29,15 +29,15 @@ public class MainMenu
         _startButton = new Button(
             Content.Load<Texture2D>("Buttons/playButton"),
             Content.Load<Texture2D>("Buttons/playButtonHovering"),
-            new Vector2(midScreenWidth, midScreenHeight - 100));
+            new Vector2(screenWidth / 2, midScreenHeight - 100));
         _optionButton = new Button(
             Content.Load<Texture2D>("Buttons/settingsButton"),
             Content.Load<Texture2D>("Buttons/settingsButtonHovering"),
-            new Vector2(midScreenWidth, midScreenHeight));
+            new Vector2(screenWidth / 2, midScreenHeight));
         _quitButton = new Button(
             Content.Load<Texture2D>("Buttons/quitButton"),
             Content.Load<Texture2D>("Buttons/quitButtonHovering"),
-            new Vector2(midScreenWidth, midScreenHeight + 100));
+            new Vector2(screenWidth / 2, midScreenHeight + 100));
 
         _spriteBatch = spriteBatch;
     }
