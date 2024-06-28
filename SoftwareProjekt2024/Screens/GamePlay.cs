@@ -18,6 +18,7 @@ internal class GamePlay
     private OrthographicCamera _camera;
 
     Button _pauseButton;
+    Button _cookBookButton;
 
     Texture2D _orderStrip;
     Rectangle _orderStripRect;
@@ -83,6 +84,11 @@ internal class GamePlay
             Content.Load<Texture2D>("Buttons/pauseButtonHovering"),
             new Vector2(30, 30));
 
+        _cookBookButton = new Button(
+            Content.Load<Texture2D>("Buttons/cookBookButton"),
+            Content.Load<Texture2D>("Buttons/cookBookButtonHovering"),
+            new Vector2(30, _screenHeight - 30));
+
         /* map */
         _tileManager = new TileManager();
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
@@ -140,11 +146,17 @@ internal class GamePlay
         CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
 
         _pauseButton.Update();
+        _cookBookButton.Update();
 
         if (_pauseButton.isClicked || _pauseButton._escIsPressed)
         {
             game.activeScene = Scenes.PAUSEMENU;
             _timer.Stop(); // Stop the stopwatch when paused
+        }
+        else if (_cookBookButton.isClicked)
+        {
+            game.activeScene = Scenes.COOKBOOKSCREEN;
+            _timer.Stop();
         }
         else
         {
@@ -181,13 +193,15 @@ internal class GamePlay
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
-        _spriteBatch.DrawString(bmfont, "Score: " + score, new Vector2(_screenWidth - 150, _pauseButton.Height - bmfont.LineHeight), Color.White);
+        _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight), Color.White);
 
         _pauseButton.Draw(_spriteBatch);
 
+        _cookBookButton.Draw(_spriteBatch);
+
         // Display the elapsed time
         string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
-        _spriteBatch.DrawString(bmfont, "Time: " + elapsedTime, new Vector2(_screenWidth - 150, _pauseButton.Height - bmfont.LineHeight + 20), Color.LightGreen);
+        _spriteBatch.DrawString(bmfont, "Time: \n" + elapsedTime, new Vector2(_screenWidth - 100, _pauseButton.Height + bmfont.LineHeight), Color.LightGreen);
 
         _spriteBatch.End();
     }
