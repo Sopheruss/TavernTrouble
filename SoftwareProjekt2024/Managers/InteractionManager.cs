@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024
 {
@@ -11,6 +12,7 @@ namespace SoftwareProjekt2024
         TileManager _tileManager;
         Player _ogerCook;
         CollisionManager _collisionManager;
+        GamePlay _gamePlay;
 
         readonly int quarterTileHeight = 8;
         readonly int tileSize = 32;
@@ -20,10 +22,11 @@ namespace SoftwareProjekt2024
         Rectangle bounds;
         int interactionState;
 
-        public InteractionManager(TileManager tilemanager, Player ogerCook)
+        public InteractionManager(TileManager tilemanager, Player ogerCook, GamePlay gamePlay)
         {
             _tileManager = tilemanager;
             _ogerCook = ogerCook;
+            _gamePlay = gamePlay;
         }
 
         public void Update()
@@ -33,11 +36,11 @@ namespace SoftwareProjekt2024
 
             if (interactionState == 0)
             {
-                Debug.WriteLine("interaction not possible");
+                Debug.WriteLine("not possible");
             }
             else
             {
-                Debug.WriteLine("INTERACTION POSSIBLE");
+                Debug.WriteLine("possible");
             }
         }
 
@@ -72,6 +75,7 @@ namespace SoftwareProjekt2024
             {
                 default:
                     Debug.WriteLine("INTERACTION");
+                    _gamePlay.IncreaseScore(5);
                     break;
             }
         }

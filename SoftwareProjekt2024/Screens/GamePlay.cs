@@ -49,6 +49,7 @@ internal class GamePlay
     // Stopwatch for tracking elapsed time
     private Stopwatch _timer;
 
+
     public GamePlay(int screenWidth, int screenHeight, SpriteBatch spriteBatch)
     {
         _screenWidth = screenWidth;
@@ -105,7 +106,7 @@ internal class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook, this);
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
         /* font */
@@ -149,7 +150,15 @@ internal class GamePlay
         _animationManager.Update();
         _inputManager.Update();
         _interactionManager.Update();
-        score++;
+    }
+
+
+
+    // call this method to add to current displayed score (currently only in interactionManager)
+
+    public void IncreaseScore(int increment)
+    {
+        score += increment;
     }
 
     public void Draw()
@@ -171,7 +180,7 @@ internal class GamePlay
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        _spriteBatch.DrawString(bmfont, "Placeholder: " + score, new Vector2(50, 50), Color.White);
+        _spriteBatch.DrawString(bmfont, "Score: " + score, new Vector2(50, 50), Color.White);
         _pauseButton.Draw(_spriteBatch);
 
         // Display the elapsed time
