@@ -47,7 +47,7 @@ namespace SoftwareProjekt2024
             groundworkLayer = LoadMap(Path.Combine(basePath, "Data", "map_groundLayer.csv"));
             objectsLayer = LoadMap(Path.Combine(basePath, "Data", "map_objectLayer.csv"));
             collisionLayer = LoadMap(Path.Combine(basePath, "Data", "map_collisionLayer.csv"));
-            //interactionLayer = LoadMap(Path.Combine(basePath, "Data", "map_interactionLayer.csv"));
+            interactionLayer = LoadMap(Path.Combine(basePath, "Data", "map_interactionLayer.csv"));
 
             // Opens a CSV file, reads it line by line, splits the line into
             // an array of integers. Converts data into a Dictionary where the
@@ -94,8 +94,9 @@ namespace SoftwareProjekt2024
         public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
         public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
