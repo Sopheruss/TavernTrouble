@@ -105,13 +105,13 @@ internal class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
         _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
         /* font */
         bmfont = Content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
 
-        /* timer */ 
+        /* timer */
         _timer.Start();
 
     }
