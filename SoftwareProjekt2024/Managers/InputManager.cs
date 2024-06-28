@@ -9,6 +9,7 @@ internal class InputManager
     readonly Game1 _game;
     readonly Player _ogerCook;
     readonly CollisionManager _collisionManager;
+    readonly InteractionManager _interactionManager;
     readonly AnimationManager _animationManager;
 
     Vector2 _previous_direction; //Direction speichern, die davor wichtig war
@@ -27,6 +28,7 @@ internal class InputManager
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
+        _interactionManager = interactionManager;
         _animationManager = animationManager;
     }
 
@@ -137,6 +139,16 @@ internal class InputManager
             if (!_collisionManager.CheckCollision(downBounds))
             {
                 _currentDirection += _down;
+            }
+        }
+
+        if (Keyboard.GetState().IsKeyDown(Keys.E))
+        {
+            int interactionState = _interactionManager.CheckInteraction(_ogerCook.Rect);
+            
+            if (interactionState != 0) // != false
+            {
+                _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
             }
         }
 
