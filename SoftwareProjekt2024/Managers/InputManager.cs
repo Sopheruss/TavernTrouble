@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Managers;
 
@@ -145,7 +146,11 @@ internal class InputManager
         if (Keyboard.GetState().IsKeyDown(Keys.E))
         {
             int interactionState = _interactionManager.CheckInteraction(_ogerCook.Rect);
-            
+
+            if (interactionState == 0) {
+                Debug.WriteLine("NO");
+            }
+
             if (interactionState != 0) // != false
             {
                 _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
