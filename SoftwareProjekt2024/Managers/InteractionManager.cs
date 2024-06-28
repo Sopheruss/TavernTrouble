@@ -1,13 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024
 {
-    /* Folgender Code ist nur Template-Work-In-Progress */
-
     internal class InteractionManager
     {
         TileManager _tileManager;
@@ -30,18 +28,19 @@ namespace SoftwareProjekt2024
 
         public void Update()
         {
+            CreateBounds();
             CheckInteraction(bounds);
 
             if (interactionState == 0)
             {
                 Debug.WriteLine("interaction not possible");
             }
-
-            if (interactionState != 0)
+            else
             {
                 Debug.WriteLine("INTERACTION POSSIBLE");
             }
         }
+
         public int GetInteractionState()
         {
             return interactionState;
@@ -53,21 +52,10 @@ namespace SoftwareProjekt2024
         }
 
         public void CheckInteraction(Rectangle bounds)
-        // uses collision logic, could also return Strings if preferred
         {
             foreach (var tile in _tileManager.interactionLayer)
             {
-                Rectangle tileRect;
-
-                switch ((int)tile.Value)
-                {
-                    // cases: if we want to draw rects in different sizes for specific tiles
-                    // default: normal rects in tile-size
-
-                    default:
-                        tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
-                        break;
-                }
+                Rectangle tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
 
                 if (tileRect.Intersects(bounds))
                 {
@@ -77,7 +65,6 @@ namespace SoftwareProjekt2024
             }
             interactionState = 0; // 0 means no possible interaction; false
         }
-
 
         public void HandleInteraction(int tileID)
         {

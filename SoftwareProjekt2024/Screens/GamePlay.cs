@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -6,7 +7,6 @@ using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -148,6 +148,7 @@ internal class GamePlay
         _ogerCook.Update();
         _animationManager.Update();
         _inputManager.Update();
+        _interactionManager.Update();
         score++;
     }
 
