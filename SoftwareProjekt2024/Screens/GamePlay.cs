@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -7,6 +6,7 @@ using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -18,6 +18,9 @@ internal class GamePlay
     private OrthographicCamera _camera;
 
     Button _pauseButton;
+
+    Texture2D _orderStrip;
+    Rectangle _orderStripRect;
 
     PerspectiveManager _perspectiveManager;
     AnimationManager _animationManager;
@@ -114,6 +117,9 @@ internal class GamePlay
         /* timer */
         _timer.Start();
 
+        /* order */
+        _orderStrip = Content.Load<Texture2D>("OrderBar/orderStrip");
+        _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
     }
 
     private void CalculateCameraLookAt()
@@ -169,14 +175,19 @@ internal class GamePlay
 
         _spriteBatch.End();
 
+
+
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        _spriteBatch.DrawString(bmfont, "Placeholder: " + score, new Vector2(50, 50), Color.White);
+        _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
+
+        _spriteBatch.DrawString(bmfont, "Score: " + score, new Vector2(_screenWidth - 150, _pauseButton.Height - bmfont.LineHeight), Color.White);
+
         _pauseButton.Draw(_spriteBatch);
 
         // Display the elapsed time
         string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
-        _spriteBatch.DrawString(bmfont, "Time: " + elapsedTime, new Vector2(50, 70), Color.LightGreen);
+        _spriteBatch.DrawString(bmfont, "Time: " + elapsedTime, new Vector2(_screenWidth - 150, _pauseButton.Height - bmfont.LineHeight + 20), Color.LightGreen);
 
         _spriteBatch.End();
     }

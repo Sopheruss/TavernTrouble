@@ -10,7 +10,8 @@ public enum Scenes
     GAMEPLAY,
     PAUSEMENU,
     OPTIONMENUMAIN,
-    OPTIONMENUPAUSE
+    OPTIONMENUPAUSE,
+    COOKBOOKSCREEN
 };
 
 public class Game1 : Game
@@ -31,6 +32,7 @@ public class Game1 : Game
     private PauseMenu _pauseMenu;
     private OptionMenuMain _optionMenuMain;
     private OptionMenuPause _optionMenuPause;
+    private CookBookScreen _cookBookScreen;
 
     public Game1()
     {
@@ -60,6 +62,7 @@ public class Game1 : Game
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
         _gamePlay.LoadContent(Content, this, Window, GraphicsDevice, _spriteBatch);
     }
@@ -90,7 +93,9 @@ public class Game1 : Game
             case Scenes.OPTIONMENUPAUSE:
                 _optionMenuPause.Update();
                 break;
-
+            case Scenes.COOKBOOKSCREEN:
+                _cookBookScreen.Update();
+                break;
         }
 
         base.Update(gameTime);
@@ -127,6 +132,12 @@ public class Game1 : Game
                 GraphicsDevice.Clear(Color.LightBlue);
 
                 _optionMenuPause.Draw();
+                break;
+
+            case Scenes.COOKBOOKSCREEN:
+                GraphicsDevice.Clear(Color.Beige);
+
+                _cookBookScreen.Draw();
                 break;
         }
 

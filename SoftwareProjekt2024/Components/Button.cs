@@ -22,6 +22,9 @@ namespace SoftwareProjekt2024.Components
 
         public bool _escIsPressed = false;
 
+        public int Width;
+        public int Height;
+
         public static KeyboardState _currentKeyState;
         public static KeyboardState _previousKeyState;
 
@@ -36,6 +39,9 @@ namespace SoftwareProjekt2024.Components
                                         (int)_position.Y - (_textureNotHovering.Height / 2),
                                         _textureNotHovering.Width,
                                         _textureNotHovering.Height);
+
+            Width = _textureNotHovering.Width;
+            Height = _textureNotHovering.Height;
         }
 
         public static void GetKeyboardState()

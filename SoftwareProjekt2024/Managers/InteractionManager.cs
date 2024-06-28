@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024
 {
