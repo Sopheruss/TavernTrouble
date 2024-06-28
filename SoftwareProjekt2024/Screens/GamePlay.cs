@@ -154,7 +154,8 @@ internal class GamePlay
 
 
 
-    // call this method to add to current displayed score (currently only in interactionManager)
+    // call this method to add to current displayed score
+    // (currently only in interactionManager)
 
     public void IncreaseScore(int increment)
     {
