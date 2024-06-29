@@ -92,8 +92,8 @@ internal class GamePlay
         /* map */
         _tileManager = new TileManager();
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
-        _tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
-        _tileManager.hitboxes = Content.Load<Texture2D>("hitboxes");
+        _tileManager.textureAtlas = Content.Load<Texture2D>("Map/atlas");
+        _tileManager.hitboxes = Content.Load<Texture2D>("Map/hitboxes");
         _tileManager.LoadObjectlayer(spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
 
         _mapHeight = _tileManager.mapHeight;
@@ -106,7 +106,7 @@ internal class GamePlay
         Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
         _ogerCook = new Player(_ogerCookSpritesheet,
-                              new Vector2(_mapWidthPx / 2, _mapHeightPx / 2),
+                              new Vector2(_mapWidthPx / 2, _mapHeightPx / 6),
                               _perspectiveManager);
 
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
@@ -183,7 +183,7 @@ internal class GamePlay
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
-        _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
 
         _spriteBatch.End();
 

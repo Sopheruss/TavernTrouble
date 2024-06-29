@@ -29,7 +29,7 @@
 /processorParam:TextureFormat=Color
 /build:../../../../OneDrive/Dokumente/Uni/SoSe_24/Software Projekt/actual Game/button/cookBookButton.PNG;Buttons/cookBookButton.PNG
 
-#begin atlas.PNG
+#begin Background/background.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -39,7 +39,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:atlas.PNG
+/build:Background/background.png
+
+#begin Background/backgroundBord.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background/backgroundBord.png
 
 #begin Buttons/cookBookButtonHovering.PNG
 /importer:TextureImporter
@@ -238,7 +250,7 @@
 /processor:BitmapFontProcessor
 /build:Fonts/font_new.fnt
 
-#begin hitboxes.png
+#begin Map/atlas.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -248,7 +260,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:hitboxes.png
+/build:Map/atlas.PNG
+
+#begin Map/hitboxes.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Map/hitboxes.png
 
 #begin Models/oger_cook_spritesheet.PNG
 /importer:TextureImporter

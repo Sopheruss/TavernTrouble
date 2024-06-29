@@ -22,7 +22,7 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    readonly int screenWidth = 1080;
+    readonly int screenWidth = 1280;
     readonly int screenHeight = 720;
 
     public Scenes activeScene;
@@ -106,27 +106,22 @@ public class Game1 : Game
         switch (activeScene)
         {
             case Scenes.MAINMENU:
-                GraphicsDevice.Clear(Color.Thistle);
                 _mainMenu.Draw();
-
                 break;
             case Scenes.GAMEPLAY:
                 GraphicsDevice.Clear(Color.Black);
 
                 _gamePlay.Draw();
-
                 break;
             case Scenes.PAUSEMENU:
                 GraphicsDevice.Clear(Color.LightGreen);
 
                 _pauseMenu.Draw();
-
                 break;
             case Scenes.OPTIONMENUMAIN:
                 GraphicsDevice.Clear(Color.LightGreen);
 
                 _optionMenuMain.Draw();
-
                 break;
             case Scenes.OPTIONMENUPAUSE:
                 GraphicsDevice.Clear(Color.LightBlue);
