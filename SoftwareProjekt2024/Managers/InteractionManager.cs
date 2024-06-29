@@ -2,7 +2,6 @@
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024
 {
@@ -33,11 +32,11 @@ namespace SoftwareProjekt2024
 
             if (interactionState == 0)
             {
-                Debug.WriteLine("interaction not possible");
+                //Debug.WriteLine("interaction not possible");
             }
             else
             {
-                Debug.WriteLine("INTERACTION POSSIBLE");
+                // Debug.WriteLine("INTERACTION POSSIBLE");
             }
         }
 
@@ -71,7 +70,7 @@ namespace SoftwareProjekt2024
             switch (tileID)
             {
                 default:
-                    Debug.WriteLine("INTERACTION");
+                    //Debug.WriteLine("INTERACTION");
                     break;
             }
         }

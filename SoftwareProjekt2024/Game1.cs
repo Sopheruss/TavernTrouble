@@ -43,7 +43,7 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferWidth = screenWidth;
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
-        //this._graphics.IsFullScreen = true;
+        this._graphics.IsFullScreen = true;
 
         activeScene = Scenes.MAINMENU;
     }
