@@ -6,6 +6,7 @@ namespace SoftwareProjekt2024;
 
 public enum Scenes
 {
+    SPLASHSCREEN,
     MAINMENU,
     GAMEPLAY,
     PAUSEMENU,
@@ -27,6 +28,7 @@ public class Game1 : Game
 
     public Scenes activeScene;
 
+    private SplashScreen _splashScreen;
     private MainMenu _mainMenu;
     private GamePlay _gamePlay;
     private PauseMenu _pauseMenu;
@@ -43,7 +45,7 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferWidth = screenWidth;
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
-        this._graphics.IsFullScreen = true;
+        //this._graphics.IsFullScreen = true;
 
         activeScene = Scenes.MAINMENU;
     }
@@ -57,14 +59,15 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        _splashScreen = new SplashScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
-        _gamePlay = new GamePlay(screenWidth, screenHeight, _spriteBatch);
+        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, this, _spriteBatch);
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
         _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
-        _gamePlay.LoadContent(Content, this, Window, GraphicsDevice, _spriteBatch);
+        _gamePlay.LoadContent(Window, GraphicsDevice);
     }
 
 
@@ -78,11 +81,14 @@ public class Game1 : Game
 
         switch (activeScene)
         {
+            case Scenes.SPLASHSCREEN:
+                _splashScreen.Update();
+                break;
             case Scenes.MAINMENU:
                 _mainMenu.Update();
                 break;
             case Scenes.GAMEPLAY:
-                _gamePlay.Update(this, gameTime);
+                _gamePlay.Update();
                 break;
             case Scenes.PAUSEMENU:
                 _pauseMenu.Update();
@@ -105,6 +111,11 @@ public class Game1 : Game
     {
         switch (activeScene)
         {
+            case Scenes.SPLASHSCREEN:
+                GraphicsDevice.Clear(Color.AliceBlue);
+
+                _splashScreen.Draw();
+                break;
             case Scenes.MAINMENU:
                 _mainMenu.Draw();
                 break;

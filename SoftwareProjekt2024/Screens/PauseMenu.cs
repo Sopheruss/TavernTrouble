@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -73,7 +72,6 @@ public class PauseMenu
         }
         else if (_returnButton.isClicked || _mainMenuButton._escIsPressed) //dont know why mainmenu, doesnt work with return 
         {
-            Debug.WriteLine("in return");
             _game.activeScene = Scenes.GAMEPLAY;
         }
         else if (_quitButton.isClicked)

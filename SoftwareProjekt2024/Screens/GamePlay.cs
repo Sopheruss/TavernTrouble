@@ -12,7 +12,9 @@ namespace SoftwareProjekt2024.Screens;
 
 internal class GamePlay
 {
+    readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
+    readonly ContentManager _content;
 
     // Camera stuff; using Monogame Extended Camera 
     private OrthographicCamera _camera;
@@ -56,8 +58,11 @@ internal class GamePlay
     // Stopwatch for tracking elapsed time
     private Stopwatch _timer;
 
-    public GamePlay(int screenWidth, int screenHeight, SpriteBatch spriteBatch)
+    public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
+        _content = Content;
+        _game = game;
+
         _screenWidth = screenWidth;
         _screenHeight = screenHeight;
 
@@ -67,7 +72,7 @@ internal class GamePlay
         _timer = new Stopwatch();
     }
 
-    public void LoadContent(ContentManager Content, Game1 game, GameWindow window, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+    public void LoadContent(GameWindow window, GraphicsDevice graphicsDevice)
     {
         /* camera */
         var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, _viewPortWidth, _viewPortHeight); //sets the size of the viewport window 
@@ -83,21 +88,21 @@ internal class GamePlay
 
         /* button */
         _pauseButton = new Button(
-            Content.Load<Texture2D>("Buttons/pauseButton"),
-            Content.Load<Texture2D>("Buttons/pauseButtonHovering"),
+            _content.Load<Texture2D>("Buttons/pauseButton"),
+            _content.Load<Texture2D>("Buttons/pauseButtonHovering"),
             new Vector2(30, 30));
 
         _cookBookButton = new Button(
-            Content.Load<Texture2D>("Buttons/cookBookButton"),
-            Content.Load<Texture2D>("Buttons/cookBookButtonHovering"),
+            _content.Load<Texture2D>("Buttons/cookBookButton"),
+            _content.Load<Texture2D>("Buttons/cookBookButtonHovering"),
             new Vector2(30, _screenHeight - 30));
 
         /* map */
         _tileManager = new TileManager();
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
-        _tileManager.textureAtlas = Content.Load<Texture2D>("Map/atlas");
-        _tileManager.hitboxes = Content.Load<Texture2D>("Map/hitboxes");
-        _tileManager.LoadObjectlayer(spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
+        _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
+        _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
+        _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
 
         _mapHeight = _tileManager.mapHeight;
         _mapWidth = _tileManager.mapWidth;
@@ -106,7 +111,7 @@ internal class GamePlay
 
         /* player */
         //local implementation, cuz acces to texture via Sprite class
-        Texture2D _ogerCookSpritesheet = Content.Load<Texture2D>("Models/oger_cook_spritesheet");
+        Texture2D _ogerCookSpritesheet = _content.Load<Texture2D>("Models/oger_cook_spritesheet");
 
         _ogerCook = new Player(_ogerCookSpritesheet,
                               new Vector2(_mapWidthPx / 2, _mapHeightPx / 6),
@@ -118,20 +123,20 @@ internal class GamePlay
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook);
-        _inputManager = new InputManager(game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
+        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
         /* font */
-        bmfont = Content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+        bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
 
         /* timer */
         _timer.Start();
 
         /* score Bord*/
-        _scordeBord = Content.Load<Texture2D>("OrderBar/scoreBord");
+        _scordeBord = _content.Load<Texture2D>("OrderBar/scoreBord");
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
 
         /* order */
-        _orderStrip = Content.Load<Texture2D>("OrderBar/orderStrip");
+        _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
     }
 
@@ -148,7 +153,7 @@ internal class GamePlay
         _camera.LookAt(ClampedPosition + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
     }
 
-    public void Update(Game1 game, GameTime gameTime)
+    public void Update()
     {
         CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
 
@@ -157,12 +162,12 @@ internal class GamePlay
 
         if (_pauseButton.isClicked || _pauseButton._escIsPressed)
         {
-            game.activeScene = Scenes.PAUSEMENU;
+            _game.activeScene = Scenes.PAUSEMENU;
             _timer.Stop(); // Stop the stopwatch when paused
         }
         else if (_cookBookButton.isClicked)
         {
-            game.activeScene = Scenes.COOKBOOKSCREEN;
+            _game.activeScene = Scenes.COOKBOOKSCREEN;
             _timer.Stop();
         }
         else
