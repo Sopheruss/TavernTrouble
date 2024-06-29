@@ -20,7 +20,9 @@ public class Game1 : Game
 {
     public bool _exit = false;
 
-    private GraphicsDeviceManager _graphics;
+    public bool fullScreen = false;
+
+    readonly private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
     readonly int screenWidth = 1280;
@@ -45,7 +47,14 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferWidth = screenWidth;
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
-        //this._graphics.IsFullScreen = true;
+        if (fullScreen)
+        {
+            this._graphics.IsFullScreen = true;
+        }
+        else
+        {
+            this._graphics.IsFullScreen = false;
+        }
 
         activeScene = Scenes.MAINMENU;
     }

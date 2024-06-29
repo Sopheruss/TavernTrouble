@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 
 namespace SoftwareProjekt2024.Screens;
@@ -13,7 +14,19 @@ public class OptionMenuPause
     readonly int midScreenWidth;
     readonly int midScreenHeight;
 
+    private MouseState _currentMouse;
+    private MouseState _previousMouse;
+
     readonly Button _returnButton;
+
+    Texture2D _controls;
+    Rectangle _controlsRect;
+
+    Texture2D _fullScreenOn;
+    Texture2D _fullScreenOff;
+    Rectangle _fullScreenRect;
+
+    bool _fullIsClicked;
 
     public OptionMenuPause(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -27,6 +40,31 @@ public class OptionMenuPause
             Content.Load<Texture2D>("Buttons/returnButton"),
             Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
+
+        _controls = Content.Load<Texture2D>("OptionMenu/controls");
+        _controlsRect = new Rectangle((screenWidth / 2) - 250, (screenHeight / 2) - 140, _controls.Width * 4, _controls.Height * 4);
+
+        _fullScreenOn = Content.Load<Texture2D>("Buttons/fullScreenButtonOn"); //not hovering = on
+        _fullScreenOff = Content.Load<Texture2D>("Buttons/fullScreenButtonOff"); //hovering = off
+        _fullScreenRect = new Rectangle((screenWidth / 2) - 40, screenHeight - 150, _fullScreenOn.Width, _fullScreenOn.Height);
+    }
+
+    public void FullScreenIntersect()
+    {
+        _fullIsClicked = false;
+
+        _previousMouse = _currentMouse;
+        _currentMouse = Mouse.GetState();
+
+        var mouseRect = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+
+        if (mouseRect.Intersects(_fullScreenRect))
+        {
+            if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
+            {
+                _fullIsClicked = true;
+            }
+        }
     }
 
     public void Update()
@@ -37,6 +75,8 @@ public class OptionMenuPause
         {
             _game.activeScene = Scenes.PAUSEMENU;
         }
+
+        FullScreenIntersect();
     }
 
     public void Draw()
@@ -44,6 +84,31 @@ public class OptionMenuPause
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
         _returnButton.Draw(_spriteBatch);
+
+        _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
+
+        _spriteBatch.Draw(_controls, _controlsRect, Color.White);
+
+
+        if (_game.fullScreen && _fullIsClicked)
+        {
+            _spriteBatch.Draw(_fullScreenOff, _fullScreenRect, Color.White);
+            _game.fullScreen = false;
+        }
+        else if (_game.fullScreen == false && _fullIsClicked)
+        {
+            _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
+            _game.fullScreen = true;
+        }
+        else if (_game.fullScreen)
+        {
+            _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
+        }
+        else
+        {
+            _spriteBatch.Draw(_fullScreenOff, _fullScreenRect, Color.White);
+
+        }
 
         _spriteBatch.End();
     }
