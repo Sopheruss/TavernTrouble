@@ -150,7 +150,7 @@ public class Game1 : Game
                 break;
 
             case Scenes.COOKBOOKSCREEN:
-                GraphicsDevice.Clear(Color.Beige);
+                GraphicsDevice.Clear(Color.LightYellow);
 
                 _cookBookScreen.Draw();
                 break;
