@@ -16,7 +16,7 @@ internal class GamePlay
     readonly SpriteBatch _spriteBatch;
     readonly ContentManager _content;
 
-    // Camera stuff; using Monogame Extended Camera 
+    // Camera stuff; using Monogame Extended Camera
     private OrthographicCamera _camera;
 
     Button _pauseButton;
@@ -75,7 +75,7 @@ internal class GamePlay
     public void LoadContent(GameWindow window, GraphicsDevice graphicsDevice)
     {
         /* camera */
-        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, _viewPortWidth, _viewPortHeight); //sets the size of the viewport window 
+        var viewportAdapter = new BoxingViewportAdapter(window, graphicsDevice, _viewPortWidth, _viewPortHeight); //sets the size of the viewport window
         _camera = new OrthographicCamera(viewportAdapter);
 
         /* perspective */
@@ -83,7 +83,7 @@ internal class GamePlay
 
         /* animation */
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
-        //Vector decides size of the size for the frame (one Oger Frame = 19/32) 
+        //Vector decides size of the size for the frame (one Oger Frame = 19/32)
         _animationManager = new(4, 4, new Vector2(19, 32));
 
         /* button */
@@ -142,11 +142,11 @@ internal class GamePlay
 
     private void CalculateCameraLookAt()
     {
-        //Begrenzt ogerPosition Werte auf Intervall 
+        //Begrenzt ogerPosition Werte auf Intervall
 
         var x = MathHelper.Clamp(_ogerCook.position.X, _viewPortWidth / 2, _mapWidthPx - _viewPortWidth / 2);    //min: Hälfte der angezeigten Bildschirmweite
                                                                                                                  //max: Tilemap-Weite - Hälfte der angezeigten Bildschirmweite
-        var y = MathHelper.Clamp(_ogerCook.position.Y, _viewPortHeight / 2, _mapHeightPx - _viewPortHeight / 2); //min: Hälfte der angezeigten Bildschirmhöhe 
+        var y = MathHelper.Clamp(_ogerCook.position.Y, _viewPortHeight / 2, _mapHeightPx - _viewPortHeight / 2); //min: Hälfte der angezeigten Bildschirmhöhe
                                                                                                                  //max: Tilemap-Höhe - Hälfte der angezeigten Bildschirmhöhe
         Vector2 ClampedPosition = new Vector2(x, y);
 
@@ -179,17 +179,26 @@ internal class GamePlay
         _animationManager.Update();
         _inputManager.Update();
         _interactionManager.Update();
-        score++;
+    }
+
+
+
+    // call this method to add to current displayed score
+    // (currently only in interactionManager)
+
+    public void IncreaseScore(int increment)
+    {
+        score += increment;
     }
 
     public void Draw()
     {
         // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
 
-        // TransformationMatrix is automatically calculated into the draw call 
+        // TransformationMatrix is automatically calculated into the draw call
         var transformMatrix = _camera.GetViewMatrix();
 
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); // To make sharp images while scaling 
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); // To make sharp images while scaling
 
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
