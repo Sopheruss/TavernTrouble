@@ -17,30 +17,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../../OneDrive/Dokumente/Uni/SoSe_24/Software Projekt/actual Game/button/cookBookButton.PNG
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../../../OneDrive/Dokumente/Uni/SoSe_24/Software Projekt/actual Game/button/cookBookButton.PNG;Buttons/cookBookButton.PNG
-
-#begin ../../../../OneDrive/Dokumente/Uni/SoSe_24/Software Projekt/actual Game/scoreBord.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../../../OneDrive/Dokumente/Uni/SoSe_24/Software Projekt/actual Game/scoreBord.png;OrderBar/scoreBord.png
-
 #begin Background/background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -76,6 +52,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Background/cookBookRecipe.png
+
+#begin Buttons/cookBookButton.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/cookBookButton.png
 
 #begin Buttons/cookBookButtonHovering.PNG
 /importer:TextureImporter
@@ -357,4 +345,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:OrderBar/orderStrip.PNG
+
+#begin OrderBar/scoreBord.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:OrderBar/scoreBord.png
 
