@@ -56,7 +56,7 @@ public class Game1 : Game
             this._graphics.IsFullScreen = false;
         }
 
-        activeScene = Scenes.MAINMENU;
+        activeScene = Scenes.SPLASHSCREEN;
     }
 
     protected override void Initialize()
@@ -121,7 +121,7 @@ public class Game1 : Game
         switch (activeScene)
         {
             case Scenes.SPLASHSCREEN:
-                GraphicsDevice.Clear(Color.AliceBlue);
+                GraphicsDevice.Clear(Color.LightGreen);
 
                 _splashScreen.Draw();
                 break;

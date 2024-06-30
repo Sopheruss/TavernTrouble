@@ -1,6 +1,4 @@
-﻿//Sophie träumt von einem Splashscreen 
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -8,28 +6,34 @@ using MonoGame.Extended.BitmapFonts;
 
 namespace SoftwareProjekt2024.Screens;
 
-internal class SplashScreen
+public class SplashScreen
 {
     readonly Game1 _game;
+    readonly SpriteBatch _spriteBatch;
 
     readonly int _screenWidth;
     readonly int _screenHeight;
-
-    readonly SpriteBatch _spriteBatch;
+    readonly int midScreenWidth;
+    readonly int midScreenHeight;
 
     BitmapFont bmfont;
+
     public SplashScreen(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
-        _screenWidth = screenWidth;
-        _screenHeight = screenHeight;
         _spriteBatch = spriteBatch;
+
+        _screenHeight = screenHeight;
+        _screenWidth = screenWidth;
+        midScreenWidth = screenWidth / 2;
+        midScreenHeight = screenHeight / 2;
 
         bmfont = Content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
     }
+
     public void Update()
     {
-        if (Keyboard.GetState().IsKeyUp(Keys.Space))
+        if (Keyboard.GetState().IsKeyDown(Keys.Space))
         {
             _game.activeScene = Scenes.MAINMENU;
         }
@@ -37,12 +41,10 @@ internal class SplashScreen
 
     public void Draw()
     {
-        _spriteBatch.Begin();
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
-        _spriteBatch.DrawString(bmfont, "Press space to Start", new Vector2(_screenWidth / 2, _screenHeight - 200), Color.White);
+        _spriteBatch.DrawString(bmfont, "press  space", new Vector2(midScreenWidth - 100, midScreenHeight + 200), Color.Black);
 
         _spriteBatch.End();
     }
 }
-
-
