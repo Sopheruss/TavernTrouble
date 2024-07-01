@@ -18,7 +18,7 @@ public class MainMenu
     readonly int midScreenHeight;
 
     readonly Texture2D _background;
-    readonly Vector2 _backgroundPos;
+    readonly Rectangle _backgroundRect;
 
     readonly Texture2D _backgroundBord;
     readonly Rectangle _backgroundBordRect;
@@ -45,7 +45,7 @@ public class MainMenu
             new Vector2(screenWidth / 2, midScreenHeight + 100));
 
         _background = Content.Load<Texture2D>("Background/background");
-        _backgroundPos = new Vector2(0, 0);
+        _backgroundRect = new Rectangle(0, 0, screenWidth, screenHeight);
 
         _backgroundBord = Content.Load<Texture2D>("Background/backgroundBord");
         _backgroundBordRect = new Rectangle(midScreenWidth - (_backgroundBord.Width / 2),
@@ -80,7 +80,7 @@ public class MainMenu
     {
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
-        _spriteBatch.Draw(_background, _backgroundPos, Color.White);
+        _spriteBatch.Draw(_background, _backgroundRect, Color.White);
         _spriteBatch.Draw(_backgroundBord, _backgroundBordRect, Color.White);
         _startButton.Draw(_spriteBatch);
         _optionButton.Draw(_spriteBatch);
