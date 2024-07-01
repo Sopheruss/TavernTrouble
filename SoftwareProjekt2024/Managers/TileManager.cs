@@ -116,9 +116,23 @@ namespace SoftwareProjekt2024
                     y * pixelTileSize,
                     pixelTileSize, pixelTileSize);
 
-                if (item.Value == 12)
+                switch (item.Value)
                 {
-                    _perspectiveManager._staticObjects[0].Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                    case 12:    //Tisch
+                        _perspectiveManager._staticObjects[0].Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        break;
+                    case 50:    //Bar links
+                        _perspectiveManager._staticObjects[0].Add(new Bar_Links(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        break;
+                    case 51:    //Bar
+                        _perspectiveManager._staticObjects[0].Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        break;
+                    case 52:    //Bar
+                        _perspectiveManager._staticObjects[0].Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        break;
+                    case 53:    //Bar Rechts
+                        _perspectiveManager._staticObjects[0].Add(new Bar_Rechts(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        break;
                 }
             }
         }

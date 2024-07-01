@@ -22,28 +22,32 @@ namespace SoftwareProjekt2024.Managers
             foreach (var tile in _tileManager.collisionLayer)
             {
                 Rectangle tileRect;
-                if ((int)tile.Value == 4) //Fall für den Tisch: kleineres Rectangle
-                {                            // um Kollision erst ab Hälfte des Tisches beginnen zu lassen
-                    tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
-                    // Calculate the tile's bounding rectangle
 
-                    /*
+                /*
+                    Calculate the Tiles bounding rectangle
                     Example:
                     tileRect = new Rectangle(
                         (int)tile.Key.X * 32                                             -> adding to this value shifts the left bound to the right
                         , (int)tile.Key.Y * 32                                           -> adding to this value shifts the upper bound downwards
                         , tileSize                                                       -> subtracting from this value shifts the right bound to the left
                         , tileSize );                                           -> subtracting from this value shifts the lower bound upwards
-                    */
+                 */
+
+                switch ((int)tile.Value)
+                {
+                    case 4:     //Fall für den Tisch: kleineres Rectangle, um Kollision erst ab Hälfte des Tisches beginnen zu lassen
+                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                        break;
+                    case 3:     //linker Barrand
+                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 16, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                        break;
+                    case 5:     //rechter Barrand
+                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 21, quarterTileHeight - 2);
+                        break;
+                    default:    //Generalfall
+                        tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
+                        break;
                 }
-
-                else
-                { //Generalfall
-                    tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
-                    // Calculate the tile's bounding rectangle
-                }
-
-
 
                 if (tileRect.Intersects(bounds))
                 {
