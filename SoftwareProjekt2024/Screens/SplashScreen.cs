@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.BitmapFonts;
 
 namespace SoftwareProjekt2024.Screens;
 
@@ -16,7 +15,8 @@ public class SplashScreen
     readonly int midScreenWidth;
     readonly int midScreenHeight;
 
-    BitmapFont bmfont;
+    readonly Texture2D _background;
+    readonly Rectangle _backgroundRect;
 
     public SplashScreen(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -28,7 +28,8 @@ public class SplashScreen
         midScreenWidth = screenWidth / 2;
         midScreenHeight = screenHeight / 2;
 
-        bmfont = Content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+        _background = Content.Load<Texture2D>("Background/SplashScreen");
+        _backgroundRect = new Rectangle(0, 0, screenWidth, screenHeight);
     }
 
     public void Update()
@@ -43,7 +44,7 @@ public class SplashScreen
     {
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
 
-        _spriteBatch.DrawString(bmfont, "press  space", new Vector2(midScreenWidth - 100, midScreenHeight + 200), Color.Black);
+        _spriteBatch.Draw(_background, _backgroundRect, Color.White);
 
         _spriteBatch.End();
     }
