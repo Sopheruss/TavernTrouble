@@ -20,7 +20,7 @@ public class Game1 : Game
 {
     public bool _exit = false;
 
-    public bool fullScreen = true;
+    public bool fullScreen = false;
 
     readonly private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;

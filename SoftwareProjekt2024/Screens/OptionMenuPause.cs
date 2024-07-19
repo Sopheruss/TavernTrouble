@@ -43,7 +43,7 @@ public class OptionMenuPause
         _fullScreenRect = new Rectangle((screenWidth / 2) - 40, screenHeight / 2, _fullScreenOn.Width, _fullScreenOn.Height);
     }
 
-    public void FullScreenIntersect()
+    public void FullScreenIntersaddect()
     {
         _fullIsClicked = false;
 
@@ -70,7 +70,6 @@ public class OptionMenuPause
             _game.activeScene = Scenes.PAUSEMENU;
         }
 
-        FullScreenIntersect();
     }
 
     public void Draw()
