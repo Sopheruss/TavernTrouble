@@ -2,108 +2,107 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace SoftwareProjekt2024.Components
+namespace SoftwareProjekt2024.Components;
+
+internal class Button
 {
-    internal class Button
+    private MouseState _currentMouse;
+    private MouseState _previousMouse;
+
+    readonly Texture2D _textureNotHovering;
+    readonly Texture2D _textureHovering;
+    readonly Vector2 _position;
+    readonly Rectangle _rectangle;
+
+    public Color buttonColor;
+
+    public bool isClicked;
+
+    public bool isHovering;
+
+    public bool _escIsPressed = false;
+
+    public int Width;
+    public int Height;
+
+    public static KeyboardState _currentKeyState;
+    public static KeyboardState _previousKeyState;
+
+    public Button(Texture2D textureNotHovering, Texture2D textureHovering, Vector2 position)
     {
-        private MouseState _currentMouse;
-        private MouseState _previousMouse;
+        buttonColor = Color.White;
 
-        readonly Texture2D _textureNotHovering;
-        readonly Texture2D _textureHovering;
-        readonly Vector2 _position;
-        readonly Rectangle _rectangle;
+        _textureNotHovering = textureNotHovering;
+        _textureHovering = textureHovering;
+        _position = position;
+        _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2),
+                                    (int)_position.Y - (_textureNotHovering.Height / 2),
+                                    _textureNotHovering.Width,
+                                    _textureNotHovering.Height);
 
-        public Color buttonColor;
+        Width = _textureNotHovering.Width;
+        Height = _textureNotHovering.Height;
+    }
 
-        public bool isClicked;
+    public static void GetKeyboardState()
+    {
+        _previousKeyState = _currentKeyState;
+        _currentKeyState = Keyboard.GetState();
+    }
 
-        public bool isHovering;
+    public static bool IsPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key);
+    }
 
-        public bool _escIsPressed = false;
+    public static bool HasBeenPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
+    }
 
-        public int Width;
-        public int Height;
+    public void CheckEsc()
+    {
+        _escIsPressed = false;
 
-        public static KeyboardState _currentKeyState;
-        public static KeyboardState _previousKeyState;
-
-        public Button(Texture2D textureNotHovering, Texture2D textureHovering, Vector2 position)
+        if (HasBeenPressed(Keys.Escape))
         {
-            buttonColor = Color.White;
-
-            _textureNotHovering = textureNotHovering;
-            _textureHovering = textureHovering;
-            _position = position;
-            _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2),
-                                        (int)_position.Y - (_textureNotHovering.Height / 2),
-                                        _textureNotHovering.Width,
-                                        _textureNotHovering.Height);
-
-            Width = _textureNotHovering.Width;
-            Height = _textureNotHovering.Height;
+            _escIsPressed = true;
         }
+    }
 
-        public static void GetKeyboardState()
+    public void Update()
+    {
+        isClicked = false;
+        isHovering = false;
+
+        GetKeyboardState();
+        CheckEsc();
+
+        _previousMouse = _currentMouse;
+        _currentMouse = Mouse.GetState();
+
+        var mouseRect = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+
+        if (mouseRect.Intersects(_rectangle))
         {
-            _previousKeyState = _currentKeyState;
-            _currentKeyState = Keyboard.GetState();
-        }
+            isHovering = true;
 
-        public static bool IsPressed(Keys key)
-        {
-            return _currentKeyState.IsKeyDown(key);
-        }
-
-        public static bool HasBeenPressed(Keys key)
-        {
-            return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
-        }
-
-        public void CheckEsc()
-        {
-            _escIsPressed = false;
-
-            if (HasBeenPressed(Keys.Escape))
+            if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
             {
-                _escIsPressed = true;
+                isClicked = true;
             }
         }
+    }
 
-        public void Update()
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        if (isHovering)
         {
-            isClicked = false;
-            isHovering = false;
-
-            GetKeyboardState();
-            CheckEsc();
-
-            _previousMouse = _currentMouse;
-            _currentMouse = Mouse.GetState();
-
-            var mouseRect = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
-
-            if (mouseRect.Intersects(_rectangle))
-            {
-                isHovering = true;
-
-                if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
-                {
-                    isClicked = true;
-                }
-            }
+            spriteBatch.Draw(_textureHovering, _rectangle, Color.White);
         }
-
-        public void Draw(SpriteBatch spriteBatch)
+        else
         {
-            if (isHovering)
-            {
-                spriteBatch.Draw(_textureHovering, _rectangle, Color.White);
-            }
-            else
-            {
-                spriteBatch.Draw(_textureNotHovering, _rectangle, Color.White);
-            }
+            spriteBatch.Draw(_textureNotHovering, _rectangle, Color.White);
         }
     }
 }

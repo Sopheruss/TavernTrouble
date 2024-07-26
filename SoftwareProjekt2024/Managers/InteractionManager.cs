@@ -1,83 +1,104 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
+using System.Collections.Generic;
+using System.Diagnostics;
 
-namespace SoftwareProjekt2024
+namespace SoftwareProjekt2024;
+
+internal class InteractionManager
 {
-    internal class InteractionManager
+    TileManager _tileManager;
+    Player _ogerCook;
+    CollisionManager _collisionManager;
+    GamePlay _gamePlay;
+
+    readonly int quarterTileHeight = 8;
+    readonly int tileSize = 32;
+
+    List<Rectangle> intersections;
+
+    Rectangle bounds;
+    int interactionState;
+
+    public InteractionManager(TileManager tilemanager, Player ogerCook, GamePlay gamePlay)
     {
-        TileManager _tileManager;
-        Player _ogerCook;
-        CollisionManager _collisionManager;
-        GamePlay _gamePlay;
+        _tileManager = tilemanager;
+        _ogerCook = ogerCook;
+        _gamePlay = gamePlay;
+    }
 
-        readonly int quarterTileHeight = 8;
-        readonly int tileSize = 32;
+    public void Update()
+    {
+        CreateBounds();
+        CheckInteraction(bounds);
 
-        List<Rectangle> intersections;
-
-        Rectangle bounds;
-        int interactionState;
-
-        public InteractionManager(TileManager tilemanager, Player ogerCook, GamePlay gamePlay)
+        /*if (interactionState == 0)
         {
-            _tileManager = tilemanager;
-            _ogerCook = ogerCook;
-            _gamePlay = gamePlay;
+            Debug.WriteLine("not possible");
         }
-
-        public void Update()
+        else
         {
-            CreateBounds();
-            CheckInteraction(bounds);
+            Debug.WriteLine("possible");
+        }*/
+    }
 
-            if (interactionState == 0)
+    public int GetInteractionState()
+    {
+        return interactionState;
+    }
+
+    public void CreateBounds()
+    {
+        bounds = _ogerCook.Rect;
+    }
+
+    public void CheckInteraction(Rectangle bounds)
+    {
+        foreach (var tile in _tileManager.interactionLayer)
+        {
+            Rectangle tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
+
+            if (tileRect.Intersects(bounds))
             {
-                Debug.WriteLine("not possible");
-            }
-            else
-            {
-                Debug.WriteLine("possible");
+                interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
+                return;
             }
         }
+        interactionState = 0; // 0 means no possible interaction; false
+    }
 
-        public int GetInteractionState()
+    /*
+     * IDs of Interaction Layer: 
+     * Default: 3
+     * Kessel: 1
+     * Grill: 5
+     * Cook Book: 4
+     */
+    public void HandleInteraction(int tileID)
+    {
+        switch (tileID)
         {
-            return interactionState;
-        }
-
-        public void CreateBounds()
-        {
-            bounds = _ogerCook.Rect;
-        }
-
-        public void CheckInteraction(Rectangle bounds)
-        {
-            foreach (var tile in _tileManager.interactionLayer)
-            {
-                Rectangle tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
-
-                if (tileRect.Intersects(bounds))
-                {
-                    interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-                    return;
-                }
-            }
-            interactionState = 0; // 0 means no possible interaction; false
-        }
-
-        public void HandleInteraction(int tileID)
-        {
-            switch (tileID)
-            {
-                default:
-                    Debug.WriteLine("INTERACTION");
-                    _gamePlay.IncreaseScore(5);
-                    break;
-            }
+            case 1:
+                Debug.WriteLine("Kessel Interaction");
+                break;
+            case 2:
+                Debug.WriteLine("green Interaction");
+                break;
+            case 3:
+                Debug.WriteLine("blue Interaction");
+                break;
+            case 4:
+                Debug.WriteLine("CookBook Interaction");
+                break;
+            case 5:
+                Debug.WriteLine("Grill Interaction");
+                break;
+            default:
+                Debug.WriteLine("INTERACTION");
+                _gamePlay.IncreaseScore(5);
+                break;
         }
     }
 }
