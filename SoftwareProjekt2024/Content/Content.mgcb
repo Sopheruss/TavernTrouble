@@ -10,10 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.9.0-alpha0107\tools\MonoGame.Extended.Content.Pipeline.dll
-/reference:..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.9.0-alpha0107\tools\MonoGame.Extended.dll
-/reference:..\..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.9.0-alpha0107\tools\MonoGame.Extended.Content.Pipeline.dll
-/reference:..\..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.9.0-alpha0107\tools\MonoGame.Extended.dll
+/reference:..\..\..\..\..\.nuget\packages\monogame.extended\4.0.0\lib\net6.0\MonoGame.Extended.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -330,8 +327,10 @@
 /build:Fonts/font_new_0.png
 
 #begin Fonts/font_new.fnt
-/importer:BitmapFontImporter
-/processor:BitmapFontProcessor
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
 /build:Fonts/font_new.fnt
 
 #begin Map/atlas.PNG
