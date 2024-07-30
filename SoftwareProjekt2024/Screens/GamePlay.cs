@@ -32,7 +32,6 @@ internal class GamePlay
     InteractionManager _interactionManager;
     InputManager _inputManager;
 
-    BitmapFont bmfont;
     private int score;
 
     Texture2D _scordeBord;
@@ -126,14 +125,14 @@ internal class GamePlay
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
 
         /* font */
-        bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+        // bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
 
         /* timer */
         _timer.Start();
 
         /* score Bord*/
         _scordeBord = _content.Load<Texture2D>("OrderBar/scoreBord");
-        _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
+        _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - 20/*bmfont.LineHeight*/, _scordeBord.Width, _scordeBord.Height);
 
         /* order */
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
@@ -216,7 +215,7 @@ internal class GamePlay
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
 
-        _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
+      //  _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
 
         _pauseButton.Draw(_spriteBatch);
 
@@ -224,7 +223,7 @@ internal class GamePlay
 
         // Display the elapsed time
         string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
-        _spriteBatch.DrawString(bmfont, "Time: \n" + elapsedTime, new Vector2(_screenWidth - 100, _pauseButton.Height + bmfont.LineHeight + 10), Color.White);
+       // _spriteBatch.DrawString(bmfont, "Time: \n" + elapsedTime, new Vector2(_screenWidth - 100, _pauseButton.Height + bmfont.LineHeight + 10), Color.White);
 
         _spriteBatch.End();
     }
