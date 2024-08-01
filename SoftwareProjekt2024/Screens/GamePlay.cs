@@ -7,6 +7,7 @@ using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
