@@ -41,6 +41,9 @@
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Content\Fonts\font_new.fnt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Data\map_collisionLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
