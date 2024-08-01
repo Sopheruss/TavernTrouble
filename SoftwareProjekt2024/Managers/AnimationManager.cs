@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-
 namespace SoftwareProjekt2024.Managers;
 
 //Enum to figure out which Part of the Animation is played 
@@ -37,7 +36,7 @@ public class AnimationManager
 
         counter = 0;
         activeFrame = 0;
-        interval = 10; //Frames Intervall 
+        interval = 10; //Frames Intervall
 
         RowPos = 0;
         colPos = 0;

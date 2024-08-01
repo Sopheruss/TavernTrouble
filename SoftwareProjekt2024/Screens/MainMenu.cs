@@ -1,13 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
 
 namespace SoftwareProjekt2024.Screens;
 
 public class MainMenu
 {
+    readonly Game1 _game;
+    readonly SpriteBatch _spriteBatch;
+
     readonly Button _startButton;
     readonly Button _optionButton;
     readonly Button _quitButton;
@@ -15,42 +17,75 @@ public class MainMenu
     readonly int midScreenWidth;
     readonly int midScreenHeight;
 
-    readonly MouseState _mouse; 
+    readonly Texture2D _background;
+    readonly Rectangle _backgroundRect;
 
-    public MainMenu(ContentManager Content, int screenWidth, int screenHeight, MouseState mouse)
+    readonly Texture2D _backgroundBord;
+    readonly Rectangle _backgroundBordRect;
+
+    public MainMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
-        _mouse = mouse;
+        _game = game;
+        _spriteBatch = spriteBatch;
 
         midScreenWidth = screenWidth / 2;
-        midScreenHeight = screenHeight / 2; 
+        midScreenHeight = screenHeight / 2;
 
-        _startButton = new Button(Content.Load<Texture2D>("Buttons/startButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight - 100), _mouse);
-        _optionButton = new Button(Content.Load<Texture2D>("Buttons/optionsButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight), _mouse);
-        _quitButton = new Button(Content.Load<Texture2D>("Buttons/quitButton"), screenWidth, screenHeight, new Vector2(midScreenWidth, midScreenHeight + 100), _mouse);
+        _startButton = new Button(
+            Content.Load<Texture2D>("Buttons/playButton"),
+            Content.Load<Texture2D>("Buttons/playButtonHovering"),
+            new Vector2(screenWidth / 2, midScreenHeight - 100));
+        _optionButton = new Button(
+            Content.Load<Texture2D>("Buttons/settingsButton"),
+            Content.Load<Texture2D>("Buttons/settingsButtonHovering"),
+            new Vector2(screenWidth / 2, midScreenHeight));
+        _quitButton = new Button(
+            Content.Load<Texture2D>("Buttons/quitButton"),
+            Content.Load<Texture2D>("Buttons/quitButtonHovering"),
+            new Vector2(screenWidth / 2, midScreenHeight + 100));
+
+        _background = Content.Load<Texture2D>("Background/background");
+        _backgroundRect = new Rectangle(0, 0, screenWidth, screenHeight);
+
+        _backgroundBord = Content.Load<Texture2D>("Background/backgroundBord");
+        _backgroundBordRect = new Rectangle(midScreenWidth - (_backgroundBord.Width / 2),
+                                            midScreenHeight - (_backgroundBord.Height / 2) + 5,
+                                            _backgroundBord.Width,
+                                            _backgroundBord.Height);
+
+        _spriteBatch = spriteBatch;
     }
 
-    public void Update(Game1 game)
+    public void Update()
     {
-        _startButton.Update(_mouse);
-        _optionButton.Update(_mouse);
-        _quitButton.Update(_mouse);
+        _startButton.Update();
+        _optionButton.Update();
+        _quitButton.Update();
 
         if (_startButton.isClicked)
         {
-            game.activeScene = Scenes.GAMEPLAY;
-        } else if (_optionButton.isClicked)
+            _game.activeScene = Scenes.GAMEPLAY;
+        }
+        else if (_optionButton.isClicked)
         {
-            game.activeScene = Scenes.OPTIONMENU;
-        } else if (_quitButton.isClicked)
+            _game.activeScene = Scenes.OPTIONMENUMAIN;
+        }
+        else if (_quitButton.isClicked || _startButton._escIsPressed)
         {
-            game.Quit();
+            _game.Quit();
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw()
     {
-        _startButton.Draw(spriteBatch);
-        _optionButton.Draw(spriteBatch);
-        _quitButton.Draw(spriteBatch);
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+
+        _spriteBatch.Draw(_background, _backgroundRect, Color.White);
+        _spriteBatch.Draw(_backgroundBord, _backgroundBordRect, Color.White);
+        _startButton.Draw(_spriteBatch);
+        _optionButton.Draw(_spriteBatch);
+        _quitButton.Draw(_spriteBatch);
+
+        _spriteBatch.End();
     }
 }

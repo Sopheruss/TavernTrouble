@@ -1,24 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareProjekt2024.SpriteClasses
 {
     internal class ScaledSprite : Sprite
     {
+        public int width = 25; //player width in pixel
+        public int height = 50; //player height in pixel 
         public Rectangle Rect //dependent on position 
         {
             get
             {
                 //100/200 has to change acordingly (is the scale of the sprite)
                 //property that is dependent on position 
-
-                return new Rectangle((int)position.X, (int)position.Y, 30, 60);
-
+                return new Rectangle((int)position.X, (int)position.Y, width, height);
             }
         }
 

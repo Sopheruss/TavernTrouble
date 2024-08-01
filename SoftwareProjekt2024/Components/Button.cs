@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components
 {
@@ -10,22 +9,75 @@ namespace SoftwareProjekt2024.Components
         private MouseState _currentMouse;
         private MouseState _previousMouse;
 
-        Texture2D _texture;
-        Vector2 _position;
-        Rectangle _rectangle;
+        readonly Texture2D _textureNotHovering;
+        readonly Texture2D _textureHovering;
+        readonly Vector2 _position;
+        readonly Rectangle _rectangle;
+
+        public Color buttonColor;
 
         public bool isClicked;
 
-        public Button(Texture2D texture, int ScreenWidth, int ScreenHeight, Vector2 position, MouseState mouse)
+        public bool isHovering;
+
+        public bool _escIsPressed = false;
+
+        public int Width;
+        public int Height;
+
+        public static KeyboardState _currentKeyState;
+        public static KeyboardState _previousKeyState;
+
+        public Button(Texture2D textureNotHovering, Texture2D textureHovering, Vector2 position)
         {
-            _texture = texture;
+            buttonColor = Color.White;
+
+            _textureNotHovering = textureNotHovering;
+            _textureHovering = textureHovering;
             _position = position;
-            _rectangle = new Rectangle((int)_position.X - (_texture.Width/2), (int)_position.Y - (_texture.Height/2), _texture.Width, _texture.Height);
+            _rectangle = new Rectangle((int)_position.X - (_textureNotHovering.Width / 2),
+                                        (int)_position.Y - (_textureNotHovering.Height / 2),
+                                        _textureNotHovering.Width,
+                                        _textureNotHovering.Height);
+
+            Width = _textureNotHovering.Width;
+            Height = _textureNotHovering.Height;
         }
 
-
-        public void Update(MouseState mouse)
+        public static void GetKeyboardState()
         {
+            _previousKeyState = _currentKeyState;
+            _currentKeyState = Keyboard.GetState();
+        }
+
+        public static bool IsPressed(Keys key)
+        {
+            return _currentKeyState.IsKeyDown(key);
+        }
+
+        public static bool HasBeenPressed(Keys key)
+        {
+            return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
+        }
+
+        public void CheckEsc()
+        {
+            _escIsPressed = false;
+
+            if (HasBeenPressed(Keys.Escape))
+            {
+                _escIsPressed = true;
+            }
+        }
+
+        public void Update()
+        {
+            isClicked = false;
+            isHovering = false;
+
+            GetKeyboardState();
+            CheckEsc();
+
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
 
@@ -33,6 +85,8 @@ namespace SoftwareProjekt2024.Components
 
             if (mouseRect.Intersects(_rectangle))
             {
+                isHovering = true;
+
                 if (_currentMouse.LeftButton == ButtonState.Pressed && _previousMouse.LeftButton == ButtonState.Released)
                 {
                     isClicked = true;
@@ -42,7 +96,14 @@ namespace SoftwareProjekt2024.Components
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _rectangle, Color.White);
+            if (isHovering)
+            {
+                spriteBatch.Draw(_textureHovering, _rectangle, Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(_textureNotHovering, _rectangle, Color.White);
+            }
         }
     }
 }

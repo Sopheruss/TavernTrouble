@@ -1,19 +1,18 @@
-﻿using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
 
 public enum Scenes
-{ 
+{
+    SPLASHSCREEN,
     MAINMENU,
     GAMEPLAY,
-    PAUSEMENU, 
-    OPTIONMENU
+    PAUSEMENU,
+    OPTIONMENUMAIN,
+    OPTIONMENUPAUSE,
+    COOKBOOKSCREEN
 };
 
 public class Game1 : Game
@@ -21,22 +20,23 @@ public class Game1 : Game
 {
     public bool _exit = false;
 
+    public bool fullScreen = true;
 
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch; 
+    readonly private GraphicsDeviceManager _graphics;
+    private SpriteBatch _spriteBatch;
 
-    int screenWidth = 1080;
-    int screenHeight = 720;
+    readonly int screenWidth = 1280;
+    readonly int screenHeight = 720;
 
-    public Scenes activeScene;  
+    public Scenes activeScene;
 
+    private SplashScreen _splashScreen;
     private MainMenu _mainMenu;
     private GamePlay _gamePlay;
     private PauseMenu _pauseMenu;
-    private OptionMenu _optionMenu;
-
-    int midScreenWidth;
-    int midScreenHeight;
+    private OptionMenuMain _optionMenuMain;
+    private OptionMenuPause _optionMenuPause;
+    private CookBookScreen _cookBookScreen;
 
     public Game1()
     {
@@ -47,17 +47,20 @@ public class Game1 : Game
         this._graphics.PreferredBackBufferWidth = screenWidth;
         this._graphics.PreferredBackBufferHeight = screenHeight;
 
-        //this._graphics.IsFullScreen = true;
+        if (fullScreen)
+        {
+            this._graphics.IsFullScreen = true;
+        }
+        else
+        {
+            this._graphics.IsFullScreen = false;
+        }
 
-        activeScene = Scenes.MAINMENU;
+        activeScene = Scenes.SPLASHSCREEN;
     }
 
     protected override void Initialize()
     {
-        //calc for middle of screen 
-        midScreenWidth = _graphics.PreferredBackBufferWidth / 2; // higer val => right
-        midScreenHeight = _graphics.PreferredBackBufferHeight / 2; // lower val => up
-
         base.Initialize();
     }
 
@@ -65,20 +68,21 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _gamePlay = new GamePlay(screenWidth, screenHeight, Mouse.GetState());
-        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, Mouse.GetState());
-        _optionMenu = new OptionMenu(Content, screenWidth, screenHeight, Mouse.GetState());
+        _splashScreen = new SplashScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _mainMenu = new MainMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
-        _gamePlay.LoadContent(Content, this, Window, GraphicsDevice);
+        _gamePlay.LoadContent(Window, GraphicsDevice);
     }
+
+
 
     protected override void Update(GameTime gameTime)
     {
-
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Quit();
-
         if (_exit)
         {
             Exit();
@@ -86,17 +90,26 @@ public class Game1 : Game
 
         switch (activeScene)
         {
+            case Scenes.SPLASHSCREEN:
+                _splashScreen.Update();
+                break;
             case Scenes.MAINMENU:
-                _mainMenu.Update(this);
+                _mainMenu.Update();
                 break;
             case Scenes.GAMEPLAY:
-                _gamePlay.Update(this, gameTime);
+                _gamePlay.Update();
                 break;
             case Scenes.PAUSEMENU:
-                _pauseMenu.Update(this);
+                _pauseMenu.Update();
                 break;
-            case Scenes.OPTIONMENU:
-                _optionMenu.Update(this);
+            case Scenes.OPTIONMENUMAIN:
+                _optionMenuMain.Update();
+                break;
+            case Scenes.OPTIONMENUPAUSE:
+                _optionMenuPause.Update();
+                break;
+            case Scenes.COOKBOOKSCREEN:
+                _cookBookScreen.Update();
                 break;
         }
 
@@ -105,38 +118,43 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
-
         switch (activeScene)
         {
-            case Scenes.MAINMENU:
-                GraphicsDevice.Clear(Color.LightBlue);
-
-                _mainMenu.Draw(_spriteBatch);
-
-                break;
-            case Scenes.GAMEPLAY:
-                GraphicsDevice.Clear(Color.Beige);
-
-                _gamePlay.Draw(_spriteBatch);
-
-                break;
-            case Scenes.PAUSEMENU:
-                GraphicsDevice.Clear(Color.LightPink);
-
-                _pauseMenu.Draw(_spriteBatch);
-
-                break;
-            case Scenes.OPTIONMENU:
+            case Scenes.SPLASHSCREEN:
                 GraphicsDevice.Clear(Color.LightGreen);
 
-                _optionMenu.Draw(_spriteBatch);
+                _splashScreen.Draw();
+                break;
+            case Scenes.MAINMENU:
+                _mainMenu.Draw();
+                break;
+            case Scenes.GAMEPLAY:
+                GraphicsDevice.Clear(Color.Black);
 
+                _gamePlay.Draw();
+                break;
+            case Scenes.PAUSEMENU:
+                GraphicsDevice.Clear(Color.LightGreen);
+
+                _pauseMenu.Draw();
+                break;
+            case Scenes.OPTIONMENUMAIN:
+                GraphicsDevice.Clear(Color.LightGreen);
+
+                _optionMenuMain.Draw();
+                break;
+            case Scenes.OPTIONMENUPAUSE:
+                GraphicsDevice.Clear(Color.LightBlue);
+
+                _optionMenuPause.Draw();
+                break;
+
+            case Scenes.COOKBOOKSCREEN:
+                GraphicsDevice.Clear(Color.LightYellow);
+
+                _cookBookScreen.Draw();
                 break;
         }
-        
-        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
