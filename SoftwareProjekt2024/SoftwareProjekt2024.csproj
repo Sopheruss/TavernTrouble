@@ -31,8 +31,8 @@
 	</EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Extended" Version="4.0.0" />
-    <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="4.0.0" />
+    <PackageReference Include="MonoGame.Extended" Version="3.9.0-alpha0107" />
+    <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="3.9.0-alpha0107" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
@@ -41,9 +41,6 @@
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Content\Fonts\font_new.fnt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="Data\map_collisionLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
