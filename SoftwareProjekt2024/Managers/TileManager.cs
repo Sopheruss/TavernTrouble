@@ -133,7 +133,10 @@ namespace SoftwareProjekt2024
                     case 53:    //Bar Rechts
                         _perspectiveManager._staticObjects[0].Add(new Bar_Rechts(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                         break;
-                    case 65: //Kessel? PLS HELP
+                    case 64:    //Kochbuch -> nur untere Hälften, weil für Interaktion nur das wichtig?
+                        _perspectiveManager._staticObjects[0].Add(new CookBook(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        break;
+                    case 65:    //Kessel
                         _perspectiveManager._staticObjects[0].Add(new Kessel(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                         break;
                 }
