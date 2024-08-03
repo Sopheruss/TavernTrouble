@@ -90,7 +90,7 @@ public class Game1 : Game
     }
 
 
-    private void PlaySong(Song song)
+    private void PlaySong(Song song, float volume)
     {
         // needed, so that the soundtrack works properly across different scenes
         // called in update, so updated every frame if check is not set
@@ -99,6 +99,7 @@ public class Game1 : Game
 
             MediaPlayer.Stop(); // stop everything that played before
             MediaPlayer.IsRepeating = true; // toggle in order to loop (or not)
+            MediaPlayer.Volume = volume;
             MediaPlayer.Play(song);
             _currentSong = song;
         }
@@ -117,25 +118,25 @@ public class Game1 : Game
         {
             case Scenes.SPLASHSCREEN:
                 _splashScreen.Update();
-                PlaySong(_introMenuSoundtrack);
+                PlaySong(_introMenuSoundtrack, 0.15f);
                 break;
             case Scenes.MAINMENU:
                 _mainMenu.Update();
                 break;
             case Scenes.GAMEPLAY:
                 _gamePlay.Update();
-                PlaySong(_gameplaySoundtrackCozy);
+                PlaySong(_gameplaySoundtrackCozy, 0.15f);
                 break;
             case Scenes.PAUSEMENU:
                 _pauseMenu.Update();
-                PlaySong(_gameplaySoundtrackCozy);
+                PlaySong(_gameplaySoundtrackCozy, 0.15f);
                 break;
             case Scenes.OPTIONMENUMAIN:
                 _optionMenuMain.Update();
                 break;
             case Scenes.OPTIONMENUPAUSE:
                 _optionMenuPause.Update();
-                PlaySong(_gameplaySoundtrackCozy);
+                PlaySong(_gameplaySoundtrackCozy, 0.15f);
                 break;
             case Scenes.COOKBOOKSCREEN:
                 _cookBookScreen.Update();
