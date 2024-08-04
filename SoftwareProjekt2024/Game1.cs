@@ -23,7 +23,7 @@ public class Game1 : Game
 
     public bool fullScreen = true;
 
-    readonly private GraphicsDeviceManager _graphics;
+    public GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
     readonly int screenWidth = 1280;
