@@ -4,10 +4,13 @@ using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Components;
 
-internal class Bar : StaticObject
+internal class CookBook : StaticObject
 {
-    public Bar(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
+    public CookBook(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
+    { }
+
+    public void HandleInteraction()
     {
 
     }

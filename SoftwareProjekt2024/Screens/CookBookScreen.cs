@@ -10,9 +10,6 @@ internal class CookBookScreen
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
 
-    readonly int midScreenWidth;
-    readonly int midScreenHeight;
-
     readonly Button _returnButton;
 
     readonly Texture2D _cookBookRecipes;
@@ -22,15 +19,12 @@ internal class CookBookScreen
         _game = game;
         _spriteBatch = spriteBatch;
 
-        midScreenWidth = screenWidth / 2;
-        midScreenHeight = screenHeight / 2;
-
         _returnButton = new Button(
             Content.Load<Texture2D>("Buttons/returnButton"),
             Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
 
-        _cookBookRecipes = Content.Load<Texture2D>("Background/cookBookRecipe");
+        _cookBookRecipes = Content.Load<Texture2D>("Background/cookBookRecipes");
         _cookBookRecipeRect = new Rectangle(0, 0, screenWidth, screenHeight);
     }
 

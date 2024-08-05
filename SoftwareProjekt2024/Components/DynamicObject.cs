@@ -1,6 +1,5 @@
-﻿namespace SoftwareProjekt2024.Components
+﻿namespace SoftwareProjekt2024.Components;
+
+internal class DynamicObject
 {
-    internal class DynamicObject
-    {
-    }
 }
