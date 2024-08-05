@@ -19,9 +19,6 @@ public class PauseMenu
     readonly Button _optionButton;
     readonly Button _returnButton;
 
-    Texture2D _controls;
-    Rectangle _controlsRect;
-
     public PauseMenu(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
@@ -50,9 +47,6 @@ public class PauseMenu
             Content.Load<Texture2D>("Buttons/returnButton"),
             Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
-
-        _controls = Content.Load<Texture2D>("OptionMenu/controls");
-        _controlsRect = new Rectangle(75, 75, _controls.Width * 3, _controls.Height * 3);
     }
 
     public void Update()
@@ -89,8 +83,6 @@ public class PauseMenu
     public void Draw()
     {
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
-
-        _spriteBatch.Draw(_controls, _controlsRect, Color.White);
 
         _mainMenuButton.Draw(_spriteBatch);
         _retryButton.Draw(_spriteBatch);

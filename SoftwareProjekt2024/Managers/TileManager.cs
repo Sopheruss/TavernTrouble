@@ -96,7 +96,7 @@ namespace SoftwareProjekt2024
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
-            DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
         public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
@@ -132,12 +132,6 @@ namespace SoftwareProjekt2024
                         break;
                     case 53:    //Bar Rechts
                         _perspectiveManager._staticObjects[0].Add(new Bar_Rechts(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
-                        break;
-                    case 64:    //Kochbuch -> nur untere Hälften, weil für Interaktion nur das wichtig?
-                        _perspectiveManager._staticObjects[0].Add(new CookBook(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
-                        break;
-                    case 65:    //Kessel
-                        _perspectiveManager._staticObjects[0].Add(new Kessel(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                         break;
                 }
             }

@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SoftwareProjekt2024.Components;
-using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Managers;
 
@@ -13,14 +12,12 @@ internal class InputManager
     readonly InteractionManager _interactionManager;
     readonly AnimationManager _animationManager;
 
+    Vector2 _previous_direction; //Direction speichern, die davor wichtig war
+
     readonly Vector2 _left = new(-1, 0);
     readonly Vector2 _right = new(1, 0);
     readonly Vector2 _up = new(0, -1);
     readonly Vector2 _down = new(0, 1);
-
-    enum Direction { Left, Right, Up, Down, None };
-
-    readonly List<Direction> curDirs;
 
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
@@ -29,102 +26,94 @@ internal class InputManager
         _collisionManager = collisionManager;
         _interactionManager = interactionManager;
         _animationManager = animationManager;
-
-        curDirs = new List<Direction>();
     }
 
     public void Update()
     {
+        //Commands();
         Moving();
     }
 
+    public void Commands()
+    { }
+
     public void Moving()
     {
-        UpdateCurDirs();
+        Vector2 _currentDirection = ConvertKeyToVector();
 
         //stopps movement if no key is pressed
-        if (curDirs.Count == 0)
+        if (_currentDirection.Length() == 0)
         {
-            _animationManager.PlayAnimation = false;
+            StopMovement();
             return;
         }
 
-        // Check best direction to move to:
-        // CurDirs contains all possible movements with the last entry being the best option, the second last entry being the second 
-        // best option and so on. If the best option is not possible, choose the second best option, etc. If no option is possible
-        // (e.g. bc character is standing in a corner) the target direction is 'None'.
-        Direction targetDir = Direction.None;
-        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
-
-        for (int i = curDirs.Count - 1; i >= 0; i--)
+        //if one key is pressed -> movement in one direction
+        if (_currentDirection.Length() == 1)
         {
-            targetDir = curDirs[i];
-            if (!HasCollisionInDirection(targetDir, leftBounds, rightBounds, upBounds, downBounds)) break;
-            if (i == 0) targetDir = Direction.None;
+            _previous_direction = _currentDirection;
+        }
+        //if more than one key is pressed -> first direction is saved if still pressed and second direction gets executed
+        else if (_currentDirection.Length() > 1)
+        {
+            if (_previous_direction.Length() == 0) //forbids diagonal movement
+            {
+                StopMovement();
+                return;
+            }
+
+            _currentDirection -= _previous_direction;
+
+            //if one key is pressed and than two in the opposite direction -> forbids diagonal movement 
+            if (_currentDirection.Length() != 1)
+            {
+                StopMovement();
+                return;
+            }
         }
 
-        // If character is stuck (i.e. target direction is None), do not move at all:
-        if (targetDir == Direction.None)
-        {
-            _animationManager.PlayAnimation = false;
-            return;
-        }
-
-        // Move character:
-        _ogerCook.position += DirectionToVector(targetDir); // also dictates speed, multiply currDir with float
+        _ogerCook.position += _currentDirection; // also dictates speed, multiply currDir with float
         _animationManager.PlayAnimation = true;
-        AnimationRow(DirectionToVector(targetDir)); //sets row for animation
-
+        AnimationRow(_currentDirection); //sets row for animation
     } //moving close bracket
 
-
-    // Updates current directions by checking direction buttons:
-    private void UpdateCurDirs()
+    public Vector2 ConvertKeyToVector()
     {
+        Vector2 _currentDirection = Vector2.Zero;
+        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
 
-        // If 'A' is pressed and has not been pressed during the last frame, 'Left' is the best movement direction.
-        // => Append 'Left' to current directions.
-        if (Keyboard.GetState().IsKeyDown(Keys.A) && !curDirs.Contains(Direction.Left))
+        if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-            curDirs.Add(Direction.Left);
-        }
-
-        // If 'A' is not pressed and has been pressed during the last frame, the current directions need to be updated.
-        // => 'Left' is removed from list.
-        else if (!Keyboard.GetState().IsKeyDown(Keys.A) && curDirs.Contains(Direction.Left))
-        {
-            curDirs.Remove(Direction.Left);
+            if (!_collisionManager.CheckCollision(leftBounds))
+            {
+                _currentDirection += _left;
+            }
         }
 
-        // Repeat process for all other directions:
-        if (Keyboard.GetState().IsKeyDown(Keys.W) && !curDirs.Contains(Direction.Up))
+        if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
-            curDirs.Add(Direction.Up);
-        }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.W) && curDirs.Contains(Direction.Up))
-        {
-            curDirs.Remove(Direction.Up);
+            if (!_collisionManager.CheckCollision(rightBounds))
+            {
+                _currentDirection += _right;
+            }
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.D) && !curDirs.Contains(Direction.Right))
+        if (Keyboard.GetState().IsKeyDown(Keys.W))
         {
-            curDirs.Add(Direction.Right);
-        }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.D) && curDirs.Contains(Direction.Right))
-        {
-            curDirs.Remove(Direction.Right);
-        }
-
-        if (Keyboard.GetState().IsKeyDown(Keys.S) && !curDirs.Contains(Direction.Down))
-        {
-            curDirs.Add(Direction.Down);
-        }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.S) && curDirs.Contains(Direction.Down))
-        {
-            curDirs.Remove(Direction.Down);
+            if (!_collisionManager.CheckCollision(upBounds))
+            {
+                _currentDirection += _up;
+            }
         }
 
-        // Check for interaction:
+        if (Keyboard.GetState().IsKeyDown(Keys.S))
+        {
+            if (!_collisionManager.CheckCollision(downBounds))
+            {
+                _currentDirection += _down;
+            }
+        }
+
         if (Keyboard.GetState().IsKeyDown(Keys.E))
         {
             int interactionState = _interactionManager.GetInteractionState();
@@ -134,28 +123,10 @@ internal class InputManager
                 _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
             }
         }
+
+
+        return _currentDirection;
     }
-
-
-    // Check if moving the character to given direction results in collision:
-    private bool HasCollisionInDirection(Direction dir, Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) => dir switch
-    {
-        Direction.Left => _collisionManager.CheckCollision(leftBounds),
-        Direction.Up => _collisionManager.CheckCollision(upBounds),
-        Direction.Right => _collisionManager.CheckCollision(rightBounds),
-        Direction.Down => _collisionManager.CheckCollision(downBounds),
-        _ => false,
-    };
-
-    // Translates Direction enum into 2D Vector:
-    private Vector2 DirectionToVector(Direction dir) => dir switch
-    {
-        Direction.Left => _left,
-        Direction.Up => _up,
-        Direction.Right => _right,
-        Direction.Down => _down,
-        _ => Vector2.Zero,
-    };
 
     private void AnimationRow(Vector2 currentDirection)
     {
@@ -176,5 +147,11 @@ internal class InputManager
         {
             _animationManager.RowPos = 3; //changes Animation to down
         }
+    }
+
+    private void StopMovement()
+    {
+        _previous_direction = Vector2.Zero;
+        _animationManager.PlayAnimation = false;
     }
 }

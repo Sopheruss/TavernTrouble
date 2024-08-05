@@ -30,22 +30,16 @@ namespace SoftwareProjekt2024.Managers
                         (int)tile.Key.X * 32                                             -> adding to this value shifts the left bound to the right
                         , (int)tile.Key.Y * 32                                           -> adding to this value shifts the upper bound downwards
                         , tileSize                                                       -> subtracting from this value shifts the right bound to the left
-                        , tileSize );                                                    -> subtracting from this value shifts the lower bound upwards
+                        , tileSize );                                           -> subtracting from this value shifts the lower bound upwards
                  */
 
                 switch ((int)tile.Value)
                 {
-                    case 1:     //obere interaktive Küchenobjekte 
-                        tileRect = new Rectangle(((int)tile.Key.X * 32), ((int)tile.Key.Y * 32), tileSize, (tileSize - halfTileHeight));
-                        break;
-                    case 2:     //Mülleimer 
-                        tileRect = new Rectangle(((int)tile.Key.X * 32), ((int)tile.Key.Y * 32), (tileSize - quarterTileHeight + 2), (tileSize - halfTileHeight));
+                    case 4:     //Fall für den Tisch: kleineres Rectangle, um Kollision erst ab Hälfte des Tisches beginnen zu lassen
+                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
                         break;
                     case 3:     //linker Barrand
                         tileRect = new Rectangle(((int)tile.Key.X * 32) + 16, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
-                        break;
-                    case 4:     //Fall für den Tisch: kleineres Rectangle, um Kollision erst ab Hälfte des Tisches beginnen zu lassen
-                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
                         break;
                     case 5:     //rechter Barrand
                         tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 21, quarterTileHeight - 2);

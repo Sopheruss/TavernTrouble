@@ -19,6 +19,9 @@ public class OptionMenuPause
 
     readonly Button _returnButton;
 
+    Texture2D _controls;
+    Rectangle _controlsRect;
+
     Texture2D _fullScreenOn;
     Texture2D _fullScreenOff;
     Rectangle _fullScreenRect;
@@ -38,12 +41,15 @@ public class OptionMenuPause
             Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
 
+        _controls = Content.Load<Texture2D>("OptionMenu/controls");
+        _controlsRect = new Rectangle((screenWidth / 2) - 250, (screenHeight / 2) - 140, _controls.Width * 4, _controls.Height * 4);
+
         _fullScreenOn = Content.Load<Texture2D>("Buttons/fullScreenButtonOn"); //not hovering = on
         _fullScreenOff = Content.Load<Texture2D>("Buttons/fullScreenButtonOff"); //hovering = off
-        _fullScreenRect = new Rectangle((screenWidth / 2) - 40, screenHeight / 2, _fullScreenOn.Width, _fullScreenOn.Height);
+        _fullScreenRect = new Rectangle((screenWidth / 2) - 40, screenHeight - 150, _fullScreenOn.Width, _fullScreenOn.Height);
     }
 
-    public void FullScreenIntersaddect()
+    public void FullScreenIntersect()
     {
         _fullIsClicked = false;
 
@@ -72,6 +78,7 @@ public class OptionMenuPause
 
         FullScreenIntersect();
 
+
         if (_fullIsClicked)
         {
             _game.fullScreen = !_game.fullScreen;
@@ -79,6 +86,7 @@ public class OptionMenuPause
             _game._graphics.ApplyChanges();
             _fullIsClicked = false;
         }
+
     }
 
     public void Draw()
