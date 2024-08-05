@@ -40,10 +40,10 @@ public class OptionMenuPause
 
         _fullScreenOn = Content.Load<Texture2D>("Buttons/fullScreenButtonOn"); //not hovering = on
         _fullScreenOff = Content.Load<Texture2D>("Buttons/fullScreenButtonOff"); //hovering = off
-        _fullScreenRect = new Rectangle((screenWidth / 2) - 40, screenHeight / 2, _fullScreenOn.Width, _fullScreenOn.Height);
+        _fullScreenRect = new Rectangle(midScreenWidth - _fullScreenOn.Width / 2, midScreenHeight - _fullScreenOn.Height / 2, _fullScreenOn.Width, _fullScreenOn.Height);
     }
 
-    public void FullScreenIntersaddect()
+    public void FullScreenIntersect()
     {
         _fullIsClicked = false;
 
@@ -70,6 +70,9 @@ public class OptionMenuPause
             _game.activeScene = Scenes.PAUSEMENU;
         }
 
+        FullScreenIntersect();
+
+
         if (_fullIsClicked)
         {
             _game.fullScreen = !_game.fullScreen;
@@ -77,6 +80,7 @@ public class OptionMenuPause
             _game._graphics.ApplyChanges();
             _fullIsClicked = false;
         }
+
     }
 
     public void Draw()
@@ -86,6 +90,7 @@ public class OptionMenuPause
         _returnButton.Draw(_spriteBatch);
 
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
+
 
         if (_game.fullScreen)
         {
