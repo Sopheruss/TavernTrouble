@@ -8,6 +8,7 @@ using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 
+
 namespace SoftwareProjekt2024.Screens;
 
 internal class GamePlay
@@ -127,6 +128,9 @@ internal class GamePlay
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+
+        /* sounds */
+        // grill, bar, usw... soonTM
 
         /* timer */
         _timer.Start();

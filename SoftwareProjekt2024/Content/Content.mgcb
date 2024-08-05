@@ -488,3 +488,15 @@
 /processorParam:TextureFormat=Color
 /build:OrderBar/scoreBord.png
 
+#begin Sounds/inn_music.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/inn_music.mp3
+
+#begin Sounds/woodland_fantasy.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/woodland_fantasy.mp3
+

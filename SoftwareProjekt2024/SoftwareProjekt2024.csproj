@@ -35,6 +35,7 @@
     <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="3.9.0-alpha0107" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Penumbra.DesktopGL" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Models\" />

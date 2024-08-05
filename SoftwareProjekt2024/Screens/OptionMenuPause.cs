@@ -70,6 +70,15 @@ public class OptionMenuPause
             _game.activeScene = Scenes.PAUSEMENU;
         }
 
+        FullScreenIntersect();
+
+        if (_fullIsClicked)
+        {
+            _game.fullScreen = !_game.fullScreen;
+            _game._graphics.IsFullScreen = _game.fullScreen;
+            _game._graphics.ApplyChanges();
+            _fullIsClicked = false;
+        }
     }
 
     public void Draw()
@@ -80,24 +89,16 @@ public class OptionMenuPause
 
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
 
-        if (_game.fullScreen && _fullIsClicked)
-        {
-            _spriteBatch.Draw(_fullScreenOff, _fullScreenRect, Color.White);
-            _game.fullScreen = false;
-        }
-        else if (_game.fullScreen == false && _fullIsClicked)
-        {
-            _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
-            _game.fullScreen = true;
-        }
-        else if (_game.fullScreen)
+        _spriteBatch.Draw(_controls, _controlsRect, Color.White);
+
+
+        if (_game.fullScreen)
         {
             _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
         }
         else
         {
             _spriteBatch.Draw(_fullScreenOff, _fullScreenRect, Color.White);
-
         }
 
         _spriteBatch.End();
