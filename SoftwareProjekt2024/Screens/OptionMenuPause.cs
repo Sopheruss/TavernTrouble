@@ -70,8 +70,6 @@ public class OptionMenuPause
             _game.activeScene = Scenes.PAUSEMENU;
         }
 
-        FullScreenIntersect();
-
         if (_fullIsClicked)
         {
             _game.fullScreen = !_game.fullScreen;
@@ -88,9 +86,6 @@ public class OptionMenuPause
         _returnButton.Draw(_spriteBatch);
 
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
-
-        _spriteBatch.Draw(_controls, _controlsRect, Color.White);
-
 
         if (_game.fullScreen)
         {
