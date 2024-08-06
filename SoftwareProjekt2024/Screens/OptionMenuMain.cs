@@ -11,8 +11,6 @@ internal class OptionMenuMain
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
 
-    readonly int _screenWidth;
-    readonly int _screenHeight;
     readonly int _midScreenWidth;
     readonly int _midScreenHeight;
 
@@ -44,8 +42,8 @@ internal class OptionMenuMain
     readonly Vector2 _volumeTextSize;
     readonly Texture2D _volumeBarTexture;
     readonly Rectangle _volumeBarRect;
-    readonly Texture2D _volumeButton;
-    readonly Rectangle _volumeButtonRect;
+    readonly Texture2D _volumeButtonTexture;
+    Rectangle _volumeButtonRect;
 
     readonly BitmapFont bmfont;
 
@@ -54,8 +52,6 @@ internal class OptionMenuMain
         _game = game;
         _spriteBatch = spriteBatch;
 
-        _screenWidth = screenWidth;
-        _screenHeight = screenHeight;
         _midScreenWidth = screenWidth / 2;
         _midScreenHeight = screenHeight / 2;
 
@@ -79,6 +75,10 @@ internal class OptionMenuMain
         _fullScreenOff = Content.Load<Texture2D>("Buttons/fullScreenButtonOff"); //hovering = off
 
         _volume = "Volume:";
+        _volumeBarTexture = Content.Load<Texture2D>("Buttons/volumeBar");
+        _volumeBarRect = new Rectangle(_midScreenWidth + _edgeSpacer, _midScreenHeight + 50, _volumeBarTexture.Width * 4, _volumeBarTexture.Height * 4);
+        _volumeButtonTexture = Content.Load<Texture2D>("Buttons/volumeButton");
+        _volumeButtonRect = new Rectangle(_midScreenWidth + _edgeSpacer, _midScreenHeight - _volumeButtonTexture.Height / 2 + 50, _volumeButtonTexture.Width * 4, _volumeButtonTexture.Height * 4);
 
         // texture as well as fnt file have to be imported via content-pipline and monogame.extended importer. Beware of filestructure
         bmfont = Content.Load<BitmapFont>("Fonts/font_new");
@@ -141,10 +141,12 @@ internal class OptionMenuMain
         _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_midScreenWidth + _edgeSpacer + _offSize.Y + 50 + _fullScreenRect.Width, 250), Color.Black);
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
 
-        _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth + _edgeSpacer, _midScreenHeight), Color.Black);
-
         _spriteBatch.DrawString(bmfont, _controls, new Vector2(_edgeSpacer, 200), Color.Black);
         _spriteBatch.Draw(_controlsTexture, _controlsRect, Color.White);
+
+        _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth + _edgeSpacer, _midScreenHeight), Color.Black);
+        _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
+        _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
 
 
         if (_game.fullScreen)

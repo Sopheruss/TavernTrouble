@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 
 namespace SoftwareProjekt2024.Screens;
@@ -11,36 +12,93 @@ public class OptionMenuPause
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
 
-    readonly int midScreenWidth;
-    readonly int midScreenHeight;
+    readonly int _midScreenWidth;
+    readonly int _midScreenHeight;
 
     private MouseState _currentMouse;
     private MouseState _previousMouse;
 
     readonly Button _returnButton;
 
-    Texture2D _fullScreenOn;
-    Texture2D _fullScreenOff;
-    Rectangle _fullScreenRect;
+    readonly int _edgeSpacer;
+
+    readonly string _fullScreen;
+    readonly string _fullScreenOnText;
+    readonly Vector2 _onSize;
+    readonly Vector2 _offSize;
+    readonly string _fullScreenOffText;
+    readonly Vector2 _fullScreenTextSize;
+    readonly Texture2D _fullScreenOn;
+    readonly Texture2D _fullScreenOff;
+    readonly Rectangle _fullScreenRect;
 
     bool _fullIsClicked;
+
+    readonly string _volume;
+    readonly Vector2 _volumeTextSize;
+    readonly Texture2D _volumeBarTexture;
+    readonly Rectangle _volumeBarRect;
+    readonly Texture2D _volumeButtonTexture;
+    Rectangle _volumeButtonRect;
+
+    readonly BitmapFont bmfont;
 
     public OptionMenuPause(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _game = game;
         _spriteBatch = spriteBatch;
 
-        midScreenWidth = screenWidth / 2;
-        midScreenHeight = screenHeight / 2;
+        _midScreenWidth = screenWidth / 2;
+        _midScreenHeight = screenHeight / 2;
 
         _returnButton = new Button(
             Content.Load<Texture2D>("Buttons/returnButton"),
             Content.Load<Texture2D>("Buttons/returnButtonHovering"),
             new Vector2(screenWidth - 70, screenHeight - 70));
 
+        _edgeSpacer = 50;
+
+        _fullScreen = "Fullscreen:";
+        _fullScreenOffText = "Off";
+        _fullScreenOnText = "On";
         _fullScreenOn = Content.Load<Texture2D>("Buttons/fullScreenButtonOn"); //not hovering = on
         _fullScreenOff = Content.Load<Texture2D>("Buttons/fullScreenButtonOff"); //hovering = off
-        _fullScreenRect = new Rectangle(midScreenWidth - _fullScreenOn.Width / 2, midScreenHeight - _fullScreenOn.Height / 2, _fullScreenOn.Width, _fullScreenOn.Height);
+
+        _volume = "Volume:";
+        _volumeBarTexture = Content.Load<Texture2D>("Buttons/volumeBar");
+        _volumeButtonTexture = Content.Load<Texture2D>("Buttons/volumeButton");
+
+        // texture as well as fnt file have to be imported via content-pipline and monogame.extended importer. Beware of filestructure
+        bmfont = Content.Load<BitmapFont>("Fonts/font_new");
+        _fullScreenTextSize = bmfont.MeasureString(_fullScreen);
+        _onSize = bmfont.MeasureString(_fullScreenOnText);
+        _offSize = bmfont.MeasureString(_fullScreenOffText);
+        _volumeTextSize = bmfont.MeasureString(_volume);
+
+        _fullScreenRect = new Rectangle(_midScreenWidth - _fullScreenOn.Width / 2, 245, _fullScreenOn.Width, _fullScreenOn.Height);
+        _volumeButtonRect = new Rectangle(_midScreenWidth - (_volumeButtonTexture.Width / 2) * 4, _midScreenHeight - _volumeButtonTexture.Height / 2 + 50, _volumeButtonTexture.Width * 4, _volumeButtonTexture.Height * 4);
+        _volumeBarRect = new Rectangle(_midScreenWidth - (_volumeBarTexture.Width / 2) * 4, _midScreenHeight + 50, _volumeBarTexture.Width * 4, _volumeBarTexture.Height * 4);
+    }
+
+    public void Update()
+    {
+        _returnButton.Update();
+
+        if (_returnButton.isClicked || _returnButton._escIsPressed)
+        {
+            _game.activeScene = Scenes.MAINMENU;
+        }
+
+        FullScreenIntersect();
+
+        if (_fullIsClicked)
+        {
+            _game.fullScreen = !_game.fullScreen;
+            _game._graphics.IsFullScreen = _game.fullScreen;
+            _game._graphics.ApplyChanges();
+            _fullIsClicked = false;
+        }
+
     }
 
     public void FullScreenIntersect()
@@ -61,35 +119,20 @@ public class OptionMenuPause
         }
     }
 
-    public void Update()
-    {
-        _returnButton.Update();
-
-        if (_returnButton.isClicked || _returnButton._escIsPressed)
-        {
-            _game.activeScene = Scenes.PAUSEMENU;
-        }
-
-        FullScreenIntersect();
-
-
-        if (_fullIsClicked)
-        {
-            _game.fullScreen = !_game.fullScreen;
-            _game._graphics.IsFullScreen = _game.fullScreen;
-            _game._graphics.ApplyChanges();
-            _fullIsClicked = false;
-        }
-
-    }
-
     public void Draw()
     {
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); //to make sharp images while scaling 
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); // to make sharp images while scaling
 
         _returnButton.Draw(_spriteBatch);
 
+        _spriteBatch.DrawString(bmfont, _fullScreen, new Vector2(_midScreenWidth - _fullScreenTextSize.X / 2, 200), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_midScreenWidth - _fullScreenRect.Width - 20, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_midScreenWidth + _fullScreenRect.Width + 20, 250), Color.Black);
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
+
+        _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth - _volumeTextSize.X / 2, _midScreenHeight), Color.Black);
+        _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
+        _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
 
 
         if (_game.fullScreen)
