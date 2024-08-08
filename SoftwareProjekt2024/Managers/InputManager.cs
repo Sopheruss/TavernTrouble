@@ -22,6 +22,9 @@ internal class InputManager
 
     readonly List<Direction> curDirs;
 
+    public static KeyboardState _currentKeyState;
+    public static KeyboardState _previousKeyState;
+
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
     {
         _game = game;
@@ -35,6 +38,7 @@ internal class InputManager
 
     public void Update()
     {
+        GetKeyboardState();
         Moving();
     }
 
@@ -125,7 +129,7 @@ internal class InputManager
         }
 
         // Check for interaction:
-        if (Keyboard.GetState().IsKeyDown(Keys.E))
+        if (HasBeenPressed(Keys.E))
         {
             int interactionState = _interactionManager.GetInteractionState();
 
@@ -136,6 +140,16 @@ internal class InputManager
         }
     }
 
+    public static void GetKeyboardState()
+    {
+        _previousKeyState = _currentKeyState;
+        _currentKeyState = Keyboard.GetState();
+    }
+
+    public static bool HasBeenPressed(Keys key)
+    {
+        return _currentKeyState.IsKeyDown(key) && !_previousKeyState.IsKeyDown(key);
+    }
 
     // Check if moving the character to given direction results in collision:
     private bool HasCollisionInDirection(Direction dir, Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) => dir switch

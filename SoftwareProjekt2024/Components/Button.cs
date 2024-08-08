@@ -50,10 +50,10 @@ internal class Button
         _currentKeyState = Keyboard.GetState();
     }
 
-    public static bool IsPressed(Keys key)
+    /*public static bool IsPressed(Keys key)
     {
         return _currentKeyState.IsKeyDown(key);
-    }
+    }*/
 
     public static bool HasBeenPressed(Keys key)
     {

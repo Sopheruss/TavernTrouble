@@ -38,6 +38,10 @@ public class SplashScreen
         {
             _game.activeScene = Scenes.MAINMENU;
         }
+        else if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+            _game.Quit();
+        }
     }
 
     public void Draw()
