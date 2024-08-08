@@ -133,7 +133,7 @@ internal class GamePlay
         // grill, bar, usw... soonTM
 
         /* timer */
-        _timer.Start();
+       // _timer.Start(); // removed, as it starts upon game-start when init here
 
         /* score Bord*/
         _scordeBord = _content.Load<Texture2D>("OrderBar/scoreBord");
@@ -176,9 +176,11 @@ internal class GamePlay
         }
         else
         {
-            _timer.Start(); // Resume the stopwatch if not paused
+            if (_game.activeScene == Scenes.GAMEPLAY)
+            {
+                _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
+            }
         }
-
         _ogerCook.Update();
         _animationManager.Update();
         _inputManager.Update();
