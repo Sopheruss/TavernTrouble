@@ -48,9 +48,11 @@ internal class OptionMenuMain
 
     readonly BitmapFont bmfont;
 
+
+    // init button and bar
     private bool _isDraggingVolumeButton;
     private int _volumeButtonOffsetX;
-    private float _volumeLevel; // Range from 0.0 to 1.0
+    private float _volumeLevel; 
 
     public OptionMenuMain(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
