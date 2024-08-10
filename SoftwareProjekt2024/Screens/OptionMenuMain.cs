@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 using System;
@@ -52,7 +53,7 @@ internal class OptionMenuMain
     // init button and bar
     private bool _isDraggingVolumeButton;
     private int _volumeButtonOffsetX;
-    private float _volumeLevel; 
+
 
     public OptionMenuMain(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -119,6 +120,8 @@ internal class OptionMenuMain
 
         // Check for dragging
         HandleVolumeButtonDragging();
+        // set global volume level for playback
+        MediaPlayer.Volume = _game.VolumeLevel;
     }
 
 
@@ -192,7 +195,7 @@ internal class OptionMenuMain
         _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
         _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
 
-        // Ensure the volume button position is updated according to the shared volume level
+        // Ensure the volume button position is updated according to shared volume level
         int minX = _volumeBarRect.X;
         int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
         _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));

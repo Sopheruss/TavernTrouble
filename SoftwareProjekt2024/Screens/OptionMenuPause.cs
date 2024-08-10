@@ -46,7 +46,7 @@ public class OptionMenuPause
 
     private bool _isDraggingVolumeButton;
     private int _volumeButtonOffsetX;
-    private float _volumeLevel; // Range from 0.0 to 1.0
+    
 
 
     public OptionMenuPause(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
@@ -87,8 +87,6 @@ public class OptionMenuPause
         // init button and bar
         _volumeBarRect = new Rectangle(_midScreenWidth - (_volumeBarTexture.Width / 2) * 4, _midScreenHeight + 50, _volumeBarTexture.Width * 4, _volumeBarTexture.Height * 4);
         _volumeButtonRect = new Rectangle(_volumeBarRect.X, _midScreenHeight - _volumeButtonTexture.Height / 2 + 50, _volumeButtonTexture.Width * 4, _volumeButtonTexture.Height * 4);
-
-        _volumeLevel = 0.0f;
     }
 
     public void Update()
@@ -178,10 +176,11 @@ public class OptionMenuPause
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
 
         _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth - _volumeTextSize.X / 2, _midScreenHeight), Color.Black);
+
         _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
         _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
 
-        // Ensure the volume button position is updated according to the shared volume level
+        // Ensure the volume button position is updated according to shared volume level
         int minX = _volumeBarRect.X;
         int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
         _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));
