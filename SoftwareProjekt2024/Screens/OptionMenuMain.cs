@@ -151,7 +151,7 @@ internal class OptionMenuMain
             newX = Math.Clamp(newX, minX, maxX);
 
             _volumeButtonRect.X = newX;
-            _volumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
+            _game.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
         }
     }
 
@@ -188,8 +188,14 @@ internal class OptionMenuMain
         _spriteBatch.Draw(_controlsTexture, _controlsRect, Color.White);
 
         _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth + _edgeSpacer, _midScreenHeight), Color.Black);
+
         _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
         _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
+
+        // Ensure the volume button position is updated according to the shared volume level
+        int minX = _volumeBarRect.X;
+        int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
+        _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));
 
         if (_game.fullScreen)
         {

@@ -76,6 +76,7 @@ public class OptionMenuPause
 
         // texture as well as fnt file have to be imported via content-pipline and monogame.extended importer. Beware of filestructure
         bmfont = Content.Load<BitmapFont>("Fonts/font_new");
+
         _fullScreenTextSize = bmfont.MeasureString(_fullScreen);
         _onSize = bmfont.MeasureString(_fullScreenOnText);
         _offSize = bmfont.MeasureString(_fullScreenOffText);
@@ -160,7 +161,8 @@ public class OptionMenuPause
             newX = Math.Clamp(newX, minX, maxX);
 
             _volumeButtonRect.X = newX;
-            _volumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
+            _game.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
+
         }
     }
 
@@ -178,6 +180,11 @@ public class OptionMenuPause
         _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth - _volumeTextSize.X / 2, _midScreenHeight), Color.Black);
         _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
         _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
+
+        // Ensure the volume button position is updated according to the shared volume level
+        int minX = _volumeBarRect.X;
+        int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
+        _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));
 
         if (_game.fullScreen)
         {
