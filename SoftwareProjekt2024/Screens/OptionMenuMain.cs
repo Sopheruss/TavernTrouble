@@ -49,8 +49,6 @@ internal class OptionMenuMain
 
     readonly BitmapFont bmfont;
 
-
-    // init button and bar
     private bool _isDraggingVolumeButton;
     private int _volumeButtonOffsetX;
 
