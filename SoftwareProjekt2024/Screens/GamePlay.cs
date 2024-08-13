@@ -7,6 +7,8 @@ using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using Penumbra;
+using System;
 
 
 namespace SoftwareProjekt2024.Screens;
@@ -16,6 +18,11 @@ internal class GamePlay
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
     readonly ContentManager _content;
+
+    // Penumbra lighting system
+    private PenumbraComponent _penumbra;
+    private Light _light;
+    private Hull _hull;
 
     // Camera stuff; using Monogame Extended Camera
     private OrthographicCamera _camera;
@@ -58,6 +65,7 @@ internal class GamePlay
 
     // Stopwatch for tracking elapsed time
     private Stopwatch _timer;
+    private GameTime gameTime;
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -71,6 +79,22 @@ internal class GamePlay
 
         // Initialize stopwatch
         _timer = new Stopwatch();
+
+
+        // Initialize Penumbra lighting system
+        _penumbra = new PenumbraComponent(_game);
+        _light = new PointLight
+        {
+            Scale = new Vector2(1000f),
+            ShadowType = ShadowType.Solid
+        };
+        _hull = new Hull(new Vector2(1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f), new Vector2(1.0f, -1.0f))
+        {
+            Position = new Vector2(400f, 240f),
+            Scale = new Vector2(50f)
+        };
+        _penumbra.Lights.Add(_light);
+        _penumbra.Hulls.Add(_hull);
     }
 
     public void LoadContent(GameWindow window, GraphicsDevice graphicsDevice)
@@ -142,6 +166,8 @@ internal class GamePlay
         /* order */
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
+
+        _penumbra.Initialize();
     }
 
     private void CalculateCameraLookAt()
@@ -185,6 +211,9 @@ internal class GamePlay
         _animationManager.Update();
         _inputManager.Update();
         _interactionManager.Update();
+     
+       
+        _penumbra.Update(gameTime);
     }
 
 
@@ -202,6 +231,8 @@ internal class GamePlay
         // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
 
         // TransformationMatrix is automatically calculated into the draw call
+        _penumbra.BeginDraw();
+
         var transformMatrix = _camera.GetViewMatrix();
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); // To make sharp images while scaling
@@ -217,6 +248,7 @@ internal class GamePlay
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        _penumbra.Draw(gameTime);
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
