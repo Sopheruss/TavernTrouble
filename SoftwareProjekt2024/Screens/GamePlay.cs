@@ -212,7 +212,7 @@ internal class GamePlay
         _inputManager.Update();
         _interactionManager.Update();
      
-       
+        
         _penumbra.Update(gameTime);
     }
 
@@ -228,9 +228,9 @@ internal class GamePlay
 
     public void Draw()
     {
-        // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
-
+        // Two spriteBatch.Begin/End to separate stuff that is affected by camera, light and static stuff
         // TransformationMatrix is automatically calculated into the draw call
+       
         _penumbra.BeginDraw();
 
         var transformMatrix = _camera.GetViewMatrix();
@@ -248,7 +248,7 @@ internal class GamePlay
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        _penumbra.Draw(gameTime);
+        _penumbra.Draw(gameTime); // draw everything NOT affected by light
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
