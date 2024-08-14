@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
+using System;
 
 namespace SoftwareProjekt2024.Screens;
 internal class OptionMenuMain
@@ -46,6 +48,10 @@ internal class OptionMenuMain
     Rectangle _volumeButtonRect;
 
     readonly BitmapFont bmfont;
+
+    private bool _isDraggingVolumeButton;
+    private int _volumeButtonOffsetX;
+
 
     public OptionMenuMain(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -110,6 +116,44 @@ internal class OptionMenuMain
             _fullIsClicked = false;
         }
 
+        // Check for dragging
+        HandleVolumeButtonDragging();
+        // set global volume level for playback
+        MediaPlayer.Volume = _game.VolumeLevel;
+    }
+
+
+    private void HandleVolumeButtonDragging()
+    {
+        _previousMouse = _currentMouse;
+        _currentMouse = Mouse.GetState();
+
+        var mouseRect = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+
+        // Start dragging
+        if (_volumeButtonRect.Contains(_previousMouse.X, _previousMouse.Y) && _currentMouse.LeftButton == ButtonState.Pressed)
+        {
+            _isDraggingVolumeButton = true;
+            _volumeButtonOffsetX = _currentMouse.X - _volumeButtonRect.X;
+        }
+
+        // Stop dragging
+        if (_currentMouse.LeftButton == ButtonState.Released)
+        {
+            _isDraggingVolumeButton = false;
+        }
+
+        // Dragging logic
+        if (_isDraggingVolumeButton)
+        {
+            int newX = _currentMouse.X - _volumeButtonOffsetX;
+            int minX = _volumeBarRect.X;
+            int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
+            newX = Math.Clamp(newX, minX, maxX);
+
+            _volumeButtonRect.X = newX;
+            _game.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
+        }
     }
 
     public void FullScreenIntersect()
@@ -132,7 +176,7 @@ internal class OptionMenuMain
 
     public void Draw()
     {
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); // to make sharp images while scaling
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         _returnButton.Draw(_spriteBatch);
 
@@ -145,9 +189,14 @@ internal class OptionMenuMain
         _spriteBatch.Draw(_controlsTexture, _controlsRect, Color.White);
 
         _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth + _edgeSpacer, _midScreenHeight), Color.Black);
+
         _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
         _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
 
+        // Ensure the volume button position is updated according to shared volume level
+        int minX = _volumeBarRect.X;
+        int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
+        _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));
 
         if (_game.fullScreen)
         {
@@ -161,4 +210,3 @@ internal class OptionMenuMain
         _spriteBatch.End();
     }
 }
-
