@@ -66,7 +66,7 @@ namespace SoftwareProjekt2024.Managers
         internal (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) CalcPlayerBounds(Player player)
         {
             int loweredPlayerBounds = 40;
-            int tightenedPlayerBounds = 3;
+            int tightenedPlayerBounds = 14;
 
             // Get the current rectangle representing the player's bounds
             Rectangle playerRect = player.Rect;
