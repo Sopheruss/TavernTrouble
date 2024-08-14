@@ -5,7 +5,7 @@ namespace SoftwareProjekt2024.SpriteClasses
 {
     internal class ScaledSprite : Sprite
     {
-        public int width = 50; //player width in pixel
+        public int width = 40; //player width in pixel
         public int height = 50; //player height in pixel 
         public Rectangle Rect //dependent on position 
         {

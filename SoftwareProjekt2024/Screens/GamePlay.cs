@@ -100,13 +100,13 @@ internal class GamePlay
 
         /* plate types */
         Plate.plain = _content.Load<Texture2D>("Food/plate");
-        Plate.withMeat = _content.Load<Texture2D>("Food/meat_on_plate");
-        Plate.withMeat_Bun = _content.Load<Texture2D>("Food/bun_meat_on_plate");
+        Plate.withMeat = _content.Load<Texture2D>("Food/meat_plate");
+        Plate.withMeat_Bun = _content.Load<Texture2D>("Food/meat_bun_plate");
         Plate.withFullBurger = _content.Load<Texture2D>("Food/full_burger_on_plate");
-        Plate.withBun = _content.Load<Texture2D>("Food/bun_on_plate");
-        Plate.withBun_Salad = _content.Load<Texture2D>("Food/bun_salad_on_plate");
-        Plate.withSalad = _content.Load<Texture2D>("Food/salad_on_plate");
-        Plate.withMeat_Salad = _content.Load<Texture2D>("Food/salad_meat_on_plate");
+        Plate.withBun = _content.Load<Texture2D>("Food/bun_plate");
+        Plate.withBun_Salad = _content.Load<Texture2D>("Food/salad_bun_plate");
+        Plate.withSalad = _content.Load<Texture2D>("Food/salad_plate");
+        //Plate.withMeat_Salad = _content.Load<Texture2D>("Food/salad_meat_on_plate");
 
         /* map */
         _tileManager = new TileManager();
@@ -125,11 +125,11 @@ internal class GamePlay
         Player.plain = _content.Load<Texture2D>("Models/oger_cook_spritesheet");
         Player.withPlate = _content.Load<Texture2D>("Models/Oger_Plate");
         Player.withMeat = _content.Load<Texture2D>("Models/Oger_Meat");
-        Player.withBun = _content.Load<Texture2D>("Models/Oger_Burger");
+        Player.withBun = _content.Load<Texture2D>("Models/Oger_Bun");
         Player.withSalad = _content.Load<Texture2D>("Models/Oger_Salad");
         Player.withPotato = _content.Load<Texture2D>("Models/Oger_Potato");
         Player.withPlate_Fries = _content.Load<Texture2D>("Models/Oger_Plate_Fries");
-        Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_FullBurger");
+        Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_Full_Burger");
 
         _ogerCook = new Player(Player.plain,
                               new Vector2(_mapWidthPx / 2, _mapHeightPx / 6),
@@ -225,7 +225,7 @@ internal class GamePlay
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
-        _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
 
         _spriteBatch.End();
 

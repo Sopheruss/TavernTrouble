@@ -162,7 +162,7 @@ internal class InteractionManager
                     _ogerCook.texture = Player.plain;
 
                     barfläche.barContents.Add(item);
-                    item.position = new Vector2(barfläche.position.X + 9, barfläche.position.Y + 11);
+                    item.position = new Vector2(barfläche.position.X + 9, barfläche.position.Y + 9);
                 }
                 else if (_ogerCook.inventoryIsEmpty() && !barfläche.isEmpty())
                 {
