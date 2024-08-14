@@ -380,7 +380,7 @@
 /processorParam:TextureFormat=Color
 /build:Food/beer_full.png
 
-#begin Food/bun_meat_on_plate.png
+#begin Food/bun_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -390,9 +390,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Food/bun_meat_on_plate.png
+/build:Food/bun_plate.png
 
-#begin Food/bun_on_plate.png
+#begin Food/fries_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -402,19 +402,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Food/bun_on_plate.png
-
-#begin Food/bun_salad_on_plate.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Food/bun_salad_on_plate.png
+/build:Food/fries_plate.png
 
 #begin Food/full_burger_on_plate.png
 /importer:TextureImporter
@@ -428,7 +416,7 @@
 /processorParam:TextureFormat=Color
 /build:Food/full_burger_on_plate.png
 
-#begin Food/meat_on_plate.png
+#begin Food/meat_bun_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -438,7 +426,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Food/meat_on_plate.png
+/build:Food/meat_bun_plate.png
+
+#begin Food/meat_plate.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/meat_plate.png
 
 #begin Food/plate.png
 /importer:TextureImporter
@@ -452,7 +452,7 @@
 /processorParam:TextureFormat=Color
 /build:Food/plate.png
 
-#begin Food/pommes_on_plate.png
+#begin Food/salad_bun_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -462,9 +462,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Food/pommes_on_plate.png
+/build:Food/salad_bun_plate.png
 
-#begin Food/salad_meat_on_plate.png
+#begin Food/salad_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -474,19 +474,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Food/salad_meat_on_plate.png
-
-#begin Food/salad_on_plate.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Food/salad_on_plate.png
+/build:Food/salad_plate.png
 
 #begin Map/atlas.PNG
 /importer:TextureImporter
@@ -512,7 +500,7 @@
 /processorParam:TextureFormat=Color
 /build:Map/hitboxes.png
 
-#begin Models/Oger_Burger.png
+#begin Models/Oger_Bun.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -522,9 +510,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Models/Oger_Burger.png
+/build:Models/Oger_Bun.png
 
-#begin Models/oger_cook_spritesheet.PNG
+#begin Models/oger_cook_spritesheet.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -534,7 +522,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Models/oger_cook_spritesheet.PNG
+/build:Models/oger_cook_spritesheet.png
+
+#begin Models/Oger_Empty_Beer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Empty_Beer.png
+
+#begin Models/Oger_Full_Beer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Full_Beer.png
 
 #begin Models/Oger_Meat.png
 /importer:TextureImporter
@@ -560,7 +572,7 @@
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Plate_Fries.png
 
-#begin Models/Oger_Plate_FullBurger.png
+#begin Models/Oger_Plate_Full_Burger.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -570,7 +582,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Models/Oger_Plate_FullBurger.png
+/build:Models/Oger_Plate_Full_Burger.png
 
 #begin Models/Oger_Plate.png
 /importer:TextureImporter

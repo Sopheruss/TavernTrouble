@@ -84,8 +84,8 @@ internal class GamePlay
 
         /* animation */
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
-        //Vector decides size of the size for the frame (one Oger Frame = 19/32)
-        _animationManager = new(4, 4, new Vector2(19, 32));
+        //Vector decides size of the size for the frame (one Oger Frame = 32/32)
+        _animationManager = new(4, 4, new Vector2(32, 32));
 
         /* button */
         _pauseButton = new Button(
@@ -208,7 +208,7 @@ internal class GamePlay
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
-        //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        _collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
 
         _spriteBatch.End();
 
