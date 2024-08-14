@@ -194,4 +194,3 @@ public class Game1 : Game
         this.Exit();
     }
 }
-
