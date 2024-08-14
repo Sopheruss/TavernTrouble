@@ -43,7 +43,7 @@ public class Game1 : Game
     private Song _introMenuSoundtrack;
     private Song _gameplaySoundtrackCozy;
 
-    public float VolumeLevel { get; set; } = 1.0f; // Shared volume level
+    public float VolumeLevel { get; set; } = 0.0f; // Shared volume level
 
     public Game1()
     {
