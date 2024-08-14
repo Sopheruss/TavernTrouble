@@ -114,7 +114,7 @@ internal class InteractionManager
             case 4:
                 Debug.WriteLine("CookBook Interaction");
 
-                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, new Vector2(-10, -10), _perspectiveManager));
+                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, new Vector2(-10, -10), _perspectiveManager)); //Position beim Tragen außerhalb der Map
                 _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
 
                 break;
