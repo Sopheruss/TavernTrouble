@@ -12,6 +12,7 @@ internal class InputManager
     readonly CollisionManager _collisionManager;
     readonly InteractionManager _interactionManager;
     readonly AnimationManager _animationManager;
+    readonly PerspectiveManager _perspectiveManager;
 
     readonly Vector2 _left = new(-1, 0);
     readonly Vector2 _right = new(1, 0);
@@ -25,13 +26,14 @@ internal class InputManager
     public static KeyboardState _currentKeyState;
     public static KeyboardState _previousKeyState;
 
-    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager)
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager, PerspectiveManager perspectiveManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
         _interactionManager = interactionManager;
         _animationManager = animationManager;
+        _perspectiveManager = perspectiveManager;
 
         curDirs = new List<Direction>();
     }
@@ -135,7 +137,7 @@ internal class InputManager
 
             if (interactionState != 0) // != false
             {
-                _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
+                _interactionManager.HandleInteraction(interactionState, _perspectiveManager); // gives ID of intersecting tile to interaction-handler
             }
         }
     }

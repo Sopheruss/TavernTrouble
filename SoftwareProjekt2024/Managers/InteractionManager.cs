@@ -4,6 +4,7 @@ using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024;
 
@@ -51,7 +52,16 @@ internal class InteractionManager
 
     public void CreateBounds()
     {
-        bounds = _ogerCook.Rect;
+        //bounds = _ogerCook.Rect;
+
+        int loweredPlayerBounds = 40;
+        int tightenedPlayerBounds = 3;
+
+        bounds = new Rectangle(
+            _ogerCook.Rect.X + tightenedPlayerBounds,
+            _ogerCook.Rect.Y + loweredPlayerBounds,
+            _ogerCook.Rect.Width - (2 * tightenedPlayerBounds),
+            _ogerCook.Rect.Height - loweredPlayerBounds);
     }
 
     public void CheckInteraction(Rectangle bounds)
@@ -75,13 +85,25 @@ internal class InteractionManager
      * Kessel: 1
      * Grill: 5
      * Cook Book: 4
+     * Trash : 6
+     * Bierkrüge : 7
+     * Plates : 8
+     * Buns : 9
+     * Meat : 10
+     * Salad : 11
+     * Potatos : 12
+     * Barflächen 0-12 oben : 20 - 32
+     * Barflächen 0-12 unten : 40 - 52
      */
-    public void HandleInteraction(int tileID)
+    public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
     {
         switch (tileID)
         {
             case 1:
                 Debug.WriteLine("Kessel Interaction");
+
+                _ogerCook.texture = Player.plain;
+
                 break;
             case 2:
                 Debug.WriteLine("green Interaction");
@@ -91,10 +113,78 @@ internal class InteractionManager
                 break;
             case 4:
                 Debug.WriteLine("CookBook Interaction");
+
+                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, new Vector2(-10, -10), _perspectiveManager));
+                _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+
                 break;
             case 5:
                 Debug.WriteLine("Grill Interaction");
                 break;
+
+            case 6:
+                Debug.WriteLine("Trash Interaction");
+                break;
+
+            case 7:
+                Debug.WriteLine("Bierkrüge Interaction");
+                break;
+
+            case 8:
+                Debug.WriteLine("Plates Interaction");
+                break;
+
+            case 9:
+                Debug.WriteLine("Buns Interaction");
+                break;
+
+            case 10:
+                Debug.WriteLine("Meat Interaction");
+                break;
+
+            case 11:
+                Debug.WriteLine("Salad Interaction");
+                break;
+
+            case 12:
+                Debug.WriteLine("Potato Interaction");
+                break;
+
+            case >= 20 and <= 32:
+                Debug.WriteLine("Barfläche oben Interaction");
+
+                int barflächenID = tileID - 20;
+                Bar barfläche = _perspectiveManager._barFlächen[barflächenID];
+                if (!_ogerCook.inventoryIsEmpty())
+                {
+                    Component item = _ogerCook.inventory[0];
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.texture = Player.plain;
+
+                    barfläche.barContents.Add(item);
+                    item.position = new Vector2(barfläche.position.X + 9, barfläche.position.Y + 11);
+                }
+                else if (_ogerCook.inventoryIsEmpty() && !barfläche.isEmpty())
+                {
+                    Debug.WriteLine("Picking up");
+                    Component item = barfläche.barContents[0];
+                    barfläche.barContents.Clear();
+                    _ogerCook.pickUp(item);
+                    item.position = new Vector2(-10, -10);
+                }
+
+
+                break;
+
+            case >= 40 and <= 52:
+                Debug.WriteLine("Barfläche unten Interaction");
+                break;
+
+
+
+
+
+
             default:
                 Debug.WriteLine("INTERACTION");
                 _gamePlay.IncreaseScore(5);

@@ -98,6 +98,16 @@ internal class GamePlay
             _content.Load<Texture2D>("Buttons/cookBookButtonHovering"),
             new Vector2(30, _screenHeight - 30));
 
+        /* plate types */
+        Plate.plain = _content.Load<Texture2D>("Food/plate");
+        Plate.withMeat = _content.Load<Texture2D>("Food/meat_on_plate");
+        Plate.withMeat_Bun = _content.Load<Texture2D>("Food/bun_meat_on_plate");
+        Plate.withFullBurger = _content.Load<Texture2D>("Food/full_burger_on_plate");
+        Plate.withBun = _content.Load<Texture2D>("Food/bun_on_plate");
+        Plate.withBun_Salad = _content.Load<Texture2D>("Food/bun_salad_on_plate");
+        Plate.withSalad = _content.Load<Texture2D>("Food/salad_on_plate");
+        Plate.withMeat_Salad = _content.Load<Texture2D>("Food/salad_meat_on_plate");
+
         /* map */
         _tileManager = new TileManager();
         //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
@@ -112,9 +122,16 @@ internal class GamePlay
 
         /* player */
         //local implementation, cuz acces to texture via Sprite class
-        Texture2D _ogerCookSpritesheet = _content.Load<Texture2D>("Models/oger_cook_spritesheet");
+        Player.plain = _content.Load<Texture2D>("Models/oger_cook_spritesheet");
+        Player.withPlate = _content.Load<Texture2D>("Models/Oger_Plate");
+        Player.withMeat = _content.Load<Texture2D>("Models/Oger_Meat");
+        Player.withBun = _content.Load<Texture2D>("Models/Oger_Burger");
+        Player.withSalad = _content.Load<Texture2D>("Models/Oger_Salad");
+        Player.withPotato = _content.Load<Texture2D>("Models/Oger_Potato");
+        Player.withPlate_Fries = _content.Load<Texture2D>("Models/Oger_Plate_Fries");
+        Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_FullBurger");
 
-        _ogerCook = new Player(_ogerCookSpritesheet,
+        _ogerCook = new Player(Player.plain,
                               new Vector2(_mapWidthPx / 2, _mapHeightPx / 6),
                               _perspectiveManager);
 
@@ -124,7 +141,7 @@ internal class GamePlay
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook, this);
-        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager);
+        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
