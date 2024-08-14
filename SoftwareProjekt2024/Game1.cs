@@ -21,7 +21,7 @@ public class Game1 : Game
 {
     public bool _exit = false;
 
-    public bool fullScreen = false;
+    public bool fullScreen = true;
 
     public GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -42,6 +42,8 @@ public class Game1 : Game
     private Song _currentSong;
     private Song _introMenuSoundtrack;
     private Song _gameplaySoundtrackCozy;
+
+    public float VolumeLevel { get; set; } = 1.0f; // Shared volume level
 
     public Game1()
     {
@@ -90,7 +92,7 @@ public class Game1 : Game
     }
 
 
-    private void PlaySong(Song song, float volume)
+    private void PlaySong(Song song)
     {
         // needed, so that the soundtrack works properly across different scenes
         // called in update, so updated every frame if check is not set
@@ -99,10 +101,10 @@ public class Game1 : Game
 
             MediaPlayer.Stop(); // stop everything that played before
             MediaPlayer.IsRepeating = true; // toggle in order to loop (or not)
-            MediaPlayer.Volume = volume;
             MediaPlayer.Play(song);
             _currentSong = song;
         }
+        MediaPlayer.Volume = VolumeLevel;
     }
 
 
@@ -118,25 +120,25 @@ public class Game1 : Game
         {
             case Scenes.SPLASHSCREEN:
                 _splashScreen.Update();
-                PlaySong(_introMenuSoundtrack, 0.15f);
+                PlaySong(_introMenuSoundtrack);
                 break;
             case Scenes.MAINMENU:
                 _mainMenu.Update();
                 break;
             case Scenes.GAMEPLAY:
                 _gamePlay.Update();
-                PlaySong(_gameplaySoundtrackCozy, 0.15f);
+                PlaySong(_gameplaySoundtrackCozy);
                 break;
             case Scenes.PAUSEMENU:
                 _pauseMenu.Update();
-                PlaySong(_gameplaySoundtrackCozy, 0.15f);
+                PlaySong(_gameplaySoundtrackCozy);
                 break;
             case Scenes.OPTIONMENUMAIN:
                 _optionMenuMain.Update();
                 break;
             case Scenes.OPTIONMENUPAUSE:
                 _optionMenuPause.Update();
-                PlaySong(_gameplaySoundtrackCozy, 0.15f);
+                PlaySong(_gameplaySoundtrackCozy);
                 break;
             case Scenes.COOKBOOKSCREEN:
                 _cookBookScreen.Update();
