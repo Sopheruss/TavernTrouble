@@ -95,7 +95,7 @@ public class OptionMenuPause
 
         if (_returnButton.isClicked || _returnButton._escIsPressed)
         {
-            _game.activeScene = Scenes.MAINMENU;
+            _game.activeScene = Scenes.PAUSEMENU;
         }
 
         FullScreenIntersect();

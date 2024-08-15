@@ -478,7 +478,7 @@
 /processorParam:TextureFormat=Color
 /build:Food/salad_plate.png
 
-#begin Map/atlas.PNG
+#begin Map/atlas.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -488,7 +488,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Map/atlas.PNG
+/build:Map/atlas.png
 
 #begin Map/hitboxes.png
 /importer:TextureImporter

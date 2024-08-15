@@ -33,25 +33,46 @@ namespace SoftwareProjekt2024.Managers
                         , tileSize );                                                    -> subtracting from this value shifts the lower bound upwards
                  */
 
+                /* Collisions IDs:
+                 * upper kitchen equippment: 1
+                 * trash can: 2
+                 * left Bar: 3
+                 * bar: 4
+                 * right bar: 5
+                 * table: 6 - 9
+                 */
+
                 switch ((int)tile.Value)
                 {
-                    case 1:     //obere interaktive Küchenobjekte 
-                        tileRect = new Rectangle(((int)tile.Key.X * 32), ((int)tile.Key.Y * 32), tileSize, (tileSize - halfTileHeight));
+                    case 1:     //upper kitschen equippment 
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize), ((int)tile.Key.Y * tileSize), tileSize, (tileSize - halfTileHeight));
                         break;
-                    case 2:     //Mülleimer 
-                        tileRect = new Rectangle(((int)tile.Key.X * 32), ((int)tile.Key.Y * 32), (tileSize - quarterTileHeight + 2), (tileSize - halfTileHeight));
+                    case 2:     //trash can 
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize), ((int)tile.Key.Y * tileSize), (tileSize - quarterTileHeight + 2), (tileSize - halfTileHeight));
                         break;
-                    case 3:     //linker Barrand
-                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 16, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                    case 3:     //left bar
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 16, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
                         break;
-                    case 4:     //Fall für den Tisch: kleineres Rectangle, um Kollision erst ab Hälfte des Tisches beginnen zu lassen
-                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                    case 4:     //bar kollision
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 5, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
                         break;
-                    case 5:     //rechter Barrand
-                        tileRect = new Rectangle(((int)tile.Key.X * 32) + 5, ((int)tile.Key.Y * 32) + (tileSize - quarterTileHeight) + 2, tileSize - 21, quarterTileHeight - 2);
+                    case 5:     //right bar
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 5, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTileHeight) + 2, tileSize - 21, quarterTileHeight - 2);
+                        break;
+                    case 6:     //table left upper
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + quarterTileHeight + 3, 0, tileSize, tileSize);
+                        break;
+                    case 7:     //table right upper
+                        tileRect = new Rectangle((int)tile.Key.X * tileSize, 0, tileSize - quarterTileHeight - 6, tileSize);
+                        break;
+                    case 8:     //table left lower
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + quarterTileHeight + 3, ((int)tile.Key.Y * tileSize) + quarterTileHeight, tileSize, tileSize - halfTileHeight - 3);
+                        break;
+                    case 9:     //table right lower 
+                        tileRect = new Rectangle((int)tile.Key.X * tileSize, ((int)tile.Key.Y * tileSize) + quarterTileHeight, tileSize - quarterTileHeight - 6, tileSize - halfTileHeight - 3);
                         break;
                     default:    //Generalfall
-                        tileRect = new Rectangle((int)tile.Key.X * 32, (int)tile.Key.Y * 32, 32, 32);
+                        tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
                         break;
                 }
 
