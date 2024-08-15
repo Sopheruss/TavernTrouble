@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
+using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
-using Penumbra;
 
 
 namespace SoftwareProjekt2024.Screens;
@@ -183,7 +183,7 @@ internal class GamePlay
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
 
-        _penumbra.Initialize();
+        //_penumbra.Initialize();
     }
 
     private void CalculateCameraLookAt()
@@ -229,7 +229,7 @@ internal class GamePlay
         _inputManager.Update();
         _interactionManager.Update();
 
-        _penumbra.Update(gameTime);
+        //_penumbra.Update(gameTime);
     }
 
 
@@ -247,7 +247,7 @@ internal class GamePlay
         // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
         // TransformationMatrix is automatically calculated into the draw call
 
-        _penumbra.BeginDraw();
+        //_penumbra.BeginDraw();
 
         var transformMatrix = _camera.GetViewMatrix();
 
@@ -257,14 +257,18 @@ internal class GamePlay
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
-        //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
+        _collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        _collisionManager.DrawDebugRect(_spriteBatch, rightBounds, 1, rectangleTexture);
+        _collisionManager.DrawDebugRect(_spriteBatch, upBounds, 1, rectangleTexture);
+        _collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);
 
         _spriteBatch.End();
 
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        _penumbra.Draw(gameTime); // draw everything NOT affected by light
+        //_penumbra.Draw(gameTime); // draw everything NOT affected by light
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 

@@ -75,33 +75,33 @@ namespace SoftwareProjekt2024.Managers
 
             // Left bounding rectangle
             Rectangle leftBounds = new Rectangle(
-                playerRect.Left - 1 + tightenedPlayerBounds,     // Adjusted left side (1 pixel to the left)
-                playerRect.Top + loweredPlayerBounds,           // Align with the top of the player
+                playerRect.Left + tightenedPlayerBounds,     // Adjusted left side (1 pixel to the left)
+                playerRect.Top + loweredPlayerBounds + 1,           // Align with the top of the player
                 1,                                             // Width of 1 pixel
-                player.height - loweredPlayerBounds           // Height same as player's height
+                player.height - loweredPlayerBounds - 2           // Height same as player's height
             );
 
             // Right bounding rectangle
             Rectangle rightBounds = new Rectangle(
                 playerRect.Right - tightenedPlayerBounds,       // Right side of the player
-                playerRect.Top + loweredPlayerBounds,          // Align with the top of the player
+                playerRect.Top + loweredPlayerBounds + 1,          // Align with the top of the player
                 1,                                            // Width of 1 pixel
-                player.height - loweredPlayerBounds          // Height same as player's height
+                player.height - loweredPlayerBounds - 2          // Height same as player's height
             );
 
             // Up bounding rectangle
             Rectangle upBounds = new Rectangle(
-                playerRect.Left + tightenedPlayerBounds,        // Align with the left side of the player
+                playerRect.Left + tightenedPlayerBounds + 2,        // Align with the left side of the player
                 playerRect.Top - 1 + loweredPlayerBounds,      // Adjusted up (1 pixel above) + Offset for optics
-                player.width - tightenedPlayerBounds * 2,     // Width same as player's width; oger width != rectangle width
+                player.width - tightenedPlayerBounds * 2 - 3,     // Width same as player's width; oger width != rectangle width
                 1                                            // Height of 1 pixel
             );
 
             // Down bounding rectangle
             Rectangle downBounds = new Rectangle(
-                playerRect.Left + tightenedPlayerBounds,        // Align with the left side of the player
+                playerRect.Left + tightenedPlayerBounds + 2,        // Align with the left side of the player
                 playerRect.Bottom,                             // Bottom side of the player
-                player.width - tightenedPlayerBounds * 2,     // Width same as player's width; oger width != rectangle width
+                player.width - tightenedPlayerBounds * 2 - 3,     // Width same as player's width; oger width != rectangle width
                 1                                            // Height of 1 pixel
             );
 
