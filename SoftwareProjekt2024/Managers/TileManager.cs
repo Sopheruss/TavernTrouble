@@ -22,6 +22,7 @@ using System.IO;
  * cook book: 56, 64
  * boiler: 57, 65
  * cutting board: 58, 66
+ * big table: 59, 60, 67, 68
  */
 
 namespace SoftwareProjekt2024
@@ -118,7 +119,7 @@ namespace SoftwareProjekt2024
 
                 switch (item.Value)
                 {
-                    case 12:    //Tisch
+                    case 59 | 60 | 67 | 68:    //Tisch DOES NOT WORK!
                         _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                         break;
                     case 50:    //Bar links

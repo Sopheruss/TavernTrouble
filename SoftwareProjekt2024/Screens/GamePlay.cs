@@ -21,9 +21,9 @@ internal class GamePlay
 
 
     // Penumbra lighting system
-    private PenumbraComponent _penumbra;
+    /*private PenumbraComponent _penumbra;
     private Light _light;
-    private Hull _hull;
+    private Hull _hull;*/
 
     // Camera stuff; using Monogame Extended Camera
     private OrthographicCamera _camera;
@@ -84,7 +84,7 @@ internal class GamePlay
 
 
         // Initialize Penumbra lighting system
-        _penumbra = new PenumbraComponent(_game);
+        /*_penumbra = new PenumbraComponent(_game);
         _light = new PointLight
         {
             Scale = new Vector2(1000f),
@@ -96,7 +96,7 @@ internal class GamePlay
             Scale = new Vector2(50f)
         };
         _penumbra.Lights.Add(_light);
-        _penumbra.Hulls.Add(_hull);
+        _penumbra.Hulls.Add(_hull);*/
     }
 
     public void LoadContent(GameWindow window, GraphicsDevice graphicsDevice)
@@ -136,7 +136,6 @@ internal class GamePlay
 
         /* map */
         _tileManager = new TileManager();
-        //_tileManager.textureAtlas = Content.Load<Texture2D>("atlas");
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
         _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
         _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
@@ -158,7 +157,7 @@ internal class GamePlay
         Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_Full_Burger");
 
         _ogerCook = new Player(Player.plain,
-                              new Vector2(_mapWidthPx / 2, _mapHeightPx / 6),
+                              new Vector2(_mapWidthPx / 2, _mapHeightPx / 4),
                               _perspectiveManager);
 
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
