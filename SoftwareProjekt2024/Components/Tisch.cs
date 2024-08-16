@@ -13,6 +13,6 @@ internal class Tisch : StaticObject
     }
     public override int getHeight()
     {
-        return dest.Height;
+        return dest.Height - 13;
     }
 }

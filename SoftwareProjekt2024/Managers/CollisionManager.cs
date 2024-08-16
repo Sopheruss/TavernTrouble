@@ -7,8 +7,8 @@ namespace SoftwareProjekt2024.Managers
     public class CollisionManager
     {
         private readonly TileManager _tileManager;
-        readonly int halfTileHeight = 16;
-        readonly int quarterTileHeight = 8;
+        readonly int halfTile = 16;
+        readonly int quarterTile = 8;
         readonly int tileSize = 32;
 
 
@@ -45,31 +45,22 @@ namespace SoftwareProjekt2024.Managers
                 switch ((int)tile.Value)
                 {
                     case 1:     //upper kitschen equippment 
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize), ((int)tile.Key.Y * tileSize), tileSize, (tileSize - halfTileHeight));
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize), ((int)tile.Key.Y * tileSize), tileSize, (tileSize - halfTile));
                         break;
                     case 2:     //trash can 
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize), ((int)tile.Key.Y * tileSize), (tileSize - quarterTileHeight + 2), (tileSize - halfTileHeight));
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize), ((int)tile.Key.Y * tileSize), (tileSize - quarterTile + 2), (tileSize - halfTile));
                         break;
                     case 3:     //left bar
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 16, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 16, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTile) + 2, tileSize - 11, quarterTile - 2);
                         break;
                     case 4:     //bar kollision
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 5, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTileHeight) + 2, tileSize - 11, quarterTileHeight - 2);
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 5, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTile) + 2, tileSize - 11, quarterTile - 2);
                         break;
                     case 5:     //right bar
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 5, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTileHeight) + 2, tileSize - 21, quarterTileHeight - 2);
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 5, ((int)tile.Key.Y * tileSize) + (tileSize - quarterTile) + 2, tileSize - 21, quarterTile - 2);
                         break;
-                    case 6:     //table left upper
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + quarterTileHeight + 3, 0, tileSize, tileSize);
-                        break;
-                    case 7:     //table right upper
-                        tileRect = new Rectangle((int)tile.Key.X * tileSize, 0, tileSize - quarterTileHeight - 6, tileSize);
-                        break;
-                    case 8:     //table left lower
-                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + quarterTileHeight + 3, ((int)tile.Key.Y * tileSize) + quarterTileHeight, tileSize, tileSize - halfTileHeight - 3);
-                        break;
-                    case 9:     //table right lower 
-                        tileRect = new Rectangle((int)tile.Key.X * tileSize, ((int)tile.Key.Y * tileSize) + quarterTileHeight, tileSize - quarterTileHeight - 6, tileSize - halfTileHeight - 3);
+                    case 6:     //table left upper -> does collision for whole table
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + quarterTile + 3, ((int)tile.Key.Y * tileSize) + tileSize - 2, tileSize + quarterTile, tileSize - quarterTile - 4);
                         break;
                     default:    //Generalfall
                         tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
