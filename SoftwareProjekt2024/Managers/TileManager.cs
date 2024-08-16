@@ -189,7 +189,6 @@ namespace SoftwareProjekt2024
                             new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
                             _perspectiveManager));
                         break;
-
                 }
             }
         }
