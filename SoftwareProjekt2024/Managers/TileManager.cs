@@ -122,18 +122,21 @@ namespace SoftwareProjekt2024
                 {
                     case 59 | 60 | 67 | 68:    //Tisch DOES NOT WORK!
                         _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
-                        
+                       
+                        // add hull, shadow casting not functioning as of yet
                         Hull tableHull = new Hull (new Vector2[]
                         {
-                            new Vector2(dest.X, dest.Y),
-                            new Vector2(dest.X+dest.Width,dest.Y),
-                            new Vector2(dest.X+dest.Width, dest.Y+dest.Height),
-                            new Vector2(dest.X,dest.Height)
+                        new Vector2(dest.X, dest.Y), // Top-left corner
+                        new Vector2(dest.X + dest.Width, dest.Y), // Top-right corner
+                        new Vector2(dest.X + dest.Width, dest.Y + dest.Height), // Bottom-right corner
+                        new Vector2(dest.X, dest.Y + dest.Height) // Bottom-left corner
                         }   
                             );
 
-                        penumbra.Hulls.Add(tableHull);
-                        
+                        if (!tableHull.Valid) {
+                            Console.WriteLine("Hull invalid!");
+                        } else penumbra.Hulls.Add(tableHull);
+                  
                         break;
 
                     case 50:    //Bar links
@@ -150,20 +153,34 @@ namespace SoftwareProjekt2024
                         break;
                     case 64:    //Kochbuch -> nur untere Hälften, weil für Interaktion nur das wichtig?
                         _perspectiveManager._nonInteractables.Add(new CookBook(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        
                         break;
                     case 65:    //Kessel
                         _perspectiveManager._nonInteractables.Add(new Kessel(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
 
+                        // either SpotLight or PointLight
                         PointLight staticLightKessel = new PointLight
                         {
-
                             Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
-                            Scale = new Vector2(300f),
-                            Intensity = 1f,
-                            Color = Color.OrangeRed
+                            Scale = new Vector2(150f), // Adjust size 
+                            Intensity = 1f, // Adjust intensity 
+                            Color = Color.OrangeRed, // Change color 
+                            CastsShadows = true, // Ensure shadows are cast
+                            ShadowType = ShadowType.Solid, // Set the shadow type
+                           
+                            /* // only for Spotlight
+                             0 radians points to the right (positive X direction).
+                             π/2 radians points downward (positive Y direction).
+                             π radians points to the left (negative X direction).
+                             3π/2 radians points upward (negative Y direction).
+                             
+
+                            Rotation = MathHelper.ToRadians(90f) */
                         };
                         
                         penumbra.Lights.Add(staticLightKessel);
+                  
+
                         break;
                 }
             }
