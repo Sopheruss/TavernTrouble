@@ -160,7 +160,7 @@ namespace SoftwareProjekt2024
                             Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
                             Scale = new Vector2(300f),
                             Intensity = 1f,
-                            Color = Color.GreenYellow
+                            Color = Color.OrangeRed
                         };
                         
                         penumbra.Lights.Add(staticLightKessel);

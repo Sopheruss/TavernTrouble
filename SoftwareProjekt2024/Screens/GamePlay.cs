@@ -171,6 +171,7 @@ internal class GamePlay
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
 
         _penumbra.Initialize();
+       _penumbra.AmbientColor = new Color(150,150,150); // RGB Values, control surrounding lights. (0-255) 
     }
 
     private void CalculateCameraLookAt()
