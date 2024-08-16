@@ -151,7 +151,24 @@ namespace SoftwareProjekt2024
                         break;
                     case 51:    //Bar
                         _perspectiveManager._barFlächen.Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                        // work in progress, testing
+                        Hull barHull = new Hull(new Vector2[]
+                       {
+                        new Vector2(dest.X, dest.Y), 
+                        new Vector2(dest.X + dest.Width, dest.Y), 
+                        new Vector2(dest.X + dest.Width, dest.Y + dest.Height), 
+                        new Vector2(dest.X, dest.Y + dest.Height) 
+                       }
+                           );
+
+                        if (!barHull.Valid)
+                        {
+                            Console.WriteLine("Hull invalid!");
+                        }
+                        else penumbra.Hulls.Add(barHull);
                         break;
+
                     case 52:    //Bar
                         _perspectiveManager._barFlächen.Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                         break;
