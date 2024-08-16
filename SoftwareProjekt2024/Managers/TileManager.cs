@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System;
@@ -99,7 +100,7 @@ namespace SoftwareProjekt2024
             //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
             //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
-        public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
+        public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager, PenumbraComponent penumbra)
         {
             foreach (var item in objectsLayer)
             {
@@ -121,7 +122,20 @@ namespace SoftwareProjekt2024
                 {
                     case 59 | 60 | 67 | 68:    //Tisch DOES NOT WORK!
                         _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                        
+                        Hull tableHull = new Hull (new Vector2[]
+                        {
+                            new Vector2(dest.X, dest.Y),
+                            new Vector2(dest.X+dest.Width,dest.Y),
+                            new Vector2(dest.X+dest.Width, dest.Y+dest.Height),
+                            new Vector2(dest.X,dest.Height)
+                        }   
+                            );
+
+                        penumbra.Hulls.Add(tableHull);
+                        
                         break;
+
                     case 50:    //Bar links
                         _perspectiveManager._nonInteractables.Add(new Bar_Links(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                         break;
@@ -139,6 +153,17 @@ namespace SoftwareProjekt2024
                         break;
                     case 65:    //Kessel
                         _perspectiveManager._nonInteractables.Add(new Kessel(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                        PointLight staticLightKessel = new PointLight
+                        {
+
+                            Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                            Scale = new Vector2(300f),
+                            Intensity = 1f,
+                            Color = Color.GreenYellow
+                        };
+                        
+                        penumbra.Lights.Add(staticLightKessel);
                         break;
                 }
             }

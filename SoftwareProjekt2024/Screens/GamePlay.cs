@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
+using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
@@ -20,8 +21,8 @@ internal class GamePlay
 
 
     // Penumbra lighting system
-    /*private PenumbraComponent _penumbra;
-    private Light _light;
+    private PenumbraComponent _penumbra;
+    /*private Light _light;
     private Hull _hull;*/
 
     // Camera stuff; using Monogame Extended Camera
@@ -83,19 +84,7 @@ internal class GamePlay
 
 
         // Initialize Penumbra lighting system
-        /*_penumbra = new PenumbraComponent(_game);
-        _light = new PointLight
-        {
-            Scale = new Vector2(1000f),
-            ShadowType = ShadowType.Solid
-        };
-        _hull = new Hull(new Vector2(1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f), new Vector2(1.0f, -1.0f))
-        {
-            Position = new Vector2(400f, 240f),
-            Scale = new Vector2(50f)
-        };
-        _penumbra.Lights.Add(_light);
-        _penumbra.Hulls.Add(_hull);*/
+        _penumbra = new PenumbraComponent(_game);
     }
 
     public void LoadContent(GameWindow window, GraphicsDevice graphicsDevice)
@@ -137,7 +126,7 @@ internal class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
         _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
-        _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
+        _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager,_penumbra); //Laden aller Objekte von Tiled
 
         _mapHeight = _tileManager.mapHeight;
         _mapWidth = _tileManager.mapWidth;
@@ -181,7 +170,7 @@ internal class GamePlay
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
 
-        //_penumbra.Initialize();
+        _penumbra.Initialize();
     }
 
     private void CalculateCameraLookAt()
@@ -227,7 +216,7 @@ internal class GamePlay
         _inputManager.Update();
         _interactionManager.Update();
 
-        //_penumbra.Update(gameTime);
+        _penumbra.Update(gameTime);
     }
 
 
@@ -243,9 +232,9 @@ internal class GamePlay
     public void Draw()
     {
         // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
-        // TransformationMatrix is automatically calculated into the draw call
-
-        //_penumbra.BeginDraw();
+        // TransformationMatrix is automatically calculated into the draw call, added to penumbra so the light does not move
+        _penumbra.Transform = _camera.GetViewMatrix(); 
+        _penumbra.BeginDraw();
 
         var transformMatrix = _camera.GetViewMatrix();
 
@@ -262,7 +251,7 @@ internal class GamePlay
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        //_penumbra.Draw(gameTime); // draw everything NOT affected by light
+        _penumbra.Draw(gameTime); // draw everything NOT affected by light
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
