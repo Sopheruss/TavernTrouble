@@ -55,7 +55,7 @@ internal class InteractionManager
         //bounds = _ogerCook.Rect;
 
         int loweredPlayerBounds = 40;
-        int tightenedPlayerBounds = 3;
+        int tightenedPlayerBounds = 19;
 
         bounds = new Rectangle(
             _ogerCook.Rect.X + tightenedPlayerBounds,
@@ -179,9 +179,10 @@ internal class InteractionManager
 
             case 16:
                 Debug.WriteLine("Trash Interaction");
-
-                _ogerCook.texture = Player.plain;
-
+                if (!_ogerCook.inventoryIsEmpty())
+                {
+                    Trash.HandleInteraction(_ogerCook, _perspectiveManager);
+                }
                 break;
 
             case >= 20 and <= 32:
