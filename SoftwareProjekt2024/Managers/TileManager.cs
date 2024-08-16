@@ -121,7 +121,11 @@ namespace SoftwareProjekt2024
 
                 switch (item.Value)
                 {
-                    case 59 | 60 | 67 | 68:    //Tisch DOES NOT WORK!
+                    //Tisch DOES NOT WORK!
+                    case 59:
+                    case 60:
+                    case 67: 
+                    case 68:   
                         _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                        
                         // Should add hull for table, Shadow not cast tho???
@@ -152,21 +156,6 @@ namespace SoftwareProjekt2024
                     case 51:    //Bar
                         _perspectiveManager._barFlächen.Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
 
-                        // work in progress, testing
-                        Hull barHull = new Hull(new Vector2[]
-                       {
-                        new Vector2(dest.X, dest.Y), 
-                        new Vector2(dest.X + dest.Width, dest.Y), 
-                        new Vector2(dest.X + dest.Width, dest.Y + dest.Height), 
-                        new Vector2(dest.X, dest.Y + dest.Height) 
-                       }
-                           );
-
-                        if (!barHull.Valid)
-                        {
-                            Console.WriteLine("Hull invalid!");
-                        }
-                        else penumbra.Hulls.Add(barHull);
                         break;
 
                     case 52:    //Bar
@@ -186,7 +175,7 @@ namespace SoftwareProjekt2024
                         PointLight staticLightKessel = new PointLight
                         {
                             Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
-                            Scale = new Vector2(150f), // Adjust size 
+                            Scale = new Vector2(550f), // Adjust size 
                             Intensity = 1f, // Adjust intensity 
                             Color = Color.OrangeRed, // Change color 
                             CastsShadows = true, // Ensure shadows are cast
