@@ -7,6 +7,7 @@ using MonoGame.Extended.ViewportAdapters;
 using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
+using System;
 using System.Diagnostics;
 
 
@@ -22,8 +23,11 @@ internal class GamePlay
 
     // Penumbra lighting system
     private PenumbraComponent _penumbra;
-    /*private Light _light;
-    private Hull _hull;*/
+    
+    int topPadding = 32;
+    int bottomPadding = 0;
+    int leftPadding = 16;
+    int rightPadding = 16;
 
     // Camera stuff; using Monogame Extended Camera
     private OrthographicCamera _camera;
@@ -170,8 +174,12 @@ internal class GamePlay
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
 
+        /* lights, hulls */
         _penumbra.Initialize();
        _penumbra.AmbientColor = new Color(140,140,140); // RGB Values, control surrounding lights. (0-255) 
+
+        Hull playerHull = CreateHullAroundPlayer(_ogerCook.Rect, topPadding, bottomPadding, leftPadding, rightPadding);
+        _penumbra.Hulls.Add(playerHull);
     }
 
     private void CalculateCameraLookAt()
@@ -186,6 +194,31 @@ internal class GamePlay
 
         _camera.LookAt(ClampedPosition + new Vector2(10, 16)); //offset to center oger -> half of the texture width/height
     }
+
+
+    Hull CreateHullAroundPlayer(Rectangle playerBounds, int topPadding, int bottomPadding, int leftPadding, int rightPadding)
+    {
+        // Calculate the new rectangle with specified padding
+        Rectangle adjustedBounds = new Rectangle(
+            playerBounds.Left + leftPadding,
+            playerBounds.Top + topPadding,
+            playerBounds.Width - leftPadding - rightPadding,
+            playerBounds.Height - topPadding - bottomPadding
+        );
+
+        // Ensure the rectangle dimensions are positive
+        adjustedBounds.Width = Math.Max(adjustedBounds.Width, 1);
+        adjustedBounds.Height = Math.Max(adjustedBounds.Height, 1);
+
+        // Define the hull points based on the adjusted rectangle
+        Vector2 topLeft = new Vector2(adjustedBounds.Left, adjustedBounds.Top);
+        Vector2 topRight = new Vector2(adjustedBounds.Right, adjustedBounds.Top);
+        Vector2 bottomRight = new Vector2(adjustedBounds.Right, adjustedBounds.Bottom);
+        Vector2 bottomLeft = new Vector2(adjustedBounds.Left, adjustedBounds.Bottom);
+
+        return new Hull(new Vector2[] { topLeft, topRight, bottomRight, bottomLeft });
+    }
+
 
     public void Update()
     {
@@ -217,6 +250,10 @@ internal class GamePlay
         _inputManager.Update();
         _interactionManager.Update();
 
+        // Update the hull to match the player's new bounds
+        Hull updatedPlayerHull = CreateHullAroundPlayer(_ogerCook.Rect, topPadding, bottomPadding, leftPadding, rightPadding);
+        _penumbra.Hulls[0] = updatedPlayerHull; // Replace the existing hull
+
         _penumbra.Update(gameTime);
     }
 
@@ -240,28 +277,19 @@ internal class GamePlay
         var transformMatrix = _camera.GetViewMatrix();
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: transformMatrix); // To make sharp images while scaling
-
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
-
         _perspectiveManager.draw(_spriteBatch, _animationManager);
-
         //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
 
         _spriteBatch.End();
-
+        _penumbra.Draw(gameTime); // draw everything NOT affected by light (UI, Menu)
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        _penumbra.Draw(gameTime); // draw everything NOT affected by light
-
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
-
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
-
         _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
-
         _pauseButton.Draw(_spriteBatch);
-
         _cookBookButton.Draw(_spriteBatch);
 
         // Display the elapsed time

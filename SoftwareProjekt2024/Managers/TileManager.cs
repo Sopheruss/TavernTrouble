@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Shapes;
 using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
@@ -123,7 +124,7 @@ namespace SoftwareProjekt2024
                     case 59 | 60 | 67 | 68:    //Tisch DOES NOT WORK!
                         _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                        
-                        // add hull, shadow casting not functioning as of yet
+                        // Should add hull for table, Shadow not cast tho???
                         Hull tableHull = new Hull (new Vector2[]
                         {
                         new Vector2(dest.X, dest.Y), // Top-left corner
@@ -133,10 +134,16 @@ namespace SoftwareProjekt2024
                         }   
                             );
 
+                        /* 
+                        Checks if hull is valid, it must:
+                        - Contain at least 3 points
+                        - Points must form a simple polygon (where no two edges intersect)
+                        */
+
                         if (!tableHull.Valid) {
                             Console.WriteLine("Hull invalid!");
                         } else penumbra.Hulls.Add(tableHull);
-                  
+                
                         break;
 
                     case 50:    //Bar links
@@ -168,13 +175,12 @@ namespace SoftwareProjekt2024
                             CastsShadows = true, // Ensure shadows are cast
                             ShadowType = ShadowType.Solid, // Set the shadow type
                            
-                            /* // only for Spotlight
-                             0 radians points to the right (positive X direction).
-                             π/2 radians points downward (positive Y direction).
-                             π radians points to the left (negative X direction).
-                             3π/2 radians points upward (negative Y direction).
+                           /* // only for Spotlight
+                            0 radians points to the right (positive X direction).
+                            π/2 radians points downward (positive Y direction).
+                            π radians points to the left (negative X direction).
+                            3π/2 radians points upward (negative Y direction).
                              
-
                             Rotation = MathHelper.ToRadians(90f) */
                         };
                         
