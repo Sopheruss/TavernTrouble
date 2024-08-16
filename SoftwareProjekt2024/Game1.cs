@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using SoftwareProjekt2024.Screens;
 
 namespace SoftwareProjekt2024;
@@ -22,7 +23,7 @@ public class Game1 : Game
 
     public bool fullScreen = true;
 
-    readonly private GraphicsDeviceManager _graphics;
+    public GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
     readonly int screenWidth = 1280;
@@ -37,6 +38,12 @@ public class Game1 : Game
     private OptionMenuMain _optionMenuMain;
     private OptionMenuPause _optionMenuPause;
     private CookBookScreen _cookBookScreen;
+
+    private Song _currentSong;
+    private Song _introMenuSoundtrack;
+    private Song _gameplaySoundtrackCozy;
+
+    public float VolumeLevel { get; set; } = 0.0f; // Shared volume level
 
     public Game1()
     {
@@ -77,6 +84,27 @@ public class Game1 : Game
         _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
         _gamePlay.LoadContent(Window, GraphicsDevice);
+
+
+
+        _introMenuSoundtrack = Content.Load<Song>("Sounds/woodland_fantasy");
+        _gameplaySoundtrackCozy = Content.Load<Song>("Sounds/inn_music");
+    }
+
+
+    private void PlaySong(Song song)
+    {
+        // needed, so that the soundtrack works properly across different scenes
+        // called in update, so updated every frame if check is not set
+        if (_currentSong != song)
+        {
+
+            MediaPlayer.Stop(); // stop everything that played before
+            MediaPlayer.IsRepeating = true; // toggle in order to loop (or not)
+            MediaPlayer.Play(song);
+            _currentSong = song;
+        }
+        MediaPlayer.Volume = VolumeLevel;
     }
 
 
@@ -92,21 +120,25 @@ public class Game1 : Game
         {
             case Scenes.SPLASHSCREEN:
                 _splashScreen.Update();
+                PlaySong(_introMenuSoundtrack);
                 break;
             case Scenes.MAINMENU:
                 _mainMenu.Update();
                 break;
             case Scenes.GAMEPLAY:
                 _gamePlay.Update();
+                PlaySong(_gameplaySoundtrackCozy);
                 break;
             case Scenes.PAUSEMENU:
                 _pauseMenu.Update();
+                PlaySong(_gameplaySoundtrackCozy);
                 break;
             case Scenes.OPTIONMENUMAIN:
                 _optionMenuMain.Update();
                 break;
             case Scenes.OPTIONMENUPAUSE:
                 _optionMenuPause.Update();
+                PlaySong(_gameplaySoundtrackCozy);
                 break;
             case Scenes.COOKBOOKSCREEN:
                 _cookBookScreen.Update();
@@ -164,4 +196,3 @@ public class Game1 : Game
         this.Exit();
     }
 }
-

@@ -7,21 +7,33 @@ namespace SoftwareProjekt2024.Managers
     public class PerspectiveManager
     {
         internal List<Component> _sortedComponents; //Liste aller objekte die in Perspektive relevant sind
-        internal List<List<Component>> _staticObjects; //Liste von Listen statischer Objekte
+
+
         internal List<Component> _tische; //Liste aller Tische
+        internal List<Bar> _barFlächen;
+        internal List<Component> _nonInteractables;
+        internal List<Component> _Interactables;
+
+        internal List<Component> _dynamicObjects; //Liste dynamischer Objekte
+
 
         public PerspectiveManager()
         {
             _sortedComponents = new List<Component>(); //erstellt Liste
-            _staticObjects = new List<List<Component>>();  //Zugriff auf den 1. Tisch über _perspectiveManager._staticObjects[0][0]
-            _tische = new List<Component>(); //Zugriff auf den 1. Tisch über _perspectiveManager.
 
-            _staticObjects.Add(_tische);
+
+            _tische = new List<Component>(); //Zugriff auf den 1. Tisch über _perspectiveManager._tische[0]
+            _barFlächen = new List<Bar>();
+            _nonInteractables = new List<Component>();
+            _Interactables = new List<Component>();
+
+            _dynamicObjects = new List<Component>();
+
         }
 
         public void draw(SpriteBatch spriteBatch, AnimationManager _animationManager)
         {
-            _sortedComponents.Sort(); //sortiert Objekte in Liste nach Y-Werten
+            _sortedComponents.Sort(); //sortiert Objekte in Liste nach Y-Werten und Levels
 
             foreach (var component in _sortedComponents)
             {
