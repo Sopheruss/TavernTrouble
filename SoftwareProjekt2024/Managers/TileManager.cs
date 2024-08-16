@@ -95,8 +95,8 @@ namespace SoftwareProjekt2024
         public void Draw(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-            DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
+            //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
             //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
         public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
@@ -119,8 +119,11 @@ namespace SoftwareProjekt2024
 
                 switch (item.Value)
                 {
-                    case 59 | 60 | 67 | 68:    //Tisch DOES NOT WORK!
-                        _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                    case 59: //| 60 | 67 | 68:    //Tisch DOES NOT WORK!
+                        _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y),
+                            new Rectangle((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize * 2),
+                            new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
+                            _perspectiveManager));
                         break;
                     case 50:    //Bar links
                         _perspectiveManager._nonInteractables.Add(new Bar_Links(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
