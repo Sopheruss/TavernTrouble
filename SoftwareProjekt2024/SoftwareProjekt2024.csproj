@@ -44,6 +44,9 @@
     <None Update="Data\map_collisionLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\map_dekoLayer.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\map_groundLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
