@@ -38,12 +38,10 @@ internal class Bar : StaticObject
             if (isEmpty() && _ogerCook.inventory[0] is Plate) //oger is holding a plate
             {
                 addPlate(_ogerCook);
-                return;
             }
-            if (barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
+            else if (_ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
                 (barContents[0] as Plate).addIngredient(_ogerCook);
-                return;
             }
         }
 
