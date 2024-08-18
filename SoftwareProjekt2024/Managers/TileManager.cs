@@ -35,6 +35,7 @@ namespace SoftwareProjekt2024
         public Dictionary<Vector2, int> objectsLayer;
         public Dictionary<Vector2, int> collisionLayer;
         public Dictionary<Vector2, int> interactionLayer;
+        public Dictionary<Vector2, int> dekoLayer;
 
         public Texture2D textureAtlas;
         public Texture2D hitboxes;
@@ -50,6 +51,7 @@ namespace SoftwareProjekt2024
             objectsLayer = LoadMap(Path.Combine(basePath, "Data", "map_objectLayer.csv"));
             collisionLayer = LoadMap(Path.Combine(basePath, "Data", "map_collisionLayer.csv"));
             interactionLayer = LoadMap(Path.Combine(basePath, "Data", "map_interactionLayer.csv"));
+            dekoLayer = LoadMap(Path.Combine(basePath, "Data", "map_dekoLayer.csv"));
 
             // Opens a CSV file, reads it line by line, splits the line into
             // an array of integers. Converts data into a Dictionary where the
@@ -97,6 +99,7 @@ namespace SoftwareProjekt2024
         {
             DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+            DrawLayer(spriteBatch, dekoLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
             //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
             //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         }
