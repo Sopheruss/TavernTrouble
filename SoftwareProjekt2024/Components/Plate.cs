@@ -99,6 +99,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.Plate:
                             state = (int)Component.States.Bun;
                             texture = withBun;
+                            recipe = "Burger";
                             break;
                         case (int)Component.States.Meat:
                             state = (int)Component.States.PlateWMeatBun;
@@ -123,6 +124,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.Plate:
                             state = (int)Component.States.Meat;
                             texture = withMeat;
+                            recipe = "Burger";
                             break;
                         case (int)Component.States.Bun:
                             state = (int)Component.States.PlateWMeatBun;
@@ -147,6 +149,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.Plate:
                             state = (int)Component.States.Salad;
                             texture = withSalad;
+                            recipe = "Burger";
                             break;
                         case (int)Component.States.Bun:
                             state = (int)Component.States.PlateWSaladBun;
@@ -166,9 +169,13 @@ namespace SoftwareProjekt2024.Components
                     }
                     break;
                 case (int)Component.States.Potato:
-                    state = (int)Component.States.PlateWFries;
-                    texture = withFries;
-                    recipeIsFinished = true;
+                    if (state == (int)Component.States.Plate)
+                    {
+                        state = (int)Component.States.PlateWFries;
+                        texture = withFries;
+                        recipe = "Fries";
+                        recipeIsFinished = true;
+                    }
                     break;
                 default:
                     break;
