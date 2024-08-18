@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
-using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
@@ -14,7 +13,7 @@ namespace SoftwareProjekt2024.Screens;
 
 internal class GamePlay
 {
-    readonly Game1 _game;
+    readonly public Game1 _game;
     readonly SpriteBatch _spriteBatch;
     readonly ContentManager _content;
 
@@ -66,7 +65,7 @@ internal class GamePlay
 
 
     // Stopwatch for tracking elapsed time
-    readonly private Stopwatch _timer;
+    readonly public Stopwatch _timer;
     private GameTime gameTime;
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
@@ -132,7 +131,11 @@ internal class GamePlay
         Plate.withBun = _content.Load<Texture2D>("Food/bun_plate");
         Plate.withBun_Salad = _content.Load<Texture2D>("Food/salad_bun_plate");
         Plate.withSalad = _content.Load<Texture2D>("Food/salad_plate");
-        //Plate.withMeat_Salad = _content.Load<Texture2D>("Food/salad_meat_on_plate");
+        Plate.withMeat_Salad = _content.Load<Texture2D>("Food/meat_salad_plate");
+        Plate.withFries = _content.Load<Texture2D>("Food/fries_plate");
+
+        /* other dynamic objects */
+        //Bun.bunTexture = _content.Load<Texture2D>("")
 
         /* map */
         _tileManager = new TileManager();

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 
-namespace SoftwareProjekt2024.Components
+namespace SoftwareProjekt2024.Components.StaticObjects
 {
     internal class MugPile : StaticObject
     {
