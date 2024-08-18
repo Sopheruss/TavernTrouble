@@ -39,7 +39,7 @@ internal class Bar : StaticObject
             {
                 addPlate(_ogerCook);
             }
-            else if (_ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
+            else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
                 (barContents[0] as Plate).addIngredient(_ogerCook);
             }
@@ -54,5 +54,6 @@ internal class Bar : StaticObject
             _ogerCook.pickUp(item);
             item.position = positionWhilePickedUp;
         }
+
     }
 }
