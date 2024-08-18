@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ internal class InteractionManager
         //bounds = _ogerCook.Rect;
 
         int loweredPlayerBounds = 40;
-        int tightenedPlayerBounds = 3;
+        int tightenedPlayerBounds = 19;
 
         bounds = new Rectangle(
             _ogerCook.Rect.X + tightenedPlayerBounds,
@@ -109,12 +110,15 @@ internal class InteractionManager
      * Tisch 8: 67
      */
 
+    public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
+
     public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
     {
         switch (tileID)
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
+                CookBook.HandleInteraction(_gamePlay._game, _gamePlay._timer);
                 break;
 
             case 2:
@@ -151,24 +155,40 @@ internal class InteractionManager
 
             case 10:
                 Debug.WriteLine("Potato Interaction");
+                if (_ogerCook.inventoryIsEmpty())
+                {
+                    PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             case 11:
                 Debug.WriteLine("Salad Interaction");
+                if (_ogerCook.inventoryIsEmpty())
+                {
+                    SaladCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             case 12:
                 Debug.WriteLine("Meat Interaction");
+                if (_ogerCook.inventoryIsEmpty())
+                {
+                    MeatCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             case 13:
                 Debug.WriteLine("Bun Interaction");
+                if (_ogerCook.inventoryIsEmpty())
+                {
+                    BunCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             case 14:
                 Debug.WriteLine("Plates Interaction");
 
-                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, new Vector2(-10, -10), _perspectiveManager)); //Position beim Tragen außerhalb der Map
+                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, positionWhilePickedUp, _perspectiveManager));
                 _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
 
                 break;
@@ -179,9 +199,10 @@ internal class InteractionManager
 
             case 16:
                 Debug.WriteLine("Trash Interaction");
-
-                _ogerCook.texture = Player.plain;
-
+                if (!_ogerCook.inventoryIsEmpty())
+                {
+                    Trash.HandleInteraction(_ogerCook, _perspectiveManager);
+                }
                 break;
 
             case >= 20 and <= 32:
@@ -189,25 +210,7 @@ internal class InteractionManager
 
                 int barflächenID = tileID - 20;
                 Bar barfläche = _perspectiveManager._barFlächen[barflächenID];
-                if (!_ogerCook.inventoryIsEmpty())
-                {
-                    Component item = _ogerCook.inventory[0];
-                    _ogerCook.inventory.Clear();
-                    _ogerCook.texture = Player.plain;
-
-                    barfläche.barContents.Add(item);
-                    item.position = new Vector2(barfläche.position.X + 9, barfläche.position.Y + 9);
-                }
-                else if (_ogerCook.inventoryIsEmpty() && !barfläche.isEmpty())
-                {
-                    Debug.WriteLine("Picking up");
-                    Component item = barfläche.barContents[0];
-                    barfläche.barContents.Clear();
-                    _ogerCook.pickUp(item);
-                    item.position = new Vector2(-10, -10);
-                }
-
-
+                barfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
                 break;
 
             case >= 40 and <= 52:

@@ -6,8 +6,8 @@ namespace SoftwareProjekt2024.Components;
 
 internal class StaticObject : Component
 {
-    Rectangle dest;
-    Rectangle src;
+    public Rectangle dest;
+    public Rectangle src;
 
     public StaticObject(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, perspectiveManager)

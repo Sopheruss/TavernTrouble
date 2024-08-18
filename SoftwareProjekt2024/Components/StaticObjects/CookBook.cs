@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
+using System.Diagnostics;
 
-namespace SoftwareProjekt2024.Components;
+namespace SoftwareProjekt2024.Components.StaticObjects;
 
 internal class CookBook : StaticObject
 {
@@ -10,8 +11,14 @@ internal class CookBook : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     { }
 
-    public void HandleInteraction()
+    public override int getHeight()
     {
+        return dest.Height - 10;
+    }
 
+    public static void HandleInteraction(Game1 _game, Stopwatch _timer)
+    {
+        _game.activeScene = Scenes.COOKBOOKSCREEN;
+        _timer.Stop();
     }
 }
