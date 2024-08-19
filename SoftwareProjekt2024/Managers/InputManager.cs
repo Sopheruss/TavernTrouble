@@ -26,6 +26,8 @@ internal class InputManager
     public static KeyboardState _currentKeyState;
     public static KeyboardState _previousKeyState;
 
+    public float speed = 2.0f;
+
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager, PerspectiveManager perspectiveManager)
     {
         _game = game;
@@ -77,7 +79,7 @@ internal class InputManager
         }
 
         // Move character:
-        _ogerCook.position += DirectionToVector(targetDir); // also dictates speed, multiply currDir with float
+        _ogerCook.position += DirectionToVector(targetDir) * speed; // also dictates speed, multiply currDir with float
         _animationManager.PlayAnimation = true;
         AnimationRow(DirectionToVector(targetDir)); //sets row for animation
 

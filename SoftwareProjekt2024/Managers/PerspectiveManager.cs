@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Managers
@@ -12,6 +13,7 @@ namespace SoftwareProjekt2024.Managers
         internal List<Component> _tische; //Liste aller Tische
         internal List<Bar> _barFlächen;
         internal List<Component> _nonInteractables;
+        internal List<Component> _Interactables;
 
         internal List<Component> _dynamicObjects; //Liste dynamischer Objekte
 
@@ -24,6 +26,7 @@ namespace SoftwareProjekt2024.Managers
             _tische = new List<Component>(); //Zugriff auf den 1. Tisch über _perspectiveManager._tische[0]
             _barFlächen = new List<Bar>();
             _nonInteractables = new List<Component>();
+            _Interactables = new List<Component>();
 
             _dynamicObjects = new List<Component>();
 

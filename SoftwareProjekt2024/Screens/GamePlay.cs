@@ -13,7 +13,7 @@ namespace SoftwareProjekt2024.Screens;
 
 public class GamePlay
 {
-    readonly Game1 _game;
+    readonly public Game1 _game;
     readonly SpriteBatch _spriteBatch;
     readonly ContentManager _content;
 
@@ -63,7 +63,7 @@ public class GamePlay
 
 
     // Stopwatch for tracking elapsed time
-    readonly private Stopwatch _timer;
+    readonly public Stopwatch _timer;
     private GameTime gameTime;
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
@@ -129,7 +129,11 @@ public class GamePlay
         Plate.withBun = _content.Load<Texture2D>("Food/bun_plate");
         Plate.withBun_Salad = _content.Load<Texture2D>("Food/salad_bun_plate");
         Plate.withSalad = _content.Load<Texture2D>("Food/salad_plate");
-        //Plate.withMeat_Salad = _content.Load<Texture2D>("Food/salad_meat_on_plate");
+        Plate.withMeat_Salad = _content.Load<Texture2D>("Food/meat_salad_plate");
+        Plate.withFries = _content.Load<Texture2D>("Food/fries_plate");
+
+        /* other dynamic objects */
+        //Bun.bunTexture = _content.Load<Texture2D>("")
 
         /* map */
         _tileManager = new TileManager();
@@ -253,7 +257,11 @@ public class GamePlay
 
         _perspectiveManager.draw(_spriteBatch, _animationManager);
 
-        //_collisionManager.DrawDebugRect(_spriteBatch, _ogerCook.Rect, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
+        _collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        _collisionManager.DrawDebugRect(_spriteBatch, rightBounds, 1, rectangleTexture);
+        _collisionManager.DrawDebugRect(_spriteBatch, upBounds, 1, rectangleTexture);
+        _collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);
 
         _spriteBatch.End();
 
