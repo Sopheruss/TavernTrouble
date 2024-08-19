@@ -116,7 +116,7 @@ internal class InteractionManager
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction(_gamePlay._game, _gamePlay._timer);
+                CookBook.HandleInteraction(Game1._gamePlay._game, Game1._gamePlay._timer);
                 break;
 
             case 2:
