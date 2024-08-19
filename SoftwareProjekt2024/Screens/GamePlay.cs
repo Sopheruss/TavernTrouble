@@ -11,13 +11,11 @@ using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
-internal class GamePlay
+public class GamePlay
 {
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
     readonly ContentManager _content;
-
-
 
     // Penumbra lighting system
     /*private PenumbraComponent _penumbra;
@@ -164,7 +162,7 @@ internal class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook, this);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
 
         /* font */
