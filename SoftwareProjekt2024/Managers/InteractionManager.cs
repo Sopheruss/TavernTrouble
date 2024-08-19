@@ -2,7 +2,6 @@
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
-using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,7 +13,6 @@ internal class InteractionManager
     TileManager _tileManager;
     Player _ogerCook;
     CollisionManager _collisionManager;
-    GamePlay _gamePlay;
 
     readonly int quarterTileHeight = 8;
     readonly int tileSize = 32;
@@ -24,11 +22,11 @@ internal class InteractionManager
     Rectangle bounds;
     int interactionState;
 
-    public InteractionManager(TileManager tilemanager, Player ogerCook, GamePlay gamePlay)
+    public InteractionManager(TileManager tilemanager, Player ogerCook)
     {
         _tileManager = tilemanager;
         _ogerCook = ogerCook;
-        _gamePlay = gamePlay;
+
     }
 
     public void Update()
@@ -219,7 +217,7 @@ internal class InteractionManager
 
             default:
                 Debug.WriteLine("INTERACTION");
-                _gamePlay.IncreaseScore(5);
+                Game1._gamePlay.IncreaseScore(5);
                 break;
         }
     }

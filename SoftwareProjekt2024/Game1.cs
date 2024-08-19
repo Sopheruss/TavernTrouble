@@ -33,7 +33,8 @@ public class Game1 : Game
 
     private SplashScreen _splashScreen;
     private MainMenu _mainMenu;
-    private GamePlay _gamePlay;
+    public static GamePlay _gamePlay;
+
     private PauseMenu _pauseMenu;
     private OptionMenuMain _optionMenuMain;
     private OptionMenuPause _optionMenuPause;
@@ -77,20 +78,22 @@ public class Game1 : Game
 
         _splashScreen = new SplashScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
-        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, this, _spriteBatch);
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
         _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
-        _gamePlay.LoadContent(Window, GraphicsDevice);
-
-
+        CreateGamePlay();
 
         _introMenuSoundtrack = Content.Load<Song>("Sounds/woodland_fantasy");
         _gameplaySoundtrackCozy = Content.Load<Song>("Sounds/inn_music");
     }
 
+    public void CreateGamePlay()
+    {
+        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _gamePlay.LoadContent(Window, GraphicsDevice);
+    }
 
     private void PlaySong(Song song)
     {
