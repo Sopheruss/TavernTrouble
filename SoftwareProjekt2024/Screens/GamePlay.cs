@@ -31,6 +31,9 @@ public class GamePlay
     Texture2D _orderStrip;
     Rectangle _orderStripRect;
 
+    Texture2D _orderSheet;
+    Rectangle _orderSheetRect;
+
     PerspectiveManager _perspectiveManager;
     AnimationManager _animationManager;
     TileManager _tileManager;
@@ -180,8 +183,11 @@ public class GamePlay
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
 
         /* order */
-        _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
+        _orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
+
+        _orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
+        _orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
         //_penumbra.Initialize();
     }
@@ -271,6 +277,8 @@ public class GamePlay
         //_penumbra.Draw(gameTime); // draw everything NOT affected by light
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
+
+        _spriteBatch.Draw(_orderSheet, _orderSheetRect, Color.White);
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
 
