@@ -99,7 +99,7 @@ internal class Player : Component
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _animationManagerPlayer.GetFrame(),              //sourceRectangle (frame) 
+        _animationManagerPlayer.GetFrame(),        //sourceRectangle (frame) 
         Color.White,                              //color
         0f,                                      //rotation 
         Vector2.Zero,                           //origin

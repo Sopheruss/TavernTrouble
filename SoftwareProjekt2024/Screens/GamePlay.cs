@@ -5,6 +5,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 
@@ -159,6 +160,11 @@ public class GamePlay
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
 
         _ogerCook.Load();
+
+        /* kessel */
+        Kessel._kesselTextureEmpty = _content.Load<Texture2D>("Kessel/Kessel_empty");
+        Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
+        Kessel._kesselTextureAnimation = _content.Load<Texture2D>("Kessel/Kessel_Spritesheet");
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
