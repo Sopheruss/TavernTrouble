@@ -166,6 +166,15 @@ public class GamePlay
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
         Kessel._kesselTextureAnimation = _content.Load<Texture2D>("Kessel/Kessel_Spritesheet");
 
+        /* grill */
+        Grill._grillTextureFull = _content.Load<Texture2D>("Grill/Grill_Done");
+        Grill._grillTextureEmpty = _content.Load<Texture2D>("Grill/Grill_Empty");
+        Grill._grillTextureAnimation = _content.Load<Texture2D>("Grill/Grill_Spritesheet");
+
+        /* cookBook */
+        CookBook._cookBookClose = _content.Load<Texture2D>("CookBook/cookBook_Closed");
+        CookBook._cookBookAnimation = _content.Load<Texture2D>("CookBook/cookBook_Spritesheet");
+
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook);

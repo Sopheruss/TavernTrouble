@@ -84,8 +84,8 @@ internal class InteractionManager
      * Arbeitsfläche 1: 2
      * Arbeitsfläche 2: 3
      * Bierfass: 4
-     * Grill: 5
-     * Kessel: 6
+     * Kessel: 5
+     * Grill: 6
      * Brett 1: 7
      * Brett 2: 8
      * Brett 3: 9
@@ -132,11 +132,11 @@ internal class InteractionManager
                 break;
 
             case 5:
-                Debug.WriteLine("Grill Interaction");
+                Debug.WriteLine("Kessel Interaction");
                 break;
 
             case 6:
-                Debug.WriteLine("Kessel Interaction");
+                Debug.WriteLine("Grill Interaction");
                 break;
 
             case 7:
