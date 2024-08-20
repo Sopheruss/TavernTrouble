@@ -32,7 +32,6 @@ public class GamePlay
     Rectangle _orderStripRect;
 
     PerspectiveManager _perspectiveManager;
-    AnimationManager _animationManager;
     TileManager _tileManager;
     CollisionManager _collisionManager;
     InteractionManager _interactionManager;
@@ -105,11 +104,6 @@ public class GamePlay
         /* perspective */
         _perspectiveManager = new PerspectiveManager();
 
-        /* animation */
-        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
-        //Vector decides size of the size for the frame (one Oger Frame = 32/32)
-        _animationManager = new(4, 4, new Vector2(32, 32));
-
         /* button */
         _pauseButton = new Button(
             _content.Load<Texture2D>("Buttons/pauseButton"),
@@ -164,10 +158,12 @@ public class GamePlay
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
 
+        _ogerCook.Load();
+
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook);
-        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
+        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
@@ -225,7 +221,6 @@ public class GamePlay
         }
 
         _ogerCook.Update();
-        _animationManager.Update();
         _inputManager.Update();
         _interactionManager.Update();
 
@@ -255,7 +250,7 @@ public class GamePlay
 
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
-        _perspectiveManager.draw(_spriteBatch, _animationManager);
+        _perspectiveManager.draw(_spriteBatch);
 
         (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
         _collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness

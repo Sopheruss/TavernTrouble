@@ -32,14 +32,14 @@ namespace SoftwareProjekt2024.Managers
 
         }
 
-        public void draw(SpriteBatch spriteBatch, AnimationManager _animationManager)
+        public void draw(SpriteBatch spriteBatch)
         {
             _sortedComponents.Sort(); //sortiert Objekte in Liste nach Y-Werten und Levels
 
             foreach (var component in _sortedComponents)
             {
                 //Debug.WriteLine(component.position.Y - component.getHeight());
-                component.draw(spriteBatch, _animationManager); //drawt Objekte in der sortierten Reihenfolge
+                component.draw(spriteBatch); //drawt Objekte in der sortierten Reihenfolge
             }
         }
     }

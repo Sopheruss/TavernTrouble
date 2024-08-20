@@ -22,7 +22,7 @@ internal class DynamicObject : Component
         return 1;
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, position, Color.White);
     }

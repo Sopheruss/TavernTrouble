@@ -7,6 +7,7 @@ namespace SoftwareProjekt2024.Components;
 
 internal class Player : Component
 {
+    public static AnimationManager _animationManagerPlayer;
 
     public static Texture2D plain;
     public static Texture2D withPlate;
@@ -25,8 +26,17 @@ internal class Player : Component
         state = (int)States.Empty;
     }
 
+    public void Load()
+    {
+        /* animation */
+        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
+        //Vector decides size of the size for the frame (one Oger Frame = 32/32)
+        _animationManagerPlayer = new(4, 4, new Vector2(32, 32));
+    }
+
     public override void Update() //Update der Position
     {
+        _animationManagerPlayer.Update();
         base.Update();
     }
 
@@ -78,20 +88,18 @@ internal class Player : Component
         }
     }
 
-
-
     public void pickUp(Component item)
     {
         inventory.Add(item);
         changeAppearence(item.state);
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager) // generalisierter Aufruf der Spritedraw Methode
+    public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _animationManager.GetFrame(),              //sourceRectangle (frame) 
+        _animationManagerPlayer.GetFrame(),              //sourceRectangle (frame) 
         Color.White,                              //color
         0f,                                      //rotation 
         Vector2.Zero,                           //origin
