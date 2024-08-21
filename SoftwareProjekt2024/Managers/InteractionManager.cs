@@ -134,11 +134,12 @@ internal class InteractionManager
                 break;
 
             case 5:
-                Debug.WriteLine("Grill Interaction");
+                Debug.WriteLine("Kessel Interaction");
                 break;
 
             case 6:
-                Debug.WriteLine("Kessel Interaction");
+                Debug.WriteLine("Grill Interaction");
+                Grill.HandleInteraction(_ogerCook);
                 break;
 
             case 7:
