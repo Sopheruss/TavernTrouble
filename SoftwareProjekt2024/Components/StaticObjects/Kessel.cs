@@ -7,6 +7,7 @@ namespace SoftwareProjekt2024.Components.StaticObjects;
 internal class Kessel : StaticObject
 {
     AnimationManager _kesselAnimationManager;
+
     public static Texture2D _kesselTextureEmpty;
     public static Texture2D _kesselTextureAnimation;
     public static Texture2D _kesselTextureFull;
