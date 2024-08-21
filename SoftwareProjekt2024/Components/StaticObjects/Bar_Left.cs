@@ -4,15 +4,11 @@ using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
-internal class Tisch : StaticObject
+internal class Bar_Left : StaticObject
 {
-    public Tisch(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
+    public Bar_Left(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
 
-    }
-    public override int getHeight()
-    {
-        return dest.Height - 13;
     }
 }

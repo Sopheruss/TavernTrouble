@@ -4,9 +4,9 @@ using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects
 {
-    internal class Bierfass : StaticObject
+    internal class BeerBarrel : StaticObject
     {
-        public Bierfass(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
+        public BeerBarrel(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
         { }
 
