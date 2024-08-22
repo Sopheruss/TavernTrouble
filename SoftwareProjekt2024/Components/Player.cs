@@ -7,7 +7,7 @@ namespace SoftwareProjekt2024.Components;
 
 internal class Player : Component
 {
-    public static AnimationManager _animationManagerPlayer;
+    public static AnimationManager _playerAnimationManager;
 
     public static Texture2D plain;
     public static Texture2D withPlate;
@@ -31,12 +31,12 @@ internal class Player : Component
         /* animation */
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
         //Vector decides size of the size for the frame (one Oger Frame = 32/32)
-        _animationManagerPlayer = new(4, 4, new Vector2(32, 32));
+        _playerAnimationManager = new(4, 4, new Vector2(32, 32));
     }
 
     public override void Update() //Update der Position
     {
-        _animationManagerPlayer.Update();
+        _playerAnimationManager.Update();
         base.Update();
     }
 
@@ -99,7 +99,7 @@ internal class Player : Component
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _animationManagerPlayer.GetFrame(),        //sourceRectangle (frame) 
+        _playerAnimationManager.GetFrame(),        //sourceRectangle (frame) 
         Color.White,                              //color
         0f,                                      //rotation 
         Vector2.Zero,                           //origin

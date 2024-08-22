@@ -51,7 +51,7 @@ internal class InputManager
         //stopps movement if no key is pressed
         if (curDirs.Count == 0)
         {
-            Player._animationManagerPlayer.PlayAnimation = false;
+            Player._playerAnimationManager.PlayAnimation = false;
             return;
         }
 
@@ -72,13 +72,13 @@ internal class InputManager
         // If character is stuck (i.e. target direction is None), do not move at all:
         if (targetDir == Direction.None)
         {
-            Player._animationManagerPlayer.PlayAnimation = false;
+            Player._playerAnimationManager.PlayAnimation = false;
             return;
         }
 
         // Move character:
         _ogerCook.position += DirectionToVector(targetDir) * speed; // also dictates speed, multiply currDir with float
-        Player._animationManagerPlayer.PlayAnimation = true;
+        Player._playerAnimationManager.PlayAnimation = true;
         AnimationRow(DirectionToVector(targetDir)); //sets row for animation
 
     } //moving close bracket
@@ -177,20 +177,20 @@ internal class InputManager
     {
         if (currentDirection == _left)
         {
-            Player._animationManagerPlayer.RowPos = 0; //changes Animation to Left
+            Player._playerAnimationManager.RowPos = 0; //changes Animation to Left
         }
         else if (currentDirection == _right)
         {
-            Player._animationManagerPlayer.RowPos = 1; //changes Animation to right
+            Player._playerAnimationManager.RowPos = 1; //changes Animation to right
 
         }
         else if (currentDirection == _up)
         {
-            Player._animationManagerPlayer.RowPos = 2; //changes Animation to up
+            Player._playerAnimationManager.RowPos = 2; //changes Animation to up
         }
         else if (currentDirection == _down)
         {
-            Player._animationManagerPlayer.RowPos = 3; //changes Animation to down
+            Player._playerAnimationManager.RowPos = 3; //changes Animation to down
         }
     }
 }

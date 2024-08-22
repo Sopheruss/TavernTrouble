@@ -13,12 +13,12 @@ enum EnumRowCounter
 
 public class AnimationManager
 {
-    readonly int numFrames;
+    public readonly int numFrames;
     readonly int numColumns;
     Vector2 size;
 
     int counter;
-    int activeFrame;
+    public int activeFrame;
     readonly int interval;
 
     public int RowPos { get; set; }
