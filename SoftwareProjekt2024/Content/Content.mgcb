@@ -89,6 +89,18 @@
 /processorParam:TextureFormat=Color
 /build:Background/cookBookRecipes.png
 
+#begin Background/letter.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Background/letter.PNG
+
 #begin Background/SplashScreen.png
 /importer:TextureImporter
 /processor:TextureProcessor
