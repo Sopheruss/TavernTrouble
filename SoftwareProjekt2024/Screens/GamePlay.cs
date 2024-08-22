@@ -40,6 +40,7 @@ public class GamePlay
     CollisionManager _collisionManager;
     InteractionManager _interactionManager;
     InputManager _inputManager;
+    OrderManager _orderManager;
 
     BitmapFont bmfont;
     private int score;
@@ -188,6 +189,9 @@ public class GamePlay
 
         _orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
         _orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
+
+        /* orders */
+        _orderManager = new OrderManager();
 
         //_penumbra.Initialize();
     }
