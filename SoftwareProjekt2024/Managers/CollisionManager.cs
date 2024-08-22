@@ -62,6 +62,12 @@ namespace SoftwareProjekt2024.Managers
                     case 6:     //table left upper -> does collision for whole table
                         tileRect = new Rectangle(((int)tile.Key.X * tileSize) + quarterTile + 3, ((int)tile.Key.Y * tileSize) + tileSize - 2, tileSize + quarterTile, tileSize - quarterTile - 4);
                         break;
+                    case 7:
+                        tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize - 28, tileSize);
+                        break;
+                    case 8:
+                        tileRect = new Rectangle(((int)tile.Key.X * tileSize) + 28, (int)tile.Key.Y * tileSize, tileSize, tileSize);
+                        break;
                     default:    //Generalfall
                         tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
                         break;

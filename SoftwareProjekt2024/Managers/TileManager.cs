@@ -116,7 +116,7 @@ public class TileManager
     {
         DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-        //DrawLayer(spriteBatch, dekoLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+        DrawLayer(spriteBatch, dekoLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
     }
@@ -215,6 +215,82 @@ public class TileManager
                         new Rectangle((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize * 2),  // adjusted dest and src rectangles to initialize whole table with one case
                         new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
                         _perspectiveManager));
+                    break;
+                case 61:    //candleholder middle
+                    _perspectiveManager._dekoObjects.Add(new CandleHolderMiddle(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                    break;
+                case 69:    //window left 
+                    _perspectiveManager._dekoObjects.Add(new Window_Left(textureAtlas, new Vector2(dest.X, dest.Y),
+                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 3, displayTileSize * 2),
+                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 3, pixelTileSize * 2),
+                        _perspectiveManager));
+                    break;
+                case 85:    //window middle
+                    _perspectiveManager._dekoObjects.Add(new Window_Middle(textureAtlas, new Vector2(dest.X, dest.Y),
+                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 3, displayTileSize * 2),
+                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 3, pixelTileSize * 2),
+                        _perspectiveManager));
+                    break;
+                case 101:   //window right
+                    _perspectiveManager._dekoObjects.Add(new Window_Right(textureAtlas, new Vector2(dest.X, dest.Y),
+                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 3, displayTileSize * 2),
+                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 3, pixelTileSize * 2),
+                        _perspectiveManager));
+                    break;
+                case 133:   //barrel right
+                    _perspectiveManager._dekoObjects.Add(new Barrel_Right(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+                    break;
+                case 134:   //barrel left
+                    _perspectiveManager._dekoObjects.Add(new Barrel_Left(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+                    break;
+                case 136:   //candle on table 
+                    _perspectiveManager._dekoObjects.Add(new CandleOnTable(textureAtlas, new Vector2(dest.X, dest.Y),
+                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize),
+                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize),
+                        _perspectiveManager));
+                    break;
+                case 138:   //window nupsi
+                    _perspectiveManager._dekoObjects.Add(new Window_Nupsi(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                    break;
+            }
+        }
+    }
+
+    public void LoadDekoLayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
+    {
+        foreach (var item in dekoLayer)
+        {
+
+            Rectangle dest = new(
+                (int)item.Key.X * displayTileSize,
+                (int)item.Key.Y * displayTileSize,
+                displayTileSize, displayTileSize);
+
+            int x = item.Value % numTilesPerRow;
+            int y = item.Value / numTilesPerRow;
+
+            Rectangle src = new(
+                x * pixelTileSize,
+                y * pixelTileSize,
+                pixelTileSize, pixelTileSize);
+
+            Rectangle doubleHightDestRec = new(     // adjusted dest and src for objects with two tileID's
+                (int)item.Key.X * displayTileSize,
+                (int)item.Key.Y * displayTileSize,
+                displayTileSize, displayTileSize * 2);
+
+            Rectangle doubleHightSrcRec = new(
+                x * pixelTileSize,
+                y * pixelTileSize,
+                pixelTileSize, pixelTileSize * 2);
+
+            switch (item.Value)
+            {
+                case 28:    //Candleholder left
+                    _perspectiveManager._dekoObjects.Add(new CandleHolderLeft(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+                    break;
+                case 31:    //Candleholder right
+                    _perspectiveManager._dekoObjects.Add(new CandleHolderRight(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                     break;
                 case 61:    //candleholder middle
                     _perspectiveManager._dekoObjects.Add(new CandleHolderMiddle(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));

@@ -140,6 +140,7 @@ public class GamePlay
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
         _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
         _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
+        _tileManager.LoadDekoLayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Deko Ebene
 
         _mapHeight = _tileManager.mapHeight;
         _mapWidth = _tileManager.mapWidth;
