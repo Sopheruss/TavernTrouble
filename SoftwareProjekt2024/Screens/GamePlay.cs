@@ -63,7 +63,7 @@ public class GamePlay
 
 
     // Stopwatch for tracking elapsed time
-    readonly public Stopwatch _timer;
+    public static Stopwatch _timer;
     private GameTime gameTime;
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
@@ -219,24 +219,24 @@ public class GamePlay
 
         if (_pauseButton.isClicked || _pauseButton._escIsPressed)
         {
-            _game.activeScene = Scenes.PAUSEMENU;
+            Game1.activeScene = Scenes.PAUSEMENU;
             _timer.Stop(); // Stop the stopwatch when paused
         }
         else if (_cookBookButton.isClicked)
         {
-            _game.activeScene = Scenes.COOKBOOKSCREEN;
+            Game1.activeScene = Scenes.COOKBOOKSCREEN;
             _timer.Stop();
         }
         else
         {
-            if (_game.activeScene == Scenes.GAMEPLAY)
+            if (Game1.activeScene == Scenes.GAMEPLAY)
             {
                 _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
             }
         }
 
         _ogerCook.Update();
-        CookBook.Update();
+        if (CookBook._playCookBookAnimation) { CookBook.Update(); }
         _inputManager.Update();
         _interactionManager.Update();
 

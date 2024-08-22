@@ -2,6 +2,7 @@
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
+using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -116,7 +117,7 @@ internal class InteractionManager
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction(Game1._gamePlay._game, Game1._gamePlay._timer);
+                CookBook.HandleInteraction(Game1._gamePlay._game, GamePlay._timer);
                 break;
 
             case 2:

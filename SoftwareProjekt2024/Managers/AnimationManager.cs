@@ -98,7 +98,7 @@ public class AnimationManager
         }
     }
 
-    private void ResetAnimation()
+    public void ResetAnimation()
     {
         activeFrame = 0;
         colPos = 0;

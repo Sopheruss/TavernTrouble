@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
+using SoftwareProjekt2024.Screens;
 using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -16,7 +17,7 @@ internal class CookBook : StaticObject
     public CookBook(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
-        _cookBookAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64));
+        _cookBookAnimationManager = new AnimationManager(4, 4, new Vector2(32, 64));
         _cookBookAnimationManager.RowPos = 0;
     }
 
@@ -28,6 +29,18 @@ internal class CookBook : StaticObject
     public static void Update()
     {
         _cookBookAnimationManager.Update();
+
+        //Debug.WriteLine("activeFrame:" + _cookBookAnimationManager.activeFrame);
+        //Debug.WriteLine("numFrame:" + _cookBookAnimationManager.numFrames);
+
+        if (_cookBookAnimationManager.activeFrame == 3)
+        {
+            _playCookBookAnimation = false;
+            _cookBookAnimationManager.PlayAnimation = false;
+            _cookBookAnimationManager.ResetAnimation();
+            Game1.activeScene = Scenes.COOKBOOKSCREEN;
+            GamePlay._timer.Stop();
+        }
     }
 
     public static void HandleInteraction(Game1 _game, Stopwatch _timer)
@@ -38,14 +51,6 @@ internal class CookBook : StaticObject
         */
 
         _playCookBookAnimation = true;
-
-        if (_cookBookAnimationManager.activeFrame == _cookBookAnimationManager.numFrames)
-        {
-            _playCookBookAnimation = false;
-            _cookBookAnimationManager.PlayAnimation = false;
-            _game.activeScene = Scenes.COOKBOOKSCREEN;
-            _timer.Stop();
-        }
     }
 
     public override void draw(SpriteBatch spriteBatch)
