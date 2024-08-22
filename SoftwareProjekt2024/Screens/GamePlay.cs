@@ -236,6 +236,7 @@ public class GamePlay
         }
 
         _ogerCook.Update();
+        CookBook.Update();
         _inputManager.Update();
         _interactionManager.Update();
 

@@ -25,6 +25,11 @@ internal class CookBook : StaticObject
         return dest.Height - 10;
     }
 
+    public static void Update()
+    {
+        _cookBookAnimationManager.Update();
+    }
+
     public static void HandleInteraction(Game1 _game, Stopwatch _timer)
     {
         /* what esle should happen: 
@@ -40,7 +45,6 @@ internal class CookBook : StaticObject
             _cookBookAnimationManager.PlayAnimation = false;
             _game.activeScene = Scenes.COOKBOOKSCREEN;
             _timer.Stop();
-
         }
     }
 
@@ -54,7 +58,7 @@ internal class CookBook : StaticObject
         {
             spriteBatch.Draw(
             _cookBookAnimation,                          //texture 
-            this.Rect,                                  //destinationRectangle
+            dest,                                       //destinationRectangle
             _cookBookAnimationManager.GetFrame(),      //sourceRectangle (frame) 
             Color.White,                              //color
             0f,                                      //rotation 
