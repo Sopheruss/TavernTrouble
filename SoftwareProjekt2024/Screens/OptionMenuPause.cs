@@ -171,8 +171,8 @@ public class OptionMenuPause
         _returnButton.Draw(_spriteBatch);
 
         _spriteBatch.DrawString(bmfont, _fullScreen, new Vector2(_midScreenWidth - _fullScreenTextSize.X / 2, 200), Color.Black);
-        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_midScreenWidth - _fullScreenRect.Width - 20, 250), Color.Black);
-        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_midScreenWidth + _fullScreenRect.Width + 20, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_fullScreenRect.X - _offSize.X - 20, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_fullScreenRect.X + _onSize.X + 70, 250), Color.Black);
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
 
         _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth - _volumeTextSize.X / 2, _midScreenHeight), Color.Black);

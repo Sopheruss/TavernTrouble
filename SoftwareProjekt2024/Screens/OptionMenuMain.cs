@@ -13,7 +13,10 @@ internal class OptionMenuMain
     readonly Game1 _game;
     readonly SpriteBatch _spriteBatch;
 
+    readonly int _screenWidth;
+    readonly int _screenHeight;
     readonly int _midScreenWidth;
+    readonly int _quaterScreenWidth;
     readonly int _midScreenHeight;
 
     private MouseState _currentMouse;
@@ -58,6 +61,9 @@ internal class OptionMenuMain
         _game = game;
         _spriteBatch = spriteBatch;
 
+        _screenWidth = screenWidth;
+        _screenHeight = screenHeight;
+        _quaterScreenWidth = screenWidth / 4;
         _midScreenWidth = screenWidth / 2;
         _midScreenHeight = screenHeight / 2;
 
@@ -72,7 +78,7 @@ internal class OptionMenuMain
         _controlsTexture = Content.Load<Texture2D>("OptionMenu/controls");
         int controlsTextureWidth = _controlsTexture.Width * 3;
         int controlsTextureHeight = _controlsTexture.Height * 3;
-        _controlsRect = new Rectangle(_edgeSpacer, _midScreenHeight - controlsTextureHeight / 2, controlsTextureWidth, controlsTextureHeight);
+        _controlsRect = new Rectangle((screenWidth / 4) - (controlsTextureHeight / 2) - 100, _midScreenHeight - controlsTextureHeight / 2, controlsTextureWidth, controlsTextureHeight);
 
         _fullScreen = "Fullscreen:";
         _fullScreenOffText = "Off";
@@ -82,7 +88,7 @@ internal class OptionMenuMain
 
         _volume = "Volume:";
         _volumeBarTexture = Content.Load<Texture2D>("Buttons/volumeBar");
-        _volumeBarRect = new Rectangle(_midScreenWidth + _edgeSpacer, _midScreenHeight + 50, _volumeBarTexture.Width * 4, _volumeBarTexture.Height * 4);
+        _volumeBarRect = new Rectangle(_midScreenWidth + _quaterScreenWidth - _volumeBarTexture.Width * 2, _midScreenHeight + 50, _volumeBarTexture.Width * 4, _volumeBarTexture.Height * 4);
         _volumeButtonTexture = Content.Load<Texture2D>("Buttons/volumeButton");
         _volumeButtonRect = new Rectangle(_midScreenWidth + _edgeSpacer, _midScreenHeight - _volumeButtonTexture.Height / 2 + 50, _volumeButtonTexture.Width * 4, _volumeButtonTexture.Height * 4);
 
@@ -94,7 +100,7 @@ internal class OptionMenuMain
         _offSize = bmfont.MeasureString(_fullScreenOffText);
         _volumeTextSize = bmfont.MeasureString(_volume);
 
-        _fullScreenRect = new Rectangle(_midScreenWidth + _edgeSpacer + (int)_offSize.X + 20, 245, _fullScreenOn.Width, _fullScreenOn.Height);
+        _fullScreenRect = new Rectangle(_midScreenWidth + _quaterScreenWidth - _fullScreenOn.Width / 2, 245, _fullScreenOn.Width, _fullScreenOn.Height);
     }
 
     public void Update()
@@ -180,15 +186,15 @@ internal class OptionMenuMain
 
         _returnButton.Draw(_spriteBatch);
 
-        _spriteBatch.DrawString(bmfont, _fullScreen, new Vector2(_midScreenWidth + _edgeSpacer, 200), Color.Black);
-        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_midScreenWidth + _edgeSpacer, 250), Color.Black);
-        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_midScreenWidth + _edgeSpacer + _offSize.Y + 50 + _fullScreenRect.Width, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreen, new Vector2(_midScreenWidth + _quaterScreenWidth - _fullScreenTextSize.X / 2, 200), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_fullScreenRect.X + _fullScreenOn.Width + 20, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_fullScreenRect.X - _onSize.X - 20, 250), Color.Black);
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
 
-        _spriteBatch.DrawString(bmfont, _controls, new Vector2(_edgeSpacer, 200), Color.Black);
+        _spriteBatch.DrawString(bmfont, _controls, new Vector2(_quaterScreenWidth - (_controlsTextSize.X / 2), 200), Color.Black);
         _spriteBatch.Draw(_controlsTexture, _controlsRect, Color.White);
 
-        _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth + _edgeSpacer, _midScreenHeight), Color.Black);
+        _spriteBatch.DrawString(bmfont, _volume, new Vector2(_midScreenWidth + _quaterScreenWidth - _volumeTextSize.X / 2, _midScreenHeight), Color.Black);
 
         _spriteBatch.Draw(_volumeBarTexture, _volumeBarRect, Color.White);
         _spriteBatch.Draw(_volumeButtonTexture, _volumeButtonRect, Color.White);
