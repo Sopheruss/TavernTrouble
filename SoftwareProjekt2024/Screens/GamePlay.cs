@@ -27,6 +27,7 @@ public class GamePlay
 
     Button _pauseButton;
     Button _cookBookButton;
+    Button _helpButton;
 
     Texture2D _orderStrip;
     Rectangle _orderStripRect;
@@ -121,6 +122,11 @@ public class GamePlay
             _content.Load<Texture2D>("Buttons/cookBookButtonHovering"),
             new Vector2(30, _screenHeight - 30));
 
+        _helpButton = new Button(
+            _content.Load<Texture2D>("Buttons/helpButton"),
+            _content.Load<Texture2D>("Buttons/helpButtonHovering"),
+            new Vector2(_screenWidth - 30, _screenHeight - 30));
+
         /* plate types */
         Plate.plain = _content.Load<Texture2D>("Food/plate");
         Plate.withMeat = _content.Load<Texture2D>("Food/meat_plate");
@@ -206,6 +212,7 @@ public class GamePlay
 
         _pauseButton.Update();
         _cookBookButton.Update();
+        _helpButton.Update();
 
         if (_pauseButton.isClicked || _pauseButton._escIsPressed)
         {
@@ -215,6 +222,11 @@ public class GamePlay
         else if (_cookBookButton.isClicked)
         {
             _game.activeScene = Scenes.COOKBOOKSCREEN;
+            _timer.Stop();
+        }
+        else if (_helpButton.isClicked)
+        {
+            _game.activeScene = Scenes.HELPSCREEN;
             _timer.Stop();
         }
         else
@@ -280,6 +292,8 @@ public class GamePlay
         _pauseButton.Draw(_spriteBatch);
 
         _cookBookButton.Draw(_spriteBatch);
+
+        _helpButton.Draw(_spriteBatch);
 
         // Display the elapsed time
         string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");

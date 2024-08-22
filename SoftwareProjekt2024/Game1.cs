@@ -13,7 +13,9 @@ public enum Scenes
     PAUSEMENU,
     OPTIONMENUMAIN,
     OPTIONMENUPAUSE,
-    COOKBOOKSCREEN
+    COOKBOOKSCREEN,
+    HELPSCREEN,
+    CREDITSSCREEN
 };
 
 public class Game1 : Game
@@ -39,6 +41,8 @@ public class Game1 : Game
     private OptionMenuMain _optionMenuMain;
     private OptionMenuPause _optionMenuPause;
     private CookBookScreen _cookBookScreen;
+    private CreditsScreen _creditsScreen;
+    private HelpScreen _helpScreen;
 
     private Song _currentSong;
     private Song _introMenuSoundtrack;
@@ -82,6 +86,8 @@ public class Game1 : Game
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
         _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _creditsScreen = new CreditsScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _helpScreen = new HelpScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
         CreateGamePlay();
 
@@ -146,6 +152,12 @@ public class Game1 : Game
             case Scenes.COOKBOOKSCREEN:
                 _cookBookScreen.Update();
                 break;
+            case Scenes.CREDITSSCREEN:
+                _creditsScreen.Update();
+                break;
+            case Scenes.HELPSCREEN:
+                _helpScreen.Update();
+                break;
         }
 
         base.Update(gameTime);
@@ -188,6 +200,16 @@ public class Game1 : Game
                 GraphicsDevice.Clear(Color.LightYellow);
 
                 _cookBookScreen.Draw();
+                break;
+            case Scenes.CREDITSSCREEN:
+                GraphicsDevice.Clear(Color.LightYellow);
+
+                _creditsScreen.Draw();
+                break;
+            case Scenes.HELPSCREEN:
+                GraphicsDevice.Clear(Color.LightBlue);
+
+                _helpScreen.Draw();
                 break;
         }
 
