@@ -66,10 +66,10 @@ public class PauseMenu
         if (_mainMenuButton.isClicked)
         {
             _game.activeScene = Scenes.MAINMENU;
+            _game.CreateGamePlay();
         }
         else if (_retryButton.isClicked)
         {
-            //not right -> must start gamplay from beginning 
             _game.activeScene = Scenes.GAMEPLAY;
             _game.CreateGamePlay();
         }

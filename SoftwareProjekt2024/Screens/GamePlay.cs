@@ -67,6 +67,11 @@ public class GamePlay
     readonly public Stopwatch _timer;
     private GameTime gameTime;
 
+    public static bool _showLetter = true;
+    Letter _letter;
+    string _keyPressLetter;
+    Vector2 _keyPressLetterSize;
+
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _content = Content;
@@ -190,6 +195,11 @@ public class GamePlay
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
 
+        /* Letter */
+        _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
+        _keyPressLetter = "Press [any key] to continue";
+        _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
+
         //_penumbra.Initialize();
     }
 
@@ -208,41 +218,48 @@ public class GamePlay
 
     public void Update()
     {
-        CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
-
-        _pauseButton.Update();
-        _cookBookButton.Update();
-        _helpButton.Update();
-
-        if (_pauseButton.isClicked || _pauseButton._escIsPressed)
+        if (_showLetter)
         {
-            _game.activeScene = Scenes.PAUSEMENU;
-            _timer.Stop(); // Stop the stopwatch when paused
-        }
-        else if (_cookBookButton.isClicked)
-        {
-            _game.activeScene = Scenes.COOKBOOKSCREEN;
-            _timer.Stop();
-        }
-        else if (_helpButton.isClicked)
-        {
-            _game.activeScene = Scenes.HELPSCREEN;
-            _timer.Stop();
+            _letter.Update();
         }
         else
         {
-            if (_game.activeScene == Scenes.GAMEPLAY)
+            CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
+
+            _pauseButton.Update();
+            _cookBookButton.Update();
+            _helpButton.Update();
+
+            if (_pauseButton.isClicked || _pauseButton._escIsPressed)
             {
-                _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
+                _game.activeScene = Scenes.PAUSEMENU;
+                _timer.Stop(); // Stop the stopwatch when paused
             }
+            else if (_cookBookButton.isClicked)
+            {
+                _game.activeScene = Scenes.COOKBOOKSCREEN;
+                _timer.Stop();
+            }
+            else if (_helpButton.isClicked)
+            {
+                _game.activeScene = Scenes.HELPSCREEN;
+                _timer.Stop();
+            }
+            else
+            {
+                if (_game.activeScene == Scenes.GAMEPLAY)
+                {
+                    _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
+                }
+            }
+
+            _ogerCook.Update();
+            _animationManager.Update();
+            _inputManager.Update();
+            _interactionManager.Update();
+
+            //_penumbra.Update(gameTime);
         }
-
-        _ogerCook.Update();
-        _animationManager.Update();
-        _inputManager.Update();
-        _interactionManager.Update();
-
-        //_penumbra.Update(gameTime);
     }
 
 
@@ -298,6 +315,12 @@ public class GamePlay
         // Display the elapsed time
         string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
         _spriteBatch.DrawString(bmfont, "Time: \n" + elapsedTime, new Vector2(_screenWidth - 100, _pauseButton.Height + bmfont.LineHeight + 10), Color.White);
+
+        if (_showLetter)
+        {
+            _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
+            _letter.Draw();
+        }
 
         _spriteBatch.End();
     }
