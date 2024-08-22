@@ -52,7 +52,8 @@ public class TileManager
     public Dictionary<Vector2, int> objectsLayer;
     public Dictionary<Vector2, int> collisionLayer;
     public Dictionary<Vector2, int> interactionLayer;
-    public Dictionary<Vector2, int> dekoLayer;
+    public Dictionary<Vector2, int> dekoLayerObjects;
+    public Dictionary<Vector2, int> dekoLayerNonObjects;
 
     public Texture2D textureAtlas;
     public Texture2D hitboxes;
@@ -68,7 +69,8 @@ public class TileManager
         objectsLayer = LoadMap(Path.Combine(basePath, "Data", "map_objectLayer.csv"));
         collisionLayer = LoadMap(Path.Combine(basePath, "Data", "map_collisionLayer.csv"));
         interactionLayer = LoadMap(Path.Combine(basePath, "Data", "map_interactionLayer.csv"));
-        dekoLayer = LoadMap(Path.Combine(basePath, "Data", "map_dekoLayer.csv"));
+        dekoLayerObjects = LoadMap(Path.Combine(basePath, "Data", "map_dekoLayerObjects.csv"));
+        dekoLayerNonObjects = LoadMap(Path.Combine(basePath, "Data", "map_dekoLayerNonObjects.csv"));
 
         // Opens a CSV file, reads it line by line, splits the line into
         // an array of integers. Converts data into a Dictionary where the
@@ -116,7 +118,8 @@ public class TileManager
     {
         DrawLayer(spriteBatch, groundworkLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-        DrawLayer(spriteBatch, dekoLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+        //DrawLayer(spriteBatch, dekoLayerObjects, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+        DrawLayer(spriteBatch, dekoLayerNonObjects, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
     }
@@ -152,12 +155,6 @@ public class TileManager
             {
                 case 7:    //Trash
                     _perspectiveManager._Interactables.Add(new Trash(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
-                    break;
-                case 28:    //Candleholder left
-                    _perspectiveManager._dekoObjects.Add(new CandleHolderLeft(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
-                    break;
-                case 31:    //Candleholder right
-                    _perspectiveManager._dekoObjects.Add(new CandleHolderRight(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
                     break;
                 case 32:    //Grill
                     _perspectiveManager._tische.Add(new Grill(textureAtlas, new Vector2(dest.X, dest.Y),
@@ -216,49 +213,13 @@ public class TileManager
                         new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
                         _perspectiveManager));
                     break;
-                case 61:    //candleholder middle
-                    _perspectiveManager._dekoObjects.Add(new CandleHolderMiddle(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
-                    break;
-                case 69:    //window left 
-                    _perspectiveManager._dekoObjects.Add(new Window_Left(textureAtlas, new Vector2(dest.X, dest.Y),
-                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 3, displayTileSize * 2),
-                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 3, pixelTileSize * 2),
-                        _perspectiveManager));
-                    break;
-                case 85:    //window middle
-                    _perspectiveManager._dekoObjects.Add(new Window_Middle(textureAtlas, new Vector2(dest.X, dest.Y),
-                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 3, displayTileSize * 2),
-                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 3, pixelTileSize * 2),
-                        _perspectiveManager));
-                    break;
-                case 101:   //window right
-                    _perspectiveManager._dekoObjects.Add(new Window_Right(textureAtlas, new Vector2(dest.X, dest.Y),
-                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 3, displayTileSize * 2),
-                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 3, pixelTileSize * 2),
-                        _perspectiveManager));
-                    break;
-                case 133:   //barrel right
-                    _perspectiveManager._dekoObjects.Add(new Barrel_Right(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
-                    break;
-                case 134:   //barrel left
-                    _perspectiveManager._dekoObjects.Add(new Barrel_Left(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
-                    break;
-                case 136:   //candle on table 
-                    _perspectiveManager._dekoObjects.Add(new CandleOnTable(textureAtlas, new Vector2(dest.X, dest.Y),
-                        new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize),
-                        new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize),
-                        _perspectiveManager));
-                    break;
-                case 138:   //window nupsi
-                    _perspectiveManager._dekoObjects.Add(new Window_Nupsi(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
-                    break;
             }
         }
     }
 
     public void LoadDekoLayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
     {
-        foreach (var item in dekoLayer)
+        foreach (var item in dekoLayerObjects)
         {
 
             Rectangle dest = new(
