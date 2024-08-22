@@ -5,6 +5,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 
@@ -165,6 +166,11 @@ internal class GamePlay
 
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
+
+        /* guest test */
+        Guest guest1 = new Guest(_content.Load<Texture2D>("Npc/Fairy_Npc"), new Vector2(0, 0), _perspectiveManager);
+        (_perspectiveManager._tische[0] as Tisch).guest = guest1;
+        (_perspectiveManager._tische[0] as Tisch).hasGuest = true;
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
