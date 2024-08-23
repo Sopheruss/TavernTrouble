@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -26,6 +25,16 @@ internal class CookBook : StaticObject
         return dest.Height - 10;
     }
 
+    public static void HandleInteraction()
+    {
+        /* what esle should happen: 
+            - before opening new scene, play cookBook animation 
+            - after closing scene, close book again
+        */
+
+        _playCookBookAnimation = true;
+    }
+
     public static void Update()
     {
         _cookBookAnimationManager.Update();
@@ -41,16 +50,6 @@ internal class CookBook : StaticObject
             Game1.activeScene = Scenes.COOKBOOKSCREEN;
             GamePlay._timer.Stop();
         }
-    }
-
-    public static void HandleInteraction(Game1 _game, Stopwatch _timer)
-    {
-        /* what esle should happen: 
-            - before opening new scene, play cookBook animation 
-            - after closing scene, close book again
-        */
-
-        _playCookBookAnimation = true;
     }
 
     public override void draw(SpriteBatch spriteBatch)

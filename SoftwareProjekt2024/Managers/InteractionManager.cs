@@ -2,7 +2,6 @@
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
-using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -117,7 +116,7 @@ internal class InteractionManager
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction(Game1._gamePlay._game, GamePlay._timer);
+                CookBook.HandleInteraction();
                 break;
 
             case 2:
@@ -134,10 +133,23 @@ internal class InteractionManager
 
             case 5:
                 Debug.WriteLine("Kessel Interaction");
+
+                if (Kessel._activeKesselState == KesselStates.DONEKESEL && _ogerCook.inventoryIsEmpty())
+                {
+                    Debug.WriteLine("Oger hat jetzt Pommes in der Hand!");
+                    Kessel._activeKesselState = KesselStates.EMPTYKESSEL;
+                    //Kessel.HandleInteraction();
+                }
+                else //HERE IF CASE -> only interaction if oger carrys chopped potato 
+                {
+                    Kessel._activeKesselState = KesselStates.ANIMATIONKESSEL;
+                    Kessel.HandleInteraction();
+                }
                 break;
 
             case 6:
                 Debug.WriteLine("Grill Interaction");
+                Grill.HandleInteraction();
                 break;
 
             case 7:

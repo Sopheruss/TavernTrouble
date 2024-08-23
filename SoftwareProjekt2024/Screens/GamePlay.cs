@@ -236,9 +236,13 @@ public class GamePlay
         }
 
         _ogerCook.Update();
-        if (CookBook._playCookBookAnimation) { CookBook.Update(); }
         _inputManager.Update();
         _interactionManager.Update();
+
+        // only Update Kessel/Grill/CookBook when Animation is supposed to play
+        if (CookBook._playCookBookAnimation) { CookBook.Update(); }
+        if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
+        if (Grill._playGrillAnimation) { Grill.Update(); }
 
         //_penumbra.Update(gameTime);
     }
