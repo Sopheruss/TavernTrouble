@@ -218,6 +218,13 @@ internal class InteractionManager
                 Debug.WriteLine("Barfläche unten Interaction");
                 break;
 
+            case >= 60 and <= 67:
+                Debug.WriteLine("Tisch Interaktion");
+                int tableID = tileID - 60;
+                Table table = _perspectiveManager._tables[tableID];
+                table.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                break;
+
             default:
                 Debug.WriteLine("INTERACTION");
                 _gamePlay.IncreaseScore(5);

@@ -6,22 +6,20 @@ using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
-internal class Tisch : StaticObject
+internal class Table : StaticObject
 {
     public static int capacity = 4;
     public int occupiedSpots;
-    public bool hasGuest;
     public Guest guest;
-    int tablenumber;
-    int tablenumberCount = 1;
+    public int tableID;
+    static int tableIDCount = 0;
     List<Component> tableContents;
-    public Tisch(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
+    public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         occupiedSpots = 0;
-        hasGuest = false;
-        tablenumber = tablenumberCount;
-        tablenumberCount++;
+        tableID = tableIDCount;
+        tableIDCount++;
         tableContents = new List<Component>();
     }
 
@@ -30,20 +28,25 @@ internal class Tisch : StaticObject
         return occupiedSpots == 0;
     }
 
+    public bool hasGuest()
+    {
+        return guest != null;
+    }
+
     public void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook)
     {
-        if (hasGuest)
+        if (hasGuest())
         {
             if (!guest.hasOrdered)
             {
                 guest.takeOrder();
                 Debug.WriteLine("Order taken");
             }
-            else if (guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Plate)
+            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Plate)
             {
                 addOrderItem(_ogerCook);
             }
-            else if (guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Mug)
+            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Mug)
             {
                 //addOrderItem?
             }
@@ -59,13 +62,13 @@ internal class Tisch : StaticObject
         switch (occupiedSpots)
         {
             case 0:
-                return new Vector2(position.X, position.Y);
+                return new Vector2(position.X + 15, position.Y + 16); //oben links
             case 1:
-                return new Vector2(position.X, position.Y);
+                return new Vector2(position.X + 32 + 2, position.Y + 16);   //oben rechts
             case 2:
-                return new Vector2(position.X, position.Y);
+                return new Vector2(position.X + 15, position.Y + 27); //unten links
             case 3:
-                return new Vector2(position.X, position.Y);
+                return new Vector2(position.X + 32 + 2, position.Y + 27); //unten rechts
             default:
                 return new Vector2(position.X, position.Y);
         }
@@ -79,6 +82,7 @@ internal class Tisch : StaticObject
 
         tableContents.Add(item);
         item.position = freePosition();
+        occupiedSpots++;
     }
 
 

@@ -5,7 +5,6 @@ using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 
@@ -40,6 +39,7 @@ internal class GamePlay
     CollisionManager _collisionManager;
     InteractionManager _interactionManager;
     InputManager _inputManager;
+    GameplayLoopManager _gameplayLoopManager;
 
     BitmapFont bmfont;
     private int score;
@@ -167,15 +167,17 @@ internal class GamePlay
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
 
-        /* guest test */
-        Guest guest1 = new Guest(_content.Load<Texture2D>("Npc/Fairy_Npc"), new Vector2(0, 0), _perspectiveManager);
-        (_perspectiveManager._tische[0] as Tisch).guest = guest1;
-        (_perspectiveManager._tische[0] as Tisch).hasGuest = true;
+        /* guests */
+        Guest.fairy = _content.Load<Texture2D>("Npc/Fairy_Npc");
+        Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
+        Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
+        Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook, this);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
+        _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
@@ -236,6 +238,7 @@ internal class GamePlay
         _animationManager.Update();
         _inputManager.Update();
         _interactionManager.Update();
+        _gameplayLoopManager.Update();
 
         //_penumbra.Update(gameTime);
     }

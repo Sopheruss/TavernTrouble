@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using System;
@@ -137,7 +136,7 @@ namespace SoftwareProjekt2024
                         _perspectiveManager._Interactables.Add(new Trash(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                         break;
                     case 32:    //Grill
-                        _perspectiveManager._tische.Add(new Grill(textureAtlas, new Vector2(dest.X, dest.Y),
+                        _perspectiveManager._Interactables.Add(new Grill(textureAtlas, new Vector2(dest.X, dest.Y),
                             new Rectangle((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize * 3),  // adjusted dest and src rectangles to initialize whole grill with one case
                             new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 3),
                             _perspectiveManager));
@@ -188,7 +187,7 @@ namespace SoftwareProjekt2024
                         _perspectiveManager._Interactables.Add(new Cuttingboard(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                         break;
                     case 59:    //Tisch -> one case for initializing whole table
-                        _perspectiveManager._tische.Add(new Tisch(textureAtlas, new Vector2(dest.X, dest.Y),
+                        _perspectiveManager._tables.Add(new Table(textureAtlas, new Vector2(dest.X, dest.Y),
                             new Rectangle((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize * 2),  // adjusted dest and src rectangles to initialize whole table with one case
                             new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
                             _perspectiveManager));

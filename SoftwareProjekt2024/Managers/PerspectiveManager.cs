@@ -9,13 +9,14 @@ namespace SoftwareProjekt2024.Managers
     {
         internal List<Component> _sortedComponents; //Liste aller objekte die in Perspektive relevant sind
 
-
-        internal List<Component> _tische; //Liste aller Tische
+        internal List<Table> _tables; //Liste aller Tische
         internal List<Bar> _barFlächen;
         internal List<Component> _nonInteractables;
         internal List<Component> _Interactables;
 
         internal List<Component> _dynamicObjects; //Liste dynamischer Objekte
+
+        internal List<Guest> _guests;
 
 
         public PerspectiveManager()
@@ -23,13 +24,14 @@ namespace SoftwareProjekt2024.Managers
             _sortedComponents = new List<Component>(); //erstellt Liste
 
 
-            _tische = new List<Component>(); //Zugriff auf den 1. Tisch über _perspectiveManager._tische[0]
+            _tables = new List<Table>(); //Zugriff auf den 1. Tisch über _perspectiveManager._tische[0]
             _barFlächen = new List<Bar>();
             _nonInteractables = new List<Component>();
             _Interactables = new List<Component>();
 
             _dynamicObjects = new List<Component>();
 
+            _guests = new List<Guest>();
         }
 
         public void draw(SpriteBatch spriteBatch, AnimationManager _animationManager)
