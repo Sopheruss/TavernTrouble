@@ -177,6 +177,17 @@ public class TileManager
                         Color = Color.OrangeRed, // Change color 
                         CastsShadows = true, // Ensure shadows are cast
                         ShadowType = ShadowType.Solid, // Set the shadow type
+
+
+                        /* only for Spotlight
+                        0 radians points to the right (positive X direction).
+                        π/2 radians points downward (positive Y direction).
+                        π radians points to the left (negative X direction).
+                        3π/2 radians points upward (negative Y direction).
+                        */
+
+                        //Rotation = MathHelper.ToRadians(90f) 
+
                     };
 
                     penumbra.Lights.Add(BehindPlateWindow);
@@ -292,14 +303,6 @@ public class TileManager
                         CastsShadows = true, // Ensure shadows are cast
                         ShadowType = ShadowType.Solid, // Set the shadow type
 
-                        /* only for Spotlight
-                        0 radians points to the right (positive X direction).
-                        π/2 radians points downward (positive Y direction).
-                        π radians points to the left (negative X direction).
-                        3π/2 radians points upward (negative Y direction).
-                        */
-
-                        //Rotation = MathHelper.ToRadians(90f) 
                     };
 
                     penumbra.Lights.Add(BehindKesselWindow);
@@ -315,7 +318,7 @@ public class TileManager
                         _perspectiveManager));
 
                     /*lights*/
-                    PointLight staticLightKerzeDEBUG = new PointLight
+                    PointLight staticLightKerze = new PointLight
                     {
 
                         Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 5),
@@ -323,31 +326,23 @@ public class TileManager
                         Intensity = 1f,
                         Color = Color.LightGoldenrodYellow,
                         CastsShadows = false,
-                        // ShadowType = ShadowType.Solid, // Set the shadow type
+                        // ShadowType = ShadowType.Solid, 
 
                     };
 
-                    penumbra.Lights.Add(staticLightKerzeDEBUG);
+                    penumbra.Lights.Add(staticLightKerze);
 
                     break;
                 case 62: // potatoBox
                     PointLight BehindKartoffelBox = new PointLight
                     {
                         Position = new Vector2(dest.X + displayTileSize / 2 - 75, 15),
-                        Scale = new Vector2(505f), // Adjust size 
-                        Intensity = 1f, // Adjust intensity 
-                        Color = Color.OrangeRed, // Change color 
-                        CastsShadows = true, // Ensure shadows are cast
-                        ShadowType = ShadowType.Solid, // Set the shadow type
+                        Scale = new Vector2(505f), 
+                        Intensity = 1f, 
+                        Color = Color.OrangeRed, 
+                        CastsShadows = true, 
+                        ShadowType = ShadowType.Solid, 
 
-                        /* only for Spotlight
-                        0 radians points to the right (positive X direction).
-                        π/2 radians points downward (positive Y direction).
-                        π radians points to the left (negative X direction).
-                        3π/2 radians points upward (negative Y direction).
-                        */
-
-                        //Rotation = MathHelper.ToRadians(90f) 
                     };
 
                     penumbra.Lights.Add(BehindKartoffelBox);
