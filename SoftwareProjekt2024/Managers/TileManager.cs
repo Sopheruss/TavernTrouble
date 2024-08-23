@@ -317,21 +317,6 @@ public class TileManager
                         new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
                         _perspectiveManager));
 
-                    /*lights*/
-                    PointLight staticLightKerze = new PointLight
-                    {
-
-                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 5),
-                        Scale = new Vector2(35f),
-                        Intensity = 1f,
-                        Color = Color.LightGoldenrodYellow,
-                        CastsShadows = false,
-                        // ShadowType = ShadowType.Solid, 
-
-                    };
-
-                    penumbra.Lights.Add(staticLightKerze);
-
                     break;
                 case 62: // potatoBox
                     PointLight BehindKartoffelBox = new PointLight
@@ -383,12 +368,57 @@ public class TileManager
             {
                 case 28:    //Candleholder left
                     _perspectiveManager._dekoObjects.Add(new CandleHolderLeft(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    PointLight staticLightKerzeLeft = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(25f),
+                        Intensity = 1f,
+                        Color = Color.White,
+                        CastsShadows = false,
+                        // ShadowType = ShadowType.Solid, 
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeLeft);
+
                     break;
                 case 31:    //Candleholder right
                     _perspectiveManager._dekoObjects.Add(new CandleHolderRight(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    PointLight staticLightKerzeRight = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(25f),
+                        Intensity = 1f,
+                        Color = Color.White,
+                        CastsShadows = false,
+                        // ShadowType = ShadowType.Solid, 
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeRight);
+
                     break;
                 case 61:    //candleholder middle
                     _perspectiveManager._dekoObjects.Add(new CandleHolderMiddle(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    PointLight staticLightKerzeMid = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(25f),
+                        Intensity = 1f,
+                        Color = Color.White,
+                        CastsShadows = false,
+                        // ShadowType = ShadowType.Solid, 
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeMid);
+
                     break;
                 case 69:    //window left 
                     _perspectiveManager._dekoObjects.Add(new Window_Left(textureAtlas, new Vector2(dest.X, dest.Y),
@@ -419,6 +449,21 @@ public class TileManager
                         new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize),
                         new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize),
                         _perspectiveManager));
+
+                    PointLight staticLightKerzeTable = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 5),
+                        Scale = new Vector2(35f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+                        // ShadowType = ShadowType.Solid, 
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeTable);
+
                     break;
                 case 138:   //window nupsi
                     _perspectiveManager._dekoObjects.Add(new Window_Nupsi(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
