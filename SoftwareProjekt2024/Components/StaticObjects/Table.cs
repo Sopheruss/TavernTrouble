@@ -85,5 +85,18 @@ internal class Table : StaticObject
         occupiedSpots++;
     }
 
+    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    {
+        _spriteBatch.Draw(texture, dest, src, Color.White);
+
+        if (!isClean())
+        {
+            foreach (Component item in tableContents)
+            {
+                item.draw(_spriteBatch, _animationManager); //drawing Contents here to make them appear on top of table
+            }
+        }
+    }
+
 
 }

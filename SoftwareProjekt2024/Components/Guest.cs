@@ -24,6 +24,7 @@ internal class Guest : Component
     {
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
+        perspectiveManager._sortedComponents.Add(this);
     }
 
     public void takeOrder() //placeholder
