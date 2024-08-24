@@ -136,9 +136,9 @@ internal class InteractionManager
 
                 if (Kessel._activeKesselState == KesselStates.DONEKESEL && _ogerCook.inventoryIsEmpty())
                 {
+                    //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done Fries 
                     Debug.WriteLine("Oger hat jetzt Pommes in der Hand!");
                     Kessel._activeKesselState = KesselStates.EMPTYKESSEL;
-                    //Kessel.HandleInteraction();
                 }
                 else //HERE IF CASE -> only interaction if oger carrys chopped potato 
                 {
@@ -149,7 +149,18 @@ internal class InteractionManager
 
             case 6:
                 Debug.WriteLine("Grill Interaction");
-                Grill.HandleInteraction();
+
+                if (Grill._activeGrillState == GrillStates.DONEGRILL && _ogerCook.inventoryIsEmpty())
+                {
+                    //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done meat 
+                    Debug.WriteLine("Oger hat jetzt fertiges Fleisch in der Hand!");
+                    Grill._activeGrillState = GrillStates.EMPTYGRILL;
+                }
+                else //HERE IF CASE -> only interaction if oger carrys raw meat
+                {
+                    Grill._activeGrillState = GrillStates.ANIMATIONGRILL;
+                    Grill.HandleInteraction();
+                }
                 break;
 
             case 7:

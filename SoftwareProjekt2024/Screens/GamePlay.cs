@@ -167,7 +167,7 @@ public class GamePlay
         Kessel._kesselTextureAnimation = _content.Load<Texture2D>("Kessel/Kessel_Spritesheet");
 
         /* grill */
-        Grill._grillTextureFull = _content.Load<Texture2D>("Grill/Grill_Done");
+        Grill._grillTextureDone = _content.Load<Texture2D>("Grill/Grill_Done");
         Grill._grillTextureEmpty = _content.Load<Texture2D>("Grill/Grill_Empty");
         Grill._grillTextureAnimation = _content.Load<Texture2D>("Grill/Grill_Spritesheet");
 
@@ -242,7 +242,7 @@ public class GamePlay
         // only Update Kessel/Grill/CookBook when Animation is supposed to play
         if (CookBook._playCookBookAnimation) { CookBook.Update(); }
         if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
-        if (Grill._playGrillAnimation) { Grill.Update(); }
+        if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
 
         //_penumbra.Update(gameTime);
     }
