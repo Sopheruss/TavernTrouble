@@ -2,8 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
+
+//Animation is only played the first time, the book is opened, otherwise time waste
 
 internal class CookBook : StaticObject
 {
@@ -13,11 +16,17 @@ internal class CookBook : StaticObject
 
     public static bool _playCookBookAnimation = false;
 
+    private static Timer _cookBookTimer;
+    private static int count = 0;
+
     public CookBook(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
-        _cookBookAnimationManager = new AnimationManager(4, 4, new Vector2(32, 64));
+        _cookBookAnimationManager = new(4, 4, new Vector2(32, 64));
         _cookBookAnimationManager.RowPos = 0;
+
+        _cookBookTimer = new Timer(650); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
+        _cookBookTimer.Elapsed += Tick; //ticks timer
     }
 
     public override int getHeight()
@@ -25,14 +34,16 @@ internal class CookBook : StaticObject
         return dest.Height - 10;
     }
 
+    // ups the counter every second  
+    private static void Tick(object sender, ElapsedEventArgs e)
+    {
+        count++;
+    }
+
     public static void HandleInteraction()
     {
-        /* what esle should happen: 
-            - before opening new scene, play cookBook animation 
-            - after closing scene, close book again
-        */
-
         _playCookBookAnimation = true;
+        _cookBookTimer.Start();
     }
 
     public static void Update()
@@ -42,11 +53,11 @@ internal class CookBook : StaticObject
         //Debug.WriteLine("activeFrame:" + _cookBookAnimationManager.activeFrame);
         //Debug.WriteLine("numFrame:" + _cookBookAnimationManager.numFrames);
 
-        if (_cookBookAnimationManager.activeFrame == 3)
+        if (count >= 1) //Animation plays for 0.65 sec
         {
             _playCookBookAnimation = false;
-            _cookBookAnimationManager.PlayAnimation = false;
             _cookBookAnimationManager.ResetAnimation();
+            count = 0;
             Game1.activeScene = Scenes.COOKBOOKSCREEN;
             GamePlay._timer.Stop();
         }
