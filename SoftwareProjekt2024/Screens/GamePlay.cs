@@ -45,6 +45,7 @@ public class GamePlay
     CollisionManager _collisionManager;
     InteractionManager _interactionManager;
     InputManager _inputManager;
+    GameplayLoopManager _gameplayLoopManager;
 
     BitmapFont bmfont;
     private int score;
@@ -173,10 +174,17 @@ public class GamePlay
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
 
+        /* guests */
+        Guest.fairy = _content.Load<Texture2D>("Npc/Fairy_Npc");
+        Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
+        Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
+        Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
+
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
+        _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
@@ -283,6 +291,8 @@ public class GamePlay
             _animationManager.Update();
             _inputManager.Update();
             _interactionManager.Update();
+            _interactionManager.Update();
+            _gameplayLoopManager.Update();
 
             // Ensure the player hull is updated correctly
             UpdatePlayerHull();
@@ -291,9 +301,6 @@ public class GamePlay
             _penumbra.Update(gameTime);
         }
     }
-
-
-
 
     // Ensure the player's hull is updated separately, because otherwise the init pos of player keeps hull points stuck
     private void UpdatePlayerHull()
