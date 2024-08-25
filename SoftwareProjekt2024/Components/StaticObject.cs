@@ -14,13 +14,17 @@ internal class StaticObject : Component
     {
         dest = _dest;
         src = _src;
-        perspectiveManager._sortedComponents.Add(this);
     }
 
     //Höhe des Destination Rectangle
     public override int getHeight()
     {
         return dest.Height;
+    }
+
+    public override int getLevel()
+    {
+        return 0;
     }
 
     public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)

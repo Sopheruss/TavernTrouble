@@ -26,7 +26,7 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
     public int state;
     public Component(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position)
     {
-        //bei Erstellung von Components werden sie in Liste geaddet -> jedoch ab jetzt keine dynamic objects, daher listenaufruf in kindklassen-konstruktoren
+        perspectiveManager._sortedComponents.Add(this); //bei Erstellung von Components werden sie in Liste geaddet
     }
 
     public virtual int getHeight()
@@ -34,8 +34,15 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         return 0;
     }
 
+    public virtual int getLevel()
+    {
+        return 0;
+    }
+
     public int CompareTo(Component other) //sortiere nach Y Werten + Höhe -> lower bounds
     {
+        if (this.getLevel() < other.getLevel()) return -1; //jetzt auch sortieren nach Levels
+        if (this.getLevel() > other.getLevel()) return 1;
         if (this.position.Y + this.getHeight() < other.position.Y + other.getHeight()) return -1;
         if (this.position.Y + this.getHeight() == other.position.Y + other.getHeight()) return 0;
         return 1;

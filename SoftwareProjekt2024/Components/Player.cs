@@ -23,7 +23,6 @@ internal class Player : Component
     {
         inventory = new List<Component>();
         state = (int)States.Empty;
-        perspectiveManager._sortedComponents.Add(this);
     }
 
     public override void Update() //Update der Position
@@ -39,6 +38,11 @@ internal class Player : Component
     public override int getHeight()
     {
         return this.height;
+    }
+
+    public override int getLevel()
+    {
+        return 0;
     }
 
     public void changeAppearence(int appearence)
