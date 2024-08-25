@@ -377,7 +377,7 @@ public class TileManager
                         Intensity = 1f,
                         Color = Color.White,
                         CastsShadows = false,
-                        // ShadowType = ShadowType.Solid, 
+                   
 
                     };
 
@@ -395,7 +395,7 @@ public class TileManager
                         Intensity = 1f,
                         Color = Color.White,
                         CastsShadows = false,
-                        // ShadowType = ShadowType.Solid, 
+                      
 
                     };
 
@@ -413,7 +413,7 @@ public class TileManager
                         Intensity = 1f,
                         Color = Color.White,
                         CastsShadows = false,
-                        // ShadowType = ShadowType.Solid, 
+                      
 
                     };
 
