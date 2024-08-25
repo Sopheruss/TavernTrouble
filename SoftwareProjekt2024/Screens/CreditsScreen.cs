@@ -79,7 +79,7 @@ public void Update()
     {
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        // Draw the return button
+        
         _returnButton.Draw(_spriteBatch);
 
         // Draw the header centered
