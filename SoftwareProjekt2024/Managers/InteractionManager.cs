@@ -25,7 +25,7 @@ internal class InteractionManager
 
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
-    string interactionObject;
+    string possibleInteractionObject;
 
     public InteractionManager(TileManager tilemanager, Player ogerCook)
     {
@@ -38,16 +38,16 @@ internal class InteractionManager
     {
         CreateBounds();
         CheckInteraction(bounds);
-        GamePlay._interactionObject = interactionObject;
-
-        /*if (interactionState == 0)
+      
+        if (interactionState == 0)
         {
-            Debug.WriteLine("not possible");
+            GamePlay._showPossibleInteraction = false;
         }
         else
         {
-            Debug.WriteLine("possible");
-        }*/
+            GamePlay._showPossibleInteraction = true;
+            GamePlay._possibleInteractionObject = possibleInteractionObject;
+        }
     }
 
     public int GetInteractionState()
@@ -78,7 +78,7 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-
+                ChangeInteractionString(interactionState);
                 return;
             }
         }
@@ -89,12 +89,60 @@ internal class InteractionManager
     {
         switch (tileID)
         {
-            case 1: 
-                interactionObject = "cookbook";
+            case 0:
+                possibleInteractionObject = null;
                 break;
-            case :
-
-
+            case 1: 
+                possibleInteractionObject = "cookbook";
+                break;
+            case int n when n >= 2 && n <= 3:
+                possibleInteractionObject = "bar space";
+                break;
+            case 4:
+                possibleInteractionObject = "barrel";
+                break;
+            case 5:
+                possibleInteractionObject = "grate";
+                break;
+            case 6:
+                possibleInteractionObject = "cauldron";
+                break;
+            case int n when n >= 7 && n <= 9:
+                possibleInteractionObject = "cutting board";
+                break;
+            case 10:
+                possibleInteractionObject = "potato box";
+                break;
+            case 11:
+                possibleInteractionObject = "salad box";
+                break;
+            case 12:
+                possibleInteractionObject = "meat box";
+                break;
+            case 13:
+                possibleInteractionObject = "bun box";
+                break;
+            case 14:
+                possibleInteractionObject = "plates";
+                break;
+            case 15:
+                possibleInteractionObject = "tankard";
+                break;
+            case 16:
+                possibleInteractionObject = "trash can";
+                break;
+            case int n when n >= 20 && n <= 32:
+                possibleInteractionObject = "bar space";
+                break;
+            case int n when n >= 40 && n <= 52:
+                possibleInteractionObject = "bar space";
+                break;
+            case int n when n >= 60 && n <= 67:
+                possibleInteractionObject = "table";
+                break;
+            default:
+                possibleInteractionObject = "something";
+                break;  
         }
     }
 

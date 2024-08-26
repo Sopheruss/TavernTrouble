@@ -72,7 +72,8 @@ public class GamePlay
     string _keyPressLetter;
     Vector2 _keyPressLetterSize;
 
-    public static string _interactionObject;
+    public static bool _showPossibleInteraction = false;
+    public static string _possibleInteractionObject;
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -324,7 +325,10 @@ public class GamePlay
             _letter.Draw();
         }
 
-        _spriteBatch.DrawString(bmfont, "Press E to interact with " + _interactionObject, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
+        if (_showPossibleInteraction)
+        {
+            _spriteBatch.DrawString(bmfont, "Press E to interact with " + _possibleInteractionObject, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
+        }
 
         _spriteBatch.End();
     }
