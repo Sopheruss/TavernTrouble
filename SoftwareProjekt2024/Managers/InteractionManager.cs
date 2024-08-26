@@ -2,6 +2,7 @@
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
+using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -22,6 +23,10 @@ internal class InteractionManager
     Rectangle bounds;
     int interactionState;
 
+    public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
+
+    string interactionObject;
+
     public InteractionManager(TileManager tilemanager, Player ogerCook)
     {
         _tileManager = tilemanager;
@@ -33,6 +38,7 @@ internal class InteractionManager
     {
         CreateBounds();
         CheckInteraction(bounds);
+        GamePlay._interactionObject = interactionObject;
 
         /*if (interactionState == 0)
         {
@@ -72,10 +78,24 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
+
                 return;
             }
         }
         interactionState = 0; // 0 means no possible interaction; false
+    }
+
+    public void ChangeInteractionString(int tileID)
+    {
+        switch (tileID)
+        {
+            case 1: 
+                interactionObject = "cookbook";
+                break;
+            case :
+
+
+        }
     }
 
     /*
@@ -108,7 +128,6 @@ internal class InteractionManager
      * Tisch 8: 67
      */
 
-    public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
     public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
     {
