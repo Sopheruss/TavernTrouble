@@ -126,7 +126,7 @@ internal class InteractionManager
                 possibleInteractionObject = "plates";
                 break;
             case 15:
-                possibleInteractionObject = "tankard";
+                possibleInteractionObject = "tankards";
                 break;
             case 16:
                 possibleInteractionObject = "trash can";
