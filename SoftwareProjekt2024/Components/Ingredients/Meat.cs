@@ -13,6 +13,11 @@ namespace SoftwareProjekt2024.Components.Ingredients
             cooked = false;
         }
 
+        public void cook()
+        {
+            cooked = true;
+            state = (int)States.DoneMeat;
+        }
 
         public override bool isPrepared()
         {

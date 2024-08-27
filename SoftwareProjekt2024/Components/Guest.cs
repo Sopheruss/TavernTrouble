@@ -18,7 +18,7 @@ internal class Guest : Component
     public static Texture2D ogerPink;
 
     public bool hasOrdered;
-    public Order guestOrder;
+    public Order order;
     public int assignedTableID;
     public Table assignedTable;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
@@ -36,7 +36,7 @@ internal class Guest : Component
 
     public void takeOrder() //placeholder
     {
-        guestOrder = new Order(false, new List<Recipe> { new Recipe("Burger") });
+        order = new Order(false, new List<Recipe> { new Recipe("Burger") });
         hasOrdered = true;
     }
 
