@@ -372,12 +372,12 @@ public class TileManager
                     PointLight staticLightKerzeLeft = new PointLight
                     {
 
-                        Position = new Vector2(dest.X + displayTileSize / 2 + 7, dest.Y + displayTileSize / 2),
-                        Scale = new Vector2(27f),
+                        Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(25f),
                         Intensity = 1f,
-                        Color = Color.LightGoldenrodYellow,
+                        Color = Color.White,
                         CastsShadows = false,
-                   
+                        // ShadowType = ShadowType.Solid, 
 
                     };
 
@@ -390,11 +390,12 @@ public class TileManager
                     PointLight staticLightKerzeRight = new PointLight
                     {
 
-                        Position = new Vector2(dest.X + displayTileSize / 2 - 7, dest.Y + displayTileSize / 2),
-                        Scale = new Vector2(27f),
+                        Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(25f),
                         Intensity = 1f,
-                        Color = Color.LightGoldenrodYellow,
+                        Color = Color.White,
                         CastsShadows = false,
+                        // ShadowType = ShadowType.Solid, 
 
                     };
 
@@ -408,11 +409,11 @@ public class TileManager
                     {
 
                         Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
-                        Scale = new Vector2(30f),
+                        Scale = new Vector2(25f),
                         Intensity = 1f,
-                        Color = Color.LightGoldenrodYellow,
+                        Color = Color.White,
                         CastsShadows = false,
-                      
+                        // ShadowType = ShadowType.Solid, 
 
                     };
 
@@ -439,40 +440,9 @@ public class TileManager
                     break;
                 case 133:   //barrel right
                     _perspectiveManager._dekoObjects.Add(new Barrel_Right(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
-
-                    PointLight staticLightBarrelRight = new PointLight
-                    {
-
-                        Position = new Vector2(dest.X + displayTileSize / 2 - 7, dest.Y + displayTileSize / 2 + 15),
-                        Scale = new Vector2(42f),
-                        Intensity = 1f,
-                        Color = Color.LightGoldenrodYellow,
-                        CastsShadows = false,
-
-                    };
-
-                    penumbra.Lights.Add(staticLightBarrelRight);
-
                     break;
                 case 134:   //barrel left
                     _perspectiveManager._dekoObjects.Add(new Barrel_Left(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
-
-
-                    PointLight staticLightBarrelLeft = new PointLight
-                    {
-
-                        Position = new Vector2(dest.X + displayTileSize / 2 +7, dest.Y + displayTileSize / 2 + 15),
-                        Scale = new Vector2(42f),
-                        Intensity = 1f,
-                        Color = Color.LightGoldenrodYellow,
-                        CastsShadows = false,
-                    
-
-                    };
-
-                    penumbra.Lights.Add(staticLightBarrelLeft);
-
-
                     break;
                 case 136:   //candle on table 
                     _perspectiveManager._dekoObjects.Add(new CandleOnTable(textureAtlas, new Vector2(dest.X, dest.Y),
