@@ -670,6 +670,18 @@
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Full_Beer.png
 
+#begin Models/Oger_Meat_Done.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Meat_Done.PNG
+
 #begin Models/Oger_Meat.png
 /importer:TextureImporter
 /processor:TextureProcessor

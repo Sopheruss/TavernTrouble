@@ -53,7 +53,7 @@ internal class Grill : StaticObject
         return dest.Height - 10;
     }
 
-    public static void HandleInteraction(Player _ogerCook)
+    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
         /* what should happen:
            - interaction with meat in grill
@@ -70,7 +70,7 @@ internal class Grill : StaticObject
             _ogerCook.changeAppearence(1);
 
             grillContents.Add(item);
-            (item as Meat).cooked = true; //implementation of proper cooking method needed
+            (item as Meat).cook(); //implementation of proper cooking method needed
 
             _grillTimer.Start();
             _activeGrillState = GrillStates.ANIMATIONGRILL;
@@ -80,6 +80,11 @@ internal class Grill : StaticObject
         {
             Debug.WriteLine("Meat picked up!");
             _activeGrillState = GrillStates.EMPTYGRILL;
+
+            Component item = grillContents[0];
+            grillContents.Clear();
+            _ogerCook.pickUp(item);
+            item.position = positionWhilePickedUp;
         }
 
     }

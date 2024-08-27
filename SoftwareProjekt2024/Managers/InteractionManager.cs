@@ -217,7 +217,7 @@ internal class InteractionManager
             case 6:
                 Debug.WriteLine("Grill Interaction");
 
-                Grill.HandleInteraction(_ogerCook);
+                Grill.HandleInteraction(_ogerCook, positionWhilePickedUp);
 
                 break;
 
