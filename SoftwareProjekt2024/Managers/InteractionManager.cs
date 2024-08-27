@@ -199,11 +199,12 @@ internal class InteractionManager
                 break;
 
             case 5:
-                Debug.WriteLine("Grill Interaction");
+                Debug.WriteLine("Kessel Interaction");
                 break;
 
             case 6:
-                Debug.WriteLine("Kessel Interaction");
+                Debug.WriteLine("Grill Interaction");
+                Grill.HandleInteraction(_ogerCook);
                 break;
 
             case 7:
@@ -280,6 +281,13 @@ internal class InteractionManager
 
             case >= 40 and <= 52:
                 Debug.WriteLine("Barfläche unten Interaction");
+                break;
+
+            case >= 60 and <= 67:
+                Debug.WriteLine("Tisch Interaktion");
+                int tableID = tileID - 60;
+                Table table = _perspectiveManager._tables[tableID];
+                table.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
                 break;
 
             default:
