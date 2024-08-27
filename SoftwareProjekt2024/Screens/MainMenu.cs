@@ -82,7 +82,7 @@ public class MainMenu
         }
         else if (_creditsButton.isClicked)
         {
-            _game.activeScene = Scenes.CREDITSSCREEN;
+            Game1.activeScene = Scenes.CREDITSSCREEN;
         }
     }
 

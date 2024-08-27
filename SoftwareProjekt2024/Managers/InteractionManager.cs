@@ -38,7 +38,7 @@ internal class InteractionManager
     {
         CreateBounds();
         CheckInteraction(bounds);
-      
+
         if (interactionState == 0)
         {
             GamePlay._showPossibleInteraction = false;
@@ -92,7 +92,7 @@ internal class InteractionManager
             case 0:
                 possibleInteractionObject = null;
                 break;
-            case 1: 
+            case 1:
                 possibleInteractionObject = "cookbook";
                 break;
             case int n when n >= 2 && n <= 3:
@@ -142,7 +142,7 @@ internal class InteractionManager
                 break;
             default:
                 possibleInteractionObject = "something";
-                break;  
+                break;
         }
     }
 
@@ -217,17 +217,8 @@ internal class InteractionManager
             case 6:
                 Debug.WriteLine("Grill Interaction");
 
-                if (Grill._activeGrillState == GrillStates.DONEGRILL && _ogerCook.inventoryIsEmpty())
-                {
-                    //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done meat 
-                    Debug.WriteLine("Oger hat jetzt fertiges Fleisch in der Hand!");
-                    Grill._activeGrillState = GrillStates.EMPTYGRILL;
-                }
-                else //HERE IF CASE -> only interaction if oger carrys raw meat
-                {
-                    Grill._activeGrillState = GrillStates.ANIMATIONGRILL;
-                    Grill.HandleInteraction();
-                }
+                Grill.HandleInteraction(_ogerCook);
+
                 break;
 
             case 7:

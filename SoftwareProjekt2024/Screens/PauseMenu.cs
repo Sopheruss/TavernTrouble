@@ -65,12 +65,12 @@ public class PauseMenu
 
         if (_mainMenuButton.isClicked)
         {
-            _game.activeScene = Scenes.MAINMENU;
+            Game1.activeScene = Scenes.MAINMENU;
             _game.CreateGamePlay();
         }
         else if (_retryButton.isClicked)
         {
-            _game.activeScene = Scenes.GAMEPLAY;
+            Game1.activeScene = Scenes.GAMEPLAY;
             _game.CreateGamePlay();
         }
         else if (_optionButton.isClicked)

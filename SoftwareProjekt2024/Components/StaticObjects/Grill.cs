@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Timers;
 
@@ -23,7 +24,7 @@ internal class Grill : StaticObject
 {
 
     public static List<Component> grillContents;
-   
+
     static AnimationManager _grillAnimationManager;
 
     public static Texture2D _grillTextureDone;
@@ -38,7 +39,7 @@ internal class Grill : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         grillContents = new List<Component>();
-        
+
         _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96));
         _grillAnimationManager.RowPos = 0;
 
@@ -54,13 +55,13 @@ internal class Grill : StaticObject
 
     public static void HandleInteraction(Player _ogerCook)
     {
-         /* what should happen:
-            - interaction with meat in grill
-            - start Animation 
-            - plays Animation for 10 seconds (maybe more?)
-            - stops Animation and has texture of grill done
-            - interaction with done grill makes it empty again 
-        */
+        /* what should happen:
+           - interaction with meat in grill
+           - start Animation 
+           - plays Animation for 10 seconds (maybe more?)
+           - stops Animation and has texture of grill done
+           - interaction with done grill makes it empty again 
+       */
 
         if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat)
         {
@@ -71,8 +72,14 @@ internal class Grill : StaticObject
             grillContents.Add(item);
             (item as Meat).cooked = true; //implementation of proper cooking method needed
 
-        _grillTimer.Start();
+            _grillTimer.Start();
+            _activeGrillState = GrillStates.ANIMATIONGRILL;
+        }
 
+        if (_ogerCook.inventoryIsEmpty() && _activeGrillState == GrillStates.DONEGRILL)
+        {
+            Debug.WriteLine("Meat picked up!");
+            _activeGrillState = GrillStates.EMPTYGRILL;
         }
 
     }

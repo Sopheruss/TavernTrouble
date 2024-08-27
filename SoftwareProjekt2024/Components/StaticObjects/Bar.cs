@@ -57,13 +57,13 @@ internal class Bar : StaticObject
 
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, dest, src, Color.White);
 
         if (!isEmpty())
         {
-            barContents[0].draw(_spriteBatch, _animationManager);   //drawing Contents here to make them appear on top of bar
+            barContents[0].draw(_spriteBatch);   //drawing Contents here to make them appear on top of bar
         }
     }
 }

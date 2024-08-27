@@ -23,7 +23,7 @@ internal class StaticObject : Component
         return dest.Height;
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, dest, src, Color.White);
     }

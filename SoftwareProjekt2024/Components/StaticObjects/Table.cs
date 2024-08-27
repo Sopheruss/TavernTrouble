@@ -87,7 +87,7 @@ internal class Table : StaticObject
         occupiedSpots++;
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, dest, src, Color.White);
 
@@ -95,7 +95,7 @@ internal class Table : StaticObject
         {
             foreach (Component item in tableContents)
             {
-                item.draw(_spriteBatch, _animationManager); //drawing Contents here to make them appear on top of table
+                item.draw(_spriteBatch); //drawing Contents here to make them appear on top of table
             }
         }
     }

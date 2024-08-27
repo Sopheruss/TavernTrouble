@@ -175,12 +175,13 @@ public class GamePlay
         rectangleTexture = new Texture2D(graphicsDevice, 1, 1);         // For player rectangle
         rectangleTexture.SetData(new Color[] { new(255, 0, 0, 255) });  // ''
 
+        _ogerCook.Load();
+
         /* guests */
         Guest.fairy = _content.Load<Texture2D>("Npc/Fairy_Npc");
         Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
         Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
         Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
-        _ogerCook.Load();
 
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
@@ -251,38 +252,41 @@ public class GamePlay
 
             if (_pauseButton.isClicked || _pauseButton._escIsPressed)
             {
-                _game.activeScene = Scenes.PAUSEMENU;
+                Game1.activeScene = Scenes.PAUSEMENU;
                 _timer.Stop(); // Stop the stopwatch when paused
             }
             else if (_cookBookButton.isClicked)
             {
-                _game.activeScene = Scenes.COOKBOOKSCREEN;
+                Game1.activeScene = Scenes.COOKBOOKSCREEN;
                 _timer.Stop();
             }
             else if (_helpButton.isClicked)
             {
-                _game.activeScene = Scenes.HELPSCREEN;
+                Game1.activeScene = Scenes.HELPSCREEN;
                 _timer.Stop();
             }
             else
             {
-                if (_game.activeScene == Scenes.GAMEPLAY)
+                if (Game1.activeScene == Scenes.GAMEPLAY)
                 {
                     _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
                 }
             }
 
-        _ogerCook.Update();
-        _inputManager.Update();
-        _interactionManager.Update();
-        _gameplayLoopManager.Update();
+            _ogerCook.Update();
+            _inputManager.Update();
+            _interactionManager.Update();
+            _gameplayLoopManager.Update();
 
-        // only Update Kessel/Grill/CookBook when Animation is supposed to play
-        if (CookBook._playCookBookAnimation) { CookBook.Update(); }
-        if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
-        if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
+            Guest.Update();
 
-        //_penumbra.Update(gameTime);
+            // only Update Kessel/Grill/CookBook when Animation is supposed to play
+            if (CookBook._playCookBookAnimation) { CookBook.Update(); }
+            if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
+            if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
+
+            //_penumbra.Update(gameTime);
+        }
     }
 
 
