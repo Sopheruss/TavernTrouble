@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
@@ -26,6 +27,7 @@ internal class InteractionManager
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
     string possibleInteractionObject;
+    public bool allowedInteraction;
 
     public InteractionManager(TileManager tilemanager, Player ogerCook)
     {
@@ -78,14 +80,16 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-                ChangeInteractionString(interactionState);
+                HandleVisualFeedback(interactionState);
+                //CheckPermission(interactionState);
                 return;
             }
         }
         interactionState = 0; // 0 means no possible interaction; false
     }
 
-    public void ChangeInteractionString(int tileID)
+
+    public void HandleVisualFeedback(int tileID)
     {
         switch (tileID)
         {
@@ -94,12 +98,14 @@ internal class InteractionManager
                 break;
             case 1: 
                 possibleInteractionObject = "cookbook";
+                allowedInteraction = true;
                 break;
             case int n when n >= 2 && n <= 3:
                 possibleInteractionObject = "bar space";
                 break;
             case 4:
                 possibleInteractionObject = "barrel";
+                allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 break;
             case 5:
                 possibleInteractionObject = "grate";
