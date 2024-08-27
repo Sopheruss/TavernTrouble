@@ -152,8 +152,8 @@ internal class InteractionManager
      * Arbeitsfläche 1: 2
      * Arbeitsfläche 2: 3
      * Bierfass: 4
-     * Grill: 5
-     * Kessel: 6
+     * Kessel: 5
+     * Grill: 6
      * Brett 1: 7
      * Brett 2: 8
      * Brett 3: 9
@@ -183,7 +183,7 @@ internal class InteractionManager
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction(Game1._gamePlay._game, Game1._gamePlay._timer);
+                CookBook.HandleInteraction();
                 break;
 
             case 2:
@@ -200,11 +200,34 @@ internal class InteractionManager
 
             case 5:
                 Debug.WriteLine("Kessel Interaction");
+
+                if (Kessel._activeKesselState == KesselStates.DONEKESSEL && _ogerCook.inventoryIsEmpty())
+                {
+                    //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done Fries 
+                    Debug.WriteLine("Oger hat jetzt Pommes in der Hand!");
+                    Kessel._activeKesselState = KesselStates.EMPTYKESSEL;
+                }
+                else //HERE IF CASE -> only interaction if oger carrys chopped potato 
+                {
+                    Kessel._activeKesselState = KesselStates.ANIMATIONKESSEL;
+                    Kessel.HandleInteraction();
+                }
                 break;
 
             case 6:
                 Debug.WriteLine("Grill Interaction");
-                Grill.HandleInteraction(_ogerCook);
+
+                if (Grill._activeGrillState == GrillStates.DONEGRILL && _ogerCook.inventoryIsEmpty())
+                {
+                    //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done meat 
+                    Debug.WriteLine("Oger hat jetzt fertiges Fleisch in der Hand!");
+                    Grill._activeGrillState = GrillStates.EMPTYGRILL;
+                }
+                else //HERE IF CASE -> only interaction if oger carrys raw meat
+                {
+                    Grill._activeGrillState = GrillStates.ANIMATIONGRILL;
+                    Grill.HandleInteraction();
+                }
                 break;
 
             case 7:

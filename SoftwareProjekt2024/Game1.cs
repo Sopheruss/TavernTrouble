@@ -31,7 +31,7 @@ public class Game1 : Game
     readonly int screenWidth = 1280;
     readonly int screenHeight = 720;
 
-    public Scenes activeScene;
+    public static Scenes activeScene;
 
     private SplashScreen _splashScreen;
     private MainMenu _mainMenu;

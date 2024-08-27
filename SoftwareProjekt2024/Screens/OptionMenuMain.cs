@@ -109,7 +109,7 @@ internal class OptionMenuMain
 
         if (_returnButton.isClicked || _returnButton._escIsPressed)
         {
-            _game.activeScene = Scenes.MAINMENU;
+            Game1.activeScene = Scenes.MAINMENU;
         }
 
         FullScreenIntersect();

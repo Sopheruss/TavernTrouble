@@ -5,6 +5,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 
@@ -33,7 +34,6 @@ public class GamePlay
     Rectangle _orderStripRect;
 
     PerspectiveManager _perspectiveManager;
-    AnimationManager _animationManager;
     TileManager _tileManager;
     CollisionManager _collisionManager;
     InteractionManager _interactionManager;
@@ -65,7 +65,7 @@ public class GamePlay
 
 
     // Stopwatch for tracking elapsed time
-    readonly public Stopwatch _timer;
+    public static Stopwatch _timer;
     private GameTime gameTime;
 
     public static bool _showLetter = true;
@@ -114,11 +114,6 @@ public class GamePlay
 
         /* perspective */
         _perspectiveManager = new PerspectiveManager();
-
-        /* animation */
-        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
-        //Vector decides size of the size for the frame (one Oger Frame = 32/32)
-        _animationManager = new(4, 4, new Vector2(32, 32));
 
         /* button */
         _pauseButton = new Button(
@@ -185,11 +180,24 @@ public class GamePlay
         Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
         Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
         Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
+        _ogerCook.Load();
+
+        /* kessel */
+        Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
+        Kessel._kesselTextureAnimation = _content.Load<Texture2D>("Kessel/Kessel_Spritesheet");
+
+        /* grill */
+        Grill._grillTextureDone = _content.Load<Texture2D>("Grill/Grill_Done");
+        Grill._grillTextureAnimation = _content.Load<Texture2D>("Grill/Grill_Spritesheet");
+
+        /* cookBook */
+        CookBook._cookBookClose = _content.Load<Texture2D>("CookBook/cookBook_Closed");
+        CookBook._cookBookAnimation = _content.Load<Texture2D>("CookBook/cookBook_Spritesheet");
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook);
-        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
+        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
         /* font */
@@ -265,13 +273,16 @@ public class GamePlay
             }
 
         _ogerCook.Update();
-        _animationManager.Update();
         _inputManager.Update();
         _interactionManager.Update();
         _gameplayLoopManager.Update();
 
-            //_penumbra.Update(gameTime);
-        }
+        // only Update Kessel/Grill/CookBook when Animation is supposed to play
+        if (CookBook._playCookBookAnimation) { CookBook.Update(); }
+        if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
+        if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
+
+        //_penumbra.Update(gameTime);
     }
 
 
@@ -297,7 +308,7 @@ public class GamePlay
 
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
-        _perspectiveManager.draw(_spriteBatch, _animationManager);
+        _perspectiveManager.draw(_spriteBatch);
 
         (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
         _collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness

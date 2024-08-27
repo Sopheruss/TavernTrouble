@@ -18,7 +18,7 @@ internal class DynamicObject : Component
         return texture.Height;
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, position, Color.White);
     }

@@ -70,11 +70,11 @@ public class MainMenu
 
         if (_startButton.isClicked)
         {
-            _game.activeScene = Scenes.GAMEPLAY;
+            Game1.activeScene = Scenes.GAMEPLAY;
         }
         else if (_optionButton.isClicked)
         {
-            _game.activeScene = Scenes.OPTIONMENUMAIN;
+            Game1.activeScene = Scenes.OPTIONMENUMAIN;
         }
         else if (_quitButton.isClicked || _startButton._escIsPressed)
         {

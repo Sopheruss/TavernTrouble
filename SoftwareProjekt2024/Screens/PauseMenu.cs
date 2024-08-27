@@ -75,11 +75,11 @@ public class PauseMenu
         }
         else if (_optionButton.isClicked)
         {
-            _game.activeScene = Scenes.OPTIONMENUPAUSE;
+            Game1.activeScene = Scenes.OPTIONMENUPAUSE;
         }
         else if (_returnButton.isClicked || _mainMenuButton._escIsPressed) //dont know why mainmenu, doesnt work with return 
         {
-            _game.activeScene = Scenes.GAMEPLAY;
+            Game1.activeScene = Scenes.GAMEPLAY;
         }
         else if (_quitButton.isClicked)
         {

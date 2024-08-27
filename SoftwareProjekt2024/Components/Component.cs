@@ -41,5 +41,5 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         return 1;
     }
 
-    public virtual void draw(SpriteBatch spriteBatch, AnimationManager animationManager) { }
+    public virtual void draw(SpriteBatch spriteBatch) { }
 }
