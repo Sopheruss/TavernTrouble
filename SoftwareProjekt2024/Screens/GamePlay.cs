@@ -4,9 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
+using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
+using System;
 using System.Diagnostics;
 
 
@@ -19,9 +21,14 @@ public class GamePlay
     readonly ContentManager _content;
 
     // Penumbra lighting system
-    /*private PenumbraComponent _penumbra;
-    private Light _light;
-    private Hull _hull;*/
+    private PenumbraComponent _penumbra;
+
+    // needed for hull-player-points
+    Hull playerHull;
+    int topPadding = 32;
+    int bottomPadding = 0;
+    int leftPadding = 16;
+    int rightPadding = 16;
 
     // Camera stuff; using Monogame Extended Camera
     private OrthographicCamera _camera;
@@ -68,6 +75,7 @@ public class GamePlay
     public static Stopwatch _timer;
     private GameTime gameTime;
 
+
     public static bool _showLetter = true;
     Letter _letter;
     string _keyPressLetter;
@@ -91,19 +99,8 @@ public class GamePlay
 
 
         // Initialize Penumbra lighting system
-        /*_penumbra = new PenumbraComponent(_game);
-        _light = new PointLight
-        {
-            Scale = new Vector2(1000f),
-            ShadowType = ShadowType.Solid
-        };
-        _hull = new Hull(new Vector2(1.0f), new Vector2(-1.0f, 1.0f), new Vector2(-1.0f), new Vector2(1.0f, -1.0f))
-        {
-            Position = new Vector2(400f, 240f),
-            Scale = new Vector2(50f)
-        };
-        _penumbra.Lights.Add(_light);
-        _penumbra.Hulls.Add(_hull);*/
+        _penumbra = new PenumbraComponent(_game);
+
     }
 
     public void LoadContent(GameWindow window, GraphicsDevice graphicsDevice)
@@ -149,8 +146,8 @@ public class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
         _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
-        _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
-        _tileManager.LoadDekoLayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Deko Ebene
+        _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager, _penumbra); //Laden aller Objekte von Tiled
+        _tileManager.LoadDekoLayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager, _penumbra); //Laden aller Objekte von Deko Ebene
 
         _mapHeight = _tileManager.mapHeight;
         _mapWidth = _tileManager.mapWidth;
@@ -220,7 +217,36 @@ public class GamePlay
         _keyPressLetter = "Press [any key] to continue";
         _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
 
-        //_penumbra.Initialize();
+        /* lights, hulls */
+        _penumbra.Initialize();
+        _penumbra.AmbientColor = new Color(150, 150, 150); // RGB Values, control surrounding lights. (0-255) 
+
+        playerHull = CreateHullAroundPlayer(_ogerCook.Rect, topPadding, bottomPadding, leftPadding, rightPadding);
+        _penumbra.Hulls.Add(playerHull);
+    }
+
+
+    Hull CreateHullAroundPlayer(Rectangle playerBounds, int topPadding, int bottomPadding, int leftPadding, int rightPadding)
+    {
+        // Calculate the new rectangle with specified padding
+        Rectangle adjustedBounds = new Rectangle(
+            playerBounds.Left + leftPadding,
+            playerBounds.Top + topPadding,
+            playerBounds.Width - leftPadding - rightPadding,
+            playerBounds.Height - topPadding - bottomPadding
+        );
+
+        // Ensure the rectangle dimensions are positive
+        adjustedBounds.Width = Math.Max(adjustedBounds.Width, 1);
+        adjustedBounds.Height = Math.Max(adjustedBounds.Height, 1);
+
+        // Define the hull points based on the adjusted rectangle
+        Vector2 topLeft = new Vector2(adjustedBounds.Left, adjustedBounds.Top);
+        Vector2 topRight = new Vector2(adjustedBounds.Right, adjustedBounds.Top);
+        Vector2 bottomRight = new Vector2(adjustedBounds.Right, adjustedBounds.Bottom);
+        Vector2 bottomLeft = new Vector2(adjustedBounds.Left, adjustedBounds.Bottom);
+
+        return new Hull(new Vector2[] { topLeft, topRight, bottomRight, bottomLeft });
     }
 
     private void CalculateCameraLookAt()
@@ -285,8 +311,25 @@ public class GamePlay
             if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
             if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
 
-            //_penumbra.Update(gameTime);
+            // Ensure the player hull is updated correctly
+            UpdatePlayerHull();
+
+            // Update the Penumbra component
+            _penumbra.Update(gameTime);
         }
+    }
+
+    // Ensure the player's hull is updated separately, because otherwise the init pos of player keeps hull points stuck
+    private void UpdatePlayerHull()
+    {
+        // Remove the old hull from the Penumbra component
+        _penumbra.Hulls.Remove(playerHull);
+
+        // Create a new hull with updated points
+        playerHull = CreateHullAroundPlayer(_ogerCook.Rect, topPadding, bottomPadding, leftPadding, rightPadding);
+
+        // Add the new hull to the Penumbra component
+        _penumbra.Hulls.Add(playerHull);
     }
 
 
@@ -302,9 +345,10 @@ public class GamePlay
     public void Draw()
     {
         // Two spriteBatch.Begin/End to separate stuff that is affected by camera and static stuff
-        // TransformationMatrix is automatically calculated into the draw call
+        // TransformationMatrix is automatically calculated into the draw call, added to penumbra so the light does not move
 
-        //_penumbra.BeginDraw();
+        _penumbra.Transform = _camera.GetViewMatrix();
+        _penumbra.BeginDraw();
 
         var transformMatrix = _camera.GetViewMatrix();
 
@@ -321,22 +365,16 @@ public class GamePlay
         _collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);
 
         _spriteBatch.End();
+        _penumbra.Draw(gameTime); // draw everything NOT affected by light (UI, Menu)
 
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        //_penumbra.Draw(gameTime); // draw everything NOT affected by light
-
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
-
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
-
         _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
-
         _pauseButton.Draw(_spriteBatch);
-
         _cookBookButton.Draw(_spriteBatch);
-
         _helpButton.Draw(_spriteBatch);
 
         // Display the elapsed time

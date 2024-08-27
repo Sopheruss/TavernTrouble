@@ -26,7 +26,6 @@ internal class Guest : Component
         _guestAnimationManager = new AnimationManager(2, 1, new Vector2(32, 32));
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
-        perspectiveManager._sortedComponents.Add(this);
     }
 
     public static void Update()
