@@ -13,6 +13,7 @@ public class MainMenu
     readonly Button _startButton;
     readonly Button _optionButton;
     readonly Button _quitButton;
+    readonly Button _creditsButton;
 
     readonly int midScreenWidth;
     readonly int midScreenHeight;
@@ -43,6 +44,10 @@ public class MainMenu
             Content.Load<Texture2D>("Buttons/quitButton"),
             Content.Load<Texture2D>("Buttons/quitButtonHovering"),
             new Vector2(screenWidth / 2, midScreenHeight + 100));
+        _creditsButton = new Button(
+            Content.Load<Texture2D>("Buttons/creditsButton"),
+            Content.Load<Texture2D>("Buttons/creditsButtonHovering"),
+            new Vector2(screenWidth - 70, screenHeight - 70));
 
         _background = Content.Load<Texture2D>("Background/background");
         _backgroundRect = new Rectangle(0, 0, screenWidth, screenHeight);
@@ -61,6 +66,7 @@ public class MainMenu
         _startButton.Update();
         _optionButton.Update();
         _quitButton.Update();
+        _creditsButton.Update();
 
         if (_startButton.isClicked)
         {
@@ -74,6 +80,10 @@ public class MainMenu
         {
             _game.Quit();
         }
+        else if (_creditsButton.isClicked)
+        {
+            _game.activeScene = Scenes.CREDITSSCREEN;
+        }
     }
 
     public void Draw()
@@ -85,6 +95,7 @@ public class MainMenu
         _startButton.Draw(_spriteBatch);
         _optionButton.Draw(_spriteBatch);
         _quitButton.Draw(_spriteBatch);
+        _creditsButton.Draw(_spriteBatch);
 
         _spriteBatch.End();
     }

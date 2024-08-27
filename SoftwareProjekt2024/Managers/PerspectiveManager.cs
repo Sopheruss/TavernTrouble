@@ -13,6 +13,7 @@ namespace SoftwareProjekt2024.Managers
         internal List<Bar> _barFlächen;
         internal List<Component> _nonInteractables;
         internal List<Component> _Interactables;
+        internal List<Component> _dekoObjects;
 
         internal List<Component> _dynamicObjects; //Liste dynamischer Objekte
 
@@ -28,6 +29,7 @@ namespace SoftwareProjekt2024.Managers
             _barFlächen = new List<Bar>();
             _nonInteractables = new List<Component>();
             _Interactables = new List<Component>();
+            _dekoObjects = new List<Component>();
 
             _dynamicObjects = new List<Component>();
 

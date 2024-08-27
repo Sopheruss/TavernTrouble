@@ -4,10 +4,12 @@ using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
 internal class Table : StaticObject
 {
+
     public static int capacity = 4;
     public int occupiedSpots;
     public Guest guest;
@@ -97,6 +99,4 @@ internal class Table : StaticObject
             }
         }
     }
-
-
 }

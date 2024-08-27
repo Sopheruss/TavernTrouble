@@ -11,13 +11,11 @@ using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Screens;
 
-internal class GamePlay
+public class GamePlay
 {
     readonly public Game1 _game;
     readonly SpriteBatch _spriteBatch;
     readonly ContentManager _content;
-
-
 
     // Penumbra lighting system
     /*private PenumbraComponent _penumbra;
@@ -29,6 +27,7 @@ internal class GamePlay
 
     Button _pauseButton;
     Button _cookBookButton;
+    Button _helpButton;
 
     Texture2D _orderStrip;
     Rectangle _orderStripRect;
@@ -68,6 +67,14 @@ internal class GamePlay
     // Stopwatch for tracking elapsed time
     readonly public Stopwatch _timer;
     private GameTime gameTime;
+
+    public static bool _showLetter = true;
+    Letter _letter;
+    string _keyPressLetter;
+    Vector2 _keyPressLetterSize;
+
+    public static bool _showPossibleInteraction = false;
+    public static string _possibleInteractionObject;
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -124,6 +131,11 @@ internal class GamePlay
             _content.Load<Texture2D>("Buttons/cookBookButtonHovering"),
             new Vector2(30, _screenHeight - 30));
 
+        _helpButton = new Button(
+            _content.Load<Texture2D>("Buttons/helpButton"),
+            _content.Load<Texture2D>("Buttons/helpButtonHovering"),
+            new Vector2(_screenWidth - 30, _screenHeight - 30));
+
         /* plate types */
         Plate.plain = _content.Load<Texture2D>("Food/plate");
         Plate.withMeat = _content.Load<Texture2D>("Food/meat_plate");
@@ -143,6 +155,7 @@ internal class GamePlay
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
         _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
         _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Tiled
+        _tileManager.LoadDekoLayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager); //Laden aller Objekte von Deko Ebene
 
         _mapHeight = _tileManager.mapHeight;
         _mapWidth = _tileManager.mapWidth;
@@ -175,7 +188,7 @@ internal class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook, this);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _animationManager, _perspectiveManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
@@ -192,6 +205,11 @@ internal class GamePlay
         /* order */
         _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
+
+        /* Letter */
+        _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
+        _keyPressLetter = "Press [any key] to continue";
+        _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
 
         //_penumbra.Initialize();
     }
@@ -211,28 +229,40 @@ internal class GamePlay
 
     public void Update()
     {
-        CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
-
-        _pauseButton.Update();
-        _cookBookButton.Update();
-
-        if (_pauseButton.isClicked || _pauseButton._escIsPressed)
+        if (_showLetter)
         {
-            _game.activeScene = Scenes.PAUSEMENU;
-            _timer.Stop(); // Stop the stopwatch when paused
-        }
-        else if (_cookBookButton.isClicked)
-        {
-            _game.activeScene = Scenes.COOKBOOKSCREEN;
-            _timer.Stop();
+            _letter.Update();
         }
         else
         {
-            if (_game.activeScene == Scenes.GAMEPLAY)
+            CalculateCameraLookAt(); //Berechne neue Camera-Zentrierung
+
+            _pauseButton.Update();
+            _cookBookButton.Update();
+            _helpButton.Update();
+
+            if (_pauseButton.isClicked || _pauseButton._escIsPressed)
             {
-                _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
+                _game.activeScene = Scenes.PAUSEMENU;
+                _timer.Stop(); // Stop the stopwatch when paused
             }
-        }
+            else if (_cookBookButton.isClicked)
+            {
+                _game.activeScene = Scenes.COOKBOOKSCREEN;
+                _timer.Stop();
+            }
+            else if (_helpButton.isClicked)
+            {
+                _game.activeScene = Scenes.HELPSCREEN;
+                _timer.Stop();
+            }
+            else
+            {
+                if (_game.activeScene == Scenes.GAMEPLAY)
+                {
+                    _timer.Start(); // Resume the stopwatch if not paused and wait until gameplay is actually called
+                }
+            }
 
         _ogerCook.Update();
         _animationManager.Update();
@@ -240,7 +270,8 @@ internal class GamePlay
         _interactionManager.Update();
         _gameplayLoopManager.Update();
 
-        //_penumbra.Update(gameTime);
+            //_penumbra.Update(gameTime);
+        }
     }
 
 
@@ -291,9 +322,23 @@ internal class GamePlay
 
         _cookBookButton.Draw(_spriteBatch);
 
+        _helpButton.Draw(_spriteBatch);
+
         // Display the elapsed time
         string elapsedTime = _timer.Elapsed.ToString(@"mm\:ss");
         _spriteBatch.DrawString(bmfont, "Time: \n" + elapsedTime, new Vector2(_screenWidth - 100, _pauseButton.Height + bmfont.LineHeight + 10), Color.White);
+
+        if (_showLetter)
+        {
+            _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
+            _letter.Draw();
+        }
+
+        if (_showPossibleInteraction)
+        {
+            Vector2 textSize = bmfont.MeasureString("Press E to interact with " + _possibleInteractionObject);
+            _spriteBatch.DrawString(bmfont, "Press E to interact with " + _possibleInteractionObject, new Vector2((_screenWidth - textSize.X) / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
+        }
 
         _spriteBatch.End();
     }

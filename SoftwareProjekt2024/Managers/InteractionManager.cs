@@ -14,7 +14,6 @@ internal class InteractionManager
     TileManager _tileManager;
     Player _ogerCook;
     CollisionManager _collisionManager;
-    GamePlay _gamePlay;
 
     readonly int quarterTileHeight = 8;
     readonly int tileSize = 32;
@@ -24,26 +23,31 @@ internal class InteractionManager
     Rectangle bounds;
     int interactionState;
 
-    public InteractionManager(TileManager tilemanager, Player ogerCook, GamePlay gamePlay)
+    public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
+
+    string possibleInteractionObject;
+
+    public InteractionManager(TileManager tilemanager, Player ogerCook)
     {
         _tileManager = tilemanager;
         _ogerCook = ogerCook;
-        _gamePlay = gamePlay;
+
     }
 
     public void Update()
     {
         CreateBounds();
         CheckInteraction(bounds);
-
-        /*if (interactionState == 0)
+      
+        if (interactionState == 0)
         {
-            Debug.WriteLine("not possible");
+            GamePlay._showPossibleInteraction = false;
         }
         else
         {
-            Debug.WriteLine("possible");
-        }*/
+            GamePlay._showPossibleInteraction = true;
+            GamePlay._possibleInteractionObject = possibleInteractionObject;
+        }
     }
 
     public int GetInteractionState()
@@ -74,10 +78,72 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
+                ChangeInteractionString(interactionState);
                 return;
             }
         }
         interactionState = 0; // 0 means no possible interaction; false
+    }
+
+    public void ChangeInteractionString(int tileID)
+    {
+        switch (tileID)
+        {
+            case 0:
+                possibleInteractionObject = null;
+                break;
+            case 1: 
+                possibleInteractionObject = "cookbook";
+                break;
+            case int n when n >= 2 && n <= 3:
+                possibleInteractionObject = "bar space";
+                break;
+            case 4:
+                possibleInteractionObject = "barrel";
+                break;
+            case 5:
+                possibleInteractionObject = "grate";
+                break;
+            case 6:
+                possibleInteractionObject = "cauldron";
+                break;
+            case int n when n >= 7 && n <= 9:
+                possibleInteractionObject = "cutting board";
+                break;
+            case 10:
+                possibleInteractionObject = "potato box";
+                break;
+            case 11:
+                possibleInteractionObject = "salad box";
+                break;
+            case 12:
+                possibleInteractionObject = "meat box";
+                break;
+            case 13:
+                possibleInteractionObject = "bun box";
+                break;
+            case 14:
+                possibleInteractionObject = "plates";
+                break;
+            case 15:
+                possibleInteractionObject = "tankards";
+                break;
+            case 16:
+                possibleInteractionObject = "trash can";
+                break;
+            case int n when n >= 20 && n <= 32:
+                possibleInteractionObject = "bar space";
+                break;
+            case int n when n >= 40 && n <= 52:
+                possibleInteractionObject = "bar space";
+                break;
+            case int n when n >= 60 && n <= 67:
+                possibleInteractionObject = "table";
+                break;
+            default:
+                possibleInteractionObject = "something";
+                break;  
+        }
     }
 
     /*
@@ -110,7 +176,6 @@ internal class InteractionManager
      * Tisch 8: 67
      */
 
-    public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
     public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
     {
@@ -118,7 +183,7 @@ internal class InteractionManager
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction(_gamePlay._game, _gamePlay._timer);
+                CookBook.HandleInteraction(Game1._gamePlay._game, Game1._gamePlay._timer);
                 break;
 
             case 2:
@@ -227,7 +292,7 @@ internal class InteractionManager
 
             default:
                 Debug.WriteLine("INTERACTION");
-                _gamePlay.IncreaseScore(5);
+                Game1._gamePlay.IncreaseScore(5);
                 break;
         }
     }

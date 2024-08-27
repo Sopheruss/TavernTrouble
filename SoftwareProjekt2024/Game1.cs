@@ -13,7 +13,9 @@ public enum Scenes
     PAUSEMENU,
     OPTIONMENUMAIN,
     OPTIONMENUPAUSE,
-    COOKBOOKSCREEN
+    COOKBOOKSCREEN,
+    HELPSCREEN,
+    CREDITSSCREEN
 };
 
 public class Game1 : Game
@@ -21,7 +23,7 @@ public class Game1 : Game
 {
     public bool _exit = false;
 
-    public bool fullScreen = true;
+    public bool fullScreen = false;
 
     public GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -33,11 +35,14 @@ public class Game1 : Game
 
     private SplashScreen _splashScreen;
     private MainMenu _mainMenu;
-    private GamePlay _gamePlay;
+    public static GamePlay _gamePlay;
+
     private PauseMenu _pauseMenu;
     private OptionMenuMain _optionMenuMain;
     private OptionMenuPause _optionMenuPause;
     private CookBookScreen _cookBookScreen;
+    private CreditsScreen _creditsScreen;
+    private HelpScreen _helpScreen;
 
     private Song _currentSong;
     private Song _introMenuSoundtrack;
@@ -77,20 +82,24 @@ public class Game1 : Game
 
         _splashScreen = new SplashScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
         _mainMenu = new MainMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
-        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, this, _spriteBatch);
         _pauseMenu = new PauseMenu(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuMain = new OptionMenuMain(Content, screenWidth, screenHeight, this, _spriteBatch);
         _optionMenuPause = new OptionMenuPause(Content, screenWidth, screenHeight, this, _spriteBatch);
         _cookBookScreen = new CookBookScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _creditsScreen = new CreditsScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _helpScreen = new HelpScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
 
-        _gamePlay.LoadContent(Window, GraphicsDevice);
-
-
+        CreateGamePlay();
 
         _introMenuSoundtrack = Content.Load<Song>("Sounds/woodland_fantasy");
         _gameplaySoundtrackCozy = Content.Load<Song>("Sounds/inn_music");
     }
 
+    public void CreateGamePlay()
+    {
+        _gamePlay = new GamePlay(Content, screenWidth, screenHeight, this, _spriteBatch);
+        _gamePlay.LoadContent(Window, GraphicsDevice);
+    }
 
     private void PlaySong(Song song)
     {
@@ -143,6 +152,12 @@ public class Game1 : Game
             case Scenes.COOKBOOKSCREEN:
                 _cookBookScreen.Update();
                 break;
+            case Scenes.CREDITSSCREEN:
+                _creditsScreen.Update();
+                break;
+            case Scenes.HELPSCREEN:
+                _helpScreen.Update();
+                break;
         }
 
         base.Update(gameTime);
@@ -185,6 +200,16 @@ public class Game1 : Game
                 GraphicsDevice.Clear(Color.LightYellow);
 
                 _cookBookScreen.Draw();
+                break;
+            case Scenes.CREDITSSCREEN:
+                GraphicsDevice.Clear(Color.LightYellow);
+
+                _creditsScreen.Draw();
+                break;
+            case Scenes.HELPSCREEN:
+                GraphicsDevice.Clear(Color.LightBlue);
+
+                _helpScreen.Draw();
                 break;
         }
 

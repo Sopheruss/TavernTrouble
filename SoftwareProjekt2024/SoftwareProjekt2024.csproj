@@ -47,6 +47,12 @@
     <None Update="Data\map_dekoLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\map_dekoLayerNonObjects.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\map_dekoLayerObjects.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Data\map_groundLayer.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
