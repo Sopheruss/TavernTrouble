@@ -17,14 +17,13 @@ public enum KesselStates
 {
     EMPTYKESSEL,
     ANIMATIONKESSEL,
-    DONEKESEL
+    DONEKESSEL
 }
 
 internal class Kessel : StaticObject
 {
     static AnimationManager _kesselAnimationManager;
 
-    public static Texture2D _kesselTextureEmpty;
     public static Texture2D _kesselTextureAnimation;
     public static Texture2D _kesselTextureFull;
 
@@ -66,7 +65,7 @@ internal class Kessel : StaticObject
         {
             _kesselTimer.Stop();
             _kesselAnimationManager.ResetAnimation();
-            _activeKesselState = KesselStates.DONEKESEL;
+            _activeKesselState = KesselStates.DONEKESSEL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction
         }
     }
@@ -91,9 +90,9 @@ internal class Kessel : StaticObject
                     1f);                                  //layer depth
                 break;
 
-            case KesselStates.DONEKESEL:
+            case KesselStates.DONEKESSEL:
                 //TODO: CHANGE TO RIGHT TEXTURE, ALSO FOR OGER -> has to carry finished fries 
-                spriteBatch.Draw(texture, dest, src, Color.White);
+                spriteBatch.Draw(_kesselTextureFull, dest, new Rectangle(0, 0, _kesselTextureFull.Width, _kesselTextureFull.Height), Color.White);
                 Debug.WriteLine("Hier sind die fertigen Pommes!");
                 break;
         }

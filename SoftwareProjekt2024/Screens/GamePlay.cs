@@ -162,13 +162,11 @@ public class GamePlay
         _ogerCook.Load();
 
         /* kessel */
-        Kessel._kesselTextureEmpty = _content.Load<Texture2D>("Kessel/Kessel_empty");
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
         Kessel._kesselTextureAnimation = _content.Load<Texture2D>("Kessel/Kessel_Spritesheet");
 
         /* grill */
         Grill._grillTextureDone = _content.Load<Texture2D>("Grill/Grill_Done");
-        Grill._grillTextureEmpty = _content.Load<Texture2D>("Grill/Grill_Empty");
         Grill._grillTextureAnimation = _content.Load<Texture2D>("Grill/Grill_Spritesheet");
 
         /* cookBook */

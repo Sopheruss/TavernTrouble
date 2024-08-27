@@ -134,7 +134,7 @@ internal class InteractionManager
             case 5:
                 Debug.WriteLine("Kessel Interaction");
 
-                if (Kessel._activeKesselState == KesselStates.DONEKESEL && _ogerCook.inventoryIsEmpty())
+                if (Kessel._activeKesselState == KesselStates.DONEKESSEL && _ogerCook.inventoryIsEmpty())
                 {
                     //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done Fries 
                     Debug.WriteLine("Oger hat jetzt Pommes in der Hand!");

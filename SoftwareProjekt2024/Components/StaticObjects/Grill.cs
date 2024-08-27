@@ -22,7 +22,6 @@ internal class Grill : StaticObject
     static AnimationManager _grillAnimationManager;
 
     public static Texture2D _grillTextureDone;
-    public static Texture2D _grillTextureEmpty;
     public static Texture2D _grillTextureAnimation;
 
     public static GrillStates _activeGrillState = GrillStates.EMPTYGRILL;
@@ -83,7 +82,6 @@ internal class Grill : StaticObject
         switch (_activeGrillState)
         {
             case GrillStates.EMPTYGRILL:
-                //texture = _grillTextureEmpty; -> does not work? lets object vanish
                 spriteBatch.Draw(texture, dest, src, Color.White);
                 break;
 
@@ -101,9 +99,8 @@ internal class Grill : StaticObject
 
             case GrillStates.DONEGRILL:
                 //TODO: CHANGE TO RIGHT TEXTURE, ALSO FOR OGER -> has to carry done meat 
-                //texture = _grillTextureDone; -> does not work 
                 Debug.WriteLine("Hier fertiges Fleisch!");
-                spriteBatch.Draw(texture, dest, src, Color.White);
+                spriteBatch.Draw(_grillTextureDone, dest, new Rectangle(0, 0, _grillTextureDone.Width, _grillTextureDone.Height), Color.White);
                 break;
         }
     }
