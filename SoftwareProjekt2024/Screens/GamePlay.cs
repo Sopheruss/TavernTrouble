@@ -336,7 +336,7 @@ public class GamePlay
 
         if (_showPossibleInteraction)
         {
-            Vector2 textSize = bmfont.MeasureString("Press E to interact with " + _possibleInteractionObject);
+            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
             _spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((_screenWidth - textSize.X) / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
         }
 
