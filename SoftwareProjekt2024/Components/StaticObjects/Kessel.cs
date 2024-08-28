@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Timers;
 
@@ -24,8 +26,12 @@ internal class Kessel : StaticObject
 {
     static AnimationManager _kesselAnimationManager;
 
+    static bool hasFries;
+
     public static Texture2D _kesselTextureAnimation;
     public static Texture2D _kesselTextureFull;
+
+    public static List<Component> kesselContents;
 
     private static Timer _kesselTimer;
     private static int count = 0;
@@ -35,6 +41,8 @@ internal class Kessel : StaticObject
     public Kessel(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
+        kesselContents = new List<Component>();
+
         _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64)); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
         _kesselAnimationManager.RowPos = 0; //only one row of animation 
         _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
@@ -46,9 +54,34 @@ internal class Kessel : StaticObject
         return dest.Height - 10;
     }
 
-    public static void HandleInteraction() //only relevant for Animation
+    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp) //only relevant for Animation
     {
-        _kesselTimer.Start();
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato && hasFries == false)
+        {
+            Component item = _ogerCook.inventory[0];
+            _ogerCook.inventory.Clear();
+            _ogerCook.changeAppearence(1);
+
+            kesselContents.Add(item);
+            //(item as Potato).cook(); 
+
+            hasFries = true;
+
+            _kesselTimer.Start(); //starts timer for 10 seconds 
+            _activeKesselState = KesselStates.ANIMATIONKESSEL; //starts Animation 
+        }
+
+        if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
+        {
+            _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
+
+            hasFries = false;
+
+            Component item = kesselContents[0];
+            kesselContents.Clear();
+            _ogerCook.pickUp(item);
+            item.position = positionWhilePickedUp;
+        }
     }
 
     // ups the counter every second  
@@ -91,7 +124,6 @@ internal class Kessel : StaticObject
                 break;
 
             case KesselStates.DONEKESSEL:
-                //TODO: CHANGE TO RIGHT TEXTURE, ALSO FOR OGER -> has to carry finished fries 
                 spriteBatch.Draw(_kesselTextureFull, dest, new Rectangle(0, 0, _kesselTextureFull.Width, _kesselTextureFull.Height), Color.White);
                 Debug.WriteLine("Hier sind die fertigen Pommes!");
                 break;

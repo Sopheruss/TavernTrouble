@@ -162,6 +162,7 @@ public class GamePlay
         Player.plain = _content.Load<Texture2D>("Models/oger_cook_spritesheet");
         Player.withPlate = _content.Load<Texture2D>("Models/Oger_Plate");
         Player.withMeat = _content.Load<Texture2D>("Models/Oger_Meat");
+        Player.withMeatDone = _content.Load<Texture2D>("Models/Oger_Meat_Done");
         Player.withBun = _content.Load<Texture2D>("Models/Oger_Bun");
         Player.withSalad = _content.Load<Texture2D>("Models/Oger_Salad");
         Player.withPotato = _content.Load<Texture2D>("Models/Oger_Potato");
