@@ -55,14 +55,7 @@ internal class Grill : StaticObject
 
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
-        /* what should happen:
-           - interaction with meat in grill
-           - start Animation 
-           - plays Animation for 10 seconds (maybe more?)
-           - stops Animation and has texture of grill done
-           - interaction with done grill makes it empty again 
-       */
-
+        //interaction only possible when carrying raw meat
         if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat)
         {
             Component item = _ogerCook.inventory[0];
@@ -70,16 +63,17 @@ internal class Grill : StaticObject
             _ogerCook.changeAppearence(1);
 
             grillContents.Add(item);
-            (item as Meat).cook(); //implementation of proper cooking method needed
+            (item as Meat).cook();
 
-            _grillTimer.Start();
-            _activeGrillState = GrillStates.ANIMATIONGRILL;
+            _grillTimer.Start(); //starts timer for 10 seconds 
+            _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
         }
 
+        //only with nothing in hands, oger can interact with done grill and pick up done meat
         if (_ogerCook.inventoryIsEmpty() && _activeGrillState == GrillStates.DONEGRILL)
         {
             Debug.WriteLine("Meat picked up!");
-            _activeGrillState = GrillStates.EMPTYGRILL;
+            _activeGrillState = GrillStates.EMPTYGRILL; //meat was picked up -> grill is empty again
 
             Component item = grillContents[0];
             grillContents.Clear();
@@ -129,8 +123,6 @@ internal class Grill : StaticObject
                 break;
 
             case GrillStates.DONEGRILL:
-                //TODO: CHANGE TO RIGHT TEXTURE, ALSO FOR OGER -> has to carry done meat 
-                Debug.WriteLine("Hier fertiges Fleisch!");
                 spriteBatch.Draw(_grillTextureDone, dest, new Rectangle(0, 0, _grillTextureDone.Width, _grillTextureDone.Height), Color.White);
                 break;
         }

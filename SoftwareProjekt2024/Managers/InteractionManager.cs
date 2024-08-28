@@ -210,7 +210,7 @@ internal class InteractionManager
                 else //HERE IF CASE -> only interaction if oger carrys chopped potato 
                 {
                     Kessel._activeKesselState = KesselStates.ANIMATIONKESSEL;
-                    Kessel.HandleInteraction();
+                    Kessel.HandleInteraction(_ogerCook, positionWhilePickedUp);
                 }
                 break;
 
