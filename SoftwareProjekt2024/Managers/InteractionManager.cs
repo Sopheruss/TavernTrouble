@@ -102,10 +102,10 @@ internal class InteractionManager
                 possibleInteractionObject = "barrel";
                 break;
             case 5:
-                possibleInteractionObject = "grate";
+                possibleInteractionObject = "cauldron";
                 break;
             case 6:
-                possibleInteractionObject = "cauldron";
+                possibleInteractionObject = "grate";
                 break;
             case int n when n >= 7 && n <= 9:
                 possibleInteractionObject = "cutting board";
