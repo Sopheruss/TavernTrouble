@@ -32,7 +32,7 @@ internal class Player : Component
         /* animation */
         //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
         //Vector decides size of the size for the frame (one Oger Frame = 32/32)
-        _playerAnimationManager = new(4, 4, new Vector2(32, 32));
+        _playerAnimationManager = new(4, 4, new Vector2(32, 32), 10);
     }
 
     public override void Update() //Update der Position

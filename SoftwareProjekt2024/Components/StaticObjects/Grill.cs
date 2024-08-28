@@ -40,7 +40,7 @@ internal class Grill : StaticObject
     {
         grillContents = new List<Component>();
 
-        _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96));
+        _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96), 10);
         _grillAnimationManager.RowPos = 0;
 
         _grillTimer = new Timer(1000);

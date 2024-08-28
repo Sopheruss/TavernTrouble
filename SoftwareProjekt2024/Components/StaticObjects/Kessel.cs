@@ -43,7 +43,7 @@ internal class Kessel : StaticObject
     {
         kesselContents = new List<Component>();
 
-        _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64)); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
+        _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64), 10); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
         _kesselAnimationManager.RowPos = 0; //only one row of animation 
         _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
         _kesselTimer.Elapsed += Tick; //ticks timer

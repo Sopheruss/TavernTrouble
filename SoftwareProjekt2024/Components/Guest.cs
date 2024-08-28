@@ -23,7 +23,9 @@ internal class Guest : Component
     public Table assignedTable;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
-        _guestAnimationManager = new AnimationManager(2, 1, new Vector2(32, 32));
+        _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
+        _guestAnimationManager.RowPos = 0;
+
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
     }
@@ -68,7 +70,7 @@ internal class Guest : Component
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _guestAnimationManager.GetFrame(),              //sourceRectangle (frame) 
+        _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
         Color.White,                              //color
         0f,                                      //rotation 
         Vector2.Zero,                           //origin
