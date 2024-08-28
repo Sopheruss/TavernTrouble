@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -24,6 +23,7 @@ internal class Grill : StaticObject
 {
 
     public static List<Component> grillContents;
+    static bool hasMeatOn = false;
 
     static AnimationManager _grillAnimationManager;
 
@@ -56,7 +56,7 @@ internal class Grill : StaticObject
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
         //interaction only possible when carrying raw meat
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat)
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat && hasMeatOn == false)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
@@ -65,6 +65,8 @@ internal class Grill : StaticObject
             grillContents.Add(item);
             (item as Meat).cook();
 
+            hasMeatOn = true;
+
             _grillTimer.Start(); //starts timer for 10 seconds 
             _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
         }
@@ -72,8 +74,8 @@ internal class Grill : StaticObject
         //only with nothing in hands, oger can interact with done grill and pick up done meat
         if (_ogerCook.inventoryIsEmpty() && _activeGrillState == GrillStates.DONEGRILL)
         {
-            Debug.WriteLine("Meat picked up!");
             _activeGrillState = GrillStates.EMPTYGRILL; //meat was picked up -> grill is empty again
+            hasMeatOn = false;
 
             Component item = grillContents[0];
             grillContents.Clear();
