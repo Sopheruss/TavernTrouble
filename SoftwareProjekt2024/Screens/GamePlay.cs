@@ -33,6 +33,9 @@ public class GamePlay
     Texture2D _orderStrip;
     Rectangle _orderStripRect;
 
+    Texture2D _orderSheet;
+    Rectangle _orderSheetRect;
+
     PerspectiveManager _perspectiveManager;
     TileManager _tileManager;
     CollisionManager _collisionManager;
@@ -212,13 +215,16 @@ public class GamePlay
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
 
         /* order */
-        _orderStrip = _content.Load<Texture2D>("OrderBar/orderStrip");
+        _orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
 
         /* Letter */
         _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
         _keyPressLetter = "Press [any key] to continue";
         _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
+
+        _orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
+        _orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
         //_penumbra.Initialize();
     }
@@ -328,6 +334,8 @@ public class GamePlay
         //_penumbra.Draw(gameTime); // draw everything NOT affected by light
 
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
+
+        _spriteBatch.Draw(_orderSheet, _orderSheetRect, Color.White);
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
 
