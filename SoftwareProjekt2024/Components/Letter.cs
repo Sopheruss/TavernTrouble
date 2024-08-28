@@ -48,7 +48,7 @@ internal class Letter
             "\n\nThat should be it, good luck and have fun!" +
             "\nYours truly," +
             "\nGrandma " +
-            "\n\nPS: If you forget some rules you can enter the letter in the lower right corner.";
+            "\n\nPS: If you forget some rules you can access the letter in the lower right corner.";
 
         _letter = Content.Load<Texture2D>("Background/letter");
 
