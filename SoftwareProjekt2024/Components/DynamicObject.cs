@@ -17,6 +17,10 @@ internal class DynamicObject : Component
     {
         return texture.Height;
     }
+    public override int getLevel()
+    {
+        return 1;
+    }
 
     public override void draw(SpriteBatch _spriteBatch)
     {
