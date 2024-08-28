@@ -58,6 +58,11 @@ internal class Guest : Component
         //negative feedback if no table is clean needed here
     }
 
+    public void eat()
+    {
+
+    }
+
     public void leave()
     {
         assignedTable.guest = null;

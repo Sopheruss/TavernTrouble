@@ -17,6 +17,7 @@ namespace SoftwareProjekt2024.Logik
         public bool Equals(Order other)
         {
             return Enumerable.SequenceEqual(recipes.OrderBy(t => t), other.recipes.OrderBy(t => t)) && hasDrink == other.hasDrink;
+            //does not work for now
         }
     }
 }

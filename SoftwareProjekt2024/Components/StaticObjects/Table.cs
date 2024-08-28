@@ -95,7 +95,12 @@ internal class Table : StaticObject
             currentOrderOnTable.recipes.Add((item as Plate).recipe);
         }
 
-        if (orderFinished()) tableOrderfinished = true;
+        if (orderFinished())
+        {
+            Debug.WriteLine("Order now finished!");
+            tableOrderfinished = true;
+            guest.eat();
+        }
     }
 
     public bool orderFinished()
