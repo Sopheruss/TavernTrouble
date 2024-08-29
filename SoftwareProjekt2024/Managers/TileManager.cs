@@ -501,7 +501,7 @@ public class TileManager
                     _perspectiveManager._dekoObjects.Add(new Window_Nupsi(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
 
 
-                    // Increment the lightcounter
+
                     _counterForLights++;
 
                     // Check if the object counter is even, meaning it's every second object, so light gets created
