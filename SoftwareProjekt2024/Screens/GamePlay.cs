@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -8,8 +10,6 @@ using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
-using System;
-using System.Diagnostics;
 
 
 namespace SoftwareProjekt2024.Screens;
@@ -26,7 +26,7 @@ public class GamePlay
     // needed for hull-player-points
     Hull playerHull;
     int topPadding = 32;
-    int bottomPadding = 0;
+    int bottomPadding = 5;
     int leftPadding = 16;
     int rightPadding = 16;
 

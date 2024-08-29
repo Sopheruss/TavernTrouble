@@ -485,8 +485,8 @@ public class TileManager
                     PointLight staticLightKerzeTable = new PointLight
                     {
 
-                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 5),
-                        Scale = new Vector2(35f),
+                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 10),
+                        Scale = new Vector2(40f),
                         Intensity = 1f,
                         Color = Color.LightGoldenrodYellow,
                         CastsShadows = false,
