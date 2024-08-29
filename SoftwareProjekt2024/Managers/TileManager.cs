@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using SoftwareProjekt2024.Components.DekoObjects;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 /* ID-Katalouge: 
  * Kitchen Equipment: 
@@ -336,6 +336,8 @@ public class TileManager
         }
     }
 
+    int _counterForLights = 0;
+
     public void LoadDekoLayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager, PenumbraComponent penumbra)
     {
         foreach (var item in dekoLayerObjects)
@@ -483,8 +485,8 @@ public class TileManager
                     PointLight staticLightKerzeTable = new PointLight
                     {
 
-                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 5),
-                        Scale = new Vector2(35f),
+                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 10),
+                        Scale = new Vector2(40f),
                         Intensity = 1f,
                         Color = Color.LightGoldenrodYellow,
                         CastsShadows = false,
@@ -497,6 +499,28 @@ public class TileManager
                     break;
                 case 138:   //window nupsi
                     _perspectiveManager._dekoObjects.Add(new Window_Nupsi(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+
+                    // Increment the lightcounter
+                    _counterForLights++;
+
+                    // Check if the object counter is even, meaning it's every second object, so light gets created
+                    if (_counterForLights % 2 == 0)
+                    {
+                        PointLight StaticLightWindowNupsi = new PointLight
+                        {
+                            Position = new Vector2(dest.X + displayTileSize / 2 - 50, dest.Y + displayTileSize / 2 + 100),
+                            Scale = new Vector2(350f),
+                            Intensity = 1.0f,
+                            Color = Color.OrangeRed,
+                            CastsShadows = true,
+                            ShadowType = ShadowType.Solid,
+                        };
+
+                        penumbra.Lights.Add(StaticLightWindowNupsi);
+                    }
+
+
                     break;
             }
         }
