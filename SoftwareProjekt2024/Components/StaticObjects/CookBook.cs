@@ -22,7 +22,7 @@ internal class CookBook : StaticObject
     public CookBook(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
-        _cookBookAnimationManager = new(4, 4, new Vector2(32, 64));
+        _cookBookAnimationManager = new(4, 4, new Vector2(32, 64), 10);
         _cookBookAnimationManager.RowPos = 0;
 
         _cookBookTimer = new Timer(650); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
