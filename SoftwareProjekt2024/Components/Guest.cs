@@ -30,6 +30,11 @@ internal class Guest : Component
         hasOrdered = false;
     }
 
+    public override int getHeight()
+    {
+        return Rect.Height - 10;
+    }
+
     public static void Update()
     {
         _guestAnimationManager.Update();
@@ -52,7 +57,7 @@ internal class Guest : Component
             assignedTableID = table.tableID;
             assignedTable = table;
             table.guest = this;
-            position = new Vector2(table.position.X, table.position.Y);
+            position = new Vector2(table.position.X + 12, table.position.Y - 18);
             Debug.WriteLine("Table " + table.tableID + " assigned new guest");
             break;
         }
@@ -67,6 +72,7 @@ internal class Guest : Component
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
+
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
