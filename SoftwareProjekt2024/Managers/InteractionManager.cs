@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Components.StaticObjects;
@@ -26,8 +28,9 @@ internal class InteractionManager
 
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
-    string possibleInteractionObject;
-    public bool allowedInteraction;
+    string _possibleInteractionObject;
+    bool _showPossibleInteraction;
+    bool _allowedInteraction;
 
     public InteractionManager(TileManager tilemanager, Player ogerCook)
     {
@@ -43,12 +46,20 @@ internal class InteractionManager
       
         if (interactionState == 0)
         {
-            GamePlay._showPossibleInteraction = false;
+           _showPossibleInteraction = false;
         }
         else
         {
-            GamePlay._showPossibleInteraction = true;
-            GamePlay._possibleInteractionObject = possibleInteractionObject;
+           _showPossibleInteraction = true;
+        }
+    }
+
+    public void Draw(SpriteBatch spriteBatch, BitmapFont bmfont, Vector2 keyPressLetterSize, int screenWidth, int screenHeight)
+    {
+        if (_showPossibleInteraction && _allowedInteraction)
+        {
+            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
+            spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
         }
     }
 
@@ -94,60 +105,61 @@ internal class InteractionManager
         switch (tileID)
         {
             case 0:
-                possibleInteractionObject = null;
+                _possibleInteractionObject = null;
+                _allowedInteraction = false;
                 break;
             case 1: 
-                possibleInteractionObject = "cookbook";
-                allowedInteraction = true;
+                _possibleInteractionObject = "cookbook";
+                _allowedInteraction = true;
                 break;
             case int n when n >= 2 && n <= 3:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "bar space";
                 break;
             case 4:
-                possibleInteractionObject = "barrel";
-                allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
+                _possibleInteractionObject = "barrel";
+                _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 break;
             case 5:
-                possibleInteractionObject = "grate";
+                _possibleInteractionObject = "grate";
                 break;
             case 6:
-                possibleInteractionObject = "cauldron";
+                _possibleInteractionObject = "cauldron";
                 break;
             case int n when n >= 7 && n <= 9:
-                possibleInteractionObject = "cutting board";
+                _possibleInteractionObject = "cutting board";
                 break;
             case 10:
-                possibleInteractionObject = "potato box";
+                _possibleInteractionObject = "potato box";
                 break;
             case 11:
-                possibleInteractionObject = "salad box";
+                _possibleInteractionObject = "salad box";
                 break;
             case 12:
-                possibleInteractionObject = "meat box";
+                _possibleInteractionObject = "meat box";
                 break;
             case 13:
-                possibleInteractionObject = "bun box";
+                _possibleInteractionObject = "bun box";
                 break;
             case 14:
-                possibleInteractionObject = "plates";
+                _possibleInteractionObject = "plates";
                 break;
             case 15:
-                possibleInteractionObject = "tankards";
+                _possibleInteractionObject = "tankards";
                 break;
             case 16:
-                possibleInteractionObject = "trash can";
+                _possibleInteractionObject = "trash can";
                 break;
             case int n when n >= 20 && n <= 32:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "bar space";
                 break;
             case int n when n >= 40 && n <= 52:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "bar space";
                 break;
             case int n when n >= 60 && n <= 67:
-                possibleInteractionObject = "table";
+                _possibleInteractionObject = "table";
                 break;
             default:
-                possibleInteractionObject = "something";
+                _possibleInteractionObject = "something";
                 break;  
         }
     }
