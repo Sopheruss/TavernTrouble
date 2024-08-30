@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
@@ -35,6 +36,8 @@ internal class Grill : StaticObject
     private static Timer _grillTimer;
     private static int count = 0;
 
+    public static SoundEffectInstance soundInstance;
+
     public Grill(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
@@ -46,6 +49,11 @@ internal class Grill : StaticObject
         _grillTimer = new Timer(1000);
         _grillTimer.Elapsed += Tick;
 
+        // Load the sound effect and create an instance
+        var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/fire-crackling");
+        soundInstance = soundEffect.CreateInstance();
+        soundInstance.IsLooped = false;
+        UpdateVolume();
     }
 
     public override int getHeight()
@@ -69,6 +77,9 @@ internal class Grill : StaticObject
 
             _grillTimer.Start(); //starts timer for 10 seconds 
             _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
+
+            UpdateVolume(); // Update volume before playing
+            soundInstance.Play();
         }
 
         //only with nothing in hands, oger can interact with done grill and pick up done meat
@@ -81,6 +92,8 @@ internal class Grill : StaticObject
             grillContents.Clear();
             _ogerCook.pickUp(item);
             item.position = positionWhilePickedUp;
+
+            soundInstance.Stop();
         }
 
     }
@@ -95,8 +108,24 @@ internal class Grill : StaticObject
             _grillAnimationManager.ResetAnimation();
             _activeGrillState = GrillStates.DONEGRILL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction
+
+            // Stop the sound effect if it's still playing
+            if (soundInstance.State == SoundState.Playing)
+            {
+                soundInstance.Stop();
+            }
+        }
+        UpdateVolume(); 
+    }
+
+    private static void UpdateVolume()
+    {
+        if (soundInstance != null)
+        {
+            soundInstance.Volume = Game1.VolumeLevel;
         }
     }
+
 
     // ups the counter every second  
     private static void Tick(object sender, ElapsedEventArgs e)
