@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Timers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -38,6 +39,8 @@ internal class Kessel : StaticObject
 
     public static KesselStates _activeKesselState = KesselStates.EMPTYKESSEL;
 
+    public static SoundEffectInstance soundInstanceKessel;
+
     public Kessel(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
@@ -47,6 +50,12 @@ internal class Kessel : StaticObject
         _kesselAnimationManager.RowPos = 0; //only one row of animation 
         _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
         _kesselTimer.Elapsed += Tick; //ticks timer
+
+        // Load the sound effect and create an instance
+        var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/boiling-water");
+        soundInstanceKessel = soundEffect.CreateInstance();
+        soundInstanceKessel.IsLooped = false;
+        UpdateVolume();
     }
 
     public override int getHeight()
@@ -69,6 +78,9 @@ internal class Kessel : StaticObject
 
             _kesselTimer.Start(); //starts timer for 10 seconds 
             _activeKesselState = KesselStates.ANIMATIONKESSEL; //starts Animation 
+
+            UpdateVolume(); // Update volume before playing
+            soundInstanceKessel.Play();
         }
 
         if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
@@ -81,6 +93,8 @@ internal class Kessel : StaticObject
             kesselContents.Clear();
             _ogerCook.pickUp(item);
             item.position = positionWhilePickedUp;
+
+            soundInstanceKessel.Stop();
         }
     }
 
@@ -100,8 +114,25 @@ internal class Kessel : StaticObject
             _kesselAnimationManager.ResetAnimation();
             _activeKesselState = KesselStates.DONEKESSEL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction
+
+            // Stop the sound effect if it's still playing
+            if (soundInstanceKessel.State == SoundState.Playing)
+            {
+                soundInstanceKessel.Stop();
+            }
+        }
+
+        UpdateVolume();
+    }
+
+    private static void UpdateVolume()
+    {
+        if (soundInstanceKessel != null)
+        {
+            soundInstanceKessel.Volume = Game1.VolumeLevel;
         }
     }
+
 
     public override void draw(SpriteBatch spriteBatch)
     {
