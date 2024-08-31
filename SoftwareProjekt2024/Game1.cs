@@ -49,7 +49,7 @@ public class Game1 : Game
     private Song _introMenuSoundtrack;
     private Song _gameplaySoundtrackCozy;
 
-    public static float VolumeLevel { get; set; } = 0.5f; // Shared volume level
+    public static float VolumeLevel { get; set; } = 0.15f; // Shared volume level
 
     // global for AnimSounds, so signature doesnt have to be changed
     public static ContentManager ContentManager { get; private set; }
