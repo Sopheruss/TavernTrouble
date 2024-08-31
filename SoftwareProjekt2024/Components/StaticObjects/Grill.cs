@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Timers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
-using System.Collections.Generic;
-using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 /* ToDo for Interaction: 
@@ -36,7 +36,7 @@ internal class Grill : StaticObject
     private static Timer _grillTimer;
     private static int count = 0;
 
-    public static SoundEffectInstance soundInstance;
+    public static SoundEffectInstance soundInstanceGrill;
 
     public Grill(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
@@ -51,8 +51,8 @@ internal class Grill : StaticObject
 
         // Load the sound effect and create an instance
         var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/fire-crackling");
-        soundInstance = soundEffect.CreateInstance();
-        soundInstance.IsLooped = false;
+        soundInstanceGrill = soundEffect.CreateInstance();
+        soundInstanceGrill.IsLooped = false;
         UpdateVolume();
     }
 
@@ -79,7 +79,7 @@ internal class Grill : StaticObject
             _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
 
             UpdateVolume(); // Update volume before playing
-            soundInstance.Play();
+            soundInstanceGrill.Play();
         }
 
         //only with nothing in hands, oger can interact with done grill and pick up done meat
@@ -93,7 +93,7 @@ internal class Grill : StaticObject
             _ogerCook.pickUp(item);
             item.position = positionWhilePickedUp;
 
-            soundInstance.Stop();
+            soundInstanceGrill.Stop();
         }
 
     }
@@ -110,19 +110,19 @@ internal class Grill : StaticObject
             count = 0; //reset timer to 0, so that animation can start again with next interaction
 
             // Stop the sound effect if it's still playing
-            if (soundInstance.State == SoundState.Playing)
+            if (soundInstanceGrill.State == SoundState.Playing)
             {
-                soundInstance.Stop();
+                soundInstanceGrill.Stop();
             }
         }
-        UpdateVolume(); 
+        UpdateVolume();
     }
 
     private static void UpdateVolume()
     {
-        if (soundInstance != null)
+        if (soundInstanceGrill != null)
         {
-            soundInstance.Volume = Game1.VolumeLevel;
+            soundInstanceGrill.Volume = Game1.VolumeLevel;
         }
     }
 
