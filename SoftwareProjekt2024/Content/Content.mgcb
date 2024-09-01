@@ -862,6 +862,24 @@
 /processorParam:TextureFormat=Color
 /build:OrderBar/scoreBord.png
 
+#begin Sounds/boiling-water.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/boiling-water.wav
+
+#begin Sounds/fire-crackling.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/fire-crackling.wav
+
+#begin Sounds/food-sizzling.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/food-sizzling.wav
+
 #begin Sounds/inn_music.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
