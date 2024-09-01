@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
-using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Components;
 
@@ -21,11 +21,27 @@ internal class Player : Component
 
     public List<Component> inventory;
 
+
+    // rewardssys
+    public int totalPoints;
+    public float famePoints;
+
     public Player(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
         inventory = new List<Component>();
         state = (int)States.Empty;
+        totalPoints = 0;
+        famePoints = 0.0f;
     }
+
+
+    //Hinzufügen Punkte und Ruhm
+    public void AddPointsAndFame(int points, float fame)
+    {
+        totalPoints += points;
+        famePoints += fame;
+    }
+
 
     public void Load()
     {

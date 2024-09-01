@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -83,6 +83,17 @@ internal class Table : StaticObject
         tableContents.Add(item);
         item.position = freePosition();
         occupiedSpots++;
+
+        if (guest != null && guest.guestOrder != null)
+        {
+            guest.guestOrder.CompleteComponent();
+            int rewardPoints = guest.guestOrder.GetRewardPoints();
+            _ogerCook.AddPointsAndFame(rewardPoints, guest.guestOrder.GetFamePoints(rewardPoints));
+
+            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
+            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+        }
+
     }
 
     public override void draw(SpriteBatch _spriteBatch)
