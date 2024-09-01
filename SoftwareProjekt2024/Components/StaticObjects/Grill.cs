@@ -24,7 +24,7 @@ internal class Grill : StaticObject
 {
 
     public static List<Component> grillContents;
-    static bool hasMeatOn = false;
+    static bool hasMeatOn;
 
     static AnimationManager _grillAnimationManager;
 
@@ -43,6 +43,7 @@ internal class Grill : StaticObject
     {
         grillContents = new List<Component>();
         _activeGrillState = GrillStates.EMPTYGRILL;
+        hasMeatOn = false;
 
         _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96), 10);
         _grillAnimationManager.RowPos = 0;
