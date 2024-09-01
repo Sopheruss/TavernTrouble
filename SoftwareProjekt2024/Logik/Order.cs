@@ -7,7 +7,8 @@ namespace SoftwareProjekt2024.Logik
     public class Order
     {
 
-        public static Order CurrentOrder { get; set; }
+        // for future reference:
+        // public static Order CurrentOrder { get; set; }
 
         public List<Recipe> recipes;
         public bool hasDrink;
