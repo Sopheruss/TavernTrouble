@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Timers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -35,9 +35,9 @@ internal class Kessel : StaticObject
     public static List<Component> kesselContents;
 
     private static Timer _kesselTimer;
-    private static int count = 0;
+    private static int count;
 
-    public static KesselStates _activeKesselState = KesselStates.EMPTYKESSEL;
+    public static KesselStates _activeKesselState;
 
     public static SoundEffectInstance soundInstanceKessel;
 
@@ -45,14 +45,18 @@ internal class Kessel : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         kesselContents = new List<Component>();
+        _activeKesselState = KesselStates.EMPTYKESSEL;
 
         _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64), 10); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
         _kesselAnimationManager.RowPos = 0; //only one row of animation 
         _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
         _kesselTimer.Elapsed += Tick; //ticks timer
+        count = 0;
 
         // Load the sound effect and create an instance
         var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/boiling-water");
+        if (soundInstanceKessel != null)
+            soundInstanceKessel.Dispose();
         soundInstanceKessel = soundEffect.CreateInstance();
         soundInstanceKessel.IsLooped = false;
         UpdateVolume();

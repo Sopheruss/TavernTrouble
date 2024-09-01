@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Timers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 /* ToDo for Interaction: 
@@ -31,10 +31,10 @@ internal class Grill : StaticObject
     public static Texture2D _grillTextureDone;
     public static Texture2D _grillTextureAnimation;
 
-    public static GrillStates _activeGrillState = GrillStates.EMPTYGRILL;
+    public static GrillStates _activeGrillState;
 
     private static Timer _grillTimer;
-    private static int count = 0;
+    private static int count;
 
     public static SoundEffectInstance soundInstanceGrill;
 
@@ -42,15 +42,19 @@ internal class Grill : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         grillContents = new List<Component>();
+        _activeGrillState = GrillStates.EMPTYGRILL;
 
         _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96), 10);
         _grillAnimationManager.RowPos = 0;
 
         _grillTimer = new Timer(1000);
         _grillTimer.Elapsed += Tick;
+        count = 0;
 
         // Load the sound effect and create an instance
         var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/fire-crackling");
+        if (soundInstanceGrill != null)
+            soundInstanceGrill.Dispose();
         soundInstanceGrill = soundEffect.CreateInstance();
         soundInstanceGrill.IsLooped = false;
         UpdateVolume();
@@ -64,7 +68,7 @@ internal class Grill : StaticObject
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
         //interaction only possible when carrying raw meat
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat && hasMeatOn == false)
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat && hasMeatOn == false && !((Meat)_ogerCook.inventory[0]).cooked)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
