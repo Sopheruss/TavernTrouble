@@ -5,7 +5,6 @@ namespace SoftwareProjekt2024.Components.Ingredients
 {
     internal class Bun : Ingredient
     {
-
         public Bun(Vector2 position, PerspectiveManager perspectiveManager)
             : base(Plate.withBun, position, perspectiveManager)
         {

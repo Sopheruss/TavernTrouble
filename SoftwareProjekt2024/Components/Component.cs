@@ -21,7 +21,10 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         PlateWSaladMeat,
         PlateWSaladBun,
         PlateWMeatBun,
-        MeatDone
+        MeatDone,
+        Fries,
+        FriesDone,
+        SaladChopped
     }
 
     public int state;

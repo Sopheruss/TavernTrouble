@@ -5,6 +5,7 @@ namespace SoftwareProjekt2024.Components.Ingredients
 {
     internal class Salad : Ingredient
     {
+        public bool chopped;
         public Salad(Vector2 position, PerspectiveManager perspectiveManager)
             : base(Plate.withBun, position, perspectiveManager)
         {

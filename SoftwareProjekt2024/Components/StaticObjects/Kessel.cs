@@ -69,14 +69,15 @@ internal class Kessel : StaticObject
 
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp) //only relevant for Animation
     {
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato && hasFries == false)
+        //interaction only possible if oger carries chopped potato (fries) 
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato && hasFries == false && ((Potato)_ogerCook.inventory[0]).chopped)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
             _ogerCook.changeAppearence(1);
 
             kesselContents.Add(item);
-            //(item as Potato).cook(); 
+            (item as Potato).cook();
 
             hasFries = true;
 
@@ -90,7 +91,6 @@ internal class Kessel : StaticObject
         if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
         {
             _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
-
             hasFries = false;
 
             Component item = kesselContents[0];

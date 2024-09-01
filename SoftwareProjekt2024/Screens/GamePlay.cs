@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -10,6 +8,8 @@ using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
+using System;
+using System.Diagnostics;
 
 
 namespace SoftwareProjekt2024.Screens;
@@ -165,7 +165,10 @@ public class GamePlay
         Player.withMeatDone = _content.Load<Texture2D>("Models/Oger_Meat_Done");
         Player.withBun = _content.Load<Texture2D>("Models/Oger_Bun");
         Player.withSalad = _content.Load<Texture2D>("Models/Oger_Salad");
+        //Player.withSaladChopped = _content.Load<Texture2D>("Models/Oger_Salad_Chopped");
         Player.withPotato = _content.Load<Texture2D>("Models/Oger_Potato");
+        Player.withFries = _content.Load<Texture2D>("Models/Oger_Fries");
+        Player.withFriesDone = _content.Load<Texture2D>("Models/Oger_Fries_Done");
         Player.withPlate_Fries = _content.Load<Texture2D>("Models/Oger_Plate_Fries");
         Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_Full_Burger");
 

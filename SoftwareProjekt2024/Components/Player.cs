@@ -15,7 +15,10 @@ internal class Player : Component
     public static Texture2D withMeatDone;
     public static Texture2D withBun;
     public static Texture2D withSalad;
+    //public static Texture2D withSaladChopped; //TEXTURE MISSING RN
     public static Texture2D withPotato;
+    public static Texture2D withFries;
+    public static Texture2D withFriesDone;
     public static Texture2D withPlate_Fries;
     public static Texture2D withPlate_FullBurger;
 
@@ -87,6 +90,15 @@ internal class Player : Component
             case 12: //cuz components number
                 texture = Player.withMeatDone;
                 break;
+            case 13:
+                texture = Player.withFries;
+                break;
+            case 14:
+                texture = Player.withFriesDone;
+                break;
+            /*case 15: //TEXTURE MISSING RN
+                texture = Player.withSaladChopped;
+                break; */
             default:
                 break;
         }
