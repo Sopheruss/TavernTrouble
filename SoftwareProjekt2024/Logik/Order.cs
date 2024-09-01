@@ -1,17 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Logik
 {
     public class Order
     {
+
+        public static Order CurrentOrder { get; set; }
+
         public List<Recipe> recipes;
         public bool hasDrink;
         int completedComponents; // abgeschlossenen Komponenten je Bestellung
+        private Stopwatch timerBestellung;  // Timer für Bestellung
+        private const int timeLimitInSeconds = 120; // 2 Minuten Zeitlimit
+
         public Order(bool _hasDrink, List<Recipe> _recipes)
         {
             recipes = _recipes;
             hasDrink = _hasDrink;
             completedComponents = 0;
+
+
+            timerBestellung = new Stopwatch();
+            timerBestellung.Start();
         }
 
 
@@ -33,28 +45,63 @@ namespace SoftwareProjekt2024.Logik
             }
         }
 
+
+
         public int GetRewardPoints()
         {
-            if (completedComponents == 0)
+            if (completedComponents == 0 || IsTimeUp())
                 return 0;
 
-            // Belohnung basierend Verhältnis abgeschlossene Komponenten zur Gesamtzahl
+            // Verhältnis abgeschlossene Komponenten zur Gesamtzahl
             int rewardPerComponent = 10;
             return completedComponents * rewardPerComponent;
-
         }
+
+
 
         // Überprüfen, ob  Bestellung abgeschlossen 
         public bool IsCompleted()
         {
-            return completedComponents == TotalComponents();
+            return completedComponents == TotalComponents() || IsTimeUp();
         }
+
+
 
         // Ruhmpunkte berechnen basierend auf Punkten
         public float GetFamePoints(int totalPoints)
         {
+            if (IsTimeUp())
+            {
+                return 0.0f;  // Keine Ruhmpunkte bei abgelaufener Zeit
+            }
+
             return totalPoints / 4.0f;
         }
+
+
+
+        //Überprüfen ob Zeitlimit abgelaufen ist
+        public bool IsTimeUp()
+        {
+            // Zeitlimit von 2 Minuten erreicht?
+            return timerBestellung.Elapsed.TotalSeconds >= timeLimitInSeconds;
+        }
+
+        // Timer stoppen (falls nötig)
+        public void StopTimer()
+        {
+            timerBestellung.Stop();
+        }
+
+        // Somehow need to draw it on OrderSheet... in Gameplay...
+        public TimeSpan GetRemainingTime()
+        {
+            if (IsTimeUp())
+                return TimeSpan.Zero;
+
+            return TimeSpan.FromSeconds(timeLimitInSeconds) - timerBestellung.Elapsed;
+        }
+
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
@@ -39,7 +40,9 @@ internal class Player : Component
     public void AddPointsAndFame(int points, float fame)
     {
         totalPoints += points;
+        Debug.WriteLine("Player received " + points);
         famePoints += fame;
+        Debug.WriteLine("Player received " + fame);
     }
 
 
