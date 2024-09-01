@@ -90,42 +90,42 @@ internal class InputManager
 
         // If 'A' is pressed and has not been pressed during the last frame, 'Left' is the best movement direction.
         // => Append 'Left' to current directions.
-        if (Keyboard.GetState().IsKeyDown(Keys.A) && !curDirs.Contains(Direction.Left))
+        if ((Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)) && !curDirs.Contains(Direction.Left))
         {
             curDirs.Add(Direction.Left);
         }
 
         // If 'A' is not pressed and has been pressed during the last frame, the current directions need to be updated.
         // => 'Left' is removed from list.
-        else if (!Keyboard.GetState().IsKeyDown(Keys.A) && curDirs.Contains(Direction.Left))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.A) && !Keyboard.GetState().IsKeyDown(Keys.Left)) && curDirs.Contains(Direction.Left))
         {
             curDirs.Remove(Direction.Left);
         }
 
         // Repeat process for all other directions:
-        if (Keyboard.GetState().IsKeyDown(Keys.W) && !curDirs.Contains(Direction.Up))
+        if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !curDirs.Contains(Direction.Up))
         {
             curDirs.Add(Direction.Up);
         }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.W) && curDirs.Contains(Direction.Up))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.W) && !Keyboard.GetState().IsKeyDown(Keys.Up)) && curDirs.Contains(Direction.Up))
         {
             curDirs.Remove(Direction.Up);
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.D) && !curDirs.Contains(Direction.Right))
+        if ((Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)) && !curDirs.Contains(Direction.Right))
         {
             curDirs.Add(Direction.Right);
         }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.D) && curDirs.Contains(Direction.Right))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.D) && !Keyboard.GetState().IsKeyDown(Keys.Right)) && curDirs.Contains(Direction.Right))
         {
             curDirs.Remove(Direction.Right);
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.S) && !curDirs.Contains(Direction.Down))
+        if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !curDirs.Contains(Direction.Down))
         {
             curDirs.Add(Direction.Down);
         }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.S) && curDirs.Contains(Direction.Down))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.S) && !Keyboard.GetState().IsKeyDown(Keys.Down)) && curDirs.Contains(Direction.Down))
         {
             curDirs.Remove(Direction.Down);
         }
