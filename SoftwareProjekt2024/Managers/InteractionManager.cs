@@ -214,18 +214,27 @@ internal class InteractionManager
 
             case 7:
                 Debug.WriteLine("Brett 1 Interaction");
+
+                Cuttingboard.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
                 break;
 
             case 8:
                 Debug.WriteLine("Brett 2 Interaction");
+
+                Cuttingboard.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
                 break;
 
             case 9:
                 Debug.WriteLine("Brett 3 Interaction");
+
+                Cuttingboard.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
                 break;
 
             case 10:
-                Debug.WriteLine("Potato Interaction");
+                Debug.WriteLine("PotatoCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -233,7 +242,7 @@ internal class InteractionManager
                 break;
 
             case 11:
-                Debug.WriteLine("Salad Interaction");
+                Debug.WriteLine("SaladCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     SaladCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -241,7 +250,7 @@ internal class InteractionManager
                 break;
 
             case 12:
-                Debug.WriteLine("Meat Interaction");
+                Debug.WriteLine("MeatCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     MeatCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -249,7 +258,7 @@ internal class InteractionManager
                 break;
 
             case 13:
-                Debug.WriteLine("Bun Interaction");
+                Debug.WriteLine("BunCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     BunCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);

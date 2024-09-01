@@ -46,6 +46,7 @@ internal class Kessel : StaticObject
     {
         kesselContents = new List<Component>();
         _activeKesselState = KesselStates.EMPTYKESSEL;
+        hasFries = false;
 
         _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64), 10); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
         _kesselAnimationManager.RowPos = 0; //only one row of animation 

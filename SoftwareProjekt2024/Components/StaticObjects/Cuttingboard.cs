@@ -1,23 +1,150 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Timers;
 
-namespace SoftwareProjekt2024.Components.StaticObjects
+namespace SoftwareProjekt2024.Components.StaticObjects;
+
+enum CuttingBoardStates
 {
-    internal class Cuttingboard : StaticObject
-    {
-        public Cuttingboard(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
-        : base(texture, position, _dest, _src, perspectiveManager)
-        { }
+    EMPTYCUTTINGBOARD,
+    POTATO,
+    POTATODONE,
+    SALAD,
+    SALADDONE
+}
 
-        public override int getHeight()
+internal class Cuttingboard : StaticObject
+{
+    public static List<Component> cBContents;
+    static bool hasItemOn;
+
+    public static Texture2D _salad;
+    public static Texture2D _saladChopped;
+    public static Texture2D _potato;
+    public static Texture2D _potatoChopped;
+
+    public static CuttingBoardStates _activeCBState;
+
+    private static Timer _cBTimer;
+    private static int count;
+
+    public static SoundEffectInstance soundInstanceGrill;
+    public Cuttingboard(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
+    : base(texture, position, _dest, _src, perspectiveManager)
+    {
+        cBContents = new List<Component>();
+        _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD;
+        hasItemOn = false;
+
+        _cBTimer = new Timer(1000);
+        _cBTimer.Elapsed += Tick;
+        count = 0;
+    }
+    private static void Tick(object sender, ElapsedEventArgs e)
+    {
+        count++;
+    }
+
+    public override int getHeight()
+    {
+        return dest.Height - 10;
+    }
+
+    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
+    {
+        if (!_ogerCook.inventoryIsEmpty() && !hasItemOn) //Inventory has to have item and cb need to be empty 
         {
-            return dest.Height - 10;
+            if (_ogerCook.inventory[0] is Potato && !((Potato)_ogerCook.inventory[0]).chopped) //item in inventory must be potato and potato need to be chopped
+            {
+
+                Component item = _ogerCook.inventory[0];
+                _ogerCook.inventory.Clear();
+                _ogerCook.changeAppearence(1);
+
+                cBContents.Add(item);
+
+                (item as Potato).chop();
+
+                hasItemOn = true;
+
+                _cBTimer.Start();
+                _activeCBState = CuttingBoardStates.POTATO;
+
+            }
+            else if (_ogerCook.inventory[0] is Salad && !((Salad)_ogerCook.inventory[0]).chopped) //item in inventory must be salad and salad need to be chopped
+            {
+
+                Component item = _ogerCook.inventory[0];
+                _ogerCook.inventory.Clear();
+                _ogerCook.changeAppearence(1);
+
+                cBContents.Add(item);
+
+                (item as Salad).chop();
+
+                hasItemOn = true;
+
+                _cBTimer.Start();
+                _activeCBState = CuttingBoardStates.SALAD;
+            }
         }
 
-        public void HandleInteraction()
+        //for picking up the finished chopping action
+        if (_ogerCook.inventoryIsEmpty() && //oger inventory has to be empty 
+            (_activeCBState == CuttingBoardStates.SALADDONE || _activeCBState == CuttingBoardStates.POTATODONE)) //salad or potato need to be finished with chopping 
         {
+            _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD; //reset cuttingboard 
+            hasItemOn = false;
 
+            Component item = cBContents[0]; //oger inventory is filled with schopped item from board 
+            cBContents.Clear();
+            _ogerCook.pickUp(item);
+            item.position = positionWhilePickedUp;
+        }
+    }
+
+    public static void Update()
+    {
+        if (count >= 5) //right now, have to wait 5 sec before stuff is finished chopping, NEEDS TO CHANGE
+        {
+            _cBTimer.Stop();
+
+            if (_activeCBState == CuttingBoardStates.POTATO) //setting right state for texture 
+            {
+                _activeCBState = CuttingBoardStates.POTATODONE;
+            }
+            else if (_activeCBState == CuttingBoardStates.SALAD)
+            {
+                _activeCBState = CuttingBoardStates.SALADDONE;
+            }
+
+            count = 0;
+        }
+    }
+
+    public override void draw(SpriteBatch _spriteBatch)
+    {
+        switch (_activeCBState)
+        {
+            case CuttingBoardStates.EMPTYCUTTINGBOARD:
+                _spriteBatch.Draw(texture, dest, src, Color.White);
+                break;
+            case CuttingBoardStates.POTATO:
+                _spriteBatch.Draw(_potato, dest, new Rectangle(0, 0, _potato.Width, _potato.Height), Color.White);
+                break;
+            case CuttingBoardStates.POTATODONE:
+                _spriteBatch.Draw(_potatoChopped, dest, new Rectangle(0, 0, _potatoChopped.Width, _potato.Height), Color.White);
+                break;
+            case CuttingBoardStates.SALAD:
+                _spriteBatch.Draw(_salad, dest, new Rectangle(0, 0, _salad.Width, _potato.Height), Color.White);
+                break;
+            case CuttingBoardStates.SALADDONE:
+                _spriteBatch.Draw(_saladChopped, dest, new Rectangle(0, 0, _saladChopped.Width, _potato.Height), Color.White);
+                break;
         }
     }
 }

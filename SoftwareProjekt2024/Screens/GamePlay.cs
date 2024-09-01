@@ -199,6 +199,13 @@ public class GamePlay
         CookBook._cookBookClose = _content.Load<Texture2D>("CookBook/cookBook_Closed");
         CookBook._cookBookAnimation = _content.Load<Texture2D>("CookBook/cookBook_Spritesheet");
 
+        /* cuttingBoard*/
+        Cuttingboard._potato = _content.Load<Texture2D>("Food/Board_Potato");
+        Cuttingboard._potatoChopped = _content.Load<Texture2D>("Food/Board_Potato_Chopped");
+        Cuttingboard._salad = _content.Load<Texture2D>("Food/Board_Salad");
+        Cuttingboard._saladChopped = _content.Load<Texture2D>("Food/Board_Salad_Chopped");
+
+
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook);
@@ -320,6 +327,8 @@ public class GamePlay
             if (CookBook._playCookBookAnimation) { CookBook.Update(); }
             if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
             if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
+            if (Cuttingboard._activeCBState == CuttingBoardStates.POTATO ||
+                Cuttingboard._activeCBState == CuttingBoardStates.SALAD) { Cuttingboard.Update(); }
 
             // Ensure the player hull is updated correctly
             UpdatePlayerHull();

@@ -16,5 +16,11 @@ namespace SoftwareProjekt2024.Components.Ingredients
         {
             return true;
         }
+
+        public void chop()
+        {
+            chopped = true;
+            state = (int)Component.States.SaladChopped;
+        }
     }
 }

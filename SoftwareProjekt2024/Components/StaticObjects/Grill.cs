@@ -69,7 +69,7 @@ internal class Grill : StaticObject
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
         //interaction only possible when carrying raw meat
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat && hasMeatOn == false && !((Meat)_ogerCook.inventory[0]).cooked)
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat meat && !hasMeatOn && !meat.cooked)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
