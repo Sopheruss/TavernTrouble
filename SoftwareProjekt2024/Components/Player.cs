@@ -26,6 +26,10 @@ internal class Player : Component
     // rewardssys
     public int totalPoints;
     public float famePoints;
+    private int playerlevel;
+
+
+
 
     public Player(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
@@ -33,16 +37,35 @@ internal class Player : Component
         state = (int)States.Empty;
         totalPoints = 0;
         famePoints = 0.0f;
+        playerlevel = 1;
     }
 
 
-    //Hinzufügen Punkte und Ruhm
+    //Hinzufügen Punkte und Fame
     public void AddPointsAndFame(int points, float fame)
     {
         totalPoints += points;
         Debug.WriteLine("Player received " + points);
         famePoints += fame;
         Debug.WriteLine("Player received " + fame);
+
+        UpdatePlayerLevel();
+    }
+
+    private void UpdatePlayerLevel()
+    {
+        // Calculate level based on fame points
+        int newPlayerLevel = (int)(famePoints / 10);
+        if (newPlayerLevel > playerlevel)
+        {
+            playerlevel = newPlayerLevel;
+            Debug.WriteLine("Player leveled up to level " + playerlevel);
+        }
+    }
+
+    public int GetPlayerLevel()
+    {
+        return playerlevel;
     }
 
 
@@ -54,8 +77,11 @@ internal class Player : Component
         _playerAnimationManager = new(4, 4, new Vector2(32, 32), 10);
     }
 
+
+
     public override void Update() //Update der Position
     {
+
         _playerAnimationManager.Update();
         base.Update();
     }
@@ -69,7 +95,7 @@ internal class Player : Component
     {
         return this.height;
     }
-
+    // NOT the PlayerLevel!
     public override int getLevel()
     {
         return 0;
