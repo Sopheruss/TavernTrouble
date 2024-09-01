@@ -76,7 +76,7 @@ namespace SoftwareProjekt2024.Logik
                 return 0.0f;  // Keine Ruhmpunkte bei abgelaufener Zeit
             }
 
-            return totalPoints / 4.0f;
+            return totalPoints / 2.0f;
         }
 
 
