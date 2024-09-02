@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -9,7 +7,10 @@ using MonoGame.Extended.ViewportAdapters;
 using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
+using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
+using System;
+using System.Diagnostics;
 
 
 namespace SoftwareProjekt2024.Screens;
@@ -204,6 +205,7 @@ public class GamePlay
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+        Order.bmfont = _content.Load<BitmapFont>("Fonts/font_new");
 
         /* sounds */
         // grill, bar, usw... soonTM
@@ -215,14 +217,13 @@ public class GamePlay
         /* order */
         _orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
+        Order.orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
+        //_orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
         /* Letter */
         _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
         _keyPressLetter = "Press [any key] to continue";
         _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
-
-        _orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
-        _orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
         /* lights, hulls */
         _penumbra.Initialize();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
+using SoftwareProjekt2024.Logik;
 using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Managers
@@ -19,6 +20,7 @@ namespace SoftwareProjekt2024.Managers
 
         internal List<Guest> _guests;
 
+        internal List<Order> activeOrders;
 
         public PerspectiveManager()
         {
@@ -34,6 +36,8 @@ namespace SoftwareProjekt2024.Managers
             _dynamicObjects = new List<Component>();
 
             _guests = new List<Guest>();
+
+            activeOrders = new List<Order>();
         }
 
         public void draw(SpriteBatch spriteBatch)

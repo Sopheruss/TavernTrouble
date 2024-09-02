@@ -1,7 +1,10 @@
-using System.Linq;
-﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Logik
 {
@@ -10,7 +13,8 @@ namespace SoftwareProjekt2024.Logik
 
         // for future reference:
         // public static Order CurrentOrder { get; set; }
-
+        public static Texture2D orderSheet;
+        public static BitmapFont bmfont;
         public List<Recipe> recipes;
         public bool hasDrink;
         public bool isFinished;
@@ -119,6 +123,15 @@ namespace SoftwareProjekt2024.Logik
                 return TimeSpan.Zero;
 
             return TimeSpan.FromSeconds(timeLimitInSeconds) - timerBestellung.Elapsed;
+        }
+
+        public void draw(SpriteBatch _spriteBatch, Vector2 position)
+        {
+            int width = orderSheet.Width * 3;
+            int height = orderSheet.Height * 3;
+            _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
+
+            //draw call for Recipe icons and timer here
         }
     }
 }

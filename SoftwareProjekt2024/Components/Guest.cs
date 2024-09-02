@@ -43,6 +43,7 @@ internal class Guest : Component
     public void takeOrder() //placeholder
     {
         order = new Order(false, new List<Recipe> { new Recipe("Burger") });
+        _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }
 
@@ -64,7 +65,8 @@ internal class Guest : Component
         //negative feedback if no table is clean needed here
     }
 
-    public void eat() { 
+    public void eat()
+    {
     }
 
 
