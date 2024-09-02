@@ -213,9 +213,11 @@ internal class InteractionManager
                 break;
 
             case >= 7 and <= 9:
-                Debug.WriteLine("Brett 1 Interaction");
+
 
                 int cuttingBoardID = tileID - 7;
+
+                Debug.WriteLine("Brett " + cuttingBoardID + " Interaction");
                 Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
                 cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp);
 

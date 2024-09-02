@@ -18,8 +18,8 @@ enum CuttingBoardStates
 
 internal class Cuttingboard : StaticObject
 {
-    public static List<Component> cBContents;
-    static bool hasItemOn;
+    public List<Component> cBContents;
+    bool hasItemOn;
 
     public static Texture2D _salad;
     public static Texture2D _saladChopped;
@@ -28,10 +28,9 @@ internal class Cuttingboard : StaticObject
 
     public CuttingBoardStates _activeCBState;
 
-    //private static Timer _cBTimer;
-    private static int count;
+    private int count;
 
-    public static SoundEffectInstance soundInstanceGrill;
+    public SoundEffectInstance soundInstanceGrill;
     public Cuttingboard(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
     : base(texture, position, _dest, _src, perspectiveManager)
     {
@@ -105,6 +104,8 @@ internal class Cuttingboard : StaticObject
 
         if (count >= 5)
         {
+            count = 0;
+
             if (_activeCBState == CuttingBoardStates.POTATO) //setting right state for texture 
             {
                 _activeCBState = CuttingBoardStates.POTATODONE;
@@ -113,8 +114,6 @@ internal class Cuttingboard : StaticObject
             {
                 _activeCBState = CuttingBoardStates.SALADDONE;
             }
-
-            count = 0;
         }
     }
 
