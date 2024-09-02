@@ -15,6 +15,11 @@ namespace SoftwareProjekt2024.Components.StaticObjects
             return dest.Height - 10;
         }
 
+        public static bool AllowedInteraction(Player _ogerCook)
+        {
+            return _ogerCook.inventoryIsEmpty();
+        }
+
         public void HandleInteraction()
         {
 

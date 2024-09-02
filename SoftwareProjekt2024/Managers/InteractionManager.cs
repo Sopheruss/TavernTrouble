@@ -17,6 +17,7 @@ internal class InteractionManager
     TileManager _tileManager;
     Player _ogerCook;
     CollisionManager _collisionManager;
+    PerspectiveManager _perspectiveManager;
 
     readonly int quarterTileHeight = 8;
     readonly int tileSize = 32;
@@ -32,11 +33,11 @@ internal class InteractionManager
     bool _possibleInteraction;
     bool _allowedInteraction;
 
-    public InteractionManager(TileManager tilemanager, Player ogerCook)
+    public InteractionManager(TileManager tilemanager, Player ogerCook, PerspectiveManager perspectiveManager)
     {
         _tileManager = tilemanager;
         _ogerCook = ogerCook;
-
+        _perspectiveManager = perspectiveManager;
     }
 
     public void Update()
@@ -117,7 +118,6 @@ internal class InteractionManager
                 break;
             case int n when n >= 2 && n <= 3:
                 _possibleInteractionObject = "bar space";
-                _allowedInteraction = Bar.;
                 break;
             case 4:
                 _possibleInteractionObject = "barrel";
@@ -134,32 +134,40 @@ internal class InteractionManager
                 break;
             case 10:
                 _possibleInteractionObject = "potato box";
+                _allowedInteraction = PotatoCrate.AllowedInteraction(_ogerCook);
                 break;
             case 11:
                 _possibleInteractionObject = "salad box";
+                _allowedInteraction = SaladCrate.AllowedInteraction(_ogerCook);
                 break;
             case 12:
                 _possibleInteractionObject = "meat box";
+                _allowedInteraction = MeatCrate.AllowedInteraction(_ogerCook);
                 break;
             case 13:
                 _possibleInteractionObject = "bun box";
+                _allowedInteraction = BunCrate.AllowedInteraction(_ogerCook);
                 break;
             case 14:
                 _possibleInteractionObject = "plates";
+                _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
                 break;
             case 15:
                 _possibleInteractionObject = "tankards";
+                _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
                 break;
             case 16:
                 _possibleInteractionObject = "trash can";
+                _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 20 && n <= 32:
                 _possibleInteractionObject = "bar space";
-                _allowedInteraction = Bar._allowedInteraction;
+                int barflächenID = tileID - 20;
+                Bar barfläche = _perspectiveManager._barFlächen[barflächenID];
+                _allowedInteraction = barfläche.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 40 && n <= 52:
                 _possibleInteractionObject = "bar space";
-                _allowedInteraction = Bar._allowedInteraction;
                 break;
             case int n when n >= 60 && n <= 67:
                 _possibleInteractionObject = "table";
@@ -201,7 +209,7 @@ internal class InteractionManager
      */
 
 
-    public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
+    public void HandleInteraction(int tileID)
     {
         switch (tileID)
         {
