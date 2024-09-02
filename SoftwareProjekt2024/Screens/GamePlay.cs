@@ -43,6 +43,9 @@ public class GamePlay
     Texture2D _orderSheet;
     Rectangle _orderSheetRect;
 
+    Texture2D _backgorundLetter;
+    Rectangle _backgroundLetterRect;
+
     PerspectiveManager _perspectiveManager;
     TileManager _tileManager;
     CollisionManager _collisionManager;
@@ -231,6 +234,9 @@ public class GamePlay
         _keyPressLetter = "Press [any key] to continue";
         _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
 
+        _backgorundLetter = _content.Load<Texture2D>("Background/background");
+        _backgroundLetterRect = new Rectangle(0, 0, _screenWidth, _screenHeight);
+
         _orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
         _orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
@@ -387,7 +393,6 @@ public class GamePlay
         _penumbra.Draw(gameTime); // draw everything NOT affected by light (UI, Menu)
 
 
-
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
         _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
@@ -405,6 +410,7 @@ public class GamePlay
 
         if (_showLetter)
         {
+            _spriteBatch.Draw(_backgorundLetter, _backgroundLetterRect, Color.White);
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
             _letter.Draw();
         }
