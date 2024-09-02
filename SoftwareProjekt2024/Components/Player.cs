@@ -21,6 +21,8 @@ internal class Player : Component
     public static Texture2D withFriesDone;
     public static Texture2D withPlate_Fries;
     public static Texture2D withPlate_FullBurger;
+    public static Texture2D withBeerEmpty;
+    public static Texture2D withBeerFull;
 
     public List<Component> inventory;
 
@@ -98,6 +100,12 @@ internal class Player : Component
                 break;
             case 15:
                 texture = Player.withSaladChopped;
+                break;
+            case 16:
+                texture = Player.withBeerEmpty;
+                break;
+            case 17:
+                texture = Player.withBeerFull;
                 break;
             default:
                 break;

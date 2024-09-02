@@ -5,7 +5,6 @@ using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SoftwareProjekt2024;
 
@@ -196,6 +195,7 @@ internal class InteractionManager
 
             case 4:
                 Debug.WriteLine("Bierfass Interaction");
+                BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp);
                 break;
 
             case 5:
@@ -266,15 +266,17 @@ internal class InteractionManager
                 break;
 
             case 14:
-                Debug.WriteLine("Plates Interaction");
+                Debug.WriteLine("PlatePile Interaction");
 
-                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, positionWhilePickedUp, _perspectiveManager));
-                _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+                PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
 
                 break;
 
             case 15:
-                Debug.WriteLine("Bierkrug Interaction");
+                Debug.WriteLine("MugPile Interaction");
+
+                MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
+
                 break;
 
             case 16:
