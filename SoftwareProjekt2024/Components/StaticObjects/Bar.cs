@@ -9,6 +9,7 @@ namespace SoftwareProjekt2024.Components.StaticObjects;
 internal class Bar : StaticObject
 {
     public List<Component> barContents;
+    public static bool _allowedInteraction = false;
     public Bar(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
@@ -29,6 +30,11 @@ internal class Bar : StaticObject
 
         barContents.Add(item);
         item.position = new Vector2(position.X + 9, position.Y + 9);
+    }
+
+    public Bar GetBar()
+    {
+        return this;
     }
 
     public void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook)
@@ -54,8 +60,35 @@ internal class Bar : StaticObject
             _ogerCook.pickUp(item);
             item.position = positionWhilePickedUp;
         }
-
     }
+
+    public bool AllowedInteraction(Player _ogerCook)
+    {
+        if (!_ogerCook.inventoryIsEmpty())
+        {
+            if (isEmpty() && _ogerCook.inventory[0] is Plate) //oger is holding a plate
+            {
+                return true;
+            }
+            else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && (barContents[0] as Plate).recipeIsFinished) //Implementation of plate method to see if plate/recipe is finished needed
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
     {

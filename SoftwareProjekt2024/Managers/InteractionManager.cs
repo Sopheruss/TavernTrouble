@@ -29,7 +29,7 @@ internal class InteractionManager
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
     string _possibleInteractionObject;
-    bool _showPossibleInteraction;
+    bool _possibleInteraction;
     bool _allowedInteraction;
 
     public InteractionManager(TileManager tilemanager, Player ogerCook)
@@ -46,17 +46,20 @@ internal class InteractionManager
       
         if (interactionState == 0)
         {
-           _showPossibleInteraction = false;
+           _possibleInteraction = false;
+           _allowedInteraction = false;
         }
         else
         {
-           _showPossibleInteraction = true;
+           _possibleInteraction = true;
         }
+        Debug.WriteLine("possible: " + _possibleInteraction);
+        Debug.WriteLine("allowed: " + _allowedInteraction);
     }
 
     public void Draw(SpriteBatch spriteBatch, BitmapFont bmfont, Vector2 keyPressLetterSize, int screenWidth, int screenHeight)
     {
-        if (_showPossibleInteraction && _allowedInteraction)
+        if (_possibleInteraction && _allowedInteraction)
         {
             Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
             spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
@@ -114,6 +117,7 @@ internal class InteractionManager
                 break;
             case int n when n >= 2 && n <= 3:
                 _possibleInteractionObject = "bar space";
+                _allowedInteraction = Bar.;
                 break;
             case 4:
                 _possibleInteractionObject = "barrel";
@@ -151,9 +155,11 @@ internal class InteractionManager
                 break;
             case int n when n >= 20 && n <= 32:
                 _possibleInteractionObject = "bar space";
+                _allowedInteraction = Bar._allowedInteraction;
                 break;
             case int n when n >= 40 && n <= 52:
                 _possibleInteractionObject = "bar space";
+                _allowedInteraction = Bar._allowedInteraction;
                 break;
             case int n when n >= 60 && n <= 67:
                 _possibleInteractionObject = "table";
