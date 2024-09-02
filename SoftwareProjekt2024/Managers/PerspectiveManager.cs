@@ -11,6 +11,7 @@ namespace SoftwareProjekt2024.Managers
 
         internal List<Table> _tables; //Liste aller Tische
         internal List<Bar> _barFlächen;
+        internal List<Workstation> _workstations;
         internal List<Cuttingboard> _cuttingBoards;
         internal List<Component> _nonInteractables;
         internal List<Component> _Interactables;
@@ -28,6 +29,7 @@ namespace SoftwareProjekt2024.Managers
 
             _tables = new List<Table>(); //Zugriff auf den 1. Tisch über _perspectiveManager._tische[0]
             _barFlächen = new List<Bar>();
+            _workstations = new List<Workstation>();
             _cuttingBoards = new List<Cuttingboard>();
             _nonInteractables = new List<Component>();
             _Interactables = new List<Component>();

@@ -285,7 +285,7 @@ public class TileManager
                     _perspectiveManager._Interactables.Add(new PotatoCrate(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                     break;
                 case 55:    //Workstation
-                    _perspectiveManager._Interactables.Add(new Workstation(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+                    _perspectiveManager._workstations.Add(new Workstation(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                     break;
                 case 56:    //CookBook -> kombiniert beide Tiles
                     _perspectiveManager._Interactables.Add(new CookBook(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
