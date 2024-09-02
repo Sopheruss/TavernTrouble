@@ -23,7 +23,6 @@ internal class Guest : Component
     public Table assignedTable;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
-        perspectiveManager._sortedComponents.Add(this);
         _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
         _guestAnimationManager.RowPos = 0;
 
@@ -43,7 +42,7 @@ internal class Guest : Component
 
     public void takeOrder() //placeholder
     {
-        order = new Order(false, new List<Recipe> { new Recipe("Burger"), new Recipe("Fries") });
+        order = new Order(false, new List<Recipe> { new Recipe("Burger") });
         hasOrdered = true;
     }
 
@@ -65,10 +64,9 @@ internal class Guest : Component
         //negative feedback if no table is clean needed here
     }
 
-    public void eat()
-    {
-
+    public void eat() { 
     }
+
 
     public void leave()
     {
