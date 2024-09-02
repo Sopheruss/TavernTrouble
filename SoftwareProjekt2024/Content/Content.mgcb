@@ -670,6 +670,30 @@
 /processorParam:TextureFormat=Color
 /build:Map/hitboxes.png
 
+#begin Models/Oger_Beer_Empty.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Beer_Empty.PNG
+
+#begin Models/Oger_Beer_Full.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Beer_Full.PNG
+
 #begin Models/Oger_Bun.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -694,18 +718,6 @@
 /processorParam:TextureFormat=Color
 /build:Models/oger_cook_spritesheet.png
 
-#begin Models/Oger_Empty_Beer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Models/Oger_Empty_Beer.png
-
 #begin Models/Oger_Fries_Done.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -729,18 +741,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Fries.PNG
-
-#begin Models/Oger_Full_Beer.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Models/Oger_Full_Beer.png
 
 #begin Models/Oger_Meat_Done.PNG
 /importer:TextureImporter
@@ -813,6 +813,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Potato.png
+
+#begin Models/Oger_Salad_Chopped.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Salad_Chopped.PNG
 
 #begin Models/Oger_Salad.png
 /importer:TextureImporter

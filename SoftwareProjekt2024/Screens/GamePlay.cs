@@ -165,7 +165,7 @@ public class GamePlay
         Player.withMeatDone = _content.Load<Texture2D>("Models/Oger_Meat_Done");
         Player.withBun = _content.Load<Texture2D>("Models/Oger_Bun");
         Player.withSalad = _content.Load<Texture2D>("Models/Oger_Salad");
-        //Player.withSaladChopped = _content.Load<Texture2D>("Models/Oger_Salad_Chopped");
+        Player.withSaladChopped = _content.Load<Texture2D>("Models/Oger_Salad_Chopped");
         Player.withPotato = _content.Load<Texture2D>("Models/Oger_Potato");
         Player.withFries = _content.Load<Texture2D>("Models/Oger_Fries");
         Player.withFriesDone = _content.Load<Texture2D>("Models/Oger_Fries_Done");
