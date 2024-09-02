@@ -13,12 +13,6 @@ namespace SoftwareProjekt2024.Components.Ingredients
             cooked = false;
         }
 
-        public void cook()
-        {
-            cooked = true;
-            state = (int)States.DoneMeat;
-        }
-
         public override bool isPrepared()
         {
             return cooked;
@@ -27,7 +21,7 @@ namespace SoftwareProjekt2024.Components.Ingredients
         public void cook()
         {
             cooked = true;
-            state = (int)Component.States.MeatDone;
+            state = (int)States.MeatDone;
         }
     }
 }

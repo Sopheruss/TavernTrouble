@@ -92,7 +92,7 @@ namespace SoftwareProjekt2024.Components
                             texture = withBun;
                             recipe = new Recipe("Burger");
                             break;
-                        case (int)Component.States.DoneMeat:
+                        case (int)Component.States.MeatDone:
                             state = (int)Component.States.PlateWMeatBun;
                             texture = withMeat_Bun;
                             break;
@@ -109,11 +109,11 @@ namespace SoftwareProjekt2024.Components
                             break;
                     }
                     break;
-                case (int)Component.States.DoneMeat:
+                case (int)Component.States.MeatDone:
                     switch (state)
                     {
                         case (int)Component.States.Plate:
-                            state = (int)Component.States.DoneMeat;
+                            state = (int)Component.States.MeatDone;
                             texture = withMeat;
                             recipe = new Recipe("Burger");
                             break;
@@ -146,7 +146,7 @@ namespace SoftwareProjekt2024.Components
                             state = (int)Component.States.PlateWSaladBun;
                             texture = withBun_Salad;
                             break;
-                        case (int)Component.States.DoneMeat:
+                        case (int)Component.States.MeatDone:
                             state = (int)Component.States.PlateWSaladMeat;
                             texture = withMeat_Salad;
                             break;

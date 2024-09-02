@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components;
 
@@ -33,6 +33,7 @@ internal class Player : Component
 
     public Player(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
+        perspectiveManager._sortedComponents.Add(this);
         inventory = new List<Component>();
         state = (int)States.Empty;
         totalPoints = 0;
@@ -94,11 +95,6 @@ internal class Player : Component
     public override int getHeight()
     {
         return this.height;
-    }
-    // NOT the PlayerLevel!
-    public override int getLevel()
-    {
-        return 0;
     }
 
     public void changeAppearence(int appearence)

@@ -23,6 +23,7 @@ internal class Guest : Component
     public Table assignedTable;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
+        perspectiveManager._sortedComponents.Add(this);
         _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
         _guestAnimationManager.RowPos = 0;
 
