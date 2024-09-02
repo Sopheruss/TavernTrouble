@@ -338,7 +338,10 @@ public class GamePlay
             _interactionManager.Update();
             _gameplayLoopManager.Update();
 
-            Guest.Update();
+            foreach (Guest guest in _perspectiveManager._guests)
+            {
+                guest.Update();
+            }
 
             // only Update Kessel/Grill/CookBook when Animation is supposed to play
             if (CookBook._playCookBookAnimation) { CookBook.Update(); }
