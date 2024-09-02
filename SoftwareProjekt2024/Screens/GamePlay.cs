@@ -195,6 +195,7 @@ public class GamePlay
         Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
         Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
         Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
+        Guest.spawnAnimationTexture = _content.Load<Texture2D>("Npc/Spritesheet_Spawn_Animation");
 
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
