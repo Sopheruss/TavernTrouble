@@ -7,19 +7,21 @@ namespace SoftwareProjekt2024.Logik
     public class Recipe
     {
 
-        public Dictionary<string, List<Type>> recipes = new Dictionary<string, List<Type>>()
+        public static Dictionary<string, List<Type>> recipes = new Dictionary<string, List<Type>>()
         {
             {"Burger" , new List<Type>() {typeof(Bun), typeof(Meat), typeof(Salad) } },
             {"Fries", new List<Type>() {typeof(Potato) } }
         };
 
-        public string recipeName;
-        public bool recipeIsFinished;
+        public string name;
+        public bool isFinished;
+        public List<Type> recipeContents;
 
         public Recipe(string _recipeName)
         {
-            recipeName = _recipeName;
-            recipeIsFinished = false;
+            name = _recipeName;
+            isFinished = false;
+            recipeContents = recipes[name];
         }
     }
 }

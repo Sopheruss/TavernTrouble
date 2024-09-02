@@ -1,3 +1,4 @@
+using System.Linq;
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +13,7 @@ namespace SoftwareProjekt2024.Logik
 
         public List<Recipe> recipes;
         public bool hasDrink;
+        public bool isFinished;
         int completedComponents; // abgeschlossenen Komponenten je Bestellung
         private Stopwatch timerBestellung;  // Timer für Bestellung
         private const int timeLimitInSeconds = 120; // 2 Minuten Zeitlimit
@@ -79,7 +81,23 @@ namespace SoftwareProjekt2024.Logik
             return totalPoints / 2.0f;
         }
 
+        public bool Equals(Order other)
+        {
+            List<Recipe> myRecipes = recipes;
+            List<Recipe> otherRecipes = other.recipes;
+            foreach (Recipe recipe in myRecipes)
+            {
+                int matchingRecipeIndex = otherRecipes.FindIndex(t => t.name == recipe.name);
+                if (matchingRecipeIndex == -1) return false;
+                else
+                {
 
+                    otherRecipes.RemoveAt(matchingRecipeIndex);
+                }
+            }
+            return !otherRecipes.Any() && hasDrink == other.hasDrink;
+            //does not work for now
+        }
 
         //Überprüfen ob Zeitlimit abgelaufen ist
         public bool IsTimeUp()
@@ -102,7 +120,5 @@ namespace SoftwareProjekt2024.Logik
 
             return TimeSpan.FromSeconds(timeLimitInSeconds) - timerBestellung.Elapsed;
         }
-
-
     }
 }

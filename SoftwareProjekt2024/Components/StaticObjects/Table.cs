@@ -1,3 +1,4 @@
+using SoftwareProjekt2024.Logik;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
@@ -14,6 +15,8 @@ internal class Table : StaticObject
     public int tableID;
     static int tableIDCount = 0;
     List<Component> tableContents;
+    public Order currentOrderOnTable;
+    public bool tableOrderfinished;
     public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
@@ -21,6 +24,8 @@ internal class Table : StaticObject
         tableID = tableIDCount;
         tableIDCount++;
         tableContents = new List<Component>();
+        currentOrderOnTable = new Order(false, new List<Recipe>());
+        tableOrderfinished = false;
     }
 
     public bool isClean()
@@ -42,13 +47,9 @@ internal class Table : StaticObject
                 guest.takeOrder();
                 Debug.WriteLine("Order taken");
             }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Plate)
+            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
             {
                 addOrderItem(_ogerCook);
-            }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Mug)
-            {
-                //addOrderItem?
             }
         }
     }
@@ -84,6 +85,22 @@ internal class Table : StaticObject
         item.position = freePosition();
         occupiedSpots++;
 
+        if (item is Mug)
+        {
+            currentOrderOnTable.hasDrink = true;
+        }
+        else if ((item as Plate).state != (int)Component.States.Plate)
+        {
+            currentOrderOnTable.recipes.Add((item as Plate).recipe);
+        }
+
+        if (orderFinished())
+        {
+            Debug.WriteLine("Order now finished!");
+            tableOrderfinished = true;
+            guest.eat();
+        }
+        
         if (guest != null && guest.guestOrder != null)
         {
             guest.guestOrder.CompleteComponent();
@@ -93,7 +110,13 @@ internal class Table : StaticObject
             Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
             Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
         }
+    }
 
+    public bool orderFinished()
+    {
+        if (occupiedSpots == 4) return true;
+        if (currentOrderOnTable.Equals(guest.order)) return true;
+        return false;
     }
 
     public override void draw(SpriteBatch _spriteBatch)
