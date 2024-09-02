@@ -10,24 +10,36 @@ namespace SoftwareProjekt2024.Components;
 
 internal class Guest : Component
 {
-    static AnimationManager _guestAnimationManager;
+    AnimationManager _guestAnimationManager;
+    AnimationManager _spawnAnimationManager;
     public PerspectiveManager _perspectiveManager;
     public static Texture2D fairy;
     public static Texture2D ogerBlue;
     public static Texture2D ogerGreen;
     public static Texture2D ogerPink;
 
+    public static Texture2D spawnAnimationTexture;
+
     public bool hasOrdered;
     public Order guestOrder;
     public int assignedTableID;
     public Table assignedTable;
+
+    private bool _drawGuest;
+    private bool _drawSpawn;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
         _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
         _guestAnimationManager.RowPos = 0;
 
+        _spawnAnimationManager = new AnimationManager(7, 7, new Vector2(32, 32), 10);
+        _spawnAnimationManager.RowPos = 0;
+
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
+        _drawGuest = false;
+        _drawSpawn = true;
+
     }
 
     public override int getHeight()
@@ -35,9 +47,15 @@ internal class Guest : Component
         return Rect.Height - 10;
     }
 
-    public static void Update()
+    public void Update()
     {
         _guestAnimationManager.Update();
+
+        if (_spawnAnimationManager.activeFrame == 4) { _drawGuest = true; }
+
+        if (_spawnAnimationManager.activeFrame == 6) { _drawSpawn = false; }
+
+        _spawnAnimationManager.Update();
     }
 
     public void takeOrder() //placeholder
@@ -68,20 +86,37 @@ internal class Guest : Component
     {
         assignedTable.guest = null;
         _perspectiveManager._guests.Remove(this);
+        _drawGuest = false;
     }
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
+        if (_drawGuest)
+        {
+            Debug.WriteLine("drawing guest");
+            _spriteBatch.Draw(
+            fairy,                                       //texture 
+            this.Rect,                                  //destinationRectangle
+            _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
+            Color.White,                              //color
+            0f,                                      //rotation 
+            Vector2.Zero,                           //origin
+            SpriteEffects.None,                    //effects
+            1f);                                  //layer depth
+        }
 
-        _spriteBatch.Draw(
-        this.texture,                                //texture 
-        this.Rect,                                  //destinationRectangle
-        _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
-        Color.White,                              //color
-        0f,                                      //rotation 
-        Vector2.Zero,                           //origin
-        SpriteEffects.None,                    //effects
-        1f);                                  //layer depth
+        if (_drawSpawn)
+        {
+            _spriteBatch.Draw(
+            spawnAnimationTexture,                       //texture 
+            this.Rect,                                  //destinationRectangle
+            _spawnAnimationManager.GetFrame(),         //sourceRectangle (frame) 
+            Color.White,                              //color
+            0f,                                      //rotation 
+            Vector2.Zero,                           //origin
+            SpriteEffects.None,                    //effects
+            1f);                                  //layer depth
+        }
     }
 
 }
