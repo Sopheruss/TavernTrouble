@@ -23,5 +23,11 @@ namespace SoftwareProjekt2024.Components.Ingredients
         {
             return cooked;
         }
+
+        public void cook()
+        {
+            cooked = true;
+            state = (int)Component.States.MeatDone;
+        }
     }
 }

@@ -23,10 +23,16 @@ internal class Guest : Component
     public Table assignedTable;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
-        _guestAnimationManager = new AnimationManager(2, 1, new Vector2(32, 32));
+        _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
+        _guestAnimationManager.RowPos = 0;
+
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
-        perspectiveManager._sortedComponents.Add(this);
+    }
+
+    public override int getHeight()
+    {
+        return Rect.Height - 10;
     }
 
     public static void Update()
@@ -51,7 +57,7 @@ internal class Guest : Component
             assignedTableID = table.tableID;
             assignedTable = table;
             table.guest = this;
-            position = new Vector2(table.position.X, table.position.Y);
+            position = new Vector2(table.position.X + 12, table.position.Y - 18);
             Debug.WriteLine("Table " + table.tableID + " assigned new guest");
             break;
         }
@@ -71,10 +77,11 @@ internal class Guest : Component
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
+
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _guestAnimationManager.GetFrame(),              //sourceRectangle (frame) 
+        _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
         Color.White,                              //color
         0f,                                      //rotation 
         Vector2.Zero,                           //origin

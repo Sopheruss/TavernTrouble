@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using SoftwareProjekt2024.Screens;
@@ -48,7 +49,10 @@ public class Game1 : Game
     private Song _introMenuSoundtrack;
     private Song _gameplaySoundtrackCozy;
 
-    public float VolumeLevel { get; set; } = 0.0f; // Shared volume level
+    public static float VolumeLevel { get; set; } = 0.15f; // Shared volume level
+
+    // global for AnimSounds, so signature doesnt have to be changed
+    public static ContentManager ContentManager { get; private set; }
 
     public Game1()
     {
@@ -76,8 +80,11 @@ public class Game1 : Game
         base.Initialize();
     }
 
+
     protected override void LoadContent()
     {
+        ContentManager = Content;
+
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         _splashScreen = new SplashScreen(Content, screenWidth, screenHeight, this, _spriteBatch);
@@ -133,6 +140,7 @@ public class Game1 : Game
                 break;
             case Scenes.MAINMENU:
                 _mainMenu.Update();
+                PlaySong(_introMenuSoundtrack);
                 break;
             case Scenes.GAMEPLAY:
                 _gamePlay.Update();

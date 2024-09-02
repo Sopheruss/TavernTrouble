@@ -102,10 +102,10 @@ internal class InteractionManager
                 possibleInteractionObject = "barrel";
                 break;
             case 5:
-                possibleInteractionObject = "grate";
+                possibleInteractionObject = "cauldron";
                 break;
             case 6:
-                possibleInteractionObject = "cauldron";
+                possibleInteractionObject = "grate";
                 break;
             case int n when n >= 7 && n <= 9:
                 possibleInteractionObject = "cutting board";
@@ -201,23 +201,14 @@ internal class InteractionManager
             case 5:
                 Debug.WriteLine("Kessel Interaction");
 
-                if (Kessel._activeKesselState == KesselStates.DONEKESSEL && _ogerCook.inventoryIsEmpty())
-                {
-                    //TODO: Oger inventory and spritesheet have to be altered acording to pick up of done Fries 
-                    Debug.WriteLine("Oger hat jetzt Pommes in der Hand!");
-                    Kessel._activeKesselState = KesselStates.EMPTYKESSEL;
-                }
-                else //HERE IF CASE -> only interaction if oger carrys chopped potato 
-                {
-                    Kessel._activeKesselState = KesselStates.ANIMATIONKESSEL;
-                    Kessel.HandleInteraction();
-                }
+                Kessel.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
                 break;
 
             case 6:
                 Debug.WriteLine("Grill Interaction");
 
-                Grill.HandleInteraction(positionWhilePickedUp, _ogerCook);
+                Grill.HandleInteraction(_ogerCook, positionWhilePickedUp);
 
                 break;
 

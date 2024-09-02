@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using System;
@@ -21,7 +21,7 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         PlateWSaladMeat,
         PlateWSaladBun,
         PlateWMeatBun,
-        DoneMeat
+        MeatDone
     }
 
     public int state;

@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Penumbra;
 using SoftwareProjekt2024.Components.DekoObjects;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 /* ID-Katalouge: 
  * Kitchen Equipment: 
@@ -123,7 +124,7 @@ public class TileManager
         //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
     }
-    public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
+    public void LoadObjectlayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager, PenumbraComponent penumbra)
     {
         foreach (var item in objectsLayer)
         {
@@ -167,7 +168,31 @@ public class TileManager
                     break;
                 case 35:    //PlatePile
                     _perspectiveManager._Interactables.Add(new PlatePile(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+
+                    PointLight BehindPlateWindow = new PointLight
+                    {
+                        Position = new Vector2(dest.X + displayTileSize / 2 - 25, 15),
+                        Scale = new Vector2(505f), // Adjust size 
+                        Intensity = 1f, // Adjust intensity 
+                        Color = Color.OrangeRed, // Change color 
+                        CastsShadows = true, // Ensure shadows are cast
+                        ShadowType = ShadowType.Solid, // Set the shadow type
+
+
+                        /* only for Spotlight
+                        0 radians points to the right (positive X direction).
+                        π/2 radians points downward (positive Y direction).
+                        π radians points to the left (negative X direction).
+                        3π/2 radians points upward (negative Y direction).
+                        */
+
+                        //Rotation = MathHelper.ToRadians(90f) 
+
+                    };
+
+                    penumbra.Lights.Add(BehindPlateWindow);
                     break;
+
                 case 36:    //MugPile
                     _perspectiveManager._Interactables.Add(new MugPile(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                     break;
@@ -182,15 +207,79 @@ public class TileManager
                     break;
                 case 50:    //Bar left
                     _perspectiveManager._nonInteractables.Add(new Bar_Left(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    Hull BarHull_left = new Hull(new Vector2[]
+                    {
+                        new Vector2(dest.X+20, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width, dest.Y + dest.Height),
+                        new Vector2(dest.X+20, dest.Y + dest.Height)
+                    }
+                        );
+
+                    if (!BarHull_left.Valid)
+                    {
+                        Console.WriteLine("Hull invalid!");
+                    }
+                    else penumbra.Hulls.Add(BarHull_left);
+
                     break;
                 case 51:    //Bar
                     _perspectiveManager._barFlächen.Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    Hull BarHull_1 = new Hull(new Vector2[]
+                        {
+                        new Vector2(dest.X, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width, dest.Y + dest.Height),
+                        new Vector2(dest.X, dest.Y + dest.Height)
+                        }
+                            );
+
+                    if (!BarHull_1.Valid)
+                    {
+                        Console.WriteLine("Hull invalid!");
+                    }
+                    else penumbra.Hulls.Add(BarHull_1);
+
                     break;
                 case 52:    //Bar
                     _perspectiveManager._barFlächen.Add(new Bar(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    Hull BarHull_2 = new Hull(new Vector2[]
+                    {
+                        new Vector2(dest.X, dest.Y +20), // top left corner (with offset)
+                        new Vector2(dest.X + dest.Width, dest.Y +20), // top right corner (with offset)
+                        new Vector2(dest.X + dest.Width, dest.Y + dest.Height), //bottom right corner
+                        new Vector2(dest.X, dest.Y + dest.Height) // bottom left corner
+                    }
+                        );
+
+                    if (!BarHull_2.Valid)
+                    {
+                        Console.WriteLine("Hull invalid!");
+                    }
+                    else penumbra.Hulls.Add(BarHull_2);
+
                     break;
                 case 53:    //Bar Right
                     _perspectiveManager._nonInteractables.Add(new Bar_Right(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    Hull BarHull_right = new Hull(new Vector2[]
+                      {
+                        new Vector2(dest.X, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width -20, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width -20, dest.Y + dest.Height),
+                        new Vector2(dest.X, dest.Y + dest.Height)
+                      }
+                          );
+
+                    if (!BarHull_right.Valid)
+                    {
+                        Console.WriteLine("Hull invalid!");
+                    }
+                    else penumbra.Hulls.Add(BarHull_right);
+
                     break;
                 case 54:    //Cuttingboard
                     _perspectiveManager._Interactables.Add(new PotatoCrate(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
@@ -203,6 +292,21 @@ public class TileManager
                     break;
                 case 57:    //Boiler
                     _perspectiveManager._Interactables.Add(new Kessel(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+
+                    // either SpotLight or PointLight
+                    PointLight BehindKesselWindow = new PointLight
+                    {
+                        Position = new Vector2(dest.X + displayTileSize / 2 - 70, 15),
+                        Scale = new Vector2(505f), // Adjust size 
+                        Intensity = 1f, // Adjust intensity 
+                        Color = Color.OrangeRed, // Change color 
+                        CastsShadows = true, // Ensure shadows are cast
+                        ShadowType = ShadowType.Solid, // Set the shadow type
+
+                    };
+
+                    penumbra.Lights.Add(BehindKesselWindow);
+
                     break;
                 case 58:    //Cuttingboard
                     _perspectiveManager._Interactables.Add(new Cuttingboard(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
@@ -212,12 +316,29 @@ public class TileManager
                         new Rectangle((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize * 2),  // adjusted dest and src rectangles to initialize whole table with one case
                         new Rectangle(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize * 2),
                         _perspectiveManager));
+
+                    break;
+                case 62: // potatoBox
+                    PointLight BehindKartoffelBox = new PointLight
+                    {
+                        Position = new Vector2(dest.X + displayTileSize / 2 - 75, 15),
+                        Scale = new Vector2(505f),
+                        Intensity = 1f,
+                        Color = Color.OrangeRed,
+                        CastsShadows = true,
+                        ShadowType = ShadowType.Solid,
+
+                    };
+
+                    penumbra.Lights.Add(BehindKartoffelBox);
                     break;
             }
         }
     }
 
-    public void LoadDekoLayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager)
+    int _counterForLights = 0;
+
+    public void LoadDekoLayer(SpriteBatch spriteBatch, int displayTileSize, int numTilesPerRow, int pixelTileSize, PerspectiveManager _perspectiveManager, PenumbraComponent penumbra)
     {
         foreach (var item in dekoLayerObjects)
         {
@@ -249,12 +370,56 @@ public class TileManager
             {
                 case 28:    //Candleholder left
                     _perspectiveManager._dekoObjects.Add(new CandleHolderLeft(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    PointLight staticLightKerzeLeft = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2 + 7, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(27f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeLeft);
+
                     break;
                 case 31:    //Candleholder right
                     _perspectiveManager._dekoObjects.Add(new CandleHolderRight(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    PointLight staticLightKerzeRight = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2 - 7, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(27f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeRight);
+
                     break;
                 case 61:    //candleholder middle
                     _perspectiveManager._dekoObjects.Add(new CandleHolderMiddle(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    PointLight staticLightKerzeMid = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2, dest.Y + displayTileSize / 2),
+                        Scale = new Vector2(30f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeMid);
+
                     break;
                 case 69:    //window left 
                     _perspectiveManager._dekoObjects.Add(new Window_Left(textureAtlas, new Vector2(dest.X, dest.Y),
@@ -276,18 +441,86 @@ public class TileManager
                     break;
                 case 133:   //barrel right
                     _perspectiveManager._dekoObjects.Add(new Barrel_Right(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+
+                    PointLight staticLightBarrelRight = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2 - 7, dest.Y + displayTileSize / 2 + 15),
+                        Scale = new Vector2(42f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+
+                    };
+
+                    penumbra.Lights.Add(staticLightBarrelRight);
+
                     break;
                 case 134:   //barrel left
                     _perspectiveManager._dekoObjects.Add(new Barrel_Left(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+
+
+                    PointLight staticLightBarrelLeft = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2 + 7, dest.Y + displayTileSize / 2 + 15),
+                        Scale = new Vector2(42f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+
+
+                    };
+
+                    penumbra.Lights.Add(staticLightBarrelLeft);
+
+
                     break;
                 case 136:   //candle on table 
                     _perspectiveManager._dekoObjects.Add(new CandleOnTable(textureAtlas, new Vector2(dest.X, dest.Y),
                         new((int)item.Key.X * displayTileSize, (int)item.Key.Y * displayTileSize, displayTileSize * 2, displayTileSize),
                         new(x * pixelTileSize, y * pixelTileSize, pixelTileSize * 2, pixelTileSize),
                         _perspectiveManager));
+
+                    PointLight staticLightKerzeTable = new PointLight
+                    {
+
+                        Position = new Vector2(dest.X + displayTileSize / 2 + 15, dest.Y + displayTileSize / 2 + 10),
+                        Scale = new Vector2(40f),
+                        Intensity = 1f,
+                        Color = Color.LightGoldenrodYellow,
+                        CastsShadows = false,
+                        // ShadowType = ShadowType.Solid, 
+
+                    };
+
+                    penumbra.Lights.Add(staticLightKerzeTable);
+
                     break;
                 case 138:   //window nupsi
                     _perspectiveManager._dekoObjects.Add(new Window_Nupsi(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+
+
+                    _counterForLights++;
+
+                    // Check if the object counter is even, meaning it's every second object, so light gets created
+                    if (_counterForLights % 2 == 0)
+                    {
+                        PointLight StaticLightWindowNupsi = new PointLight
+                        {
+                            Position = new Vector2(dest.X + displayTileSize / 2 - 50, dest.Y + displayTileSize / 2 + 100),
+                            Scale = new Vector2(350f),
+                            Intensity = 1.0f,
+                            Color = Color.OrangeRed,
+                            CastsShadows = true,
+                            ShadowType = ShadowType.Solid,
+                        };
+
+                        penumbra.Lights.Add(StaticLightWindowNupsi);
+                    }
+
+
                     break;
             }
         }

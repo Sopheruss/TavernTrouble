@@ -670,6 +670,18 @@
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Full_Beer.png
 
+#begin Models/Oger_Meat_Done.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Meat_Done.PNG
+
 #begin Models/Oger_Meat.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -802,6 +814,30 @@
 /processorParam:TextureFormat=Color
 /build:OptionMenu/controls.png
 
+#begin OrderBar/Order_Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:OrderBar/Order_Sheet.png
+
+#begin OrderBar/Order_Strip.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:OrderBar/Order_Strip.png
+
 #begin OrderBar/orderStrip.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -825,6 +861,24 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:OrderBar/scoreBord.png
+
+#begin Sounds/boiling-water.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/boiling-water.wav
+
+#begin Sounds/fire-crackling.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/fire-crackling.wav
+
+#begin Sounds/food-sizzling.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/food-sizzling.wav
 
 #begin Sounds/inn_music.mp3
 /importer:Mp3Importer

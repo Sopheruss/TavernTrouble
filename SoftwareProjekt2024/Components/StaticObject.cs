@@ -14,7 +14,6 @@ internal class StaticObject : Component
     {
         dest = _dest;
         src = _src;
-        perspectiveManager._sortedComponents.Add(this);
     }
 
     //Höhe des Destination Rectangle
