@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
-using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -27,9 +26,9 @@ internal class Cuttingboard : StaticObject
     public static Texture2D _potato;
     public static Texture2D _potatoChopped;
 
-    public static CuttingBoardStates _activeCBState;
+    public CuttingBoardStates _activeCBState;
 
-    private static Timer _cBTimer;
+    //private static Timer _cBTimer;
     private static int count;
 
     public static SoundEffectInstance soundInstanceGrill;
@@ -40,22 +39,23 @@ internal class Cuttingboard : StaticObject
         _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD;
         hasItemOn = false;
 
-        _cBTimer = new Timer(1000);
-        _cBTimer.Elapsed += Tick;
+        //_cBTimer = new Timer(1000);
+        //_cBTimer.Elapsed += Tick;
         count = 0;
     }
-    private static void Tick(object sender, ElapsedEventArgs e)
-    {
-        count++;
-    }
+    //private static void Tick(object sender, ElapsedEventArgs e)
+    //{
+    //    count++;
+    //}
 
     public override int getHeight()
     {
         return dest.Height - 10;
     }
 
-    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
+    public void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
+
         if (!_ogerCook.inventoryIsEmpty() && !hasItemOn) //Inventory has to have item and cb need to be empty 
         {
             if (_ogerCook.inventory[0] is Potato && !((Potato)_ogerCook.inventory[0]).chopped) //item in inventory must be potato and potato need to be chopped
@@ -71,7 +71,7 @@ internal class Cuttingboard : StaticObject
 
                 hasItemOn = true;
 
-                _cBTimer.Start();
+                //_cBTimer.Start();
                 _activeCBState = CuttingBoardStates.POTATO;
 
             }
@@ -88,7 +88,7 @@ internal class Cuttingboard : StaticObject
 
                 hasItemOn = true;
 
-                _cBTimer.Start();
+                //_cBTimer.Start();
                 _activeCBState = CuttingBoardStates.SALAD;
             }
         }
@@ -107,11 +107,13 @@ internal class Cuttingboard : StaticObject
         }
     }
 
-    public static void Update()
+    public void Update()
     {
+
+
         if (count >= 5) //right now, have to wait 5 sec before stuff is finished chopping, NEEDS TO CHANGE
         {
-            _cBTimer.Stop();
+            //_cBTimer.Stop();
 
             if (_activeCBState == CuttingBoardStates.POTATO) //setting right state for texture 
             {

@@ -343,8 +343,17 @@ public class GamePlay
             if (CookBook._playCookBookAnimation) { CookBook.Update(); }
             if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
             if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
-            if (Cuttingboard._activeCBState == CuttingBoardStates.POTATO ||
-                Cuttingboard._activeCBState == CuttingBoardStates.SALAD) { Cuttingboard.Update(); }
+
+            foreach (Cuttingboard cuttingBoard in _perspectiveManager._cuttingBoards)
+            {
+                if (cuttingBoard._activeCBState == CuttingBoardStates.POTATO ||
+                    cuttingBoard._activeCBState == CuttingBoardStates.SALAD)
+                {
+                    cuttingBoard.Update();
+                }
+            }
+
+
             if (BeerBarrel.interactedBarrel) { BeerBarrel.Update(_ogerCook); }
 
             // Ensure the player hull is updated correctly

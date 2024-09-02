@@ -212,27 +212,14 @@ internal class InteractionManager
 
                 break;
 
-            case 7:
+            case >= 7 and <= 9:
                 Debug.WriteLine("Brett 1 Interaction");
 
-                Cuttingboard.HandleInteraction(_ogerCook, positionWhilePickedUp);
+                int cuttingBoardID = tileID - 7;
+                Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
+                cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp);
 
                 break;
-
-            case 8:
-                Debug.WriteLine("Brett 2 Interaction");
-
-                Cuttingboard.HandleInteraction(_ogerCook, positionWhilePickedUp);
-
-                break;
-
-            case 9:
-                Debug.WriteLine("Brett 3 Interaction");
-
-                Cuttingboard.HandleInteraction(_ogerCook, positionWhilePickedUp);
-
-                break;
-
             case 10:
                 Debug.WriteLine("PotatoCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
