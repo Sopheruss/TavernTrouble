@@ -145,6 +145,10 @@ public class GamePlay
         Plate.withMeat_Salad = _content.Load<Texture2D>("Food/meat_salad_plate");
         Plate.withFries = _content.Load<Texture2D>("Food/fries_plate");
 
+        /* mug types */
+        Mug.beerEmpty = _content.Load<Texture2D>("Food/beer_empty");
+        Mug.beerFull = _content.Load<Texture2D>("Food/beer_full");
+
         /* other dynamic objects */
         //Bun.bunTexture = _content.Load<Texture2D>("")
 
@@ -174,6 +178,8 @@ public class GamePlay
         Player.withFriesDone = _content.Load<Texture2D>("Models/Oger_Fries_Done");
         Player.withPlate_Fries = _content.Load<Texture2D>("Models/Oger_Plate_Fries");
         Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_Full_Burger");
+        Player.withBeerEmpty = _content.Load<Texture2D>("Models/Oger_Beer_Empty");
+        Player.withBeerFull = _content.Load<Texture2D>("Models/Oger_Beer_Full");
 
         _ogerCook = new Player(Player.plain,
                               new Vector2(_mapWidthPx / 2, _mapHeightPx / 4),
@@ -323,7 +329,11 @@ public class GamePlay
             }
 
             _ogerCook.Update();
-            _inputManager.Update();
+
+            if (!BeerBarrel.interactedBarrel)
+            {
+                _inputManager.Update();
+            }
             _interactionManager.Update();
             _gameplayLoopManager.Update();
 
@@ -335,6 +345,7 @@ public class GamePlay
             if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
             if (Cuttingboard._activeCBState == CuttingBoardStates.POTATO ||
                 Cuttingboard._activeCBState == CuttingBoardStates.SALAD) { Cuttingboard.Update(); }
+            if (BeerBarrel.interactedBarrel) { BeerBarrel.Update(_ogerCook); }
 
             // Ensure the player hull is updated correctly
             UpdatePlayerHull();

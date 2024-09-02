@@ -24,7 +24,9 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         MeatDone,
         Fries,
         FriesDone,
-        SaladChopped
+        SaladChopped,
+        BeerEmpty,
+        BeerFull
     }
 
     public int state;
