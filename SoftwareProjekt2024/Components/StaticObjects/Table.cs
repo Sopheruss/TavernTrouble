@@ -42,16 +42,13 @@ internal class Table : StaticObject
                 guest.takeOrder();
                 Debug.WriteLine("Order taken");
             }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Plate)
+            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
             {
                 addOrderItem(_ogerCook);
             }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Mug)
-            {
-                //addOrderItem?
-            }
         }
     }
+
     public override int getHeight()
     {
         return dest.Height - 13;

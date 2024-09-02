@@ -4,7 +4,7 @@ using SoftwareProjekt2024.Managers;
 
 namespace SoftwareProjekt2024.Components
 {
-    internal class Mug : Component
+    internal class Mug : DynamicObject
     {
         PerspectiveManager _perspectiveManager;
 
@@ -23,6 +23,7 @@ namespace SoftwareProjekt2024.Components
         public void fill()
         {
             isFilled = true;
+            texture = beerFull;
             state = (int)Component.States.BeerFull;
         }
     }
