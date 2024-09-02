@@ -185,12 +185,13 @@ internal class InteractionManager
                 CookBook.HandleInteraction();
                 break;
 
-            case 2:
+            case >= 2 and <= 3:
                 Debug.WriteLine("Arbeitsfläche 1 Interaction");
-                break;
 
-            case 3:
-                Debug.WriteLine("Arbeitsfläche 2 Interaction");
+                int workStationID = tileID - 2;
+                Workstation workStaion = _perspectiveManager._workstations[workStationID];
+                workStaion.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+
                 break;
 
             case 4:
