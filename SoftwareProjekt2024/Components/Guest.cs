@@ -36,7 +36,7 @@ internal class Guest : Component
 
     public void takeOrder() //placeholder
     {
-        order = new Order(false, new List<Recipe> { new Recipe("Burger") });
+        order = new Order(false, new List<Recipe> { new Recipe("Burger"), new Recipe("Fries") });
         hasOrdered = true;
     }
 

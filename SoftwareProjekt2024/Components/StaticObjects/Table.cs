@@ -90,7 +90,7 @@ internal class Table : StaticObject
         {
             currentOrderOnTable.hasDrink = true;
         }
-        else
+        else if ((item as Plate).state != (int)Component.States.Plate)
         {
             currentOrderOnTable.recipes.Add((item as Plate).recipe);
         }

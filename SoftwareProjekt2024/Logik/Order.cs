@@ -16,7 +16,19 @@ namespace SoftwareProjekt2024.Logik
 
         public bool Equals(Order other)
         {
-            return Enumerable.SequenceEqual(recipes.OrderBy(t => t), other.recipes.OrderBy(t => t)) && hasDrink == other.hasDrink;
+            List<Recipe> myRecipes = recipes;
+            List<Recipe> otherRecipes = other.recipes;
+            foreach (Recipe recipe in myRecipes)
+            {
+                int matchingRecipeIndex = otherRecipes.FindIndex(t => t.name == recipe.name);
+                if (matchingRecipeIndex == -1) return false;
+                else
+                {
+
+                    otherRecipes.RemoveAt(matchingRecipeIndex);
+                }
+            }
+            return !otherRecipes.Any() && hasDrink == other.hasDrink;
             //does not work for now
         }
     }

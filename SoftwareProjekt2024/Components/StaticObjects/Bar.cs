@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -46,7 +47,7 @@ internal class Bar : StaticObject
         }
 
 
-        else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && (barContents[0] as Plate).recipe.isFinished) //Implementation of plate method to see if plate/recipe is finished needed
+        else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && ((!(barContents[0] as Plate).plateContents.Any()) || (barContents[0] as Plate).recipe.isFinished))
         {
             Debug.WriteLine("Picking up");
             Component item = barContents[0];

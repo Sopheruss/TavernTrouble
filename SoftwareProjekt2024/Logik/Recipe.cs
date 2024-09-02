@@ -13,15 +13,15 @@ namespace SoftwareProjekt2024.Logik
             {"Fries", new List<Type>() {typeof(Potato) } }
         };
 
-        public string recipeName;
+        public string name;
         public bool isFinished;
         public List<Type> recipeContents;
 
         public Recipe(string _recipeName)
         {
-            recipeName = _recipeName;
+            name = _recipeName;
             isFinished = false;
-            recipeContents = recipes[recipeName];
+            recipeContents = recipes[name];
         }
     }
 }
