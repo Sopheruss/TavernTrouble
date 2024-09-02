@@ -39,14 +39,8 @@ internal class Cuttingboard : StaticObject
         _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD;
         hasItemOn = false;
 
-        //_cBTimer = new Timer(1000);
-        //_cBTimer.Elapsed += Tick;
-        count = 0;
+        count = -1;
     }
-    //private static void Tick(object sender, ElapsedEventArgs e)
-    //{
-    //    count++;
-    //}
 
     public override int getHeight()
     {
@@ -55,10 +49,11 @@ internal class Cuttingboard : StaticObject
 
     public void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
+        if (_ogerCook.inventoryIsEmpty()) { count++; }
 
         if (!_ogerCook.inventoryIsEmpty() && !hasItemOn) //Inventory has to have item and cb need to be empty 
         {
-            if (_ogerCook.inventory[0] is Potato && !((Potato)_ogerCook.inventory[0]).chopped) //item in inventory must be potato and potato need to be chopped
+            if (_ogerCook.inventory[0] is Potato potato && !potato.chopped) //item in inventory must be potato and potato need to be chopped
             {
 
                 Component item = _ogerCook.inventory[0];
@@ -71,11 +66,10 @@ internal class Cuttingboard : StaticObject
 
                 hasItemOn = true;
 
-                //_cBTimer.Start();
                 _activeCBState = CuttingBoardStates.POTATO;
 
             }
-            else if (_ogerCook.inventory[0] is Salad && !((Salad)_ogerCook.inventory[0]).chopped) //item in inventory must be salad and salad need to be chopped
+            else if (_ogerCook.inventory[0] is Salad salad && !salad.chopped) //item in inventory must be salad and salad need to be chopped
             {
 
                 Component item = _ogerCook.inventory[0];
@@ -88,7 +82,6 @@ internal class Cuttingboard : StaticObject
 
                 hasItemOn = true;
 
-                //_cBTimer.Start();
                 _activeCBState = CuttingBoardStates.SALAD;
             }
         }
@@ -110,11 +103,8 @@ internal class Cuttingboard : StaticObject
     public void Update()
     {
 
-
-        if (count >= 5) //right now, have to wait 5 sec before stuff is finished chopping, NEEDS TO CHANGE
+        if (count >= 5)
         {
-            //_cBTimer.Stop();
-
             if (_activeCBState == CuttingBoardStates.POTATO) //setting right state for texture 
             {
                 _activeCBState = CuttingBoardStates.POTATODONE;
