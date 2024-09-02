@@ -21,7 +21,7 @@ internal class Bar : StaticObject
         return barContents.Count == 0;
     }
 
-    public void addPlate(Player _ogerCook)
+    public void addPlateOrMug(Player _ogerCook)
     {
         Component item = _ogerCook.inventory[0];
         _ogerCook.inventory.Clear();
@@ -35,9 +35,9 @@ internal class Bar : StaticObject
     {
         if (!_ogerCook.inventoryIsEmpty())
         {
-            if (isEmpty() && _ogerCook.inventory[0] is Plate) //oger is holding a plate
+            if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
             {
-                addPlate(_ogerCook);
+                addPlateOrMug(_ogerCook);
             }
             else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
@@ -46,15 +46,25 @@ internal class Bar : StaticObject
         }
 
 
-        else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && (barContents[0] as Plate).recipeIsFinished) //Implementation of plate method to see if plate/recipe is finished needed
+        else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
-            Debug.WriteLine("Picking up");
-            Component item = barContents[0];
-            barContents.Clear();
-            _ogerCook.pickUp(item);
-            item.position = positionWhilePickedUp;
+            if (barContents[0] is Plate && (barContents[0] as Plate).recipeIsFinished)
+            {
+                Debug.WriteLine("Picking up");
+                Component item = barContents[0];
+                barContents.Clear();
+                _ogerCook.pickUp(item);
+                item.position = positionWhilePickedUp;
+            }
+            else if (barContents[0] is Mug)
+            {
+                Debug.WriteLine("Picking up");
+                Component item = barContents[0];
+                barContents.Clear();
+                _ogerCook.pickUp(item);
+                item.position = positionWhilePickedUp;
+            }
         }
-
     }
 
     public override void draw(SpriteBatch _spriteBatch)
