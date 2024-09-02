@@ -101,11 +101,11 @@ namespace SoftwareProjekt2024.Components
                             texture = withBun;
                             recipe = "Burger";
                             break;
-                        case (int)Component.States.Meat:
+                        case (int)Component.States.MeatDone:
                             state = (int)Component.States.PlateWMeatBun;
                             texture = withMeat_Bun;
                             break;
-                        case (int)Component.States.Salad:
+                        case (int)Component.States.SaladChopped:
                             state = (int)Component.States.PlateWSaladBun;
                             texture = withBun_Salad;
                             break;
@@ -118,11 +118,11 @@ namespace SoftwareProjekt2024.Components
                             break;
                     }
                     break;
-                case (int)Component.States.Meat:
+                case (int)Component.States.MeatDone:
                     switch (state)
                     {
                         case (int)Component.States.Plate:
-                            state = (int)Component.States.Meat;
+                            state = (int)Component.States.MeatDone;
                             texture = withMeat;
                             recipe = "Burger";
                             break;
@@ -130,7 +130,7 @@ namespace SoftwareProjekt2024.Components
                             state = (int)Component.States.PlateWMeatBun;
                             texture = withMeat_Bun;
                             break;
-                        case (int)Component.States.Salad:
+                        case (int)Component.States.SaladChopped:
                             state = (int)Component.States.PlateWSaladMeat;
                             texture = withMeat_Salad;
                             break;
@@ -143,11 +143,11 @@ namespace SoftwareProjekt2024.Components
                             break;
                     }
                     break;
-                case (int)Component.States.Salad:
+                case (int)Component.States.SaladChopped:
                     switch (state)
                     {
                         case (int)Component.States.Plate:
-                            state = (int)Component.States.Salad;
+                            state = (int)Component.States.SaladChopped;
                             texture = withSalad;
                             recipe = "Burger";
                             break;
@@ -155,7 +155,7 @@ namespace SoftwareProjekt2024.Components
                             state = (int)Component.States.PlateWSaladBun;
                             texture = withBun_Salad;
                             break;
-                        case (int)Component.States.Meat:
+                        case (int)Component.States.MeatDone:
                             state = (int)Component.States.PlateWSaladMeat;
                             texture = withMeat_Salad;
                             break;
@@ -168,7 +168,7 @@ namespace SoftwareProjekt2024.Components
                             break;
                     }
                     break;
-                case (int)Component.States.Potato:
+                case (int)Component.States.FriesDone:
                     if (state == (int)Component.States.Plate)
                     {
                         state = (int)Component.States.PlateWFries;

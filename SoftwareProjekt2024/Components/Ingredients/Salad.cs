@@ -14,7 +14,7 @@ namespace SoftwareProjekt2024.Components.Ingredients
 
         public override bool isPrepared()
         {
-            return true;
+            return chopped;
         }
 
         public void chop()
