@@ -49,6 +49,10 @@ internal class Table : StaticObject
                 addOrderItem(_ogerCook);
             }
         }
+        else if (!isClean())
+        {
+            //dreckiges Geschirr wegräumen logik hier
+        }
     }
     public override int getHeight()
     {
@@ -115,7 +119,7 @@ internal class Table : StaticObject
 
     public bool orderFinished()
     {
-        if (occupiedSpots == 4) return true;
+        if (occupiedSpots == capacity) return true;
         if (guest.order.isFinished) return true;
         return false;
     }
