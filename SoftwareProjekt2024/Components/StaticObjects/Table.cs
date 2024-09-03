@@ -1,9 +1,8 @@
-using SoftwareProjekt2024.Logik;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
@@ -15,7 +14,6 @@ internal class Table : StaticObject
     public int tableID;
     static int tableIDCount = 0;
     List<Component> tableContents;
-    public Order currentOrderOnTable;
     public bool tableOrderfinished;
     public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
@@ -24,7 +22,6 @@ internal class Table : StaticObject
         tableID = tableIDCount;
         tableIDCount++;
         tableContents = new List<Component>();
-        currentOrderOnTable = new Order(false, new List<Recipe>());
         tableOrderfinished = false;
     }
 
@@ -85,13 +82,17 @@ internal class Table : StaticObject
         item.position = freePosition();
         occupiedSpots++;
 
-        if (item is Mug)
+        if (item is Plate && (item as Plate).recipe is not null)
         {
-            currentOrderOnTable.hasDrink = true;
+            guest.order.addRecipe((item as Plate).recipe.name);
         }
-        else if ((item as Plate).state != (int)Component.States.Plate)
+        else if (item is Plate && (item as Plate).recipe is null)
         {
-            currentOrderOnTable.recipes.Add((item as Plate).recipe);
+            guest.order.wrongComponentsCount++;
+        }
+        else if (item is Mug)
+        {
+            guest.order.addDrink(item as Mug);
         }
 
         if (orderFinished())
@@ -100,7 +101,7 @@ internal class Table : StaticObject
             tableOrderfinished = true;
             guest.eat();
         }
-        
+
         if (guest != null && guest.order != null)
         {
             guest.order.CompleteComponent();
@@ -115,7 +116,7 @@ internal class Table : StaticObject
     public bool orderFinished()
     {
         if (occupiedSpots == 4) return true;
-        if (currentOrderOnTable.Equals(guest.order)) return true;
+        if (guest.order.isFinished) return true;
         return false;
     }
 

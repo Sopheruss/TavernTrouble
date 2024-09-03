@@ -42,7 +42,7 @@ internal class Guest : Component
 
     public void takeOrder() //placeholder
     {
-        order = new Order(false, new List<Recipe> { new Recipe("Burger") });
+        order = new Order(0, new List<Recipe> { new Recipe("Burger"), new Recipe("Fries") });
         _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }

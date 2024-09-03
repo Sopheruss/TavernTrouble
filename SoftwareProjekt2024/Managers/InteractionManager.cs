@@ -261,7 +261,6 @@ internal class InteractionManager
 
                 _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, positionWhilePickedUp, _perspectiveManager));
                 _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
-
                 break;
 
             case 15:

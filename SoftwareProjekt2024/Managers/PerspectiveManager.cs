@@ -45,7 +45,7 @@ namespace SoftwareProjekt2024.Managers
         public void drawOrders(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Order.orderStrip, GamePlay._orderStripRect, Color.White); //40 * 40
-            Vector2 orderPosition = new Vector2(45, 20);
+            Vector2 orderPosition = new Vector2(60, 20);    //Startposition
             foreach (Order order in activeOrders)
             {
                 order.draw(spriteBatch, orderPosition);
