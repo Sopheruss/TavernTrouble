@@ -8,10 +8,7 @@ using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 /* ToDo for Interaction: 
-    - only make interaction possible, if you interact with the grill if oger has raw meat in hand 
-    - add finished texture, after timer runs out -> dunno how right know, but have to change texture in draw call
-            -> Problem: lets complete kessel vanish
-    - after grill is done: if you interact with it again, change kessel to empty kessel and dont start animation again
+    - Bug when retry on grill -> timer not resetted?
  */
 enum GrillStates
 {
@@ -48,8 +45,8 @@ internal class Grill : StaticObject
         _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96), 10);
         _grillAnimationManager.RowPos = 0;
 
-        _grillTimer = new Timer(1000);
-        _grillTimer.Elapsed += Tick;
+        //_grillTimer = new Timer(1000);
+        //_grillTimer.Elapsed += Tick;
         count = 0;
 
         // Load the sound effect and create an instance
@@ -79,6 +76,10 @@ internal class Grill : StaticObject
             (item as Meat).cook();
 
             hasMeatOn = true;
+
+            _grillTimer = new Timer(1000);
+            _grillTimer.Elapsed += Tick;
+
 
             _grillTimer.Start(); //starts timer for 10 seconds 
             _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
@@ -110,6 +111,7 @@ internal class Grill : StaticObject
         if (count >= 10)
         {
             _grillTimer.Stop();
+            _grillTimer.Dispose();
             _grillAnimationManager.ResetAnimation();
             _activeGrillState = GrillStates.DONEGRILL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction
