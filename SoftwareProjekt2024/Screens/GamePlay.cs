@@ -191,10 +191,16 @@ public class GamePlay
         _ogerCook.Load();
 
         /* guests */
-        Guest.fairy = _content.Load<Texture2D>("Npc/Fairy_Npc");
+        Guest._chosenTexture = null;
+        Guest.fairyGreen = _content.Load<Texture2D>("Npc/Fairy_Npc_Green");
+        Guest.fairyRed = _content.Load<Texture2D>("Npc/Fairy_Npc_Red");
+        Guest.fairyBlue = _content.Load<Texture2D>("Npc/Fairy_Npc_Blue");
         Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
-        Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
+        Guest.ogerOrange = _content.Load<Texture2D>("Npc/Oger_Npc_Orange");
         Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
+        Guest.wizardRed = _content.Load<Texture2D>("Npc/Wizard_Npc_Red");
+        Guest.wizardYellow = _content.Load<Texture2D>("Npc/Wizard_Npc_Yellow");
+        Guest.wizardPurple = _content.Load<Texture2D>("Npc/Wizard_Npc_Purple");
         Guest.spawnAnimationTexture = _content.Load<Texture2D>("Npc/Spritesheet_Spawn_Animation");
 
         /* kessel */

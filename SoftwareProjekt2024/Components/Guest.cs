@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -13,10 +14,18 @@ internal class Guest : Component
     AnimationManager _guestAnimationManager;
     AnimationManager _spawnAnimationManager;
     public PerspectiveManager _perspectiveManager;
-    public static Texture2D fairy;
+
+    public static Texture2D _chosenTexture;
+
+    public static Texture2D fairyGreen;
+    public static Texture2D fairyRed;
+    public static Texture2D fairyBlue;
     public static Texture2D ogerBlue;
-    public static Texture2D ogerGreen;
+    public static Texture2D ogerOrange;
     public static Texture2D ogerPink;
+    public static Texture2D wizardRed;
+    public static Texture2D wizardYellow;
+    public static Texture2D wizardPurple;
 
     public static Texture2D spawnAnimationTexture;
 
@@ -32,7 +41,7 @@ internal class Guest : Component
         _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
         _guestAnimationManager.RowPos = 0;
 
-        _spawnAnimationManager = new AnimationManager(7, 7, new Vector2(32, 32), 10);
+        _spawnAnimationManager = new AnimationManager(7, 7, new Vector2(32, 32), 4);
         _spawnAnimationManager.RowPos = 0;
 
         _perspectiveManager = perspectiveManager;
@@ -40,11 +49,48 @@ internal class Guest : Component
         _drawGuest = false;
         _drawSpawn = true;
 
+        chooseTexture(creatRandomIntegerTexture());
     }
 
     public override int getHeight()
     {
         return Rect.Height - 10;
+    }
+
+    public Texture2D chooseTexture(int wichTexture)
+    {
+        switch (wichTexture)
+        {
+            case 0:
+                return _chosenTexture = fairyGreen;
+            case 1:
+                return _chosenTexture = ogerOrange;
+            case 2:
+                return _chosenTexture = ogerBlue;
+            case 3:
+                return _chosenTexture = ogerPink;
+            case 4:
+                return _chosenTexture = fairyRed;
+            case 5:
+                return _chosenTexture = fairyBlue;
+            case 6:
+                return _chosenTexture = wizardRed;
+            case 7:
+                return _chosenTexture = wizardYellow;
+            case 8:
+                return _chosenTexture = wizardPurple;
+            default:
+                Debug.WriteLine("Default Texture used");
+                return _chosenTexture = fairyRed;
+        }
+    }
+
+    public int creatRandomIntegerTexture()
+    {
+        Random rnd = new Random();
+        int num = rnd.Next(0, 9);
+        Debug.WriteLine(num);
+        return num; //Generates a number between 0 and 8 -> is number of different textures 
     }
 
     public void Update()
@@ -93,9 +139,8 @@ internal class Guest : Component
     {
         if (_drawGuest)
         {
-            Debug.WriteLine("drawing guest");
             _spriteBatch.Draw(
-            fairy,                                       //texture 
+            _chosenTexture,                              //texture 
             this.Rect,                                  //destinationRectangle
             _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
             Color.White,                              //color
