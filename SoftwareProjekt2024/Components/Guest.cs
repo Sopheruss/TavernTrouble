@@ -37,8 +37,8 @@ internal class Guest : Component
     private bool _drawGuest;
     private bool _drawSpawn;
 
-    private static List<Texture2D> _availableGuests;
-    public static int _totalGuestNumber = 0;
+    public static List<Texture2D> _availableGuests;
+    public static int _totalGuestNumber;
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {

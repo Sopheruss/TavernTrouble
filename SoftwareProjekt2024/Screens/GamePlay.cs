@@ -90,6 +90,7 @@ public class GamePlay
     public static bool _showPossibleInteraction = false;
     public static string _possibleInteractionObject;
 
+
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
         _content = Content;
@@ -191,6 +192,8 @@ public class GamePlay
         _ogerCook.Load();
 
         /* guests */
+        Guest._availableGuests = null;
+        Guest._totalGuestNumber = 0;
         Guest.fairyGreen = _content.Load<Texture2D>("Npc/Fairy_Npc_Green");
         Guest.fairyRed = _content.Load<Texture2D>("Npc/Fairy_Npc_Red");
         Guest.fairyBlue = _content.Load<Texture2D>("Npc/Fairy_Npc_Blue");
