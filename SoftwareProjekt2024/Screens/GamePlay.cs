@@ -191,7 +191,6 @@ public class GamePlay
         _ogerCook.Load();
 
         /* guests */
-        Guest._chosenTexture = null;
         Guest.fairyGreen = _content.Load<Texture2D>("Npc/Fairy_Npc_Green");
         Guest.fairyRed = _content.Load<Texture2D>("Npc/Fairy_Npc_Red");
         Guest.fairyBlue = _content.Load<Texture2D>("Npc/Fairy_Npc_Blue");

@@ -15,7 +15,7 @@ internal class Guest : Component
     AnimationManager _spawnAnimationManager;
     public PerspectiveManager _perspectiveManager;
 
-    public static Texture2D _chosenTexture;
+    public Texture2D _chosenTexture;
 
     public static Texture2D fairyGreen;
     public static Texture2D fairyRed;
@@ -36,8 +36,27 @@ internal class Guest : Component
 
     private bool _drawGuest;
     private bool _drawSpawn;
+
+    private static List<Texture2D> _availableGuests;
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
+
+        if (_availableGuests == null)
+        {
+            _availableGuests = new List<Texture2D>
+                {
+                    fairyGreen,
+                    fairyRed,
+                    fairyBlue,
+                    ogerOrange,
+                    ogerBlue,
+                    ogerPink,
+                    wizardRed,
+                    wizardPurple,
+                    wizardYellow
+                };
+        }
+
         _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
         _guestAnimationManager.RowPos = 0;
 
@@ -49,7 +68,7 @@ internal class Guest : Component
         _drawGuest = false;
         _drawSpawn = true;
 
-        chooseTexture(creatRandomIntegerTexture());
+        _chosenTexture = ChooseTexture(CreateRandomIntegerTexture());
     }
 
     public override int getHeight()
@@ -57,38 +76,17 @@ internal class Guest : Component
         return Rect.Height - 10;
     }
 
-    public Texture2D chooseTexture(int wichTexture)
+    public static Texture2D ChooseTexture(int wichTexture)
     {
-        switch (wichTexture)
-        {
-            case 0:
-                return _chosenTexture = fairyGreen;
-            case 1:
-                return _chosenTexture = ogerOrange;
-            case 2:
-                return _chosenTexture = ogerBlue;
-            case 3:
-                return _chosenTexture = ogerPink;
-            case 4:
-                return _chosenTexture = fairyRed;
-            case 5:
-                return _chosenTexture = fairyBlue;
-            case 6:
-                return _chosenTexture = wizardRed;
-            case 7:
-                return _chosenTexture = wizardYellow;
-            case 8:
-                return _chosenTexture = wizardPurple;
-            default:
-                Debug.WriteLine("Default Texture used");
-                return _chosenTexture = fairyRed;
-        }
+        Texture2D guestTexture = _availableGuests[wichTexture];
+        _availableGuests.RemoveAt(wichTexture);
+        return guestTexture;
     }
 
-    public int creatRandomIntegerTexture()
+    public static int CreateRandomIntegerTexture()
     {
-        Random rnd = new Random();
-        int num = rnd.Next(0, 9);
+        Random rnd = new();
+        int num = rnd.Next(0, _availableGuests.Count);
         Debug.WriteLine(num);
         return num; //Generates a number between 0 and 8 -> is number of different textures 
     }
@@ -133,6 +131,7 @@ internal class Guest : Component
         assignedTable.guest = null;
         _perspectiveManager._guests.Remove(this);
         _drawGuest = false;
+        _availableGuests.Add(this._chosenTexture);
     }
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
