@@ -50,8 +50,12 @@ internal class Kessel : StaticObject
 
         _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64), 10); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
         _kesselAnimationManager.RowPos = 0; //only one row of animation 
-        _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
-        _kesselTimer.Elapsed += Tick; //ticks timer
+
+        if (_kesselTimer != null)
+        {
+            _kesselTimer.Close();
+        }
+
         count = 0;
 
         // Load the sound effect and create an instance
@@ -81,6 +85,9 @@ internal class Kessel : StaticObject
             (item as Potato).cook();
 
             hasFries = true;
+
+            _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
+            _kesselTimer.Elapsed += Tick; //ticks timer
 
             _kesselTimer.Start(); //starts timer for 10 seconds 
             _activeKesselState = KesselStates.ANIMATIONKESSEL; //starts Animation 
@@ -115,7 +122,7 @@ internal class Kessel : StaticObject
 
         if (count >= 10) //playes the animation 10 seconds 
         {
-            _kesselTimer.Stop();
+            _kesselTimer.Close();
             _kesselAnimationManager.ResetAnimation();
             _activeKesselState = KesselStates.DONEKESSEL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction

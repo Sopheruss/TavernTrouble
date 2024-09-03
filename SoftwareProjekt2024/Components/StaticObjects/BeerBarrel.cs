@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
-using System.Diagnostics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -14,11 +13,13 @@ internal class BeerBarrel : StaticObject
     public BeerBarrel(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
     : base(texture, position, _dest, _src, perspectiveManager)
     {
-        _beerBarrelTimer = new Timer();
         interactedBarrel = false;
 
-        _beerBarrelTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
-        _beerBarrelTimer.Elapsed += Tick; //ticks timer
+        if (_beerBarrelTimer != null)
+        {
+            _beerBarrelTimer.Close();
+        }
+
         count = 0;
     }
 
@@ -29,7 +30,6 @@ internal class BeerBarrel : StaticObject
 
     private static void Tick(object sender, ElapsedEventArgs e)
     {
-        Debug.WriteLine("TickCount: " + count);
         count++;
     }
 
@@ -42,6 +42,9 @@ internal class BeerBarrel : StaticObject
 
             (item as Mug).fill();
 
+            _beerBarrelTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
+            _beerBarrelTimer.Elapsed += Tick; //ticks timer
+
             _beerBarrelTimer.Start();
         }
     }
@@ -50,7 +53,7 @@ internal class BeerBarrel : StaticObject
     {
         if (count >= 3)
         {
-            _beerBarrelTimer.Stop();
+            _beerBarrelTimer.Close(); //to fucking dispose the timer, not with dispose apparently 
             count = 0;
             _ogerCook.changeAppearence((int)States.BeerFull);
             interactedBarrel = false;

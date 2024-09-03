@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -45,8 +46,10 @@ internal class Grill : StaticObject
         _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96), 10);
         _grillAnimationManager.RowPos = 0;
 
-        //_grillTimer = new Timer(1000);
-        //_grillTimer.Elapsed += Tick;
+        if (_grillTimer != null)
+        {
+            _grillTimer.Close();
+        }
         count = 0;
 
         // Load the sound effect and create an instance
@@ -108,10 +111,11 @@ internal class Grill : StaticObject
     {
         _grillAnimationManager.Update();
 
+        Debug.WriteLine(count);
+
         if (count >= 10)
         {
-            _grillTimer.Stop();
-            _grillTimer.Dispose();
+            _grillTimer.Close();
             _grillAnimationManager.ResetAnimation();
             _activeGrillState = GrillStates.DONEGRILL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction
