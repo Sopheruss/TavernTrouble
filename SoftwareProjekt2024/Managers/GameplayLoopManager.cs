@@ -11,7 +11,7 @@ namespace SoftwareProjekt2024.Managers
 
         Stopwatch _timer;
 
-        public int timebetweenNextGuest = 60;   //in seconds
+        public int timebetweenNextGuest = 10;   //in seconds
         public bool newGuestAddedFlag;
         public GameplayLoopManager(PerspectiveManager perspectiveManager, Stopwatch timer)
         {

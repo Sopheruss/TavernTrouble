@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -13,6 +14,9 @@ internal class Guest : Component
     AnimationManager _guestAnimationManager;
     AnimationManager _spawnAnimationManager;
     public PerspectiveManager _perspectiveManager;
+
+    public static Texture2D _chosenTexture;
+
     public static Texture2D fairy;
     public static Texture2D ogerBlue;
     public static Texture2D ogerGreen;
@@ -40,11 +44,35 @@ internal class Guest : Component
         _drawGuest = false;
         _drawSpawn = true;
 
+        chooseTexture(creatRandomIntegerTexture());
     }
 
     public override int getHeight()
     {
         return Rect.Height - 10;
+    }
+
+    public Texture2D chooseTexture(int wichTexture)
+    {
+        switch (wichTexture)
+        {
+            case 0:
+                return _chosenTexture = fairy;
+            case 1:
+                return _chosenTexture = ogerGreen;
+            case 2:
+                return _chosenTexture = ogerBlue;
+            case 3:
+                return _chosenTexture = ogerPink;
+            default:
+                return _chosenTexture = fairy;
+        }
+    }
+
+    public int creatRandomIntegerTexture()
+    {
+        Random rnd = new Random();
+        return rnd.Next(0, 3); //Generates a number between 0 and 3 -> is number of different textures 
     }
 
     public void Update()
@@ -93,9 +121,8 @@ internal class Guest : Component
     {
         if (_drawGuest)
         {
-            Debug.WriteLine("drawing guest");
             _spriteBatch.Draw(
-            fairy,                                       //texture 
+            _chosenTexture,                              //texture 
             this.Rect,                                  //destinationRectangle
             _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
             Color.White,                              //color
