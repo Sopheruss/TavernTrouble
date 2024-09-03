@@ -38,11 +38,7 @@ public class GamePlay
     Button _cookBookButton;
     Button _helpButton;
 
-    Texture2D _orderStrip;
-    Rectangle _orderStripRect;
-
-    Texture2D _orderSheet;
-    Rectangle _orderSheetRect;
+    public static Rectangle _orderStripRect;
 
     PerspectiveManager _perspectiveManager;
     TileManager _tileManager;
@@ -215,7 +211,7 @@ public class GamePlay
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
 
         /* order */
-        _orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
+        Order.orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
         Order.orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
         //_orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
@@ -378,9 +374,8 @@ public class GamePlay
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
-        _spriteBatch.Draw(_orderSheet, _orderSheetRect, Color.White);
+        _perspectiveManager.drawOrders(_spriteBatch);
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
         _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);

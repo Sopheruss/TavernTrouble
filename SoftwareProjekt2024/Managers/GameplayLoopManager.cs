@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Logik;
 using System.Diagnostics;
 using System.Linq;
 
@@ -36,14 +34,7 @@ namespace SoftwareProjekt2024.Managers
             }
         }
 
-        public void drawOrders(SpriteBatch spriteBatch)
-        {
 
-            foreach (Order order in _perspectiveManager.activeOrders)
-            {
-                order.draw(spriteBatch, )
-            }
-        }
         public void addNewGuest()
         {
             _perspectiveManager._guests.Add(new Guest(Guest.fairy, new Vector2(0, 0), _perspectiveManager));

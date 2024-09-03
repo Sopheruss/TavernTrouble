@@ -14,6 +14,7 @@ namespace SoftwareProjekt2024.Logik
         // for future reference:
         // public static Order CurrentOrder { get; set; }
         public static Texture2D orderSheet;
+        public static Texture2D orderStrip;
         public static BitmapFont bmfont;
         public List<Recipe> recipes;
         public bool hasDrink;
