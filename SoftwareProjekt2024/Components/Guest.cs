@@ -38,6 +38,8 @@ internal class Guest : Component
     private bool _drawSpawn;
 
     private static List<Texture2D> _availableGuests;
+    public static int _totalGuestNumber = 0;
+
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
 
@@ -56,6 +58,8 @@ internal class Guest : Component
                     wizardYellow
                 };
         }
+
+        _totalGuestNumber++;
 
         _guestAnimationManager = new AnimationManager(2, 2, new Vector2(32, 32), 30);
         _guestAnimationManager.RowPos = 0;
@@ -128,6 +132,7 @@ internal class Guest : Component
 
     public void leave()
     {
+        _totalGuestNumber--;
         assignedTable.guest = null;
         _perspectiveManager._guests.Remove(this);
         _drawGuest = false;
