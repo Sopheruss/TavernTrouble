@@ -9,13 +9,6 @@ using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
-/* ToDo for Interaction: 
-    - only make interaction possible, if you interact with the kessel if oger ha a chopped potato in hand 
-    - add finished texture, after timer runs out -> dunno how right know, but have to change texture in draw call
-            -> Problem: lets complete kessel vanish
-    - after kessel is done: if you interact with it again, change kessel to empty kessel and dont start animation again (done -> siehe Interaction Manager)
-            -> oger now carrys the finished cooked fries 
- */
 public enum KesselStates
 {
     EMPTYKESSEL,
