@@ -970,17 +970,17 @@
 /processorParam:Quality=Best
 /build:Sounds/fire-crackling.wav
 
-#begin Sounds/food-sizzling.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/food-sizzling.wav
-
 #begin Sounds/inn_music.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/inn_music.mp3
+
+#begin Sounds/pour-beer.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/pour-beer.wav
 
 #begin Sounds/woodland_fantasy.mp3
 /importer:Mp3Importer
