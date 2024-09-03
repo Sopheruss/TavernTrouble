@@ -11,7 +11,7 @@ namespace SoftwareProjekt2024.Managers
 
         Stopwatch _timer;
 
-        public int timebetweenNextGuest = 10;   //in seconds
+        public int timebetweenNextGuest = 3;   //in seconds
         public bool newGuestAddedFlag;
         public GameplayLoopManager(PerspectiveManager perspectiveManager, Stopwatch timer)
         {
@@ -36,7 +36,7 @@ namespace SoftwareProjekt2024.Managers
 
         public void addNewGuest()
         {
-            _perspectiveManager._guests.Add(new Guest(Guest.fairy, new Vector2(0, 0), _perspectiveManager));
+            _perspectiveManager._guests.Add(new Guest(Guest.fairyGreen, new Vector2(0, 0), _perspectiveManager));
             _perspectiveManager._guests.Last().assignTable();
         }
     }
