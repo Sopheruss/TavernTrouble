@@ -161,23 +161,20 @@ internal class Guest : Component
         int points = 0;
         int fame = 0;
 
-        if (order.isFinished)
-        {
-
-            points = order.TotalComponents() * 10;
-            Debug.WriteLine($"judgeOrderA: {points}");
-        }
-
+        int completedComponents = (order.recipes.Count - order.missingRecipes.Count) + (order.drinksCount - order.missingDrinksCount);
+        points = completedComponents * 10;
+        if (order.isFinished && order.wrongComponentsCount == 0) { } //Maybe add bonus points for a perfectly handled order here?
+        Debug.WriteLine($"judgeOrderA: {points}");
+        
         if (order.wrongComponentsCount > 0)
         {
             points += order.wrongComponentsCount * (-2);
         }
 
         fame = points / 5;
-        Debug.WriteLine($"judgeOrderB: {points}");
+        fame = Math.Max(0, fame);  // Kein negativer Ruhm
 
         return (points, fame);
-
     }
 
 
