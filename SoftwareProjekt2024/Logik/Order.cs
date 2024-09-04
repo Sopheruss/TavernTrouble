@@ -31,7 +31,7 @@ namespace SoftwareProjekt2024.Logik
         public Order(int _drinksCount, List<Recipe> _recipes)
         {
             recipes = _recipes;
-            missingRecipes = recipes;
+            missingRecipes = new List<Recipe>(recipes);
             drinksCount = _drinksCount;
             missingDrinksCount = drinksCount;
             completedComponents = 0;
@@ -105,37 +105,6 @@ namespace SoftwareProjekt2024.Logik
             return completedComponents == TotalComponents() || IsTimeUp();
         }
 
-
-
-        // Ruhmpunkte berechnen basierend auf Punkten
-        public float GetFamePoints(int totalPoints)
-        {
-            if (IsTimeUp())
-            {
-                return 0.0f;  // Keine Ruhmpunkte bei abgelaufener Zeit
-            }
-
-            return totalPoints / 2.0f;
-        }
-        /*
-        public bool Equals(Order other)
-        {
-            List<Recipe> myRecipes = recipes;
-            List<Recipe> otherRecipes = other.recipes;
-            foreach (Recipe recipe in myRecipes)
-            {
-                int matchingRecipeIndex = otherRecipes.FindIndex(t => t.name == recipe.name);
-                if (matchingRecipeIndex == -1) return false;
-                else
-                {
-
-                    otherRecipes.RemoveAt(matchingRecipeIndex);
-                }
-            }
-            return !otherRecipes.Any() && hasDrink == other.hasDrink;
-            //does not work for now
-        }
-        */
 
         //Überprüfen ob Zeitlimit abgelaufen ist
         public bool IsTimeUp()

@@ -65,10 +65,51 @@ internal class Guest : Component
         //negative feedback if no table is clean needed here
     }
 
-    public void eat()
+    public void eat(Player _ogerCook)
     {
         //feedback for points here?
         //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
+
+        if (order != null)
+        {
+            // order.CompleteComponent();
+            (int rewardPoints, int fame) = judgeOrder();
+
+            Debug.WriteLine($"Debug eat: {rewardPoints}");
+
+
+
+            _ogerCook.AddPointsAndFame(rewardPoints, fame);
+
+            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
+            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+
+        }
+
+    }
+
+
+    public (int points,int fame) judgeOrder() {
+
+        int points = 0;
+        int fame = 0;  
+
+        if (order.isFinished) { 
+        
+            points = order.TotalComponents() * 10;
+            Debug.WriteLine($"judgeOrderA: {points}");
+        }
+
+        if (order.wrongComponentsCount > 0)
+        {
+            points += order.wrongComponentsCount * (-2);
+        }
+
+        fame = points / 5;
+        Debug.WriteLine($"judgeOrderB: {points}");
+
+        return (points, fame);
+
     }
 
 

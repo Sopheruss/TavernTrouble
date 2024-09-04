@@ -103,17 +103,7 @@ internal class Table : StaticObject
         {
             Debug.WriteLine("Order now finished!");
             tableOrderfinished = true;
-            guest.eat();
-        }
-
-        if (guest != null && guest.order != null)
-        {
-            guest.order.CompleteComponent();
-            int rewardPoints = guest.order.GetRewardPoints();
-            _ogerCook.AddPointsAndFame(rewardPoints, guest.order.GetFamePoints(rewardPoints));
-
-            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
-            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+            guest.eat(_ogerCook);
         }
     }
 
