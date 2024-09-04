@@ -38,6 +38,7 @@
     <PackageReference Include="MonoGame.Penumbra.DesktopGL" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\OptionMenu\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
