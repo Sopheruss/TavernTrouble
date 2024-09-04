@@ -12,6 +12,7 @@ internal class StaticObject : Component
     public StaticObject(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, perspectiveManager)
     {
+        perspectiveManager._sortedComponents.Add(this);
         dest = _dest;
         src = _src;
     }

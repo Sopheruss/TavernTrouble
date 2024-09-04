@@ -37,6 +37,7 @@ namespace SoftwareProjekt2024.Managers
             }
         }
 
+
         public void addNewGuest()
         {
             _perspectiveManager._guests.Add(new Guest(Guest.fairyGreen, new Vector2(0, 0), _perspectiveManager));

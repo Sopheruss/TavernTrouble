@@ -30,7 +30,7 @@ internal class Guest : Component
     public static Texture2D spawnAnimationTexture;
 
     public bool hasOrdered;
-    public Order guestOrder;
+    public Order order;
     public int assignedTableID;
     public Table assignedTable;
 
@@ -108,7 +108,8 @@ internal class Guest : Component
 
     public void takeOrder() //placeholder
     {
-        guestOrder = new Order(false, new List<Recipe> { new Recipe("Burger") });
+        order = new Order(0, new List<Recipe> { new Recipe("Burger"), new Recipe("Fries") });
+        _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }
 
@@ -129,6 +130,54 @@ internal class Guest : Component
         }
         //negative feedback if no table is clean needed here
     }
+
+    public void eat(Player _ogerCook)
+    {
+        //feedback for points here?
+        //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
+
+        if (order != null)
+        {
+            // order.CompleteComponent();
+            (int rewardPoints, int fame) = judgeOrder();
+
+            Debug.WriteLine($"Debug eat: {rewardPoints}");
+
+
+
+            _ogerCook.AddPointsAndFame(rewardPoints, fame);
+
+            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
+            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+
+        }
+
+    }
+
+
+    public (int points,int fame) judgeOrder() {
+
+        int points = 0;
+        int fame = 0;  
+
+        if (order.isFinished) { 
+        
+            points = order.TotalComponents() * 10;
+            Debug.WriteLine($"judgeOrderA: {points}");
+        }
+
+        if (order.wrongComponentsCount > 0)
+        {
+            points += order.wrongComponentsCount * (-2);
+        }
+
+        fame = points / 5;
+        Debug.WriteLine($"judgeOrderB: {points}");
+
+        return (points, fame);
+
+    }
+
 
     public void leave()
     {

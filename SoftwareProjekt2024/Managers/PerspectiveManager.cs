@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
+using SoftwareProjekt2024.Logik;
+using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 
 namespace SoftwareProjekt2024.Managers
@@ -21,6 +24,7 @@ namespace SoftwareProjekt2024.Managers
 
         internal List<Guest> _guests;
 
+        internal List<Order> activeOrders;
 
         public PerspectiveManager()
         {
@@ -38,6 +42,19 @@ namespace SoftwareProjekt2024.Managers
             _dynamicObjects = new List<Component>();
 
             _guests = new List<Guest>();
+
+            activeOrders = new List<Order>();
+        }
+
+        public void drawOrders(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Order.orderStrip, GamePlay._orderStripRect, Color.White); //40 * 40
+            Vector2 orderPosition = new Vector2(60, 20);    //Startposition
+            foreach (Order order in activeOrders)
+            {
+                order.draw(spriteBatch, orderPosition);
+                orderPosition.X += 120;
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -46,7 +63,6 @@ namespace SoftwareProjekt2024.Managers
 
             foreach (var component in _sortedComponents)
             {
-                //Debug.WriteLine(component.position.Y - component.getHeight());
                 component.draw(spriteBatch); //drawt Objekte in der sortierten Reihenfolge
             }
         }

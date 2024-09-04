@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SoftwareProjekt2024.Components.Ingredients;
+using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
 using System;
 using System.Collections.Generic;
@@ -24,23 +24,14 @@ namespace SoftwareProjekt2024.Components
 
         public List<Component> plateContents;
 
-        public Dictionary<string, List<Type>> recipes = new Dictionary<string, List<Type>>()
-        {
-            {"Burger" , new List<Type>() {typeof(Bun), typeof(Meat), typeof(Salad) } },
-            {"Fries", new List<Type>() {typeof(Potato) } }
-        };
-
-        public string recipe;
-        public bool recipeIsFinished;
+        public Recipe recipe;
 
         public Plate(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager)
             : base(texture, position, perspectiveManager)
         {
             plateContents = new List<Component>();
             state = (int)States.Plate;
-            recipe = "Not defined";
             _perspectiveManager = perspectiveManager;
-            recipeIsFinished = false;
         }
 
         ~Plate()
@@ -51,11 +42,11 @@ namespace SoftwareProjekt2024.Components
             }
         }
 
-        public bool needsIngredient(string recipe, Component ingredient)
+        public bool needsIngredient(Component ingredient)
         {
             Type ingredientType = ingredient.GetType();
             // Check if the recipe contains the type of ingredient and if plateContents has any items of that type
-            if (recipes[recipe].Contains(ingredientType) && !plateContents.Any(item => item.GetType() == ingredientType))
+            if (recipe.recipeContents.Contains(ingredientType) && !plateContents.Any(item => item.GetType() == ingredientType))
             {
                 return true;
             }
@@ -66,11 +57,11 @@ namespace SoftwareProjekt2024.Components
         {
             if ((ingredient as Ingredient).isPrepared()) //Ingredient has to be prepared
             {
-                if (recipe == "Not defined")    //if plate is empty
+                if (recipe is null)    //if plate is empty
                 {
                     return true;
                 }
-                if (!(recipe == "Not defined") && needsIngredient(recipe, ingredient))
+                if (!(recipe is null) && needsIngredient(ingredient))
                 { //if plate is not empty and ingredient is needed for recipe
                     return true;
                 }
@@ -99,7 +90,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.Plate:
                             state = (int)Component.States.Bun;
                             texture = withBun;
-                            recipe = "Burger";
+                            recipe = new Recipe("Burger");
                             break;
                         case (int)Component.States.MeatDone:
                             state = (int)Component.States.PlateWMeatBun;
@@ -112,7 +103,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.PlateWSaladMeat:
                             state = (int)Component.States.PlateWBurger;
                             texture = withFullBurger;
-                            recipeIsFinished = true;
+                            recipe.isFinished = true;
                             break;
                         default:
                             break;
@@ -124,7 +115,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.Plate:
                             state = (int)Component.States.MeatDone;
                             texture = withMeat;
-                            recipe = "Burger";
+                            recipe = new Recipe("Burger");
                             break;
                         case (int)Component.States.Bun:
                             state = (int)Component.States.PlateWMeatBun;
@@ -137,7 +128,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.PlateWSaladBun:
                             state = (int)Component.States.PlateWBurger;
                             texture = withFullBurger;
-                            recipeIsFinished = true;
+                            recipe.isFinished = true;
                             break;
                         default:
                             break;
@@ -149,7 +140,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.Plate:
                             state = (int)Component.States.SaladChopped;
                             texture = withSalad;
-                            recipe = "Burger";
+                            recipe = new Recipe("Burger");
                             break;
                         case (int)Component.States.Bun:
                             state = (int)Component.States.PlateWSaladBun;
@@ -162,7 +153,7 @@ namespace SoftwareProjekt2024.Components
                         case (int)Component.States.PlateWMeatBun:
                             state = (int)Component.States.PlateWBurger;
                             texture = withFullBurger;
-                            recipeIsFinished = true;
+                            recipe.isFinished = true;
                             break;
                         default:
                             break;
@@ -173,8 +164,8 @@ namespace SoftwareProjekt2024.Components
                     {
                         state = (int)Component.States.PlateWFries;
                         texture = withFries;
-                        recipe = "Fries";
-                        recipeIsFinished = true;
+                        recipe = new Recipe("Fries");
+                        recipe.isFinished = true;
                     }
                     break;
                 default:

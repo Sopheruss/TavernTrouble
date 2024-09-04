@@ -296,6 +296,7 @@ internal class InteractionManager
             case 14:
                 Debug.WriteLine("PlatePile Interaction");
 
+
                 PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
 
                 break;
