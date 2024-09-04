@@ -59,8 +59,8 @@ namespace SoftwareProjekt2024.Logik
 
         internal void addDrink(Mug mug)
         {
-            if (mug.isFilled) missingDrinksCount--;
-            else if (!mug.isFilled) wrongComponentsCount++;
+            if (mug.isFilled && missingDrinksCount > 0) missingDrinksCount--;
+            else if (!mug.isFilled || missingDrinksCount == 0) wrongComponentsCount++;
             if (IsComplete()) isFinished = true;
         }
 

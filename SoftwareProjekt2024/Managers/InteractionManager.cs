@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
-using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
-using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -48,12 +46,12 @@ internal class InteractionManager
 
         if (interactionState == 0)
         {
-           _possibleInteraction = false;
-           _allowedInteraction = false;
+            _possibleInteraction = false;
+            _allowedInteraction = false;
         }
         else
         {
-           _possibleInteraction = true;
+            _possibleInteraction = true;
         }
         //Debug.WriteLine("possible: " + _possibleInteraction);
         //Debug.WriteLine("allowed: " + _allowedInteraction);
