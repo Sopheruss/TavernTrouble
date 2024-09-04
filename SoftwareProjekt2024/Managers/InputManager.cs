@@ -10,7 +10,6 @@ internal class InputManager
     readonly Game1 _game;
     readonly Player _ogerCook;
     readonly CollisionManager _collisionManager;
-    readonly InteractionManager _interactionManager;
     readonly PerspectiveManager _perspectiveManager;
 
     readonly Vector2 _left = new(-1, 0);
@@ -27,12 +26,13 @@ internal class InputManager
 
     public float speed = 2.0f;
 
-    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, PerspectiveManager perspectiveManager)
+    public bool pressedE = false;
+
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, PerspectiveManager perspectiveManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
-        _interactionManager = interactionManager;
         _perspectiveManager = perspectiveManager;
 
         curDirs = new List<Direction>();
@@ -133,12 +133,11 @@ internal class InputManager
         // Check for interaction:
         if (HasBeenPressed(Keys.E))
         {
-            int interactionState = _interactionManager.GetInteractionState();
-
-            if (interactionState != 0) // != false
-            {
-                _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
-            }
+            pressedE = true;
+        }
+        else
+        {
+            pressedE = false;
         }
     }
 
