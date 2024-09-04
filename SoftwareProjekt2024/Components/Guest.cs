@@ -173,7 +173,8 @@ internal class Guest : Component
         }
 
         fame = points / 5;
-        Debug.WriteLine($"judgeOrderB: {points}");
+        fame = Math.Max(0, fame);  // Kein negativer Ruhm
+       
 
         return (points, fame);
 
