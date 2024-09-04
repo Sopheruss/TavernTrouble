@@ -125,7 +125,7 @@ internal class Guest : Component
             assignedTable = table;
             table.guest = this;
             position = new Vector2(table.position.X + 12, table.position.Y - 18);
-            Debug.WriteLine("Table " + table.tableID + " assigned new guest");
+            //Debug.WriteLine("Table " + table.tableID + " assigned new guest");
             break;
         }
         //negative feedback if no table is clean needed here
@@ -189,7 +189,6 @@ internal class Guest : Component
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
-        Debug.WriteLine("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         if (_drawGuest)
         {
             _spriteBatch.Draw(

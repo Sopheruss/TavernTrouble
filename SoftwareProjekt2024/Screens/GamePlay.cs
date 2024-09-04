@@ -79,7 +79,6 @@ public class GamePlay
     public static Stopwatch _timer;
     private GameTime gameTime;
 
-
     public static bool _showLetter = true;
     Letter _letter;
     string _keyPressLetter;
@@ -452,7 +451,7 @@ public class GamePlay
             _spriteBatch.Draw(_backgorundLetter, _backgroundLetterRect, Color.White);
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
 
-            Debug.WriteLine(_keyPressLetterSize);
+            //Debug.WriteLine(_keyPressLetterSize);
 
             _letter.Draw();
         }
