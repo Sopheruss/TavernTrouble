@@ -190,6 +190,7 @@ internal class Guest : Component
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
+        Debug.WriteLine("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         if (_drawGuest)
         {
             _spriteBatch.Draw(

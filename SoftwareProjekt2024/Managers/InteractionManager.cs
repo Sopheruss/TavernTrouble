@@ -17,6 +17,7 @@ internal class InteractionManager
     Player _ogerCook;
     CollisionManager _collisionManager;
     PerspectiveManager _perspectiveManager;
+    InputManager _inputManager;
 
     readonly int quarterTileHeight = 8;
     readonly int tileSize = 32;
@@ -32,11 +33,12 @@ internal class InteractionManager
     bool _possibleInteraction;
     bool _allowedInteraction;
 
-    public InteractionManager(TileManager tilemanager, Player ogerCook, PerspectiveManager perspectiveManager)
+    public InteractionManager(TileManager tilemanager, Player ogerCook, PerspectiveManager perspectiveManager, InputManager inputManager)
     {
         _tileManager = tilemanager;
         _ogerCook = ogerCook;
         _perspectiveManager = perspectiveManager;
+        _inputManager = inputManager;
     }
 
     public void Update()
@@ -95,7 +97,7 @@ internal class InteractionManager
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
                 HandleVisualFeedback(interactionState);
-                //CheckPermission(interactionState);
+                HandleInteraction(interactionState);
                 return;
             }
         }
@@ -112,18 +114,13 @@ internal class InteractionManager
                 _allowedInteraction = false;
                 break;
             case 1: 
-                _possibleInteractionObject = "Press [E] to interact with cookbook";
-                _allowedInteraction = true;
+                
                 break;
             case int n when n >= 2 && n <= 3:
-                _possibleInteractionObject = "Press [E] to interact with bar space";
-                int workstationID = tileID - 2;
-                Workstation workstation = _perspectiveManager._workstations[workstationID];
-                _allowedInteraction = workstation.AllowedInteraction(_ogerCook);
+               
                 break;
             case 4:
-                _possibleInteractionObject = "Press [E] to interact with barrel";
-                _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
+                
                 break;
             case 5:
                 _possibleInteractionObject = "Press [E] to interact with cauldron";
@@ -218,20 +215,28 @@ internal class InteractionManager
     {
         switch (tileID)
         {
-            case 1:
-                Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction();
+            case 0:
+                _allowedInteraction = false;
                 break;
-
+            case 1:
+                _possibleInteractionObject = "Press [E] to interact with cookbook";
+                _allowedInteraction = true;
+                if (_inputManager.pressedE)
+                {
+                    CookBook.HandleInteraction();
+                }
+                break;
             case >= 2 and <= 3:
                 Debug.WriteLine("Arbeitsfläche 1 Interaction");
-
-                int workStationID = tileID - 2;
-                Workstation workStaion = _perspectiveManager._workstations[workStationID];
-                workStaion.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int workstationID = tileID - 2;
+                Workstation workstation = _perspectiveManager._workstations[workstationID];
+                _allowedInteraction = workstation.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
+                {
+                    workstation.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
-
             case 4:
                 Debug.WriteLine("Bierfass Interaction");
                 BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp);

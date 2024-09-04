@@ -27,6 +27,8 @@ internal class InputManager
 
     public float speed = 2.0f;
 
+    public bool pressedE = false;
+
     public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, PerspectiveManager perspectiveManager)
     {
         _game = game;
@@ -133,12 +135,11 @@ internal class InputManager
         // Check for interaction:
         if (HasBeenPressed(Keys.E))
         {
-            int interactionState = _interactionManager.GetInteractionState();
-
-            if (interactionState != 0) // != false
-            {
-                _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
-            }
+            pressedE = true;
+        }
+        else
+        {
+            pressedE = false;
         }
     }
 

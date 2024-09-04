@@ -5,6 +5,7 @@ using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Managers
 {
