@@ -79,7 +79,6 @@ public class GamePlay
     public static Stopwatch _timer;
     private GameTime gameTime;
 
-
     public static bool _showLetter = true;
     Letter _letter;
     string _keyPressLetter;
@@ -234,8 +233,8 @@ public class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager);
-        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
+        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _perspectiveManager);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager, _inputManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
         /* font */
@@ -452,7 +451,7 @@ public class GamePlay
             _spriteBatch.Draw(_backgorundLetter, _backgroundLetterRect, Color.White);
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
 
-            Debug.WriteLine(_keyPressLetterSize);
+            //Debug.WriteLine(_keyPressLetterSize);
 
             _letter.Draw();
         }
