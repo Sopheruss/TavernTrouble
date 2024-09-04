@@ -52,7 +52,7 @@ internal class Bar : StaticObject
             }
         }
 
-        else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && ((!(barContents[0] as Plate).plateContents.Any()) || (barContents[0] as Plate).recipe.isFinished))
+        else if (_ogerCook.inventoryIsEmpty() && !isEmpty())
 
         {
             if (barContents[0] is Plate && (!(barContents[0] as Plate).plateContents.Any() || (barContents[0] as Plate).recipe.isFinished))
