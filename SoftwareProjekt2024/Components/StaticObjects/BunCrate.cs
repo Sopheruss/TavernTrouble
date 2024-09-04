@@ -24,8 +24,11 @@ namespace SoftwareProjekt2024.Components.StaticObjects
 
         public static void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook)
         {
-            _perspectiveManager._dynamicObjects.Add(new Bun(positionWhilePickedUp, _perspectiveManager));
-            _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+            if (_ogerCook.inventoryIsEmpty())
+            {
+                _perspectiveManager._dynamicObjects.Add(new Bun(positionWhilePickedUp, _perspectiveManager));
+                _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+            }
         }
     }
 }
