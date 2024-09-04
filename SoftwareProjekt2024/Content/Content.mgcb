@@ -502,6 +502,18 @@
 /processorParam:TextureFormat=Color
 /build:Food/bun_plate.png
 
+#begin Food/bun.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/bun.PNG
+
 #begin Food/fries_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -538,6 +550,18 @@
 /processorParam:TextureFormat=Color
 /build:Food/meat_bun_plate.png
 
+#begin Food/meat_cooked.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/meat_cooked.PNG
+
 #begin Food/meat_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -562,6 +586,18 @@
 /processorParam:TextureFormat=Color
 /build:Food/meat_salad_plate.png
 
+#begin Food/meat.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/meat.PNG
+
 #begin Food/plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -573,6 +609,42 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Food/plate.png
+
+#begin Food/potato_chopped.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/potato_chopped.PNG
+
+#begin Food/potato_cooked.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/potato_cooked.PNG
+
+#begin Food/potato.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/potato.PNG
 
 #begin Food/salad_bun_plate.png
 /importer:TextureImporter
@@ -586,6 +658,18 @@
 /processorParam:TextureFormat=Color
 /build:Food/salad_bun_plate.png
 
+#begin Food/salad_chopped.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/salad_chopped.PNG
+
 #begin Food/salad_plate.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -597,6 +681,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Food/salad_plate.png
+
+#begin Food/salad.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/salad.PNG
 
 #begin Grill/Grill_Done.png
 /importer:TextureImporter
@@ -957,18 +1053,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Npc/Wizard_Npc_Yellow.PNG
-
-#begin OptionMenu/controls.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:OptionMenu/controls.png
 
 #begin OptionMenu/controls.png
 /importer:TextureImporter

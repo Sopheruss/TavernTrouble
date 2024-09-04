@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,9 +16,16 @@ internal class Table : StaticObject
     static int tableIDCount = 0;
     List<Component> tableContents;
     public bool tableOrderfinished;
+
+    public BitmapFont tableNumber;
+    Vector2 tableNumberSize;
+    string tableNum;
+
     public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
+        tableNumber = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new");
+
         occupiedSpots = 0;
         tableID = tableIDCount;
         tableIDCount++;

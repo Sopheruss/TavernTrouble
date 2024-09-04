@@ -30,6 +30,17 @@ internal class Workstation : StaticObject
         item.position = new Vector2(position.X + 9, position.Y + 20);
     }
 
+    public void addIngreditentToBar(Player _ogerCook)
+    {
+        Component item = _ogerCook.inventory[0];
+        Debug.WriteLine("item: " + item);
+        _ogerCook.inventory.Clear();
+        _ogerCook.changeAppearence(1);  //reset appearence
+
+        workStationContents.Add(item);
+        item.position = new Vector2(position.X + 11, position.Y + 22);
+    }
+
 
     public override int getHeight()
     {
@@ -48,6 +59,10 @@ internal class Workstation : StaticObject
             {
                 (workStationContents[0] as Plate).addIngredient(_ogerCook);
             }
+            else if (isEmpty() && _ogerCook.inventory[0] is Ingredient)
+            {
+                addIngreditentToBar(_ogerCook);
+            }
         }
 
 
@@ -55,21 +70,26 @@ internal class Workstation : StaticObject
         {
             if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipe.isFinished)
             {
-                Debug.WriteLine("Picking up");
-                Component item = workStationContents[0];
-                workStationContents.Clear();
-                _ogerCook.pickUp(item);
-                item.position = positionWhilePickedUp;
+                ClearBar(_ogerCook, positionWhilePickedUp);
             }
             else if (workStationContents[0] is Mug)
             {
-                Debug.WriteLine("Picking up");
-                Component item = workStationContents[0];
-                workStationContents.Clear();
-                _ogerCook.pickUp(item);
-                item.position = positionWhilePickedUp;
+                ClearBar(_ogerCook, positionWhilePickedUp);
+            }
+            else if (workStationContents[0] is Ingredient)
+            {
+                ClearBar(_ogerCook, positionWhilePickedUp);
             }
         }
+    }
+
+    public void ClearBar(Player _ogerCook, Vector2 positionWhilePickedUp)
+    {
+        Debug.WriteLine("Picking up");
+        Component item = workStationContents[0];
+        workStationContents.Clear();
+        _ogerCook.pickUp(item);
+        item.position = positionWhilePickedUp;
     }
 
     public bool AllowedInteraction(Player _ogerCook)

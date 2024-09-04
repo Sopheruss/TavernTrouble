@@ -16,5 +16,10 @@ namespace SoftwareProjekt2024.Components
         {
             return false;
         }
+
+        public override void draw(SpriteBatch _spriteBatch)
+        {
+            base.draw(_spriteBatch);
+        }
     }
 }

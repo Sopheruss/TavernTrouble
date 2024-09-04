@@ -6,6 +6,7 @@ using MonoGame.Extended.BitmapFonts;
 using MonoGame.Extended.ViewportAdapters;
 using Penumbra;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
@@ -147,6 +148,16 @@ public class GamePlay
         Mug.beerEmpty = _content.Load<Texture2D>("Food/beer_empty");
         Mug.beerFull = _content.Load<Texture2D>("Food/beer_full");
 
+        /* Ingredients */
+        Bun.bun = _content.Load<Texture2D>("Food/bun");
+        Salad.salad = _content.Load<Texture2D>("Food/salad");
+        Salad.saladChoped = _content.Load<Texture2D>("Food/salad_chopped");
+        Potato.potato = _content.Load<Texture2D>("Food/potato");
+        Potato.potatoChopped = _content.Load<Texture2D>("Food/potato_chopped");
+        Potato.potatoCooked = _content.Load<Texture2D>("Food/potato_cooked");
+        Meat.meat = _content.Load<Texture2D>("Food/meat");
+        Meat.meatCooked = _content.Load<Texture2D>("Food/meat_cooked");
+
         /* other dynamic objects */
         //Bun.bunTexture = _content.Load<Texture2D>("")
 
@@ -189,6 +200,8 @@ public class GamePlay
         _ogerCook.Load();
 
         /* guests */
+        Guest._availableGuests = null;
+        Guest._totalGuestNumber = 0;
         Guest.fairyGreen = _content.Load<Texture2D>("Npc/Fairy_Npc_Green");
         Guest.fairyRed = _content.Load<Texture2D>("Npc/Fairy_Npc_Red");
         Guest.fairyBlue = _content.Load<Texture2D>("Npc/Fairy_Npc_Blue");
@@ -438,11 +451,14 @@ public class GamePlay
         {
             _spriteBatch.Draw(_backgorundLetter, _backgroundLetterRect, Color.White);
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
+
+            Debug.WriteLine(_keyPressLetterSize);
+
             _letter.Draw();
         }
-       
+
         _interactionManager.Draw(_spriteBatch, bmfont, _keyPressLetterSize, _screenWidth, _screenHeight);
-       
+
         _spriteBatch.End();
     }
 }

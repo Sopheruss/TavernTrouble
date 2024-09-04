@@ -23,14 +23,26 @@ internal class Bar : StaticObject
         return barContents.Count == 0;
     }
 
-    public void addPlateOrMug(Player _ogerCook)
+    public void addMugOrPlate(Player _ogerCook)
     {
         Component item = _ogerCook.inventory[0];
+        Debug.WriteLine("item: " + item);
         _ogerCook.inventory.Clear();
         _ogerCook.changeAppearence(1);  //reset appearence
 
         barContents.Add(item);
         item.position = new Vector2(position.X + 9, position.Y + 9);
+    }
+
+    public void addIngreditentToBar(Player _ogerCook)
+    {
+        Component item = _ogerCook.inventory[0];
+        Debug.WriteLine("item: " + item);
+        _ogerCook.inventory.Clear();
+        _ogerCook.changeAppearence(1);  //reset appearence
+
+        barContents.Add(item);
+        item.position = new Vector2(position.X + 11, position.Y + 11);
     }
 
     public Bar GetBar()
@@ -44,11 +56,15 @@ internal class Bar : StaticObject
         {
             if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
             {
-                addPlateOrMug(_ogerCook);
+                addMugOrPlate(_ogerCook);
             }
             else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
                 (barContents[0] as Plate).addIngredient(_ogerCook);
+            }
+            else if (isEmpty() && _ogerCook.inventory[0] is Ingredient)
+            {
+                addIngreditentToBar(_ogerCook);
             }
         }
 
@@ -57,21 +73,26 @@ internal class Bar : StaticObject
         {
             if (barContents[0] is Plate && (!(barContents[0] as Plate).plateContents.Any() || (barContents[0] as Plate).recipe.isFinished))
             {
-                Debug.WriteLine("Picking up");
-                Component item = barContents[0];
-                barContents.Clear();
-                _ogerCook.pickUp(item);
-                item.position = positionWhilePickedUp;
+                ClearBar(_ogerCook, positionWhilePickedUp);
             }
             else if (barContents[0] is Mug)
             {
-                Debug.WriteLine("Picking up");
-                Component item = barContents[0];
-                barContents.Clear();
-                _ogerCook.pickUp(item);
-                item.position = positionWhilePickedUp;
+                ClearBar(_ogerCook, positionWhilePickedUp);
+            }
+            else if (barContents[0] is Ingredient)
+            {
+                ClearBar(_ogerCook, positionWhilePickedUp);
             }
         }
+    }
+
+    public void ClearBar(Player _ogerCook, Vector2 positionWhilePickedUp)
+    {
+        Debug.WriteLine("Picking up");
+        Component item = barContents[0];
+        barContents.Clear();
+        _ogerCook.pickUp(item);
+        item.position = positionWhilePickedUp;
     }
 
     public bool AllowedInteraction(Player _ogerCook)
@@ -97,7 +118,7 @@ internal class Bar : StaticObject
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }

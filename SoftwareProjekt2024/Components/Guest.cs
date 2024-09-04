@@ -38,7 +38,7 @@ internal class Guest : Component
     private bool _drawSpawn;
 
     public static List<Texture2D> _availableGuests;
-    public static int _totalGuestNumber = 0;
+    public static int _totalGuestNumber;
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
@@ -92,7 +92,6 @@ internal class Guest : Component
     {
         Random rnd = new();
         int num = rnd.Next(0, _availableGuests.Count);
-        //  Debug.WriteLine(num);
         return num; //Generates a number between 0 and 8 -> is number of different textures 
     }
 
@@ -166,7 +165,7 @@ internal class Guest : Component
         points = completedComponents * 10;
         if (order.isFinished && order.wrongComponentsCount == 0) { } //Maybe add bonus points for a perfectly handled order here?
         Debug.WriteLine($"judgeOrderA: {points}");
-
+        
         if (order.wrongComponentsCount > 0)
         {
             points += order.wrongComponentsCount * (-2);
