@@ -38,10 +38,11 @@ internal class Guest : Component
     private bool _drawSpawn;
 
     public static List<Texture2D> _availableGuests;
-    public static int _totalGuestNumber;
+    public static int _totalGuestNumber = 0;
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
+        perspectiveManager._sortedComponents.Add(this);
 
         if (_availableGuests == null)
         {
