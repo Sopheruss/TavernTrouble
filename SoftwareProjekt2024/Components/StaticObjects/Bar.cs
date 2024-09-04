@@ -77,7 +77,7 @@ internal class Bar : StaticObject
     {
         if (!_ogerCook.inventoryIsEmpty())
         {
-            if (isEmpty() && _ogerCook.inventory[0] is Plate) //oger is holding a plate
+            if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
             {
                 return true;
             }
@@ -90,9 +90,16 @@ internal class Bar : StaticObject
                 return false;
             }
         }
-        else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && (barContents[0] as Plate).recipeIsFinished) //Implementation of plate method to see if plate/recipe is finished needed
+        else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
-            return true;
+            if ((barContents[0] is Plate && ((barContents[0] as Plate).recipeIsFinished) || barContents[0] is Mug))
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
         else
         {

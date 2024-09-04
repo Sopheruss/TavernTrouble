@@ -61,8 +61,8 @@ internal class InteractionManager
     {
         if (_possibleInteraction && _allowedInteraction)
         {
-            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
-            spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
+            Vector2 textSize = bmfont.MeasureString(_possibleInteractionObject);
+            spriteBatch.DrawString(bmfont, _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
         }
     }
 
@@ -112,67 +112,73 @@ internal class InteractionManager
                 _allowedInteraction = false;
                 break;
             case 1: 
-                _possibleInteractionObject = "cookbook";
+                _possibleInteractionObject = "Press [E] to interact with cookbook";
                 _allowedInteraction = true;
                 break;
             case int n when n >= 2 && n <= 3:
-                _possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int workstationID = tileID - 2;
+                Workstation workstation = _perspectiveManager._workstations[workstationID];
+                _allowedInteraction = workstation.AllowedInteraction(_ogerCook);
                 break;
             case 4:
-                _possibleInteractionObject = "barrel";
+                _possibleInteractionObject = "Press [E] to interact with barrel";
                 _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 break;
             case 5:
-                _possibleInteractionObject = "cauldron";
+                _possibleInteractionObject = "Press [E] to interact with cauldron";
                 break;
             case 6:
-                _possibleInteractionObject = "grate";
+                _possibleInteractionObject = "Press [E] to interact with grate";
                 break;
             case int n when n >= 7 && n <= 9:
-                _possibleInteractionObject = "cutting board";
+                _possibleInteractionObject = "Press [E] to interact with cutting board";
                 break;
             case 10:
-                _possibleInteractionObject = "potato box";
+                _possibleInteractionObject = "Press [E] to interact with potato box";
                 _allowedInteraction = PotatoCrate.AllowedInteraction(_ogerCook);
                 break;
             case 11:
-                _possibleInteractionObject = "salad box";
+                _possibleInteractionObject = "Press [E] to interact with salad box";
                 _allowedInteraction = SaladCrate.AllowedInteraction(_ogerCook);
                 break;
             case 12:
-                _possibleInteractionObject = "meat box";
+                _possibleInteractionObject = "Press [E] to interact with meat box";
                 _allowedInteraction = MeatCrate.AllowedInteraction(_ogerCook);
                 break;
             case 13:
-                _possibleInteractionObject = "bun box";
+                _possibleInteractionObject = "Press [E] to interact with bun box";
                 _allowedInteraction = BunCrate.AllowedInteraction(_ogerCook);
                 break;
             case 14:
-                _possibleInteractionObject = "plates";
+                _possibleInteractionObject = "Press [E] to interact with plates";
                 _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
                 break;
             case 15:
-                _possibleInteractionObject = "tankards";
+                _possibleInteractionObject = "Press [E] to interact with tankards";
                 _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
                 break;
             case 16:
-                _possibleInteractionObject = "trash can";
+                _possibleInteractionObject = "Press [E] to interact with trash can";
                 _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 20 && n <= 32:
-                _possibleInteractionObject = "bar space";
-                int barflächenID = tileID - 20;
-                Bar barfläche = _perspectiveManager._barFlächen[barflächenID];
-                _allowedInteraction = barfläche.AllowedInteraction(_ogerCook);
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int obereBarflächenID = tileID - 20;
+                Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
+                _allowedInteraction = obereBarfläche.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 40 && n <= 52:
-                _possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int untereBarflächenID = tileID - 40;
+                Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
+                _allowedInteraction = untereBarfläche.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 60 && n <= 67:
-                _possibleInteractionObject = "table";
+                _possibleInteractionObject = "Press [E] to interact with table";
                 break;
             default:
-                _possibleInteractionObject = "something";
+                _possibleInteractionObject = "Press [E] to interact with something";
                 break;  
         }
     }

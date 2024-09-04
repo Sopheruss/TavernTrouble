@@ -72,6 +72,40 @@ internal class Workstation : StaticObject
         }
     }
 
+    public bool AllowedInteraction(Player _ogerCook)
+    {
+        if (!_ogerCook.inventoryIsEmpty())
+        {
+            if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
+            {
+                return true;
+            }
+            else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && workStationContents[0] is Plate && (workStationContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
+        {
+            if ((workStationContents[0] is Plate && ((workStationContents[0] as Plate).recipeIsFinished) || workStationContents[0] is Mug))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, dest, src, Color.White);

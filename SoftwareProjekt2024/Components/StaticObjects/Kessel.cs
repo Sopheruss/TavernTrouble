@@ -68,7 +68,7 @@ internal class Kessel : StaticObject
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp) //only relevant for Animation
     {
         //interaction only possible if oger carries chopped potato (fries) 
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato && hasFries == false && ((Potato)_ogerCook.inventory[0]).chopped)
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato potato && hasFries == false && potato.chopped && !potato.cooked)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
