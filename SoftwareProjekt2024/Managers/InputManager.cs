@@ -10,7 +10,6 @@ internal class InputManager
     readonly Game1 _game;
     readonly Player _ogerCook;
     readonly CollisionManager _collisionManager;
-    readonly InteractionManager _interactionManager;
     readonly PerspectiveManager _perspectiveManager;
 
     readonly Vector2 _left = new(-1, 0);
@@ -29,12 +28,11 @@ internal class InputManager
 
     public bool pressedE = false;
 
-    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, PerspectiveManager perspectiveManager)
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, PerspectiveManager perspectiveManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
-        _interactionManager = interactionManager;
         _perspectiveManager = perspectiveManager;
 
         curDirs = new List<Direction>();

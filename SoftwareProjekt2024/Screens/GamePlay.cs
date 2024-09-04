@@ -223,8 +223,8 @@ public class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager);
-        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
+        _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _perspectiveManager);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager, _inputManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
         /* font */

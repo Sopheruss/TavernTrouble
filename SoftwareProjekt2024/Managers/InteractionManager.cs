@@ -96,50 +96,11 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-                HandleVisualFeedback(interactionState);
                 HandleInteraction(interactionState);
                 return;
             }
         }
         interactionState = 0; // 0 means no possible interaction; false
-    }
-
-
-    public void HandleVisualFeedback(int tileID)
-    {
-        switch (tileID) {
-
-            case 14:
-                _possibleInteractionObject = "Press [E] to interact with plates";
-                _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
-                break;
-            case 15:
-                _possibleInteractionObject = "Press [E] to interact with tankards";
-                _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
-                break;
-            case 16:
-                _possibleInteractionObject = "Press [E] to interact with trash can";
-                _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
-                break;
-            case int n when n >= 20 && n <= 32:
-                _possibleInteractionObject = "Press [E] to interact with bar space";
-                int obereBarflächenID = tileID - 20;
-                Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
-                _allowedInteraction = obereBarfläche.AllowedInteraction(_ogerCook);
-                break;
-            case int n when n >= 40 && n <= 52:
-                _possibleInteractionObject = "Press [E] to interact with bar space";
-                int untereBarflächenID = tileID - 40;
-                Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
-                _allowedInteraction = untereBarfläche.AllowedInteraction(_ogerCook);
-                break;
-            case int n when n >= 60 && n <= 67:
-                _possibleInteractionObject = "Press [E] to interact with table";
-                break;
-            default:
-                _possibleInteractionObject = "Press [E] to interact with something";
-                break;  
-        }
     }
 
     /*
@@ -277,54 +238,67 @@ internal class InteractionManager
                 break;
 
             case 14:
-                Debug.WriteLine("PlatePile Interaction");
-
-
-                PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
-
+                _possibleInteractionObject = "Press [E] to interact with plates";
+                _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
+                {
+                    PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
+                }
                 break;
 
             case 15:
-                Debug.WriteLine("MugPile Interaction");
-
-                MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
-
+                _possibleInteractionObject = "Press [E] to interact with tankards";
+                _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
+                {
+                    MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
+                }
                 break;
 
             case 16:
-                Debug.WriteLine("Trash Interaction");
-                if (!_ogerCook.inventoryIsEmpty())
+                _possibleInteractionObject = "Press [E] to interact with trash can";
+                _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
                 {
                     Trash.HandleInteraction(_ogerCook, _perspectiveManager);
                 }
                 break;
 
             case >= 20 and <= 32:
-                Debug.WriteLine("Barfläche oben Interaction");
-
-                int barflächenID = tileID - 20;
-                Bar barfläche = _perspectiveManager._barFlächen[barflächenID];
-                barfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int obereBarflächenID = tileID - 20;
+                Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
+                _allowedInteraction = obereBarfläche.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
+                {
+                    obereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             case >= 40 and <= 52:
-                Debug.WriteLine("Barfläche unten Interaction");
-
+                _possibleInteractionObject = "Press [E] to interact with bar space";
                 int untereBarflächenID = tileID - 40;
                 Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
-                untereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                _allowedInteraction = untereBarfläche.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
+                {
+                    untereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             case >= 60 and <= 67:
-                Debug.WriteLine("Tisch Interaktion");
+                _possibleInteractionObject = "Press [E] to interact with table";
                 int tableID = tileID - 60;
                 Table table = _perspectiveManager._tables[tableID];
-                table.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                //_allowedInteraction = table.AllowedInteraction(_ogerCook);
+                if (_inputManager.pressedE)
+                {
+                    table.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+                }
                 break;
 
             default:
-                Debug.WriteLine("INTERACTION");
-                Game1._gamePlay.IncreaseScore(5);
+                _possibleInteractionObject = "Press [E] to interact with something";
                 break;
         }
     }
