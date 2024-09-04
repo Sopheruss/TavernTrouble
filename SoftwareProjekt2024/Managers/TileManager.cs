@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Penumbra;
 using SoftwareProjekt2024.Components.DekoObjects;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 /* ID-Katalouge: 
  * Kitchen Equipment: 
@@ -281,11 +281,11 @@ public class TileManager
                     else penumbra.Hulls.Add(BarHull_right);
 
                     break;
-                case 54:    //Cuttingboard
+                case 54:    //PotatoCrate
                     _perspectiveManager._Interactables.Add(new PotatoCrate(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                     break;
                 case 55:    //Workstation
-                    _perspectiveManager._Interactables.Add(new Workstation(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+                    _perspectiveManager._workstations.Add(new Workstation(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                     break;
                 case 56:    //CookBook -> kombiniert beide Tiles
                     _perspectiveManager._Interactables.Add(new CookBook(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
@@ -309,7 +309,7 @@ public class TileManager
 
                     break;
                 case 58:    //Cuttingboard
-                    _perspectiveManager._Interactables.Add(new Cuttingboard(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
+                    _perspectiveManager._cuttingBoards.Add(new Cuttingboard(textureAtlas, new Vector2(dest.X, dest.Y), doubleHightDestRec, doubleHightSrcRec, _perspectiveManager));
                     break;
                 case 59:    //Table -> one case for initializing whole table
                     _perspectiveManager._tables.Add(new Table(textureAtlas, new Vector2(dest.X, dest.Y),

@@ -1,21 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Timers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
-/* ToDo for Interaction: 
-    - only make interaction possible, if you interact with the kessel if oger ha a chopped potato in hand 
-    - add finished texture, after timer runs out -> dunno how right know, but have to change texture in draw call
-            -> Problem: lets complete kessel vanish
-    - after kessel is done: if you interact with it again, change kessel to empty kessel and dont start animation again (done -> siehe Interaction Manager)
-            -> oger now carrys the finished cooked fries 
- */
 public enum KesselStates
 {
     EMPTYKESSEL,
@@ -35,9 +28,9 @@ internal class Kessel : StaticObject
     public static List<Component> kesselContents;
 
     private static Timer _kesselTimer;
-    private static int count = 0;
+    private static int count;
 
-    public static KesselStates _activeKesselState = KesselStates.EMPTYKESSEL;
+    public static KesselStates _activeKesselState;
 
     public static SoundEffectInstance soundInstanceKessel;
 
@@ -45,14 +38,23 @@ internal class Kessel : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         kesselContents = new List<Component>();
+        _activeKesselState = KesselStates.EMPTYKESSEL;
+        hasFries = false;
 
         _kesselAnimationManager = new AnimationManager(3, 3, new Vector2(32, 64), 10); //Kessel animation has 3 frames in 3 colums, vector is size of one frame 
         _kesselAnimationManager.RowPos = 0; //only one row of animation 
-        _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
-        _kesselTimer.Elapsed += Tick; //ticks timer
+
+        if (_kesselTimer != null)
+        {
+            _kesselTimer.Close();
+        }
+
+        count = 0;
 
         // Load the sound effect and create an instance
         var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/boiling-water");
+        if (soundInstanceKessel != null)
+            soundInstanceKessel.Dispose();
         soundInstanceKessel = soundEffect.CreateInstance();
         soundInstanceKessel.IsLooped = false;
         UpdateVolume();
@@ -65,16 +67,20 @@ internal class Kessel : StaticObject
 
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp) //only relevant for Animation
     {
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato && hasFries == false)
+        //interaction only possible if oger carries chopped potato (fries) 
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato potato && hasFries == false && potato.chopped && !potato.cooked)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
             _ogerCook.changeAppearence(1);
 
             kesselContents.Add(item);
-            //(item as Potato).cook(); 
+            (item as Potato).cook();
 
             hasFries = true;
+
+            _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
+            _kesselTimer.Elapsed += Tick; //ticks timer
 
             _kesselTimer.Start(); //starts timer for 10 seconds 
             _activeKesselState = KesselStates.ANIMATIONKESSEL; //starts Animation 
@@ -86,7 +92,6 @@ internal class Kessel : StaticObject
         if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
         {
             _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
-
             hasFries = false;
 
             Component item = kesselContents[0];
@@ -110,7 +115,7 @@ internal class Kessel : StaticObject
 
         if (count >= 10) //playes the animation 10 seconds 
         {
-            _kesselTimer.Stop();
+            _kesselTimer.Close();
             _kesselAnimationManager.ResetAnimation();
             _activeKesselState = KesselStates.DONEKESSEL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction

@@ -40,6 +40,9 @@ public class GamePlay
 
     public static Rectangle _orderStripRect;
 
+    Texture2D _backgorundLetter;
+    Rectangle _backgroundLetterRect;
+
     PerspectiveManager _perspectiveManager;
     TileManager _tileManager;
     CollisionManager _collisionManager;
@@ -83,6 +86,7 @@ public class GamePlay
 
     public static bool _showPossibleInteraction = false;
     public static string _possibleInteractionObject;
+
 
     public GamePlay(ContentManager Content, int screenWidth, int screenHeight, Game1 game, SpriteBatch spriteBatch)
     {
@@ -139,6 +143,10 @@ public class GamePlay
         Plate.withMeat_Salad = _content.Load<Texture2D>("Food/meat_salad_plate");
         Plate.withFries = _content.Load<Texture2D>("Food/fries_plate");
 
+        /* mug types */
+        Mug.beerEmpty = _content.Load<Texture2D>("Food/beer_empty");
+        Mug.beerFull = _content.Load<Texture2D>("Food/beer_full");
+
         /* other dynamic objects */
         //Bun.bunTexture = _content.Load<Texture2D>("")
 
@@ -162,9 +170,14 @@ public class GamePlay
         Player.withMeatDone = _content.Load<Texture2D>("Models/Oger_Meat_Done");
         Player.withBun = _content.Load<Texture2D>("Models/Oger_Bun");
         Player.withSalad = _content.Load<Texture2D>("Models/Oger_Salad");
+        Player.withSaladChopped = _content.Load<Texture2D>("Models/Oger_Salad_Chopped");
         Player.withPotato = _content.Load<Texture2D>("Models/Oger_Potato");
+        Player.withFries = _content.Load<Texture2D>("Models/Oger_Fries");
+        Player.withFriesDone = _content.Load<Texture2D>("Models/Oger_Fries_Done");
         Player.withPlate_Fries = _content.Load<Texture2D>("Models/Oger_Plate_Fries");
         Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_Full_Burger");
+        Player.withBeerEmpty = _content.Load<Texture2D>("Models/Oger_Beer_Empty");
+        Player.withBeerFull = _content.Load<Texture2D>("Models/Oger_Beer_Full");
 
         _ogerCook = new Player(Player.plain,
                               new Vector2(_mapWidthPx / 2, _mapHeightPx / 4),
@@ -176,10 +189,18 @@ public class GamePlay
         _ogerCook.Load();
 
         /* guests */
-        Guest.fairy = _content.Load<Texture2D>("Npc/Fairy_Npc");
+        Guest._availableGuests = null;
+        Guest._totalGuestNumber = 0;
+        Guest.fairyGreen = _content.Load<Texture2D>("Npc/Fairy_Npc_Green");
+        Guest.fairyRed = _content.Load<Texture2D>("Npc/Fairy_Npc_Red");
+        Guest.fairyBlue = _content.Load<Texture2D>("Npc/Fairy_Npc_Blue");
         Guest.ogerBlue = _content.Load<Texture2D>("Npc/Oger_Npc_Blue");
-        Guest.ogerGreen = _content.Load<Texture2D>("Npc/Oger_Npc_Green");
+        Guest.ogerOrange = _content.Load<Texture2D>("Npc/Oger_Npc_Orange");
         Guest.ogerPink = _content.Load<Texture2D>("Npc/Oger_Npc_Pink");
+        Guest.wizardRed = _content.Load<Texture2D>("Npc/Wizard_Npc_Red");
+        Guest.wizardYellow = _content.Load<Texture2D>("Npc/Wizard_Npc_Yellow");
+        Guest.wizardPurple = _content.Load<Texture2D>("Npc/Wizard_Npc_Purple");
+        Guest.spawnAnimationTexture = _content.Load<Texture2D>("Npc/Spritesheet_Spawn_Animation");
 
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
@@ -193,9 +214,16 @@ public class GamePlay
         CookBook._cookBookClose = _content.Load<Texture2D>("CookBook/cookBook_Closed");
         CookBook._cookBookAnimation = _content.Load<Texture2D>("CookBook/cookBook_Spritesheet");
 
+        /* cuttingBoard*/
+        Cuttingboard._potato = _content.Load<Texture2D>("Food/Board_Potato");
+        Cuttingboard._potatoChopped = _content.Load<Texture2D>("Food/Board_Potato_Chopped");
+        Cuttingboard._salad = _content.Load<Texture2D>("Food/Board_Salad");
+        Cuttingboard._saladChopped = _content.Load<Texture2D>("Food/Board_Salad_Chopped");
+
+
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
@@ -220,6 +248,9 @@ public class GamePlay
         _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
         _keyPressLetter = "Press [any key] to continue";
         _keyPressLetterSize = bmfont.MeasureString(_keyPressLetter);
+
+        _backgorundLetter = _content.Load<Texture2D>("Background/background");
+        _backgroundLetterRect = new Rectangle(0, 0, _screenWidth, _screenHeight);
 
         /* lights, hulls */
         _penumbra.Initialize();
@@ -304,16 +335,35 @@ public class GamePlay
             }
 
             _ogerCook.Update();
-            _inputManager.Update();
+
+            if (!BeerBarrel.interactedBarrel)
+            {
+                _inputManager.Update();
+            }
             _interactionManager.Update();
             _gameplayLoopManager.Update();
 
-            Guest.Update();
+            foreach (Guest guest in _perspectiveManager._guests)
+            {
+                guest.Update();
+            }
 
             // only Update Kessel/Grill/CookBook when Animation is supposed to play
             if (CookBook._playCookBookAnimation) { CookBook.Update(); }
             if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
             if (Grill._activeGrillState == GrillStates.ANIMATIONGRILL) { Grill.Update(); }
+
+            foreach (Cuttingboard cuttingBoard in _perspectiveManager._cuttingBoards)
+            {
+                if (cuttingBoard._activeCBState == CuttingBoardStates.POTATO ||
+                    cuttingBoard._activeCBState == CuttingBoardStates.SALAD)
+                {
+                    cuttingBoard.Update();
+                }
+            }
+
+
+            if (BeerBarrel.interactedBarrel) { BeerBarrel.Update(_ogerCook); }
 
             // Ensure the player hull is updated correctly
             UpdatePlayerHull();
@@ -372,7 +422,6 @@ public class GamePlay
         _penumbra.Draw(gameTime); // draw everything NOT affected by light (UI, Menu)
 
 
-
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         _perspectiveManager.drawOrders(_spriteBatch);
@@ -389,16 +438,13 @@ public class GamePlay
 
         if (_showLetter)
         {
+            _spriteBatch.Draw(_backgorundLetter, _backgroundLetterRect, Color.White);
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
             _letter.Draw();
         }
-
-        if (_showPossibleInteraction)
-        {
-            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
-            _spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((_screenWidth - textSize.X) / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
-        }
-
+       
+        _interactionManager.Draw(_spriteBatch, bmfont, _keyPressLetterSize, _screenWidth, _screenHeight);
+       
         _spriteBatch.End();
     }
 }

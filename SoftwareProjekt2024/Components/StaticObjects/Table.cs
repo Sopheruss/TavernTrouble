@@ -51,9 +51,11 @@ internal class Table : StaticObject
         }
         else if (!isClean())
         {
-            //dreckiges Geschirr wegräumen logik hier
+            //dreckiges Geschirr wegrï¿½umen logik hier
+
         }
     }
+
     public override int getHeight()
     {
         return dest.Height - 13;

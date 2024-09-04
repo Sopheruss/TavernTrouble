@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Timers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 /* ToDo for Interaction: 
-    - only make interaction possible, if you interact with the grill if oger has raw meat in hand 
-    - add finished texture, after timer runs out -> dunno how right know, but have to change texture in draw call
-            -> Problem: lets complete kessel vanish
-    - after grill is done: if you interact with it again, change kessel to empty kessel and dont start animation again
+    - Bug when retry on grill -> timer not resetted?
  */
 enum GrillStates
 {
@@ -24,17 +22,17 @@ internal class Grill : StaticObject
 {
 
     public static List<Component> grillContents;
-    static bool hasMeatOn = false;
+    static bool hasMeatOn;
 
     static AnimationManager _grillAnimationManager;
 
     public static Texture2D _grillTextureDone;
     public static Texture2D _grillTextureAnimation;
 
-    public static GrillStates _activeGrillState = GrillStates.EMPTYGRILL;
+    public static GrillStates _activeGrillState;
 
     private static Timer _grillTimer;
-    private static int count = 0;
+    private static int count;
 
     public static SoundEffectInstance soundInstanceGrill;
 
@@ -42,15 +40,22 @@ internal class Grill : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         grillContents = new List<Component>();
+        _activeGrillState = GrillStates.EMPTYGRILL;
+        hasMeatOn = false;
 
         _grillAnimationManager = new AnimationManager(3, 3, new Vector2(64, 96), 10);
         _grillAnimationManager.RowPos = 0;
 
-        _grillTimer = new Timer(1000);
-        _grillTimer.Elapsed += Tick;
+        if (_grillTimer != null)
+        {
+            _grillTimer.Close();
+        }
+        count = 0;
 
         // Load the sound effect and create an instance
         var soundEffect = Game1.ContentManager.Load<SoundEffect>("Sounds/fire-crackling");
+        if (soundInstanceGrill != null)
+            soundInstanceGrill.Dispose();
         soundInstanceGrill = soundEffect.CreateInstance();
         soundInstanceGrill.IsLooped = false;
         UpdateVolume();
@@ -65,7 +70,7 @@ internal class Grill : StaticObject
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
         //interaction only possible when carrying raw meat
-        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat && hasMeatOn == false)
+        if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat meat && !hasMeatOn && !meat.cooked)
         {
             Component item = _ogerCook.inventory[0];
             _ogerCook.inventory.Clear();
@@ -75,6 +80,10 @@ internal class Grill : StaticObject
             (item as Meat).cook();
 
             hasMeatOn = true;
+
+            _grillTimer = new Timer(1000);
+            _grillTimer.Elapsed += Tick;
+
 
             _grillTimer.Start(); //starts timer for 10 seconds 
             _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
@@ -102,9 +111,11 @@ internal class Grill : StaticObject
     {
         _grillAnimationManager.Update();
 
+        Debug.WriteLine(count);
+
         if (count >= 10)
         {
-            _grillTimer.Stop();
+            _grillTimer.Close();
             _grillAnimationManager.ResetAnimation();
             _activeGrillState = GrillStates.DONEGRILL;
             count = 0; //reset timer to 0, so that animation can start again with next interaction

@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SoftwareProjekt2024;
 
@@ -14,6 +16,7 @@ internal class InteractionManager
     TileManager _tileManager;
     Player _ogerCook;
     CollisionManager _collisionManager;
+    PerspectiveManager _perspectiveManager;
 
     readonly int quarterTileHeight = 8;
     readonly int tileSize = 32;
@@ -25,13 +28,15 @@ internal class InteractionManager
 
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
-    string possibleInteractionObject;
+    string _possibleInteractionObject;
+    bool _possibleInteraction;
+    bool _allowedInteraction;
 
-    public InteractionManager(TileManager tilemanager, Player ogerCook)
+    public InteractionManager(TileManager tilemanager, Player ogerCook, PerspectiveManager perspectiveManager)
     {
         _tileManager = tilemanager;
         _ogerCook = ogerCook;
-
+        _perspectiveManager = perspectiveManager;
     }
 
     public void Update()
@@ -41,12 +46,23 @@ internal class InteractionManager
 
         if (interactionState == 0)
         {
-            GamePlay._showPossibleInteraction = false;
+           _possibleInteraction = false;
+           _allowedInteraction = false;
         }
         else
         {
-            GamePlay._showPossibleInteraction = true;
-            GamePlay._possibleInteractionObject = possibleInteractionObject;
+           _possibleInteraction = true;
+        }
+        Debug.WriteLine("possible: " + _possibleInteraction);
+        Debug.WriteLine("allowed: " + _allowedInteraction);
+    }
+
+    public void Draw(SpriteBatch spriteBatch, BitmapFont bmfont, Vector2 keyPressLetterSize, int screenWidth, int screenHeight)
+    {
+        if (_possibleInteraction && _allowedInteraction)
+        {
+            Vector2 textSize = bmfont.MeasureString(_possibleInteractionObject);
+            spriteBatch.DrawString(bmfont, _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
         }
     }
 
@@ -78,71 +94,92 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-                ChangeInteractionString(interactionState);
+                HandleVisualFeedback(interactionState);
+                //CheckPermission(interactionState);
                 return;
             }
         }
         interactionState = 0; // 0 means no possible interaction; false
     }
 
-    public void ChangeInteractionString(int tileID)
+
+    public void HandleVisualFeedback(int tileID)
     {
         switch (tileID)
         {
             case 0:
-                possibleInteractionObject = null;
+                _possibleInteractionObject = null;
+                _allowedInteraction = false;
                 break;
-            case 1:
-                possibleInteractionObject = "cookbook";
+            case 1: 
+                _possibleInteractionObject = "Press [E] to interact with cookbook";
+                _allowedInteraction = true;
                 break;
             case int n when n >= 2 && n <= 3:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int workstationID = tileID - 2;
+                Workstation workstation = _perspectiveManager._workstations[workstationID];
+                _allowedInteraction = workstation.AllowedInteraction(_ogerCook);
                 break;
             case 4:
-                possibleInteractionObject = "barrel";
+                _possibleInteractionObject = "Press [E] to interact with barrel";
+                _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 break;
             case 5:
-                possibleInteractionObject = "cauldron";
+                _possibleInteractionObject = "Press [E] to interact with cauldron";
                 break;
             case 6:
-                possibleInteractionObject = "grate";
+                _possibleInteractionObject = "Press [E] to interact with grate";
                 break;
             case int n when n >= 7 && n <= 9:
-                possibleInteractionObject = "cutting board";
+                _possibleInteractionObject = "Press [E] to interact with cutting board";
                 break;
             case 10:
-                possibleInteractionObject = "potato box";
+                _possibleInteractionObject = "Press [E] to interact with potato box";
+                _allowedInteraction = PotatoCrate.AllowedInteraction(_ogerCook);
                 break;
             case 11:
-                possibleInteractionObject = "salad box";
+                _possibleInteractionObject = "Press [E] to interact with salad box";
+                _allowedInteraction = SaladCrate.AllowedInteraction(_ogerCook);
                 break;
             case 12:
-                possibleInteractionObject = "meat box";
+                _possibleInteractionObject = "Press [E] to interact with meat box";
+                _allowedInteraction = MeatCrate.AllowedInteraction(_ogerCook);
                 break;
             case 13:
-                possibleInteractionObject = "bun box";
+                _possibleInteractionObject = "Press [E] to interact with bun box";
+                _allowedInteraction = BunCrate.AllowedInteraction(_ogerCook);
                 break;
             case 14:
-                possibleInteractionObject = "plates";
+                _possibleInteractionObject = "Press [E] to interact with plates";
+                _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
                 break;
             case 15:
-                possibleInteractionObject = "tankards";
+                _possibleInteractionObject = "Press [E] to interact with tankards";
+                _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
                 break;
             case 16:
-                possibleInteractionObject = "trash can";
+                _possibleInteractionObject = "Press [E] to interact with trash can";
+                _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 20 && n <= 32:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int obereBarflächenID = tileID - 20;
+                Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
+                _allowedInteraction = obereBarfläche.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 40 && n <= 52:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "Press [E] to interact with bar space";
+                int untereBarflächenID = tileID - 40;
+                Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
+                _allowedInteraction = untereBarfläche.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 60 && n <= 67:
-                possibleInteractionObject = "table";
+                _possibleInteractionObject = "Press [E] to interact with table";
                 break;
             default:
-                possibleInteractionObject = "something";
-                break;
+                _possibleInteractionObject = "Press [E] to interact with something";
+                break;  
         }
     }
 
@@ -177,7 +214,7 @@ internal class InteractionManager
      */
 
 
-    public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
+    public void HandleInteraction(int tileID)
     {
         switch (tileID)
         {
@@ -186,16 +223,18 @@ internal class InteractionManager
                 CookBook.HandleInteraction();
                 break;
 
-            case 2:
+            case >= 2 and <= 3:
                 Debug.WriteLine("Arbeitsfläche 1 Interaction");
-                break;
 
-            case 3:
-                Debug.WriteLine("Arbeitsfläche 2 Interaction");
+                int workStationID = tileID - 2;
+                Workstation workStaion = _perspectiveManager._workstations[workStationID];
+                workStaion.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+
                 break;
 
             case 4:
                 Debug.WriteLine("Bierfass Interaction");
+                BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp);
                 break;
 
             case 5:
@@ -212,20 +251,18 @@ internal class InteractionManager
 
                 break;
 
-            case 7:
-                Debug.WriteLine("Brett 1 Interaction");
-                break;
+            case >= 7 and <= 9:
 
-            case 8:
-                Debug.WriteLine("Brett 2 Interaction");
-                break;
 
-            case 9:
-                Debug.WriteLine("Brett 3 Interaction");
-                break;
+                int cuttingBoardID = tileID - 7;
 
+                Debug.WriteLine("Brett " + cuttingBoardID + " Interaction");
+                Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
+                cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
+                break;
             case 10:
-                Debug.WriteLine("Potato Interaction");
+                Debug.WriteLine("PotatoCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -233,7 +270,7 @@ internal class InteractionManager
                 break;
 
             case 11:
-                Debug.WriteLine("Salad Interaction");
+                Debug.WriteLine("SaladCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     SaladCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -241,7 +278,7 @@ internal class InteractionManager
                 break;
 
             case 12:
-                Debug.WriteLine("Meat Interaction");
+                Debug.WriteLine("MeatCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     MeatCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -249,7 +286,7 @@ internal class InteractionManager
                 break;
 
             case 13:
-                Debug.WriteLine("Bun Interaction");
+                Debug.WriteLine("BunCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     BunCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -257,14 +294,18 @@ internal class InteractionManager
                 break;
 
             case 14:
-                Debug.WriteLine("Plates Interaction");
+                Debug.WriteLine("PlatePile Interaction");
 
-                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, positionWhilePickedUp, _perspectiveManager));
-                _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+
+                PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
+
                 break;
 
             case 15:
-                Debug.WriteLine("Bierkrug Interaction");
+                Debug.WriteLine("MugPile Interaction");
+
+                MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
+
                 break;
 
             case 16:

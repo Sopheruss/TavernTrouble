@@ -5,6 +5,7 @@ namespace SoftwareProjekt2024.Components.Ingredients
 {
     internal class Salad : Ingredient
     {
+        public bool chopped;
         public Salad(Vector2 position, PerspectiveManager perspectiveManager)
             : base(Plate.withBun, position, perspectiveManager)
         {
@@ -13,7 +14,13 @@ namespace SoftwareProjekt2024.Components.Ingredients
 
         public override bool isPrepared()
         {
-            return true;
+            return chopped;
+        }
+
+        public void chop()
+        {
+            chopped = true;
+            state = (int)Component.States.SaladChopped;
         }
     }
 }

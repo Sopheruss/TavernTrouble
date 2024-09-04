@@ -21,7 +21,12 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         PlateWSaladMeat,
         PlateWSaladBun,
         PlateWMeatBun,
-        MeatDone
+        MeatDone,
+        Fries,
+        FriesDone,
+        SaladChopped,
+        BeerEmpty,
+        BeerFull
     }
 
     public int state;
@@ -42,5 +47,7 @@ internal class Component : SpriteClasses.ScaledSprite, IComparable<Component> //
         return 1;
     }
 
-    public virtual void draw(SpriteBatch spriteBatch) { }
+    public virtual void draw(SpriteBatch spriteBatch)
+    {
+    }
 }
