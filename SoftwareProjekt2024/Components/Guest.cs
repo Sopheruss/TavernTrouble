@@ -92,7 +92,7 @@ internal class Guest : Component
     {
         Random rnd = new();
         int num = rnd.Next(0, _availableGuests.Count);
-      //  Debug.WriteLine(num);
+        //  Debug.WriteLine(num);
         return num; //Generates a number between 0 and 8 -> is number of different textures 
     }
 
@@ -156,16 +156,16 @@ internal class Guest : Component
     }
 
 
-    public (int points,int fame) judgeOrder() {
+    public (int points, int fame) judgeOrder()
+    {
 
         int points = 0;
-        int fame = 0;  
+        int fame = 0;
 
-        if (order.isFinished) { 
-        
-            points = order.TotalComponents() * 10;
-            Debug.WriteLine($"judgeOrderA: {points}");
-        }
+        int completedComponents = (order.recipes.Count - order.missingRecipes.Count) + (order.drinksCount - order.missingDrinksCount);
+        points = completedComponents * 10;
+        if (order.isFinished && order.wrongComponentsCount == 0) { } //Maybe add bonus points for a perfectly handled order here?
+        Debug.WriteLine($"judgeOrderA: {points}");
 
         if (order.wrongComponentsCount > 0)
         {
@@ -174,10 +174,8 @@ internal class Guest : Component
 
         fame = points / 5;
         fame = Math.Max(0, fame);  // Kein negativer Ruhm
-       
 
         return (points, fame);
-
     }
 
 

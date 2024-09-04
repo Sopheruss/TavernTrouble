@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -161,7 +160,6 @@ internal class Kessel : StaticObject
 
             case KesselStates.DONEKESSEL:
                 spriteBatch.Draw(_kesselTextureFull, dest, new Rectangle(0, 0, _kesselTextureFull.Width, _kesselTextureFull.Height), Color.White);
-                Debug.WriteLine("Hier sind die fertigen Pommes!");
                 break;
         }
     }

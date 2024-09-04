@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -110,8 +109,6 @@ internal class Grill : StaticObject
     public static void Update()
     {
         _grillAnimationManager.Update();
-
-        Debug.WriteLine(count);
 
         if (count >= 10)
         {
