@@ -38,7 +38,7 @@ internal class Guest : Component
     private bool _drawSpawn;
 
     public static List<Texture2D> _availableGuests;
-    public static int _totalGuestNumber = 0;
+    public static int _totalGuestNumber;
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
@@ -156,13 +156,15 @@ internal class Guest : Component
     }
 
 
-    public (int points,int fame) judgeOrder() {
+    public (int points, int fame) judgeOrder()
+    {
 
         int points = 0;
-        int fame = 0;  
+        int fame = 0;
 
-        if (order.isFinished) { 
-        
+        if (order.isFinished)
+        {
+
             points = order.TotalComponents() * 10;
             Debug.WriteLine($"judgeOrderA: {points}");
         }

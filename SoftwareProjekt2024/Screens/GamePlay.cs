@@ -189,6 +189,8 @@ public class GamePlay
         _ogerCook.Load();
 
         /* guests */
+        Guest._availableGuests = null;
+        Guest._totalGuestNumber = 0;
         Guest.fairyGreen = _content.Load<Texture2D>("Npc/Fairy_Npc_Green");
         Guest.fairyRed = _content.Load<Texture2D>("Npc/Fairy_Npc_Red");
         Guest.fairyBlue = _content.Load<Texture2D>("Npc/Fairy_Npc_Blue");
@@ -440,9 +442,9 @@ public class GamePlay
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
             _letter.Draw();
         }
-       
+
         _interactionManager.Draw(_spriteBatch, bmfont, _keyPressLetterSize, _screenWidth, _screenHeight);
-       
+
         _spriteBatch.End();
     }
 }
