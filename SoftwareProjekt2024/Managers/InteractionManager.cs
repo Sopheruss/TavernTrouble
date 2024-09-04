@@ -53,8 +53,8 @@ internal class InteractionManager
         {
            _possibleInteraction = true;
         }
-        Debug.WriteLine("possible: " + _possibleInteraction);
-        Debug.WriteLine("allowed: " + _allowedInteraction);
+        //Debug.WriteLine("possible: " + _possibleInteraction);
+        //Debug.WriteLine("allowed: " + _allowedInteraction);
     }
 
     public void Draw(SpriteBatch spriteBatch, BitmapFont bmfont, Vector2 keyPressLetterSize, int screenWidth, int screenHeight)
