@@ -51,6 +51,7 @@ internal class Player : Component
     public void AddPointsAndFame(int points, float fame)
     {
         totalPoints += points;
+        Game1._gamePlay.IncreaseScore(points);
         Debug.WriteLine("Player received " + points);
         famePoints += fame;
         Debug.WriteLine("Player received " + fame);
