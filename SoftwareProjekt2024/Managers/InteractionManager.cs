@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
@@ -13,6 +16,7 @@ internal class InteractionManager
     TileManager _tileManager;
     Player _ogerCook;
     CollisionManager _collisionManager;
+    PerspectiveManager _perspectiveManager;
 
     readonly int quarterTileHeight = 8;
     readonly int tileSize = 32;
@@ -24,13 +28,15 @@ internal class InteractionManager
 
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
-    string possibleInteractionObject;
+    string _possibleInteractionObject;
+    bool _possibleInteraction;
+    bool _allowedInteraction;
 
-    public InteractionManager(TileManager tilemanager, Player ogerCook)
+    public InteractionManager(TileManager tilemanager, Player ogerCook, PerspectiveManager perspectiveManager)
     {
         _tileManager = tilemanager;
         _ogerCook = ogerCook;
-
+        _perspectiveManager = perspectiveManager;
     }
 
     public void Update()
@@ -40,12 +46,23 @@ internal class InteractionManager
 
         if (interactionState == 0)
         {
-            GamePlay._showPossibleInteraction = false;
+           _possibleInteraction = false;
+           _allowedInteraction = false;
         }
         else
         {
-            GamePlay._showPossibleInteraction = true;
-            GamePlay._possibleInteractionObject = possibleInteractionObject;
+           _possibleInteraction = true;
+        }
+        Debug.WriteLine("possible: " + _possibleInteraction);
+        Debug.WriteLine("allowed: " + _allowedInteraction);
+    }
+
+    public void Draw(SpriteBatch spriteBatch, BitmapFont bmfont, Vector2 keyPressLetterSize, int screenWidth, int screenHeight)
+    {
+        if (_possibleInteraction && _allowedInteraction)
+        {
+            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
+            spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
         }
     }
 
@@ -77,71 +94,86 @@ internal class InteractionManager
             if (tileRect.Intersects(bounds))
             {
                 interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-                ChangeInteractionString(interactionState);
+                HandleVisualFeedback(interactionState);
+                //CheckPermission(interactionState);
                 return;
             }
         }
         interactionState = 0; // 0 means no possible interaction; false
     }
 
-    public void ChangeInteractionString(int tileID)
+
+    public void HandleVisualFeedback(int tileID)
     {
         switch (tileID)
         {
             case 0:
-                possibleInteractionObject = null;
+                _possibleInteractionObject = null;
+                _allowedInteraction = false;
                 break;
-            case 1:
-                possibleInteractionObject = "cookbook";
+            case 1: 
+                _possibleInteractionObject = "cookbook";
+                _allowedInteraction = true;
                 break;
             case int n when n >= 2 && n <= 3:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "bar space";
                 break;
             case 4:
-                possibleInteractionObject = "barrel";
+                _possibleInteractionObject = "barrel";
+                _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 break;
             case 5:
-                possibleInteractionObject = "cauldron";
+                _possibleInteractionObject = "cauldron";
                 break;
             case 6:
-                possibleInteractionObject = "grate";
+                _possibleInteractionObject = "grate";
                 break;
             case int n when n >= 7 && n <= 9:
-                possibleInteractionObject = "cutting board";
+                _possibleInteractionObject = "cutting board";
                 break;
             case 10:
-                possibleInteractionObject = "potato box";
+                _possibleInteractionObject = "potato box";
+                _allowedInteraction = PotatoCrate.AllowedInteraction(_ogerCook);
                 break;
             case 11:
-                possibleInteractionObject = "salad box";
+                _possibleInteractionObject = "salad box";
+                _allowedInteraction = SaladCrate.AllowedInteraction(_ogerCook);
                 break;
             case 12:
-                possibleInteractionObject = "meat box";
+                _possibleInteractionObject = "meat box";
+                _allowedInteraction = MeatCrate.AllowedInteraction(_ogerCook);
                 break;
             case 13:
-                possibleInteractionObject = "bun box";
+                _possibleInteractionObject = "bun box";
+                _allowedInteraction = BunCrate.AllowedInteraction(_ogerCook);
                 break;
             case 14:
-                possibleInteractionObject = "plates";
+                _possibleInteractionObject = "plates";
+                _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
                 break;
             case 15:
-                possibleInteractionObject = "tankards";
+                _possibleInteractionObject = "tankards";
+                _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
                 break;
             case 16:
-                possibleInteractionObject = "trash can";
+                _possibleInteractionObject = "trash can";
+                _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 20 && n <= 32:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "bar space";
+                int barflächenID = tileID - 20;
+                Bar barfläche = _perspectiveManager._barFlächen[barflächenID];
+                _allowedInteraction = barfläche.AllowedInteraction(_ogerCook);
                 break;
             case int n when n >= 40 && n <= 52:
-                possibleInteractionObject = "bar space";
+                _possibleInteractionObject = "bar space";
                 break;
             case int n when n >= 60 && n <= 67:
-                possibleInteractionObject = "table";
+                _possibleInteractionObject = "table";
                 break;
             default:
-                possibleInteractionObject = "something";
-                break;
+                _possibleInteractionObject = "something";
+                break;  
         }
     }
 
@@ -176,7 +208,7 @@ internal class InteractionManager
      */
 
 
-    public void HandleInteraction(int tileID, PerspectiveManager _perspectiveManager)
+    public void HandleInteraction(int tileID)
     {
         switch (tileID)
         {

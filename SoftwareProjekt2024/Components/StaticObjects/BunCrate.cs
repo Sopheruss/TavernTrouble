@@ -17,6 +17,11 @@ namespace SoftwareProjekt2024.Components.StaticObjects
             return dest.Height - 10;
         }
 
+        public static bool AllowedInteraction(Player _ogerCook)
+        {
+            return _ogerCook.inventoryIsEmpty();
+        }
+
         public static void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook)
         {
             _perspectiveManager._dynamicObjects.Add(new Bun(positionWhilePickedUp, _perspectiveManager));

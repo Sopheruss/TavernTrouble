@@ -226,7 +226,7 @@ public class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
@@ -446,13 +446,9 @@ public class GamePlay
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
             _letter.Draw();
         }
-
-        if (_showPossibleInteraction)
-        {
-            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
-            _spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((_screenWidth - textSize.X) / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
-        }
-
+       
+        _interactionManager.Draw(_spriteBatch, bmfont, _keyPressLetterSize, _screenWidth, _screenHeight);
+       
         _spriteBatch.End();
     }
 }

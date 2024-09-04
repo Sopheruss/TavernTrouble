@@ -137,7 +137,7 @@ internal class InputManager
 
             if (interactionState != 0) // != false
             {
-                _interactionManager.HandleInteraction(interactionState, _perspectiveManager); // gives ID of intersecting tile to interaction-handler
+                _interactionManager.HandleInteraction(interactionState); // gives ID of intersecting tile to interaction-handler
             }
         }
     }
