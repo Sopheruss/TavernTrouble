@@ -23,7 +23,7 @@ internal class Bar : StaticObject
         return barContents.Count == 0;
     }
 
-    public void addItemToBar(Player _ogerCook)
+    public void addMugOrPlate(Player _ogerCook)
     {
         Component item = _ogerCook.inventory[0];
         Debug.WriteLine("item: " + item);
@@ -32,6 +32,17 @@ internal class Bar : StaticObject
 
         barContents.Add(item);
         item.position = new Vector2(position.X + 9, position.Y + 9);
+    }
+
+    public void addIngreditentToBar(Player _ogerCook)
+    {
+        Component item = _ogerCook.inventory[0];
+        Debug.WriteLine("item: " + item);
+        _ogerCook.inventory.Clear();
+        _ogerCook.changeAppearence(1);  //reset appearence
+
+        barContents.Add(item);
+        item.position = new Vector2(position.X + 11, position.Y + 11);
     }
 
     public Bar GetBar()
@@ -45,7 +56,7 @@ internal class Bar : StaticObject
         {
             if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
             {
-                addItemToBar(_ogerCook);
+                addMugOrPlate(_ogerCook);
             }
             else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && barContents[0] is Plate && (barContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
@@ -53,7 +64,7 @@ internal class Bar : StaticObject
             }
             else if (isEmpty() && _ogerCook.inventory[0] is Ingredient)
             {
-                addItemToBar(_ogerCook);
+                addIngreditentToBar(_ogerCook);
             }
         }
 
