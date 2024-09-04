@@ -38,8 +38,8 @@ internal class Letter
             "\nAnyway, someone has to take care of the tavern for me." +
             "\nBe a charm and take care of it for me, will you." +
             "\nHere are some ground rules, to get started:" +
-            "\n\n - for recipes take a look in the cook book" +
-            "\n - don't place raw ingredients on the counter tops, that's unhygienic " +
+            "\n\n - speak with guests to take their order" +
+            "\n - for recipes take a look in the cook book" +
             "\n - carry only finished food on the plates around" +
             "\n - chop ingredients on the cutting board and prepare them in the cauldron or grill" +
             "\n - if you make a mistake, you can always throw stuff away" +
