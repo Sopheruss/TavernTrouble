@@ -53,7 +53,7 @@ internal class Workstation : StaticObject
 
         else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
-            if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipeIsFinished)
+            if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipe.isFinished)
             {
                 Debug.WriteLine("Picking up");
                 Component item = workStationContents[0];
@@ -91,7 +91,7 @@ internal class Workstation : StaticObject
         }
         else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
-            if ((workStationContents[0] is Plate && ((workStationContents[0] as Plate).recipeIsFinished) || workStationContents[0] is Mug))
+            if ((workStationContents[0] is Plate && ((workStationContents[0] as Plate).recipe.isFinished) || workStationContents[0] is Mug))
             {
                 return true;
             }

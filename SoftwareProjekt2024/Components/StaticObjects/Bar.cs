@@ -55,7 +55,7 @@ internal class Bar : StaticObject
         else if (_ogerCook.inventoryIsEmpty() && !isEmpty() && ((!(barContents[0] as Plate).plateContents.Any()) || (barContents[0] as Plate).recipe.isFinished))
 
         {
-            if (barContents[0] is Plate && (barContents[0] as Plate).recipeIsFinished)
+            if (barContents[0] is Plate && (!(barContents[0] as Plate).plateContents.Any() || (barContents[0] as Plate).recipe.isFinished))
             {
                 Debug.WriteLine("Picking up");
                 Component item = barContents[0];
@@ -93,7 +93,7 @@ internal class Bar : StaticObject
         }
         else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
-            if ((barContents[0] is Plate && ((barContents[0] as Plate).recipeIsFinished) || barContents[0] is Mug))
+            if (barContents[0] is Plate && (!(barContents[0] as Plate).plateContents.Any() || (barContents[0] as Plate).recipe.isFinished) || barContents[0] is Mug)
             {
                 return true;
             }
