@@ -95,7 +95,7 @@ public class OptionMenuPause
 
         if (_returnButton.isClicked || _returnButton._escIsPressed)
         {
-            _game.activeScene = Scenes.PAUSEMENU;
+            Game1.activeScene = Scenes.PAUSEMENU;
         }
 
         FullScreenIntersect();
@@ -159,7 +159,7 @@ public class OptionMenuPause
             newX = Math.Clamp(newX, minX, maxX);
 
             _volumeButtonRect.X = newX;
-            _game.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
+            Game1.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
 
         }
     }
@@ -183,7 +183,7 @@ public class OptionMenuPause
         // Ensure the volume button position is updated according to shared volume level
         int minX = _volumeBarRect.X;
         int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
-        _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));
+        _volumeButtonRect.X = (int)(minX + Game1.VolumeLevel * (maxX - minX));
 
         if (_game.fullScreen)
         {

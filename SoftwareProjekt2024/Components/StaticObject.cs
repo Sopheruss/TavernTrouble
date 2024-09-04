@@ -14,7 +14,6 @@ internal class StaticObject : Component
     {
         dest = _dest;
         src = _src;
-        perspectiveManager._sortedComponents.Add(this);
     }
 
     //Höhe des Destination Rectangle
@@ -23,7 +22,7 @@ internal class StaticObject : Component
         return dest.Height;
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, dest, src, Color.White);
     }

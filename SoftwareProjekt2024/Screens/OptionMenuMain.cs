@@ -109,7 +109,7 @@ internal class OptionMenuMain
 
         if (_returnButton.isClicked || _returnButton._escIsPressed)
         {
-            _game.activeScene = Scenes.MAINMENU;
+            Game1.activeScene = Scenes.MAINMENU;
         }
 
         FullScreenIntersect();
@@ -125,7 +125,7 @@ internal class OptionMenuMain
         // Check for dragging
         HandleVolumeButtonDragging();
         // set global volume level for playback
-        MediaPlayer.Volume = _game.VolumeLevel;
+        MediaPlayer.Volume = Game1.VolumeLevel;
     }
 
 
@@ -158,7 +158,7 @@ internal class OptionMenuMain
             newX = Math.Clamp(newX, minX, maxX);
 
             _volumeButtonRect.X = newX;
-            _game.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
+            Game1.VolumeLevel = (float)(newX - minX) / (maxX - minX); // Update volume level
         }
     }
 
@@ -202,7 +202,7 @@ internal class OptionMenuMain
         // Ensure the volume button position is updated according to shared volume level
         int minX = _volumeBarRect.X;
         int maxX = _volumeBarRect.X + _volumeBarRect.Width - _volumeButtonRect.Width;
-        _volumeButtonRect.X = (int)(minX + _game.VolumeLevel * (maxX - minX));
+        _volumeButtonRect.X = (int)(minX + Game1.VolumeLevel * (maxX - minX));
 
         if (_game.fullScreen)
         {

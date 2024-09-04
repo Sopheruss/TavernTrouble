@@ -7,15 +7,22 @@ namespace SoftwareProjekt2024.Components;
 
 internal class Player : Component
 {
+    public static AnimationManager _playerAnimationManager;
 
     public static Texture2D plain;
     public static Texture2D withPlate;
     public static Texture2D withMeat;
+    public static Texture2D withMeatDone;
     public static Texture2D withBun;
     public static Texture2D withSalad;
+    public static Texture2D withSaladChopped;
     public static Texture2D withPotato;
+    public static Texture2D withFries;
+    public static Texture2D withFriesDone;
     public static Texture2D withPlate_Fries;
     public static Texture2D withPlate_FullBurger;
+    public static Texture2D withBeerEmpty;
+    public static Texture2D withBeerFull;
 
     public List<Component> inventory;
 
@@ -23,11 +30,19 @@ internal class Player : Component
     {
         inventory = new List<Component>();
         state = (int)States.Empty;
-        perspectiveManager._sortedComponents.Add(this);
+    }
+
+    public void Load()
+    {
+        /* animation */
+        //constructing new Animation with 4 Frames in 4 Rows and Frame Size of single Image
+        //Vector decides size of the size for the frame (one Oger Frame = 32/32)
+        _playerAnimationManager = new(4, 4, new Vector2(32, 32), 10);
     }
 
     public override void Update() //Update der Position
     {
+        _playerAnimationManager.Update();
         base.Update();
     }
 
@@ -39,6 +54,11 @@ internal class Player : Component
     public override int getHeight()
     {
         return this.height;
+    }
+
+    public override int getLevel()
+    {
+        return 0;
     }
 
     public void changeAppearence(int appearence)
@@ -69,12 +89,28 @@ internal class Player : Component
             case 8:
                 texture = Player.withPotato;
                 break;
+            case 12: //cuz components number
+                texture = Player.withMeatDone;
+                break;
+            case 13:
+                texture = Player.withFries;
+                break;
+            case 14:
+                texture = Player.withFriesDone;
+                break;
+            case 15:
+                texture = Player.withSaladChopped;
+                break;
+            case 16:
+                texture = Player.withBeerEmpty;
+                break;
+            case 17:
+                texture = Player.withBeerFull;
+                break;
             default:
                 break;
         }
     }
-
-
 
     public void pickUp(Component item)
     {
@@ -82,12 +118,12 @@ internal class Player : Component
         changeAppearence(item.state);
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager) // generalisierter Aufruf der Spritedraw Methode
+    public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
         _spriteBatch.Draw(
         this.texture,                                //texture 
         this.Rect,                                  //destinationRectangle
-        _animationManager.GetFrame(),              //sourceRectangle (frame) 
+        _playerAnimationManager.GetFrame(),        //sourceRectangle (frame) 
         Color.White,                              //color
         0f,                                      //rotation 
         Vector2.Zero,                           //origin

@@ -1,15 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
 internal class Table : StaticObject
 {
-
     public static int capacity = 4;
     public int occupiedSpots;
     public Guest guest;
@@ -44,16 +42,13 @@ internal class Table : StaticObject
                 guest.takeOrder();
                 Debug.WriteLine("Order taken");
             }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Plate)
+            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
             {
                 addOrderItem(_ogerCook);
             }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && _ogerCook.inventory[0] is Mug)
-            {
-                //addOrderItem?
-            }
         }
     }
+
     public override int getHeight()
     {
         return dest.Height - 13;
@@ -87,7 +82,7 @@ internal class Table : StaticObject
         occupiedSpots++;
     }
 
-    public override void draw(SpriteBatch _spriteBatch, AnimationManager _animationManager)
+    public override void draw(SpriteBatch _spriteBatch)
     {
         _spriteBatch.Draw(texture, dest, src, Color.White);
 
@@ -95,7 +90,7 @@ internal class Table : StaticObject
         {
             foreach (Component item in tableContents)
             {
-                item.draw(_spriteBatch, _animationManager); //drawing Contents here to make them appear on top of table
+                item.draw(_spriteBatch); //drawing Contents here to make them appear on top of table
             }
         }
     }

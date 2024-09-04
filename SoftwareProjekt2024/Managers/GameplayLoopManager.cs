@@ -11,7 +11,7 @@ namespace SoftwareProjekt2024.Managers
 
         Stopwatch _timer;
 
-        public int timebetweenNextGuest = 60;   //in seconds
+        public int timebetweenNextGuest = 3;   //in seconds
         public bool newGuestAddedFlag;
         public GameplayLoopManager(PerspectiveManager perspectiveManager, Stopwatch timer)
         {
@@ -25,8 +25,11 @@ namespace SoftwareProjekt2024.Managers
             int timeInSeconds = (int)_timer.ElapsedMilliseconds / 1000;
             if (timeInSeconds % timebetweenNextGuest == 0 && !newGuestAddedFlag)
             {
-                addNewGuest();
-                newGuestAddedFlag = true;
+                if (Guest._totalGuestNumber < 8) //only as many guests as table 
+                {
+                    addNewGuest();
+                    newGuestAddedFlag = true;
+                }
             }
             if (timeInSeconds % timebetweenNextGuest == 1)  // just to prevent adding multiple guests in the same second,
             {                                               // probably better implementation possible
@@ -36,7 +39,7 @@ namespace SoftwareProjekt2024.Managers
 
         public void addNewGuest()
         {
-            _perspectiveManager._guests.Add(new Guest(Guest.fairy, new Vector2(0, 0), _perspectiveManager));
+            _perspectiveManager._guests.Add(new Guest(Guest.fairyGreen, new Vector2(0, 0), _perspectiveManager));
             _perspectiveManager._guests.Last().assignTable();
         }
     }

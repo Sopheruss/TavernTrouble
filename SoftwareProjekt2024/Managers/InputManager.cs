@@ -11,7 +11,6 @@ internal class InputManager
     readonly Player _ogerCook;
     readonly CollisionManager _collisionManager;
     readonly InteractionManager _interactionManager;
-    readonly AnimationManager _animationManager;
     readonly PerspectiveManager _perspectiveManager;
 
     readonly Vector2 _left = new(-1, 0);
@@ -28,13 +27,12 @@ internal class InputManager
 
     public float speed = 2.0f;
 
-    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, AnimationManager animationManager, PerspectiveManager perspectiveManager)
+    public InputManager(Game1 game, Player ogerCook, CollisionManager collisionManager, InteractionManager interactionManager, PerspectiveManager perspectiveManager)
     {
         _game = game;
         _ogerCook = ogerCook;
         _collisionManager = collisionManager;
         _interactionManager = interactionManager;
-        _animationManager = animationManager;
         _perspectiveManager = perspectiveManager;
 
         curDirs = new List<Direction>();
@@ -53,7 +51,7 @@ internal class InputManager
         //stopps movement if no key is pressed
         if (curDirs.Count == 0)
         {
-            _animationManager.PlayAnimation = false;
+            Player._playerAnimationManager.PlayAnimation = false;
             return;
         }
 
@@ -74,13 +72,13 @@ internal class InputManager
         // If character is stuck (i.e. target direction is None), do not move at all:
         if (targetDir == Direction.None)
         {
-            _animationManager.PlayAnimation = false;
+            Player._playerAnimationManager.PlayAnimation = false;
             return;
         }
 
         // Move character:
         _ogerCook.position += DirectionToVector(targetDir) * speed; // also dictates speed, multiply currDir with float
-        _animationManager.PlayAnimation = true;
+        Player._playerAnimationManager.PlayAnimation = true;
         AnimationRow(DirectionToVector(targetDir)); //sets row for animation
 
     } //moving close bracket
@@ -92,42 +90,42 @@ internal class InputManager
 
         // If 'A' is pressed and has not been pressed during the last frame, 'Left' is the best movement direction.
         // => Append 'Left' to current directions.
-        if (Keyboard.GetState().IsKeyDown(Keys.A) && !curDirs.Contains(Direction.Left))
+        if ((Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left)) && !curDirs.Contains(Direction.Left))
         {
             curDirs.Add(Direction.Left);
         }
 
         // If 'A' is not pressed and has been pressed during the last frame, the current directions need to be updated.
         // => 'Left' is removed from list.
-        else if (!Keyboard.GetState().IsKeyDown(Keys.A) && curDirs.Contains(Direction.Left))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.A) && !Keyboard.GetState().IsKeyDown(Keys.Left)) && curDirs.Contains(Direction.Left))
         {
             curDirs.Remove(Direction.Left);
         }
 
         // Repeat process for all other directions:
-        if (Keyboard.GetState().IsKeyDown(Keys.W) && !curDirs.Contains(Direction.Up))
+        if ((Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Up)) && !curDirs.Contains(Direction.Up))
         {
             curDirs.Add(Direction.Up);
         }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.W) && curDirs.Contains(Direction.Up))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.W) && !Keyboard.GetState().IsKeyDown(Keys.Up)) && curDirs.Contains(Direction.Up))
         {
             curDirs.Remove(Direction.Up);
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.D) && !curDirs.Contains(Direction.Right))
+        if ((Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right)) && !curDirs.Contains(Direction.Right))
         {
             curDirs.Add(Direction.Right);
         }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.D) && curDirs.Contains(Direction.Right))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.D) && !Keyboard.GetState().IsKeyDown(Keys.Right)) && curDirs.Contains(Direction.Right))
         {
             curDirs.Remove(Direction.Right);
         }
 
-        if (Keyboard.GetState().IsKeyDown(Keys.S) && !curDirs.Contains(Direction.Down))
+        if ((Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down)) && !curDirs.Contains(Direction.Down))
         {
             curDirs.Add(Direction.Down);
         }
-        else if (!Keyboard.GetState().IsKeyDown(Keys.S) && curDirs.Contains(Direction.Down))
+        else if ((!Keyboard.GetState().IsKeyDown(Keys.S) && !Keyboard.GetState().IsKeyDown(Keys.Down)) && curDirs.Contains(Direction.Down))
         {
             curDirs.Remove(Direction.Down);
         }
@@ -179,20 +177,20 @@ internal class InputManager
     {
         if (currentDirection == _left)
         {
-            _animationManager.RowPos = 0; //changes Animation to Left
+            Player._playerAnimationManager.RowPos = 0; //changes Animation to Left
         }
         else if (currentDirection == _right)
         {
-            _animationManager.RowPos = 1; //changes Animation to right
+            Player._playerAnimationManager.RowPos = 1; //changes Animation to right
 
         }
         else if (currentDirection == _up)
         {
-            _animationManager.RowPos = 2; //changes Animation to up
+            Player._playerAnimationManager.RowPos = 2; //changes Animation to up
         }
         else if (currentDirection == _down)
         {
-            _animationManager.RowPos = 3; //changes Animation to down
+            Player._playerAnimationManager.RowPos = 3; //changes Animation to down
         }
     }
 }

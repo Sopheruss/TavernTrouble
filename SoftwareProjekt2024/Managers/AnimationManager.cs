@@ -13,13 +13,13 @@ enum EnumRowCounter
 
 public class AnimationManager
 {
-    readonly int numFrames;
+    public readonly int numFrames;
     readonly int numColumns;
     Vector2 size;
 
     int counter;
-    int activeFrame;
-    readonly int interval;
+    public int activeFrame;
+    readonly int _interval;
 
     public int RowPos { get; set; }
     int colPos;
@@ -28,7 +28,7 @@ public class AnimationManager
 
     readonly EnumRowCounter rowCounter;
 
-    public AnimationManager(int numFrames, int numColumns, Vector2 size)
+    public AnimationManager(int numFrames, int numColumns, Vector2 size, int interval)
     {
         this.numFrames = numFrames;
         this.numColumns = numColumns;
@@ -36,7 +36,7 @@ public class AnimationManager
 
         counter = 0;
         activeFrame = 0;
-        interval = 10; //Frames Intervall
+        _interval = interval; //Frames Intervall
 
         RowPos = 0;
         colPos = 0;
@@ -60,7 +60,7 @@ public class AnimationManager
     {
         //counter for animation 
         counter++;
-        if (counter > interval) //animation changes every leon ist doof interval frames 
+        if (counter > _interval) //animation changes every interval frames 
         {
             counter = 0; //counter reset 
             NextFrame();
@@ -98,7 +98,7 @@ public class AnimationManager
         }
     }
 
-    private void ResetAnimation()
+    public void ResetAnimation()
     {
         activeFrame = 0;
         colPos = 0;

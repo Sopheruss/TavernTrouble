@@ -6,6 +6,7 @@ namespace SoftwareProjekt2024.Components.Ingredients
     internal class Meat : Ingredient
     {
         public bool cooked;
+
         public Meat(Vector2 position, PerspectiveManager perspectiveManager)
             : base(Plate.withBun, position, perspectiveManager)
         {
@@ -17,6 +18,12 @@ namespace SoftwareProjekt2024.Components.Ingredients
         public override bool isPrepared()
         {
             return cooked;
+        }
+
+        public void cook()
+        {
+            cooked = true;
+            state = (int)Component.States.MeatDone;
         }
     }
 }

@@ -8,7 +8,6 @@ using SoftwareProjekt2024.Managers;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace SoftwareProjekt2024;
 
@@ -44,7 +43,7 @@ internal class InteractionManager
     {
         CreateBounds();
         CheckInteraction(bounds);
-      
+
         if (interactionState == 0)
         {
            _possibleInteraction = false;
@@ -124,10 +123,10 @@ internal class InteractionManager
                 _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 break;
             case 5:
-                _possibleInteractionObject = "grate";
+                _possibleInteractionObject = "cauldron";
                 break;
             case 6:
-                _possibleInteractionObject = "cauldron";
+                _possibleInteractionObject = "grate";
                 break;
             case int n when n >= 7 && n <= 9:
                 _possibleInteractionObject = "cutting board";
@@ -184,8 +183,8 @@ internal class InteractionManager
      * Arbeitsfläche 1: 2
      * Arbeitsfläche 2: 3
      * Bierfass: 4
-     * Grill: 5
-     * Kessel: 6
+     * Kessel: 5
+     * Grill: 6
      * Brett 1: 7
      * Brett 2: 8
      * Brett 3: 9
@@ -215,44 +214,49 @@ internal class InteractionManager
         {
             case 1:
                 Debug.WriteLine("Kochbuch Interaction");
-                CookBook.HandleInteraction(Game1._gamePlay._game, Game1._gamePlay._timer);
+                CookBook.HandleInteraction();
                 break;
 
-            case 2:
+            case >= 2 and <= 3:
                 Debug.WriteLine("Arbeitsfläche 1 Interaction");
-                break;
 
-            case 3:
-                Debug.WriteLine("Arbeitsfläche 2 Interaction");
+                int workStationID = tileID - 2;
+                Workstation workStaion = _perspectiveManager._workstations[workStationID];
+                workStaion.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
+
                 break;
 
             case 4:
                 Debug.WriteLine("Bierfass Interaction");
+                BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp);
                 break;
 
             case 5:
                 Debug.WriteLine("Kessel Interaction");
+
+                Kessel.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
                 break;
 
             case 6:
                 Debug.WriteLine("Grill Interaction");
-                Grill.HandleInteraction(_ogerCook);
+
+                Grill.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
                 break;
 
-            case 7:
-                Debug.WriteLine("Brett 1 Interaction");
-                break;
+            case >= 7 and <= 9:
 
-            case 8:
-                Debug.WriteLine("Brett 2 Interaction");
-                break;
 
-            case 9:
-                Debug.WriteLine("Brett 3 Interaction");
-                break;
+                int cuttingBoardID = tileID - 7;
 
+                Debug.WriteLine("Brett " + cuttingBoardID + " Interaction");
+                Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
+                cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp);
+
+                break;
             case 10:
-                Debug.WriteLine("Potato Interaction");
+                Debug.WriteLine("PotatoCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -260,7 +264,7 @@ internal class InteractionManager
                 break;
 
             case 11:
-                Debug.WriteLine("Salad Interaction");
+                Debug.WriteLine("SaladCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     SaladCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -268,7 +272,7 @@ internal class InteractionManager
                 break;
 
             case 12:
-                Debug.WriteLine("Meat Interaction");
+                Debug.WriteLine("MeatCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     MeatCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -276,7 +280,7 @@ internal class InteractionManager
                 break;
 
             case 13:
-                Debug.WriteLine("Bun Interaction");
+                Debug.WriteLine("BunCrate Interaction");
                 if (_ogerCook.inventoryIsEmpty())
                 {
                     BunCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
@@ -284,15 +288,17 @@ internal class InteractionManager
                 break;
 
             case 14:
-                Debug.WriteLine("Plates Interaction");
+                Debug.WriteLine("PlatePile Interaction");
 
-                _perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, positionWhilePickedUp, _perspectiveManager));
-                _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+                PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
 
                 break;
 
             case 15:
-                Debug.WriteLine("Bierkrug Interaction");
+                Debug.WriteLine("MugPile Interaction");
+
+                MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
+
                 break;
 
             case 16:

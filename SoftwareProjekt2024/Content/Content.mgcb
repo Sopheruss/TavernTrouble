@@ -17,42 +17,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Animation/cookBook_Spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Animation/cookBook_Spritesheet.png
-
-#begin Animation/Grill_Spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Animation/Grill_Spritesheet.png
-
-#begin Animation/Kessel_Spritesheet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Animation/Kessel_Spritesheet.png
-
 #begin Background/background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -401,6 +365,42 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/volumeButton.PNG
 
+#begin CookBook/cookBook_Closed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CookBook/cookBook_Closed.png
+
+#begin CookBook/cookBook_Open.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CookBook/cookBook_Open.png
+
+#begin CookBook/cookBook_Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CookBook/cookBook_Spritesheet.png
+
 #begin Fonts/font_new_0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -441,6 +441,54 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Food/beer_full.png
+
+#begin Food/Board_Potato_Chopped.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/Board_Potato_Chopped.PNG
+
+#begin Food/Board_Potato.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/Board_Potato.PNG
+
+#begin Food/Board_Salad_Chopped.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/Board_Salad_Chopped.PNG
+
+#begin Food/Board_Salad.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Food/Board_Salad.PNG
 
 #begin Food/bun_plate.png
 /importer:TextureImporter
@@ -550,6 +598,54 @@
 /processorParam:TextureFormat=Color
 /build:Food/salad_plate.png
 
+#begin Grill/Grill_Done.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Grill/Grill_Done.png
+
+#begin Grill/Grill_Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Grill/Grill_Spritesheet.png
+
+#begin Kessel/Kessel_Done.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Kessel/Kessel_Done.png
+
+#begin Kessel/Kessel_Spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Kessel/Kessel_Spritesheet.png
+
 #begin Map/atlas.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -573,6 +669,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Map/hitboxes.png
+
+#begin Models/Oger_Beer_Empty.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Beer_Empty.PNG
+
+#begin Models/Oger_Beer_Full.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Beer_Full.PNG
 
 #begin Models/Oger_Bun.png
 /importer:TextureImporter
@@ -598,7 +718,7 @@
 /processorParam:TextureFormat=Color
 /build:Models/oger_cook_spritesheet.png
 
-#begin Models/Oger_Empty_Beer.png
+#begin Models/Oger_Fries_Done.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -608,9 +728,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Models/Oger_Empty_Beer.png
+/build:Models/Oger_Fries_Done.PNG
 
-#begin Models/Oger_Full_Beer.png
+#begin Models/Oger_Fries.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -620,7 +740,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Models/Oger_Full_Beer.png
+/build:Models/Oger_Fries.PNG
+
+#begin Models/Oger_Meat_Done.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Meat_Done.PNG
 
 #begin Models/Oger_Meat.png
 /importer:TextureImporter
@@ -682,6 +814,18 @@
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Potato.png
 
+#begin Models/Oger_Salad_Chopped.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Models/Oger_Salad_Chopped.PNG
+
 #begin Models/Oger_Salad.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -694,7 +838,7 @@
 /processorParam:TextureFormat=Color
 /build:Models/Oger_Salad.png
 
-#begin Npc/Fairy_Npc.png
+#begin Npc/Fairy_Npc_Blue.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -704,7 +848,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Npc/Fairy_Npc.png
+/build:Npc/Fairy_Npc_Blue.png
+
+#begin Npc/Fairy_Npc_Green.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Npc/Fairy_Npc_Green.PNG
+
+#begin Npc/Fairy_Npc_Red.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Npc/Fairy_Npc_Red.PNG
 
 #begin Npc/Oger_Npc_Blue.png
 /importer:TextureImporter
@@ -718,7 +886,7 @@
 /processorParam:TextureFormat=Color
 /build:Npc/Oger_Npc_Blue.png
 
-#begin Npc/Oger_Npc_Green.png
+#begin Npc/Oger_Npc_Orange.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -728,7 +896,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Npc/Oger_Npc_Green.png
+/build:Npc/Oger_Npc_Orange.PNG
 
 #begin Npc/Oger_Npc_Pink.png
 /importer:TextureImporter
@@ -742,6 +910,54 @@
 /processorParam:TextureFormat=Color
 /build:Npc/Oger_Npc_Pink.png
 
+#begin Npc/SpriteSheet_Spawn_Animation.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Npc/SpriteSheet_Spawn_Animation.PNG
+
+#begin Npc/Wizard_Npc_Purple.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Npc/Wizard_Npc_Purple.PNG
+
+#begin Npc/Wizard_Npc_Red.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Npc/Wizard_Npc_Red.PNG
+
+#begin Npc/Wizard_Npc_Yellow.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Npc/Wizard_Npc_Yellow.PNG
+
 #begin OptionMenu/controls.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -753,6 +969,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:OptionMenu/controls.png
+
+#begin OrderBar/Order_Sheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:OrderBar/Order_Sheet.png
+
+#begin OrderBar/Order_Strip.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:OrderBar/Order_Strip.png
 
 #begin OrderBar/orderStrip.PNG
 /importer:TextureImporter
@@ -778,11 +1018,29 @@
 /processorParam:TextureFormat=Color
 /build:OrderBar/scoreBord.png
 
+#begin Sounds/boiling-water.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/boiling-water.wav
+
+#begin Sounds/fire-crackling.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/fire-crackling.wav
+
 #begin Sounds/inn_music.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/inn_music.mp3
+
+#begin Sounds/pour-beer.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/pour-beer.wav
 
 #begin Sounds/woodland_fantasy.mp3
 /importer:Mp3Importer

@@ -11,6 +11,8 @@ namespace SoftwareProjekt2024.Managers
 
         internal List<Table> _tables; //Liste aller Tische
         internal List<Bar> _barFlächen;
+        internal List<Workstation> _workstations;
+        internal List<Cuttingboard> _cuttingBoards;
         internal List<Component> _nonInteractables;
         internal List<Component> _Interactables;
         internal List<Component> _dekoObjects;
@@ -27,6 +29,8 @@ namespace SoftwareProjekt2024.Managers
 
             _tables = new List<Table>(); //Zugriff auf den 1. Tisch über _perspectiveManager._tische[0]
             _barFlächen = new List<Bar>();
+            _workstations = new List<Workstation>();
+            _cuttingBoards = new List<Cuttingboard>();
             _nonInteractables = new List<Component>();
             _Interactables = new List<Component>();
             _dekoObjects = new List<Component>();
@@ -36,14 +40,14 @@ namespace SoftwareProjekt2024.Managers
             _guests = new List<Guest>();
         }
 
-        public void draw(SpriteBatch spriteBatch, AnimationManager _animationManager)
+        public void draw(SpriteBatch spriteBatch)
         {
             _sortedComponents.Sort(); //sortiert Objekte in Liste nach Y-Werten und Levels
 
             foreach (var component in _sortedComponents)
             {
                 //Debug.WriteLine(component.position.Y - component.getHeight());
-                component.draw(spriteBatch, _animationManager); //drawt Objekte in der sortierten Reihenfolge
+                component.draw(spriteBatch); //drawt Objekte in der sortierten Reihenfolge
             }
         }
     }

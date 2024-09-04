@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Components.StaticObjects
 {
@@ -20,9 +21,13 @@ namespace SoftwareProjekt2024.Components.StaticObjects
             return _ogerCook.inventoryIsEmpty();
         }
 
-        public void HandleInteraction()
+        public static void HandleInteraction(Player _ogerCook, PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp)
         {
-
+            if (_ogerCook.inventoryIsEmpty())
+            {
+                _perspectiveManager._dynamicObjects.Add(new Mug(Mug.beerEmpty, positionWhilePickedUp, _perspectiveManager));
+                _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+            }
         }
     }
 }

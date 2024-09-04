@@ -36,7 +36,7 @@ public class SplashScreen
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Space))
         {
-            _game.activeScene = Scenes.MAINMENU;
+            Game1.activeScene = Scenes.MAINMENU;
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.Escape))
         {

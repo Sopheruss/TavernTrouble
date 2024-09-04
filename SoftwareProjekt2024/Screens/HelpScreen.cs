@@ -38,7 +38,7 @@ internal class HelpScreen
 
         if (_returnButton.isClicked || _returnButton._escIsPressed)
         {
-            _game.activeScene = Scenes.GAMEPLAY;
+            Game1.activeScene = Scenes.GAMEPLAY;
         }
     }
 
