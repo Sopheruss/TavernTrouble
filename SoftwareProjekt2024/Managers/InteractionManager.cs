@@ -326,6 +326,10 @@ internal class InteractionManager
 
             case >= 40 and <= 52:
                 Debug.WriteLine("Barfläche unten Interaction");
+
+                int untereBarflächenID = tileID - 40;
+                Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
+                untereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
                 break;
 
             case >= 60 and <= 67:
