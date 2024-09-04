@@ -7,6 +7,7 @@ using MonoGame.Extended.ViewportAdapters;
 using Penumbra;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
+using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
 using System;
 using System.Diagnostics;
@@ -37,11 +38,7 @@ public class GamePlay
     Button _cookBookButton;
     Button _helpButton;
 
-    Texture2D _orderStrip;
-    Rectangle _orderStripRect;
-
-    Texture2D _orderSheet;
-    Rectangle _orderSheetRect;
+    public static Rectangle _orderStripRect;
 
     Texture2D _backgorundLetter;
     Rectangle _backgroundLetterRect;
@@ -226,12 +223,13 @@ public class GamePlay
 
         /* collision, interaction, input */
         _collisionManager = new CollisionManager(_tileManager);
-        _interactionManager = new InteractionManager(_tileManager, _ogerCook);
+        _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _interactionManager, _perspectiveManager);
         _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+        Order.bmfont = _content.Load<BitmapFont>("Fonts/font_new");
 
         /* sounds */
         // grill, bar, usw... soonTM
@@ -241,8 +239,10 @@ public class GamePlay
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
 
         /* order */
-        _orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
+        Order.orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
+        Order.orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
+        //_orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
         /* Letter */
         _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
@@ -251,9 +251,6 @@ public class GamePlay
 
         _backgorundLetter = _content.Load<Texture2D>("Background/background");
         _backgroundLetterRect = new Rectangle(0, 0, _screenWidth, _screenHeight);
-
-        _orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
-        _orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
 
         /* lights, hulls */
         _penumbra.Initialize();
@@ -426,9 +423,8 @@ public class GamePlay
 
 
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        _spriteBatch.Draw(_orderStrip, _orderStripRect, Color.White);
 
-        _spriteBatch.Draw(_orderSheet, _orderSheetRect, Color.White);
+        _perspectiveManager.drawOrders(_spriteBatch);
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
         _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
@@ -446,13 +442,9 @@ public class GamePlay
             _spriteBatch.DrawString(bmfont, _keyPressLetter, new Vector2(_screenWidth / 2 - (int)_keyPressLetterSize.X / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
             _letter.Draw();
         }
-
-        if (_showPossibleInteraction)
-        {
-            Vector2 textSize = bmfont.MeasureString("Press [E] to interact with " + _possibleInteractionObject);
-            _spriteBatch.DrawString(bmfont, "Press [E] to interact with " + _possibleInteractionObject, new Vector2((_screenWidth - textSize.X) / 2, _screenHeight - 15 - (int)_keyPressLetterSize.Y), Color.Beige);
-        }
-
+       
+        _interactionManager.Draw(_spriteBatch, bmfont, _keyPressLetterSize, _screenWidth, _screenHeight);
+       
         _spriteBatch.End();
     }
 }

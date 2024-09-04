@@ -66,6 +66,7 @@ internal class Grill : StaticObject
         return dest.Height - 10;
     }
 
+
     public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
     {
         //interaction only possible when carrying raw meat
@@ -96,7 +97,6 @@ internal class Grill : StaticObject
         {
             _activeGrillState = GrillStates.EMPTYGRILL; //meat was picked up -> grill is empty again
             hasMeatOn = false;
-
             Component item = grillContents[0];
             grillContents.Clear();
             _ogerCook.pickUp(item);

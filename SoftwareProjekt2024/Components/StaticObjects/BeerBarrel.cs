@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
 using System.Timers;
 
@@ -22,7 +23,7 @@ internal class BeerBarrel : StaticObject
         {
             _beerBarrelTimer.Close();
         }
-
+        
         count = 0;
 
         // Load the sound effect and create an instance
@@ -34,6 +35,18 @@ internal class BeerBarrel : StaticObject
         UpdateVolume();
     }
 
+        public static bool AllowedInteraction(Player ogerCook)
+        {
+            if (!ogerCook.inventoryIsEmpty() && ogerCook.inventory[0] is Mug && (ogerCook.inventory[0] as Mug).isFilled)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
     public override int getHeight()
     {
         return dest.Height - 10;

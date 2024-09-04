@@ -14,6 +14,7 @@ internal class Table : StaticObject
     public int tableID;
     static int tableIDCount = 0;
     List<Component> tableContents;
+    public bool tableOrderfinished;
     public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
@@ -21,6 +22,7 @@ internal class Table : StaticObject
         tableID = tableIDCount;
         tableIDCount++;
         tableContents = new List<Component>();
+        tableOrderfinished = false;
     }
 
     public bool isClean()
@@ -46,6 +48,11 @@ internal class Table : StaticObject
             {
                 addOrderItem(_ogerCook);
             }
+        }
+        else if (!isClean())
+        {
+            //dreckiges Geschirr wegr�umen logik hier
+
         }
     }
 
@@ -80,6 +87,33 @@ internal class Table : StaticObject
         tableContents.Add(item);
         item.position = freePosition();
         occupiedSpots++;
+
+        if (item is Plate && (item as Plate).recipe is not null)
+        {
+            guest.order.addRecipe((item as Plate).recipe.name);
+        }
+        else if (item is Plate && (item as Plate).recipe is null)
+        {
+            guest.order.wrongComponentsCount++;
+        }
+        else if (item is Mug)
+        {
+            guest.order.addDrink(item as Mug);
+        }
+
+        if (orderFinished())
+        {
+            Debug.WriteLine("Order now finished!");
+            tableOrderfinished = true;
+            guest.eat(_ogerCook);
+        }
+    }
+
+    public bool orderFinished()
+    {
+        if (occupiedSpots == capacity) return true;
+        if (guest.order.isFinished) return true;
+        return false;
     }
 
     public override void draw(SpriteBatch _spriteBatch)
