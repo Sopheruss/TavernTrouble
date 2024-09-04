@@ -92,7 +92,6 @@ internal class Guest : Component
     {
         Random rnd = new();
         int num = rnd.Next(0, _availableGuests.Count);
-        Debug.WriteLine(num);
         return num; //Generates a number between 0 and 8 -> is number of different textures 
     }
 
