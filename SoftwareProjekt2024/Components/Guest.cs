@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
@@ -40,6 +41,8 @@ internal class Guest : Component
     public static List<Texture2D> _availableGuests;
     public static int _totalGuestNumber;
 
+    BitmapFont _font;
+
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
     {
         perspectiveManager._sortedComponents.Add(this);
@@ -59,6 +62,9 @@ internal class Guest : Component
                     wizardYellow
                 };
         }
+
+        _font = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
+
 
         _totalGuestNumber++;
 
@@ -203,6 +209,11 @@ internal class Guest : Component
             Vector2.Zero,                           //origin
             SpriteEffects.None,                    //effects
             1f);                                  //layer depth
+
+            if (!hasOrdered)
+            {
+                _spriteBatch.DrawString(_font, "!", new Vector2(this.position.X + 17, this.position.Y - 15), Color.Red);
+            }
         }
 
         if (_drawSpawn)
@@ -216,6 +227,7 @@ internal class Guest : Component
             Vector2.Zero,                           //origin
             SpriteEffects.None,                    //effects
             1f);                                  //layer depth
+
         }
     }
 
