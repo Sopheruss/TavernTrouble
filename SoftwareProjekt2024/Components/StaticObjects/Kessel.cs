@@ -92,25 +92,28 @@ internal class Kessel : StaticObject
                 soundInstanceKessel.Play();
             }
         }
-        else if(_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.ANIMATIONKESSEL)
+        else if(_activeKesselState == KesselStates.ANIMATIONKESSEL)
         {
             int seconds = 10;
-            interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until potato is fried";
+            interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until fries are done";
             interactionManager._allowedInteraction = true;
         }
         else if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
         {
             interactionManager._interactionTextline = "Press [E] to grab fries";
             interactionManager._allowedInteraction = true;
-            _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
-            hasFries = false;
+            if (inputManager.pressedE)
+            {
+                _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
+                hasFries = false;
 
-            Component item = kesselContents[0];
-            kesselContents.Clear();
-            _ogerCook.pickUp(item);
-            item.position = positionWhilePickedUp;
+                Component item = kesselContents[0];
+                kesselContents.Clear();
+                _ogerCook.pickUp(item);
+                item.position = positionWhilePickedUp;
 
-            soundInstanceKessel.Stop();
+                soundInstanceKessel.Stop();
+            }
         }
         else
         {

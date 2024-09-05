@@ -160,12 +160,7 @@ internal class InteractionManager
                 break;
 
             case 6:
-                _interactionTextline = "Press [E] to interact with grate";
-                //_allowedInteraction = Grill.AllowedInteraction();
-                if (_inputManager.pressedE)
-                {
-                    Grill.HandleInteraction(_ogerCook, positionWhilePickedUp);
-                }
+                Grill.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 break;
 
             case >= 7 and <= 9:
