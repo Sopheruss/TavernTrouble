@@ -38,7 +38,7 @@ internal class Cuttingboard : StaticObject
         _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD;
         hasItemOn = false;
 
-        count = -1;
+        count = 0;
     }
 
     public override int getHeight()
