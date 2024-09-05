@@ -156,10 +156,10 @@ internal class InputManager
     // Check if moving the character to given direction results in collision:
     private bool HasCollisionInDirection(Direction dir, Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) => dir switch
     {
-        Direction.Left => _collisionManager.CheckCollision(leftBounds),
-        Direction.Up => _collisionManager.CheckCollision(upBounds),
-        Direction.Right => _collisionManager.CheckCollision(rightBounds),
-        Direction.Down => _collisionManager.CheckCollision(downBounds),
+        Direction.Left => _collisionManager.CheckCollision(leftBounds, _perspectiveManager),
+        Direction.Up => _collisionManager.CheckCollision(upBounds, _perspectiveManager),
+        Direction.Right => _collisionManager.CheckCollision(rightBounds, _perspectiveManager),
+        Direction.Down => _collisionManager.CheckCollision(downBounds, _perspectiveManager),
         _ => false,
     };
 

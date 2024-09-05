@@ -11,13 +11,12 @@ namespace SoftwareProjekt2024.Managers
         readonly int quarterTile = 8;
         readonly int tileSize = 32;
 
-
         public CollisionManager(TileManager tileManager)
         {
             _tileManager = tileManager;
         }
 
-        public bool CheckCollision(Rectangle bounds)
+        public bool CheckCollision(Rectangle bounds, PerspectiveManager _perspectiveManager)
         {
             foreach (var tile in _tileManager.collisionLayer)
             {
@@ -74,6 +73,16 @@ namespace SoftwareProjekt2024.Managers
                 }
 
                 if (tileRect.Intersects(bounds))
+                {
+                    return true;
+                }
+            }
+
+            foreach (Guest guest in _perspectiveManager._guests)
+            {
+                Rectangle guestRect = new Rectangle((int)guest.position.X + 9, (int)guest.position.Y + 32, guest.Rect.Width - 19, guest.Rect.Height);
+
+                if (guestRect.Intersects(bounds))
                 {
                     return true;
                 }
