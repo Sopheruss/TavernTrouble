@@ -47,38 +47,67 @@ internal class Workstation : StaticObject
         return dest.Height - 10;
     }
 
-    public void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook)
+    public void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook, InteractionManager interactionManager, InputManager inputManager)
     {
         if (!_ogerCook.inventoryIsEmpty())
         {
-            if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
+            if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate or mug
             {
-                addPlateOrMug(_ogerCook);
+                if(_ogerCook.inventory[0] is Plate)
+                {
+                    interactionManager._interactionTextline = "Press [E] to put plate on bar space";
+                } 
+                else if(_ogerCook.inventory[0] is Mug)
+                {
+                    interactionManager._interactionTextline = "Press [E] to put tankard on bar space";
+                }
+                if (inputManager.pressedE)
+                {
+                    addPlateOrMug(_ogerCook);
+                }
             }
             else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && workStationContents[0] is Plate && (workStationContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
-                (workStationContents[0] as Plate).addIngredient(_ogerCook);
+                interactionManager._interactionTextline = "Press [E] to put ingredient on plate";
+                if (inputManager.pressedE)
+                {
+                    (workStationContents[0] as Plate).addIngredient(_ogerCook);
+                }
             }
             else if (isEmpty() && _ogerCook.inventory[0] is Ingredient)
             {
-                addIngreditentToBar(_ogerCook);
+                interactionManager._interactionTextline = "Press [E] to put ingredient on bar space";
+                if (inputManager.pressedE)
+                {
+                    addIngreditentToBar(_ogerCook);
+                }
             }
         }
-
-
         else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
             if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipe.isFinished)
             {
-                ClearBar(_ogerCook, positionWhilePickedUp);
+                interactionManager._interactionTextline = "Press [E] to grab plate";
+                if (inputManager.pressedE)
+                {
+                    ClearBar(_ogerCook, positionWhilePickedUp);
+                }
             }
             else if (workStationContents[0] is Mug)
             {
-                ClearBar(_ogerCook, positionWhilePickedUp);
+                interactionManager._interactionTextline = "Press [E] to grab tankard";
+                if (inputManager.pressedE)
+                {
+                    ClearBar(_ogerCook, positionWhilePickedUp);
+                }
             }
             else if (workStationContents[0] is Ingredient)
             {
-                ClearBar(_ogerCook, positionWhilePickedUp);
+                interactionManager._interactionTextline = "Press [E] to grab ingredient";
+                if (inputManager.pressedE)
+                {
+                    ClearBar(_ogerCook, positionWhilePickedUp);
+                }
             }
         }
     }
@@ -90,40 +119,6 @@ internal class Workstation : StaticObject
         workStationContents.Clear();
         _ogerCook.pickUp(item);
         item.position = positionWhilePickedUp;
-    }
-
-    public bool AllowedInteraction(Player _ogerCook)
-    {
-        if (!_ogerCook.inventoryIsEmpty())
-        {
-            if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate
-            {
-                return true;
-            }
-            else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && workStationContents[0] is Plate && (workStationContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
-        {
-            if ((workStationContents[0] is Plate && ((workStationContents[0] as Plate).recipe.isFinished) || workStationContents[0] is Mug))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public override void draw(SpriteBatch _spriteBatch)

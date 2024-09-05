@@ -23,11 +23,11 @@ internal class InteractionManager
     List<Rectangle> intersections;
 
     Rectangle bounds;
-    int interactionState;
+    int _interactionState;
 
     public Vector2 positionWhilePickedUp = new Vector2(-10, -10);  //Position beim Tragen außerhalb der Map
 
-    string _possibleInteractionObject;
+    public string _interactionTextline;
     bool _possibleInteraction;
     bool _allowedInteraction;
 
@@ -44,7 +44,7 @@ internal class InteractionManager
         CreateBounds();
         CheckInteraction(bounds);
 
-        if (interactionState == 0)
+        if (_interactionState == 0)
         {
             _possibleInteraction = false;
             _allowedInteraction = false;
@@ -61,14 +61,14 @@ internal class InteractionManager
     {
         if (_possibleInteraction && _allowedInteraction)
         {
-            Vector2 textSize = bmfont.MeasureString(_possibleInteractionObject);
-            spriteBatch.DrawString(bmfont, _possibleInteractionObject, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
+            Vector2 textSize = bmfont.MeasureString(_interactionTextline);
+            spriteBatch.DrawString(bmfont, _interactionTextline, new Vector2((screenWidth - textSize.X) / 2, screenHeight - 15 - (int)keyPressLetterSize.Y), Color.Beige);
         }
     }
 
     public int GetInteractionState()
     {
-        return interactionState;
+        return _interactionState;
     }
 
     public void CreateBounds()
@@ -93,12 +93,12 @@ internal class InteractionManager
 
             if (tileRect.Intersects(bounds))
             {
-                interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
-                HandleInteraction(interactionState);
+                _interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
+                HandleInteraction(_interactionState);
                 return;
             }
         }
-        interactionState = 0; // 0 means no possible interaction; false
+        _interactionState = 0; // 0 means no possible interaction; false
     }
 
     /*
@@ -138,31 +138,22 @@ internal class InteractionManager
         {
             case 0:
                 _allowedInteraction = false;
-                _possibleInteractionObject = null;
+                _interactionTextline = null;
                 break;
             
             case 1:
-                _possibleInteractionObject = "Press [E] to interact with cookbook";
                 _allowedInteraction = true;
-                if (_inputManager.pressedE)
-                {
-                    CookBook.HandleInteraction();
-                }
+                CookBook.HandleInteraction(this, _inputManager);
                 break;
             
             case >= 2 and <= 3:
-                _possibleInteractionObject = "Press [E] to interact with bar space";
                 int workstationID = tileID - 2;
                 Workstation workstation = _perspectiveManager._workstations[workstationID];
-                _allowedInteraction = workstation.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    workstation.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                workstation.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
             
             case 4:
-                _possibleInteractionObject = "Press [E] to interact with beer barrel";
+                _interactionTextline = "Press [E] to interact with beer barrel";
                 _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -171,7 +162,7 @@ internal class InteractionManager
                 break;
 
             case 5:
-                _possibleInteractionObject = "Press [E] to interact with cauldron";
+                _interactionTextline = "Press [E] to interact with cauldron";
                 //_allowedInteraction = Kessel.AllowedInteraction();
                 if (_inputManager.pressedE)
                 {
@@ -180,7 +171,7 @@ internal class InteractionManager
                 break;
 
             case 6:
-                _possibleInteractionObject = "Press [E] to interact with grate";
+                _interactionTextline = "Press [E] to interact with grate";
                 //_allowedInteraction = Grill.AllowedInteraction();
                 if (_inputManager.pressedE)
                 {
@@ -189,7 +180,7 @@ internal class InteractionManager
                 break;
 
             case >= 7 and <= 9:
-                _possibleInteractionObject = "Press [E] to interact with cutting board";
+                _interactionTextline = "Press [E] to interact with cutting board";
                 int cuttingBoardID = tileID - 7;
                 Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
                 //_allowedInteraction = cuttingBoard.AllowedInteraction();
@@ -200,7 +191,7 @@ internal class InteractionManager
                 break;
             
             case 10:
-                _possibleInteractionObject = "Press [E] to interact with potato box";
+                _interactionTextline = "Press [E] to interact with potato box";
                 _allowedInteraction = PotatoCrate.AllowedInteraction(_ogerCook);
                 if(_inputManager.pressedE)
                 {
@@ -209,7 +200,7 @@ internal class InteractionManager
                 break;
 
             case 11:
-                _possibleInteractionObject = "Press [E] to interact with salad box";
+                _interactionTextline = "Press [E] to interact with salad box";
                 _allowedInteraction = SaladCrate.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -218,7 +209,7 @@ internal class InteractionManager
                 break;
 
             case 12:
-                _possibleInteractionObject = "Press [E] to interact with meat box";
+                _interactionTextline = "Press [E] to interact with meat box";
                 _allowedInteraction = MeatCrate.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -227,7 +218,7 @@ internal class InteractionManager
                 break;
 
             case 13:
-                _possibleInteractionObject = "Press [E] to interact with bun box";
+                _interactionTextline = "Press [E] to interact with bun box";
                 _allowedInteraction = BunCrate.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -236,7 +227,7 @@ internal class InteractionManager
                 break;
 
             case 14:
-                _possibleInteractionObject = "Press [E] to interact with plates";
+                _interactionTextline = "Press [E] to interact with plates";
                 _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -245,7 +236,7 @@ internal class InteractionManager
                 break;
 
             case 15:
-                _possibleInteractionObject = "Press [E] to interact with tankards";
+                _interactionTextline = "Press [E] to interact with tankards";
                 _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -254,7 +245,7 @@ internal class InteractionManager
                 break;
 
             case 16:
-                _possibleInteractionObject = "Press [E] to interact with trash can";
+                _interactionTextline = "Press [E] to interact with trash can";
                 _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
                 if (_inputManager.pressedE)
                 {
@@ -263,7 +254,7 @@ internal class InteractionManager
                 break;
 
             case >= 20 and <= 32:
-                _possibleInteractionObject = "Press [E] to interact with bar space";
+                _interactionTextline = "Press [E] to interact with bar space";
                 int obereBarflächenID = tileID - 20;
                 Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
                 _allowedInteraction = obereBarfläche.AllowedInteraction(_ogerCook);
@@ -274,7 +265,7 @@ internal class InteractionManager
                 break;
 
             case >= 40 and <= 52:
-                _possibleInteractionObject = "Press [E] to interact with bar space";
+                _interactionTextline = "Press [E] to interact with bar space";
                 int untereBarflächenID = tileID - 40;
                 Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
                 _allowedInteraction = untereBarfläche.AllowedInteraction(_ogerCook);
@@ -285,7 +276,7 @@ internal class InteractionManager
                 break;
 
             case >= 60 and <= 67:
-                _possibleInteractionObject = "Press [E] to interact with table";
+                _interactionTextline = "Press [E] to interact with table";
                 int tableID = tileID - 60;
                 Table table = _perspectiveManager._tables[tableID];
                 //_allowedInteraction = table.AllowedInteraction(_ogerCook);
@@ -296,7 +287,7 @@ internal class InteractionManager
                 break;
 
             default:
-                _possibleInteractionObject = "Press [E] to interact with something";
+                _interactionTextline = "Press [E] to interact with something";
                 break;
         }
     }
