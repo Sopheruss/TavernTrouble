@@ -186,52 +186,27 @@ internal class InteractionManager
                 break;
 
             case 14:
-                _interactionTextline = "Press [E] to interact with plates";
-                _allowedInteraction = PlatePile.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
-                }
+                PlatePile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp, this, _inputManager);
                 break;
 
             case 15:
-                _interactionTextline = "Press [E] to interact with tankards";
-                _allowedInteraction = MugPile.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp);
-                }
+                MugPile.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp, this, _inputManager);
                 break;
 
             case 16:
-                _interactionTextline = "Press [E] to interact with trash can";
-                _allowedInteraction = Trash.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    Trash.HandleInteraction(_ogerCook, _perspectiveManager);
-                }
+                Trash.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp, this, _inputManager);
                 break;
 
             case >= 20 and <= 32:
-                _interactionTextline = "Press [E] to interact with bar space";
                 int obereBarflächenID = tileID - 20;
                 Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
-                _allowedInteraction = obereBarfläche.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    obereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                obereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             case >= 40 and <= 52:
-                _interactionTextline = "Press [E] to interact with bar space";
                 int untereBarflächenID = tileID - 40;
                 Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
-                _allowedInteraction = untereBarfläche.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    untereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                untereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             case >= 60 and <= 67:
