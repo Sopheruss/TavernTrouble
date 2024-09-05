@@ -43,7 +43,7 @@ internal class CookBook : StaticObject
     public static void HandleInteraction(InteractionManager interactionManager, InputManager inputManager)
     {
         interactionManager._allowedInteraction = true;
-        interactionManager._interactionTextline = "Press [E] to interact with cookbook";
+        interactionManager._interactionTextline = "Press [E] to open cookbook";
         if (inputManager.pressedE)
         {
             _playCookBookAnimation = true;

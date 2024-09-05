@@ -152,21 +152,11 @@ internal class InteractionManager
                 break;
             
             case 4:
-                _interactionTextline = "Press [E] to interact with beer barrel";
-                _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
-                
-                {
-                    BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
-                }
+                BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 break;
 
             case 5:
-                _interactionTextline = "Press [E] to interact with cauldron";
-                //_allowedInteraction = Kessel.AllowedInteraction();
-                if (_inputManager.pressedE)
-                {
-                    Kessel.HandleInteraction(_ogerCook, positionWhilePickedUp);
-                }
+                Kessel.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 break;
 
             case 6:
