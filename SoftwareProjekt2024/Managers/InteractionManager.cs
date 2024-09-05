@@ -154,9 +154,9 @@ internal class InteractionManager
             case 4:
                 _interactionTextline = "Press [E] to interact with beer barrel";
                 _allowedInteraction = BeerBarrel.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
+                
                 {
-                    BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp);
+                    BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 }
                 break;
 
