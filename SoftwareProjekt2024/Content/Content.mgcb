@@ -1102,6 +1102,18 @@
 /processorParam:TextureFormat=Color
 /build:OrderBar/orderStrip.PNG
 
+#begin OrderBar/PostIt.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:OrderBar/PostIt.PNG
+
 #begin OrderBar/scoreBord.png
 /importer:TextureImporter
 /processor:TextureProcessor

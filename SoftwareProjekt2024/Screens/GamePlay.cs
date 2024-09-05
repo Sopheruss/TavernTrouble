@@ -58,6 +58,9 @@ public class GamePlay
     Texture2D _scordeBord;
     Rectangle _scordeBordRect;
 
+    Texture2D _postIt;
+    Rectangle _postItRect;
+
     Player _ogerCook;
 
     readonly int _screenWidth;
@@ -245,6 +248,9 @@ public class GamePlay
         _scordeBord = _content.Load<Texture2D>("OrderBar/scoreBord");
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
 
+        _postIt = _content.Load<Texture2D>("OrderBar/PostIt");
+        _postItRect = new Rectangle(_screenWidth - 100 - _scordeBord.Width, _pauseButton.Height - bmfont.LineHeight, _postIt.Width * 8, _postIt.Height * 5);
+
         /* order */
         Order.orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
@@ -342,7 +348,7 @@ public class GamePlay
             }
 
             _ogerCook.Update();
-           
+
 
             if (!BeerBarrel.interactedBarrel)
             {
@@ -436,9 +442,11 @@ public class GamePlay
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
         _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
-        
+
+        _spriteBatch.Draw(_postIt, _postItRect, Color.White);
+
         playerLevel = _ogerCook.GetPlayerLevel();
-        _spriteBatch.DrawString(bmfont, "Lvl: \n  " + playerLevel, new Vector2(250, 250), Color.White);
+        _spriteBatch.DrawString(bmfont, "Lvl: " + playerLevel, new Vector2(_postItRect.X + 2, _postItRect.Y + 1), Color.Black);
 
         _pauseButton.Draw(_spriteBatch);
         _cookBookButton.Draw(_spriteBatch);
