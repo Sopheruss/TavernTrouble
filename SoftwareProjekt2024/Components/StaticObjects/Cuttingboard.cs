@@ -81,10 +81,10 @@ internal class Cuttingboard : StaticObject
             }
             else if (_ogerCook.inventory[0] is Salad salad && !salad.chopped) //item in inventory must be salad and salad need to be chopped
             {
+                interactionManager._interactionTextline = "Press [E] to put ingredient on cutting board";
+                interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
-                    interactionManager._interactionTextline = "Press [E] to put ingredient on cutting board";
-                    interactionManager._allowedInteraction = true;
                     Component item = _ogerCook.inventory[0];
                     _ogerCook.inventory.Clear();
                     _ogerCook.changeAppearence(1);

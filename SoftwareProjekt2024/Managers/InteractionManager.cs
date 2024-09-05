@@ -170,39 +170,19 @@ internal class InteractionManager
                 break;
             
             case 10:
-                _interactionTextline = "Press [E] to interact with potato box";
-                _allowedInteraction = PotatoCrate.AllowedInteraction(_ogerCook);
-                if(_inputManager.pressedE)
-                {
-                    PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             case 11:
-                _interactionTextline = "Press [E] to interact with salad box";
-                _allowedInteraction = SaladCrate.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    SaladCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                SaladCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             case 12:
-                _interactionTextline = "Press [E] to interact with meat box";
-                _allowedInteraction = MeatCrate.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    MeatCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                MeatCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             case 13:
-                _interactionTextline = "Press [E] to interact with bun box";
-                _allowedInteraction = BunCrate.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    BunCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                BunCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             case 14:
@@ -266,7 +246,8 @@ internal class InteractionManager
                 break;
 
             default:
-                _interactionTextline = "Press [E] to interact with something";
+                _allowedInteraction = false;
+                _interactionTextline = null;
                 break;
         }
     }
