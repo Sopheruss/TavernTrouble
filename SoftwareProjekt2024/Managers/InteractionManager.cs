@@ -164,14 +164,9 @@ internal class InteractionManager
                 break;
 
             case >= 7 and <= 9:
-                _interactionTextline = "Press [E] to interact with cutting board";
                 int cuttingBoardID = tileID - 7;
                 Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
-                //_allowedInteraction = cuttingBoard.AllowedInteraction();
-                if (_inputManager.pressedE)
-                {
-                    cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp);
-                }
+                cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 break;
             
             case 10:
