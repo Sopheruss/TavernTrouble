@@ -55,9 +55,11 @@ public class TileManager
     public Dictionary<Vector2, int> interactionLayer;
     public Dictionary<Vector2, int> dekoLayerObjects;
     public Dictionary<Vector2, int> dekoLayerNonObjects;
+    public Dictionary<Vector2, int> shadowLayer;
 
     public Texture2D textureAtlas;
     public Texture2D hitboxes;
+    public Texture2D shadowAtlas;
 
     public int mapWidth = 0;
     public int mapHeight = 0;
@@ -72,6 +74,7 @@ public class TileManager
         interactionLayer = LoadMap(Path.Combine(basePath, "Data", "map_interactionLayer.csv"));
         dekoLayerObjects = LoadMap(Path.Combine(basePath, "Data", "map_dekoLayerObjects.csv"));
         dekoLayerNonObjects = LoadMap(Path.Combine(basePath, "Data", "map_dekoLayerNonObjects.csv"));
+        shadowLayer = LoadMap(Path.Combine(basePath, "Data", "map_shadowLayer.csv"));
 
         // Opens a CSV file, reads it line by line, splits the line into
         // an array of integers. Converts data into a Dictionary where the
@@ -121,6 +124,7 @@ public class TileManager
         //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, dekoLayerObjects, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         DrawLayer(spriteBatch, dekoLayerNonObjects, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
+        DrawLayer(spriteBatch, shadowLayer, shadowAtlas, displayTileSize, 7, pixelTileSize);
         //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
     }

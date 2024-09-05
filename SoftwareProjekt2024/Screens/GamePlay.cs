@@ -164,6 +164,7 @@ public class GamePlay
         _tileManager = new TileManager();
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
         _tileManager.hitboxes = _content.Load<Texture2D>("Map/hitboxes");
+        _tileManager.shadowAtlas = _content.Load<Texture2D>("Map/shadows");
         _tileManager.LoadObjectlayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager, _penumbra); //Laden aller Objekte von Tiled
         _tileManager.LoadDekoLayer(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager, _penumbra); //Laden aller Objekte von Deko Ebene
 
@@ -421,24 +422,27 @@ public class GamePlay
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
         _perspectiveManager.draw(_spriteBatch);
-
-        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
-
+        
         //Draw collision rectangle
-        /*_collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        /*
+        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
+        _collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
         _collisionManager.DrawDebugRect(_spriteBatch, rightBounds, 1, rectangleTexture);
         _collisionManager.DrawDebugRect(_spriteBatch, upBounds, 1, rectangleTexture);
-        _collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);*/
+        _collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);
+        */
 
         //Draw interaction rectangle
-        /*int loweredPlayerBounds = 40;
+        /*
+        int loweredPlayerBounds = 40;
         int tightenedPlayerBounds = 19;
         Rectangle bounds = new Rectangle(
             _ogerCook.Rect.X + tightenedPlayerBounds,
             _ogerCook.Rect.Y + loweredPlayerBounds,
             _ogerCook.Rect.Width - (2 * tightenedPlayerBounds),
             _ogerCook.Rect.Height - loweredPlayerBounds);
-        _collisionManager.DrawDebugRect(_spriteBatch, bounds, 1, rectangleTexture);*/
+        _collisionManager.DrawDebugRect(_spriteBatch, bounds, 1, rectangleTexture);
+        */
 
         _spriteBatch.End();
         _penumbra.Draw(gameTime); // draw everything NOT affected by light (UI, Menu)
