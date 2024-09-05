@@ -51,7 +51,7 @@ internal class Cuttingboard : StaticObject
         if (_ogerCook.inventoryIsEmpty() && hasItemOn && (_activeCBState == CuttingBoardStates.POTATO || _activeCBState == CuttingBoardStates.SALAD)) 
         {
             int times = 5;
-            interactionManager._interactionTextline = "Press [E] " + (times - count) + " more times until ingredient is chopped";
+            interactionManager._interactionTextline = "Press [E] " + (times - count) + " more times to chop ingredient";
             interactionManager._allowedInteraction = true;
             if (inputManager.pressedE)
             {
