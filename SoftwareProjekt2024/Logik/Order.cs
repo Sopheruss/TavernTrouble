@@ -5,6 +5,7 @@ using SoftwareProjekt2024.Components;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace SoftwareProjekt2024.Logik
 {
@@ -76,36 +77,6 @@ namespace SoftwareProjekt2024.Logik
         }
 
 
-
-        // Aktualisiert Fortschritt
-        public void CompleteComponent()
-        {
-            if (completedComponents < TotalComponents())
-            {
-                completedComponents++;
-            }
-        }
-
-
-        public int GetRewardPoints()
-        {
-            if (completedComponents == 0 || IsTimeUp())
-                return 0;
-
-            // Verhältnis abgeschlossene Komponenten zur Gesamtzahl
-            int rewardPerComponent = 10;
-            return completedComponents * rewardPerComponent;
-        }
-
-
-
-        // Überprüfen, ob  Bestellung abgeschlossen 
-        public bool IsCompleted()
-        {
-            return completedComponents == TotalComponents() || IsTimeUp();
-        }
-
-
         //Überprüfen ob Zeitlimit abgelaufen ist
         public bool IsTimeUp()
         {
@@ -134,7 +105,13 @@ namespace SoftwareProjekt2024.Logik
             int height = orderSheet.Height * 3;
             _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
 
-            //draw call for Recipe icons and timer here
+            // Draw Timer:
+
+            TimeSpan remainingTime = GetRemainingTime();
+            Vector2 timerPosition = new Vector2(position.X+10, position.Y + height-25);                                                        // Scale
+            _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black,0f,Vector2.Zero,0.85f,SpriteEffects.None,0f);
+
+
         }
     }
 }

@@ -139,7 +139,7 @@ internal class Guest : Component
 
     public void eat(Player _ogerCook)
     {
-        //feedback for points here?
+       
         //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
 
         if (order != null)
