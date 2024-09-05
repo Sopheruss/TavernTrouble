@@ -423,11 +423,11 @@ public class GamePlay
 
         _perspectiveManager.draw(_spriteBatch);
 
-        (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
-        _collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
-        _collisionManager.DrawDebugRect(_spriteBatch, rightBounds, 1, rectangleTexture);
-        _collisionManager.DrawDebugRect(_spriteBatch, upBounds, 1, rectangleTexture);
-        _collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);
+        //(Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
+        //_collisionManager.DrawDebugRect(_spriteBatch, leftBounds, 1, rectangleTexture); // Drawing player rectangle, int value is thickness
+        //_collisionManager.DrawDebugRect(_spriteBatch, rightBounds, 1, rectangleTexture);
+        //_collisionManager.DrawDebugRect(_spriteBatch, upBounds, 1, rectangleTexture);
+        //_collisionManager.DrawDebugRect(_spriteBatch, downBounds, 1, rectangleTexture);
 
         _spriteBatch.End();
         _penumbra.Draw(gameTime); // draw everything NOT affected by light (UI, Menu)
