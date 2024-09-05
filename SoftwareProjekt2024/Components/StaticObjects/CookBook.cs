@@ -42,6 +42,7 @@ internal class CookBook : StaticObject
 
     public static void HandleInteraction(InteractionManager interactionManager, InputManager inputManager)
     {
+        interactionManager._allowedInteraction = true;
         interactionManager._interactionTextline = "Press [E] to interact with cookbook";
         if (inputManager.pressedE)
         {

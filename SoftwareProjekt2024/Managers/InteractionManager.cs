@@ -29,7 +29,7 @@ internal class InteractionManager
 
     public string _interactionTextline;
     bool _possibleInteraction;
-    bool _allowedInteraction;
+    public bool _allowedInteraction;
 
     public InteractionManager(TileManager tilemanager, Player ogerCook, PerspectiveManager perspectiveManager, InputManager inputManager)
     {
@@ -142,7 +142,6 @@ internal class InteractionManager
                 break;
             
             case 1:
-                _allowedInteraction = true;
                 CookBook.HandleInteraction(this, _inputManager);
                 break;
             

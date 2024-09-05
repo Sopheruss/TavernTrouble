@@ -53,13 +53,25 @@ internal class Workstation : StaticObject
         {
             if (isEmpty() && ((_ogerCook.inventory[0] is Plate) || (_ogerCook.inventory[0] is Mug))) //oger is holding a plate or mug
             {
-                if(_ogerCook.inventory[0] is Plate)
+                if (_ogerCook.inventory[0] is Plate && (_ogerCook.inventory[0] as Plate).recipe != null && (_ogerCook.inventory[0] as Plate).recipe.isFinished)
+                {
+                    interactionManager._interactionTextline = "Press [E] to put meal on bar space";
+                    interactionManager._allowedInteraction = true;
+                }
+                else if (_ogerCook.inventory[0] is Plate)
                 {
                     interactionManager._interactionTextline = "Press [E] to put plate on bar space";
-                } 
+                    interactionManager._allowedInteraction = true;
+                }
+                else if (_ogerCook.inventory[0] is Mug && (_ogerCook.inventory[0] as Mug).isFilled)
+                {
+                    interactionManager._interactionTextline = "Press [E] to put beer on bar space";
+                    interactionManager._allowedInteraction = true;
+                }
                 else if(_ogerCook.inventory[0] is Mug)
                 {
                     interactionManager._interactionTextline = "Press [E] to put tankard on bar space";
+                    interactionManager._allowedInteraction = true;
                 }
                 if (inputManager.pressedE)
                 {
@@ -69,6 +81,7 @@ internal class Workstation : StaticObject
             else if (!isEmpty() && _ogerCook.inventory[0] is Ingredient && workStationContents[0] is Plate && (workStationContents[0] as Plate).canAddIngredient(_ogerCook.inventory[0]))
             {
                 interactionManager._interactionTextline = "Press [E] to put ingredient on plate";
+                interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
                     (workStationContents[0] as Plate).addIngredient(_ogerCook);
@@ -77,17 +90,41 @@ internal class Workstation : StaticObject
             else if (isEmpty() && _ogerCook.inventory[0] is Ingredient)
             {
                 interactionManager._interactionTextline = "Press [E] to put ingredient on bar space";
+                interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
                     addIngreditentToBar(_ogerCook);
                 }
             }
+            else
+            {
+                interactionManager._allowedInteraction = false;
+            }
         }
         else if (_ogerCook.inventoryIsEmpty() && !isEmpty()) //Implementation of plate method to see if plate/recipe is finished needed
         {
-            if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipe.isFinished)
+            if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipe == null)
             {
                 interactionManager._interactionTextline = "Press [E] to grab plate";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    ClearBar(_ogerCook, positionWhilePickedUp);
+                }
+            }
+            else if (workStationContents[0] is Plate && (workStationContents[0] as Plate).recipe != null && (workStationContents[0] as Plate).recipe.isFinished)
+            {
+                interactionManager._interactionTextline = "Press [E] to grab meal";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    ClearBar(_ogerCook, positionWhilePickedUp);
+                }
+            }
+            else if (workStationContents[0] is Mug && (workStationContents[0] as Mug).isFilled)
+            {
+                interactionManager._interactionTextline = "Press [E] to grab beer";
+                interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
                     ClearBar(_ogerCook, positionWhilePickedUp);
@@ -96,6 +133,7 @@ internal class Workstation : StaticObject
             else if (workStationContents[0] is Mug)
             {
                 interactionManager._interactionTextline = "Press [E] to grab tankard";
+                interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
                     ClearBar(_ogerCook, positionWhilePickedUp);
@@ -104,11 +142,20 @@ internal class Workstation : StaticObject
             else if (workStationContents[0] is Ingredient)
             {
                 interactionManager._interactionTextline = "Press [E] to grab ingredient";
+                interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
                     ClearBar(_ogerCook, positionWhilePickedUp);
                 }
             }
+            else
+            {
+                interactionManager._allowedInteraction = false;
+            }
+        }
+        else
+        {
+            interactionManager._allowedInteraction = false;
         }
     }
 
