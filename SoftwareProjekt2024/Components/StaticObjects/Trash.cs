@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
+using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Components.StaticObjects
 {
@@ -18,21 +20,62 @@ namespace SoftwareProjekt2024.Components.StaticObjects
             return dest.Height - 10;
         }
 
-        public static bool AllowedInteraction(Player _ogerCook)
+        public static void HandleInteraction(Player _ogerCook, PerspectiveManager perspectiveManager, Vector2 positionWhilePickedUp, InteractionManager interactionManager, InputManager inputManager)
         {
-            return !_ogerCook.inventoryIsEmpty();
-        }
-
-        public static void HandleInteraction(Player _ogerCook, PerspectiveManager perspectiveManager)
-        {
-            if (!_ogerCook.inventoryIsEmpty())
+            if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Plate && (_ogerCook.inventory[0] as Plate).state != 2)  //plate.state == 2 -> empty plate
             {
-                Component item = _ogerCook.inventory[0];
-                perspectiveManager._dynamicObjects.Remove(item);
-                //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
-                //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
-                _ogerCook.inventory.Clear();
-                _ogerCook.texture = Player.plain;
+                Debug.WriteLine(_ogerCook.inventory[0].state);
+                interactionManager._interactionTextline = "Press [E] to clear plate";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    Component item = _ogerCook.inventory[0];
+                    perspectiveManager._dynamicObjects.Remove(item);
+                    //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
+                    //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.texture = Player.plain;
+                    perspectiveManager._dynamicObjects.Add(new Plate(Plate.plain, positionWhilePickedUp, perspectiveManager));
+                    _ogerCook.pickUp(perspectiveManager._dynamicObjects.Last());
+                }
+            }
+            else if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Mug && (_ogerCook.inventory[0] as Mug).isFilled)
+            {
+                interactionManager._interactionTextline = "Press [E] to pour out beer";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    Component item = _ogerCook.inventory[0];
+                    perspectiveManager._dynamicObjects.Remove(item);
+                    //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
+                    //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.texture = Player.plain;
+                    perspectiveManager._dynamicObjects.Add(new Mug(Mug.beerEmpty, positionWhilePickedUp, perspectiveManager));
+                    _ogerCook.pickUp(perspectiveManager._dynamicObjects.Last());
+                }
+                else if (!_ogerCook.inventoryIsEmpty())
+                {
+                    interactionManager._interactionTextline = "Press [E] to throw this away";
+                    interactionManager._allowedInteraction = true;
+                    if (inputManager.pressedE)
+                    {
+                        Component item = _ogerCook.inventory[0];
+                        perspectiveManager._dynamicObjects.Remove(item);
+                        //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
+                        //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
+                        _ogerCook.inventory.Clear();
+                        _ogerCook.texture = Player.plain;
+                    }
+                }
+                else
+                {
+                    interactionManager._allowedInteraction = false;
+                }
+            }
+            else
+            {
+                interactionManager._allowedInteraction = false;
             }
         }
     }

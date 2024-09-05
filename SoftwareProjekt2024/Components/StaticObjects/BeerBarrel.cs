@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
+using System.Diagnostics.Metrics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -57,21 +58,36 @@ internal class BeerBarrel : StaticObject
         count++;
     }
 
-    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
+    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp, InteractionManager interactionManager, InputManager inputManager)
     {
         if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Mug mug && !mug.isFilled)
         {
-            Component item = _ogerCook.inventory[0];
-            interactedBarrel = true;
+            interactionManager._interactionTextline = "Press [E] to interact with beer barrel";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            {
+                Component item = _ogerCook.inventory[0];
+                interactedBarrel = true;
 
-            (item as Mug).fill();
+                (item as Mug).fill();
 
-            _beerBarrelTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
-            _beerBarrelTimer.Elapsed += Tick; //ticks timer
+                _beerBarrelTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
+                _beerBarrelTimer.Elapsed += Tick; //ticks timer
 
-            _beerBarrelTimer.Start();
-            UpdateVolume();
-            soundInstanceBeer.Play();
+                _beerBarrelTimer.Start();
+                UpdateVolume();
+                soundInstanceBeer.Play();
+            }
+        }
+        else if(interactedBarrel && count < 3)
+        {
+            int seconds = 3;
+            interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until tankard is full";
+            interactionManager._allowedInteraction = true;
+        }
+        else
+        {
+            interactionManager._allowedInteraction = false;
         }
     }
 

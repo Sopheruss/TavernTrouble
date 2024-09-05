@@ -64,41 +64,60 @@ internal class Kessel : StaticObject
         return dest.Height - 10;
     }
 
-    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp) //only relevant for Animation
+    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp, InteractionManager interactionManager, InputManager inputManager) //only relevant for Animation
     {
         //interaction only possible if oger carries chopped potato (fries) 
         if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Potato potato && hasFries == false && potato.chopped && !potato.cooked)
         {
-            Component item = _ogerCook.inventory[0];
-            _ogerCook.inventory.Clear();
-            _ogerCook.changeAppearence(1);
+            interactionManager._interactionTextline = "Press [E] to fry potato";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            { 
+                Component item = _ogerCook.inventory[0];
+                _ogerCook.inventory.Clear();
+                _ogerCook.changeAppearence(1);
 
-            kesselContents.Add(item);
-            (item as Potato).cook();
+                kesselContents.Add(item);
+                (item as Potato).cook();
 
-            hasFries = true;
+                hasFries = true;
 
-            _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
-            _kesselTimer.Elapsed += Tick; //ticks timer
+                _kesselTimer = new Timer(1000); //timer intervall is set to 1000ms -> meaning interval of tick is 1 second 
+                _kesselTimer.Elapsed += Tick; //ticks timer
 
-            _kesselTimer.Start(); //starts timer for 10 seconds 
-            _activeKesselState = KesselStates.ANIMATIONKESSEL; //starts Animation 
+                _kesselTimer.Start(); //starts timer for 10 seconds 
+                _activeKesselState = KesselStates.ANIMATIONKESSEL; //starts Animation 
 
-            UpdateVolume(); // Update volume before playing
-            soundInstanceKessel.Play();
+                UpdateVolume(); // Update volume before playing
+                soundInstanceKessel.Play();
+            }
         }
-
-        if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
+        else if(_activeKesselState == KesselStates.ANIMATIONKESSEL)
         {
-            _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
-            hasFries = false;
+            int seconds = 10;
+            interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until fries are done";
+            interactionManager._allowedInteraction = true;
+        }
+        else if (_ogerCook.inventoryIsEmpty() && _activeKesselState == KesselStates.DONEKESSEL)
+        {
+            interactionManager._interactionTextline = "Press [E] to grab fries";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            {
+                _activeKesselState = KesselStates.EMPTYKESSEL; //meat was picked up -> grill is empty again
+                hasFries = false;
 
-            Component item = kesselContents[0];
-            kesselContents.Clear();
-            _ogerCook.pickUp(item);
-            item.position = positionWhilePickedUp;
+                Component item = kesselContents[0];
+                kesselContents.Clear();
+                _ogerCook.pickUp(item);
+                item.position = positionWhilePickedUp;
 
-            soundInstanceKessel.Stop();
+                soundInstanceKessel.Stop();
+            }
+        }
+        else
+        {
+            interactionManager._allowedInteraction = false;
         }
     }
 

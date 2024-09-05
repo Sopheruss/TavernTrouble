@@ -40,10 +40,15 @@ internal class CookBook : StaticObject
         count++;
     }
 
-    public static void HandleInteraction()
+    public static void HandleInteraction(InteractionManager interactionManager, InputManager inputManager)
     {
-        _playCookBookAnimation = true;
-        _cookBookTimer.Start();
+        interactionManager._allowedInteraction = true;
+        interactionManager._interactionTextline = "Press [E] to open cookbook";
+        if (inputManager.pressedE)
+        {
+            _playCookBookAnimation = true;
+            _cookBookTimer.Start();
+        }
     }
 
     public static void Update()
