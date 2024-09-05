@@ -90,7 +90,6 @@ internal class InteractionManager
         foreach (var tile in _tileManager.interactionLayer)
         {
             Rectangle tileRect = new Rectangle((int)tile.Key.X * tileSize, (int)tile.Key.Y * tileSize, tileSize, tileSize);
-
             if (tileRect.Intersects(bounds))
             {
                 _interactionState = (int)tile.Value; // returns tile ID of intersecting rect to handle interaction for different tile-types later; true
