@@ -66,44 +66,63 @@ internal class Grill : StaticObject
     }
 
 
-    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
+    public static void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp, InteractionManager interactionManager, InputManager inputManager)
     {
         //interaction only possible when carrying raw meat
         if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat meat && !hasMeatOn && !meat.cooked)
         {
-            Component item = _ogerCook.inventory[0];
-            _ogerCook.inventory.Clear();
-            _ogerCook.changeAppearence(1);
+            interactionManager._interactionTextline = "Press [E] to roast meat";
+            interactionManager._allowedInteraction = true;
 
-            grillContents.Add(item);
-            (item as Meat).cook();
+            if (inputManager.pressedE)
+            {
+                Component item = _ogerCook.inventory[0];
+                _ogerCook.inventory.Clear();
+                _ogerCook.changeAppearence(1);
 
-            hasMeatOn = true;
+                grillContents.Add(item);
+                (item as Meat).cook();
 
-            _grillTimer = new Timer(1000);
-            _grillTimer.Elapsed += Tick;
+                hasMeatOn = true;
+
+                _grillTimer = new Timer(1000);
+                _grillTimer.Elapsed += Tick;
 
 
-            _grillTimer.Start(); //starts timer for 10 seconds 
-            _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
+                _grillTimer.Start(); //starts timer for 10 seconds 
+                _activeGrillState = GrillStates.ANIMATIONGRILL; //starts Animation 
 
-            UpdateVolume(); // Update volume before playing
-            soundInstanceGrill.Play();
+                UpdateVolume(); // Update volume before playing
+                soundInstanceGrill.Play();
+            }
         }
-
-        //only with nothing in hands, oger can interact with done grill and pick up done meat
-        if (_ogerCook.inventoryIsEmpty() && _activeGrillState == GrillStates.DONEGRILL)
+        else if(_activeGrillState == GrillStates.ANIMATIONGRILL)
         {
-            _activeGrillState = GrillStates.EMPTYGRILL; //meat was picked up -> grill is empty again
-            hasMeatOn = false;
-            Component item = grillContents[0];
-            grillContents.Clear();
-            _ogerCook.pickUp(item);
-            item.position = positionWhilePickedUp;
-
-            soundInstanceGrill.Stop();
+            int seconds = 10;
+            interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until patty is done";
+            interactionManager._allowedInteraction = true;
         }
+        //only with nothing in hands, oger can interact with done grill and pick up done meat
+        else if (_ogerCook.inventoryIsEmpty() && _activeGrillState == GrillStates.DONEGRILL)
+        {
+            interactionManager._interactionTextline = "Press [E] to grab patty";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            {
+                _activeGrillState = GrillStates.EMPTYGRILL; //meat was picked up -> grill is empty again
+                hasMeatOn = false;
+                Component item = grillContents[0];
+                grillContents.Clear();
+                _ogerCook.pickUp(item);
+                item.position = positionWhilePickedUp;
 
+                soundInstanceGrill.Stop();
+            }
+        }
+        else
+        {
+            interactionManager._allowedInteraction = false;
+        }
     }
 
     public static void Update()

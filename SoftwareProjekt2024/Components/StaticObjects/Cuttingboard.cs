@@ -38,7 +38,7 @@ internal class Cuttingboard : StaticObject
         _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD;
         hasItemOn = false;
 
-        count = -1;
+        count = 0;
     }
 
     public override int getHeight()
@@ -46,62 +46,88 @@ internal class Cuttingboard : StaticObject
         return dest.Height - 10;
     }
 
-    public void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp)
+    public void HandleInteraction(Player _ogerCook, Vector2 positionWhilePickedUp, InteractionManager interactionManager, InputManager inputManager)
     {
-        if (_ogerCook.inventoryIsEmpty()) { count++; }
-
-        if (!_ogerCook.inventoryIsEmpty() && !hasItemOn) //Inventory has to have item and cb need to be empty 
+        if (_ogerCook.inventoryIsEmpty() && hasItemOn && (_activeCBState == CuttingBoardStates.POTATO || _activeCBState == CuttingBoardStates.SALAD)) 
+        {
+            int times = 5;
+            interactionManager._interactionTextline = "Press [E] " + (times - count) + " more times to chop ingredient";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            {
+                count++;
+            }
+        }
+        else if (!_ogerCook.inventoryIsEmpty() && !hasItemOn) //Inventory has to have item and cb need to be empty 
         {
             if (_ogerCook.inventory[0] is Potato potato && !potato.chopped) //item in inventory must be potato and potato need to be chopped
             {
+                interactionManager._interactionTextline = "Press [E] to put ingredient on cutting board";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    Component item = _ogerCook.inventory[0];
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.changeAppearence(1);
 
-                Component item = _ogerCook.inventory[0];
-                _ogerCook.inventory.Clear();
-                _ogerCook.changeAppearence(1);
+                    cBContents.Add(item);
 
-                cBContents.Add(item);
+                    (item as Potato).chop();
 
-                (item as Potato).chop();
+                    hasItemOn = true;
 
-                hasItemOn = true;
-
-                _activeCBState = CuttingBoardStates.POTATO;
-
+                    _activeCBState = CuttingBoardStates.POTATO;
+                }
             }
             else if (_ogerCook.inventory[0] is Salad salad && !salad.chopped) //item in inventory must be salad and salad need to be chopped
             {
+                interactionManager._interactionTextline = "Press [E] to put ingredient on cutting board";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    Component item = _ogerCook.inventory[0];
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.changeAppearence(1);
 
-                Component item = _ogerCook.inventory[0];
-                _ogerCook.inventory.Clear();
-                _ogerCook.changeAppearence(1);
+                    cBContents.Add(item);
 
-                cBContents.Add(item);
+                    (item as Salad).chop();
 
-                (item as Salad).chop();
+                    hasItemOn = true;
 
-                hasItemOn = true;
-
-                _activeCBState = CuttingBoardStates.SALAD;
+                    _activeCBState = CuttingBoardStates.SALAD;
+                }
+            }
+            else
+            {
+                interactionManager._allowedInteraction = false;
             }
         }
-
         //for picking up the finished chopping action
-        if (_ogerCook.inventoryIsEmpty() && //oger inventory has to be empty 
+        else if (_ogerCook.inventoryIsEmpty() && //oger inventory has to be empty 
             (_activeCBState == CuttingBoardStates.SALADDONE || _activeCBState == CuttingBoardStates.POTATODONE)) //salad or potato need to be finished with chopping 
         {
-            _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD; //reset cuttingboard 
-            hasItemOn = false;
+            interactionManager._interactionTextline = "Press [E] to grab chopped ingredient";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            {
+                _activeCBState = CuttingBoardStates.EMPTYCUTTINGBOARD; //reset cuttingboard 
+                hasItemOn = false;
 
-            Component item = cBContents[0]; //oger inventory is filled with schopped item from board 
-            cBContents.Clear();
-            _ogerCook.pickUp(item);
-            item.position = positionWhilePickedUp;
+                Component item = cBContents[0]; //oger inventory is filled with schopped item from board 
+                cBContents.Clear();
+                _ogerCook.pickUp(item);
+                item.position = positionWhilePickedUp;
+            }
+        }
+        else
+        {
+            interactionManager._allowedInteraction = false;
         }
     }
 
     public void Update()
     {
-
         if (count >= 5)
         {
             count = 0;
