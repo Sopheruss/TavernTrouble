@@ -28,6 +28,9 @@ internal class Guest : Component
     public static Texture2D wizardYellow;
     public static Texture2D wizardPurple;
 
+    public static Texture2D exclamationPoint;
+    public static Rectangle exclamationPointRect;
+
     public static Texture2D spawnAnimationTexture;
 
     public bool hasOrdered;
@@ -212,7 +215,8 @@ internal class Guest : Component
 
             if (!hasOrdered)
             {
-                _spriteBatch.DrawString(_font, "!", new Vector2(this.position.X + 17, this.position.Y - 15), Color.Red);
+                //_spriteBatch.DrawString(_font, "!", new Vector2(this.position.X + 17, this.position.Y - 15), Color.Red);
+                _spriteBatch.Draw(exclamationPoint, new Rectangle((int)this.position.X + 17, (int)this.position.Y - 5, exclamationPoint.Width, exclamationPoint.Height), Color.White);
             }
         }
 
