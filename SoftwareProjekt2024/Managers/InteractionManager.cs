@@ -210,14 +210,9 @@ internal class InteractionManager
                 break;
 
             case >= 60 and <= 67:
-                _interactionTextline = "Press [E] to interact with table";
                 int tableID = tileID - 60;
                 Table table = _perspectiveManager._tables[tableID];
-                //_allowedInteraction = table.AllowedInteraction(_ogerCook);
-                if (_inputManager.pressedE)
-                {
-                    table.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook);
-                }
+                table.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
             default:

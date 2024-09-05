@@ -43,24 +43,46 @@ internal class Table : StaticObject
         return guest != null;
     }
 
-    public void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook)
+    public void HandleInteraction(PerspectiveManager _perspectiveManager, Vector2 positionWhilePickedUp, Player _ogerCook, InteractionManager interactionManager, InputManager inputManager)
     {
         if (hasGuest())
         {
             if (!guest.hasOrdered)
             {
-                guest.takeOrder();
-                Debug.WriteLine("Order taken");
+                interactionManager._interactionTextline = "Press [E] to take order";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    guest.takeOrder();
+                    //Debug.WriteLine("Order taken");
+                }
             }
             else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
             {
-                addOrderItem(_ogerCook);
+                interactionManager._interactionTextline = "Press [E] to put this on table";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    addOrderItem(_ogerCook);
+                }
+            }
+            else
+            {
+                interactionManager._allowedInteraction = false;
             }
         }
         else if (!isClean())
         {
-            //dreckiges Geschirr wegr�umen logik hier
-
+            interactionManager._interactionTextline = "Press [E] to clean table";
+            interactionManager._allowedInteraction = true;
+            if (inputManager.pressedE)
+            {
+                
+            }
+        }
+        else
+        {
+            interactionManager._allowedInteraction = false;
         }
     }
 
