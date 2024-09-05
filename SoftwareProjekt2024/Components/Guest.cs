@@ -177,7 +177,7 @@ internal class Guest : Component
             points += order.wrongComponentsCount * (-2);
         }
 
-        fame = points / 5;
+        fame = points / 5; //
         fame = Math.Max(0, fame);  // Kein negativer Ruhm
 
         return (points, fame);
