@@ -215,7 +215,7 @@ internal class Guest : Component
             }
             else if (hasFinishedEating)
             {
-
+                _spriteBatch.Draw(exclamationPointGreen, new Rectangle((int)this.position.X + 17, (int)this.position.Y - 5, exclamationPoint.Width, exclamationPoint.Height), Color.White);
             }
         }
 

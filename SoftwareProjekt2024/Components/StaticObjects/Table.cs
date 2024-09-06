@@ -54,7 +54,7 @@ internal class Table : StaticObject
     {
         if (hasGuest())
         {
-            if (!guest.hasOrdered)
+            if (!guest.hasOrdered && _ogerCook.inventoryIsEmpty())
             {
                 interactionManager._interactionTextline = "Press [E] to take order";
                 interactionManager._allowedInteraction = true;
@@ -73,7 +73,7 @@ internal class Table : StaticObject
                     addOrderItem(_ogerCook);
                 }
             }
-            else if (guest.hasFinishedEating)
+            else if (guest.hasFinishedEating && _ogerCook.inventoryIsEmpty())
             {
                 interactionManager._interactionTextline = "Press [E] to get guest feedback";
                 interactionManager._allowedInteraction = true;
@@ -87,7 +87,7 @@ internal class Table : StaticObject
                 interactionManager._allowedInteraction = false;
             }
         }
-        else if (!isClean())
+        else if (!isClean() && _ogerCook.inventoryIsEmpty())
         {
             interactionManager._interactionTextline = "Press [E] to clean table";
             interactionManager._allowedInteraction = true;
