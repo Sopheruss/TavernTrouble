@@ -7,11 +7,13 @@ using SoftwareProjekt2024.Managers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Components;
 
 internal class Guest : Component
 {
+    Player _ogerCook;
     AnimationManager _guestAnimationManager;
     AnimationManager _spawnAnimationManager;
     public PerspectiveManager _perspectiveManager;
@@ -47,8 +49,12 @@ internal class Guest : Component
 
     BitmapFont _font;
 
-    public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager) : base(texture, position, perspectiveManager)
+    readonly int maxMeals = 3;
+    readonly int maxBurgers = 2;
+
+    public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager, Player ogerCook) : base(texture, position, perspectiveManager)
     {
+        _ogerCook = ogerCook;
         perspectiveManager._sortedComponents.Add(this);
 
         if (_availableGuests == null)
@@ -116,9 +122,55 @@ internal class Guest : Component
         _spawnAnimationManager.Update();
     }
 
-    public void takeOrder() //placeholder
+    public void takeOrder()
     {
-        order = new Order(0, new List<Recipe> { new Recipe("Burger"), new Recipe("Fries") }, assignedTableID);
+        int nNeededComponents = _ogerCook.GetDifficulty();
+        int nExistingComponents = 0;
+        int nDrinks = 0;
+        int nMeals = 0;
+        int nRecipes = Recipe.recipes.Count;
+        int nBurgers = 0;
+
+        List<Recipe> meals = new List<Recipe>();
+        List<string> recipeNames = Recipe.recipes.Keys.ToList<string>();
+
+        while (nExistingComponents < nNeededComponents)
+        {
+            if(nMeals < maxMeals)
+            {
+                Random random = new Random();
+                int componentResult = random.Next(2);
+
+                if (componentResult == 0)
+                {
+                    int recipeResult = random.Next(nRecipes);
+                    if (recipeNames[recipeResult] == "burger")
+                    {
+                        if(nBurgers < maxBurgers)
+                        {
+                            nBurgers++;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    nMeals++;
+                    meals.Add(new Recipe(recipeNames[recipeResult]));
+                }
+                else
+                {
+                    nDrinks++;
+                }
+                nExistingComponents++;
+            }
+            else
+            {
+                nDrinks++;
+                nExistingComponents++;
+            }
+        }
+        order = new Order(nDrinks, meals);
         _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }

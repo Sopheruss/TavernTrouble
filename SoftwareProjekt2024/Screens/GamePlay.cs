@@ -256,7 +256,7 @@ public class GamePlay
         _collisionManager = new CollisionManager(_tileManager);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _perspectiveManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager, _inputManager);
-        _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
+        _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer, _ogerCook);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
