@@ -60,6 +60,9 @@ public class GamePlay
 
     Texture2D _postIt;
     Rectangle _postItRect;
+    Texture2D _postItFlap;
+    Rectangle _postItFlapRect;
+
 
     Player _ogerCook;
 
@@ -250,6 +253,8 @@ public class GamePlay
 
         _postIt = _content.Load<Texture2D>("OrderBar/PostIt");
         _postItRect = new Rectangle(_screenWidth - 100 - _scordeBord.Width, _pauseButton.Height - bmfont.LineHeight, _postIt.Width * 8, _postIt.Height * 5);
+        _postItFlap = _content.Load<Texture2D>("OrderBar/PostItFlap");
+        _postItFlapRect = new Rectangle(_screenWidth - 100 - _scordeBord.Width, _pauseButton.Height - bmfont.LineHeight, _postIt.Width * 8, _postIt.Height * 5);
 
         /* order */
         Order.orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
@@ -446,7 +451,9 @@ public class GamePlay
         _spriteBatch.Draw(_postIt, _postItRect, Color.White);
 
         playerLevel = _ogerCook.GetPlayerLevel();
-        _spriteBatch.DrawString(bmfont, "Lvl: " + playerLevel, new Vector2(_postItRect.X + 2, _postItRect.Y + 1), Color.Black);
+        _spriteBatch.DrawString(bmfont, "Lvl: " + playerLevel, new Vector2(_postItRect.X + 4, _postItRect.Y + 5), Color.Black);
+
+        _spriteBatch.Draw(_postItFlap, _postItFlapRect, Color.White);
 
         _pauseButton.Draw(_spriteBatch);
         _cookBookButton.Draw(_spriteBatch);
