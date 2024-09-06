@@ -154,6 +154,7 @@ internal class Guest : Component
 
 
             _ogerCook.AddPointsAndFame(rewardPoints, fame);
+            //_ogerCook.DebugAddFamePoints(36);
 
             Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
             Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
