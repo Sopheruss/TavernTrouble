@@ -29,7 +29,7 @@ internal class Guest : Component
     public static Texture2D wizardPurple;
 
     public static Texture2D exclamationPoint;
-    public static Rectangle exclamationPointRect;
+    public static Texture2D exclamationPointGreen;
 
     public static Texture2D spawnAnimationTexture;
 
@@ -67,7 +67,6 @@ internal class Guest : Component
         }
 
         _font = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
-
 
         _totalGuestNumber++;
 
@@ -142,7 +141,7 @@ internal class Guest : Component
 
     public void eat(Player _ogerCook)
     {
-       
+
         //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
 
         if (order != null)
@@ -174,7 +173,7 @@ internal class Guest : Component
         points = completedComponents * 10;
         if (order.isFinished && order.wrongComponentsCount == 0) { } //Maybe add bonus points for a perfectly handled order here?
         Debug.WriteLine($"judgeOrderA: {points}");
-        
+
         if (order.wrongComponentsCount > 0)
         {
             points += order.wrongComponentsCount * (-2);

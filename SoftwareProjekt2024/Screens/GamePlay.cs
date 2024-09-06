@@ -219,6 +219,7 @@ public class GamePlay
         Guest.wizardPurple = _content.Load<Texture2D>("Npc/Wizard_Npc_Purple");
         Guest.spawnAnimationTexture = _content.Load<Texture2D>("Npc/Spritesheet_Spawn_Animation");
         Guest.exclamationPoint = _content.Load<Texture2D>("Feedback/exclamation");
+        Guest.exclamationPointGreen = _content.Load<Texture2D>("Feedback/exclamationGreen");
 
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
@@ -432,7 +433,7 @@ public class GamePlay
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
         _perspectiveManager.draw(_spriteBatch);
-        
+
         //Draw collision rectangle
         /*
         (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);
