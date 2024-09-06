@@ -6,7 +6,6 @@ namespace SoftwareProjekt2024.Logik
 {
     public class Recipe
     {
-
         public static Dictionary<string, List<Type>> recipes = new Dictionary<string, List<Type>>()
         {
             {"Burger" , new List<Type>() {typeof(Bun), typeof(Meat), typeof(Salad) } },

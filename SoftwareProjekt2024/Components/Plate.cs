@@ -21,6 +21,7 @@ namespace SoftwareProjekt2024.Components
         public static Texture2D withBun_Salad;
         public static Texture2D withFullBurger;
         public static Texture2D withFries;
+        public static Texture2D dirty;
 
         public List<Component> plateContents;
 
@@ -40,6 +41,11 @@ namespace SoftwareProjekt2024.Components
             {
                 _perspectiveManager._dynamicObjects.Remove(item);   //delete all PlateContent items upon destruction
             }
+        }
+
+        public void empty()
+        {
+            texture = Plate.dirty;
         }
 
         public bool needsIngredient(Component ingredient)

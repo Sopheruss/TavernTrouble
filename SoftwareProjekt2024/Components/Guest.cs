@@ -34,6 +34,7 @@ internal class Guest : Component
     public static Texture2D spawnAnimationTexture;
 
     public bool hasOrdered;
+    public bool hasFinishedEating;
     public Order order;
     public int assignedTableID;
     public Table assignedTable;
@@ -78,6 +79,7 @@ internal class Guest : Component
 
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
+        hasFinishedEating = false;
         _drawGuest = false;
         _drawSpawn = true;
 
@@ -139,27 +141,11 @@ internal class Guest : Component
         //negative feedback if no table is clean needed here
     }
 
-    public void eat(Player _ogerCook)
+    public void eat()
     {
-
-        //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
-
-        if (order != null)
-        {
-            // order.CompleteComponent();
-            (int rewardPoints, int fame) = judgeOrder();
-
-            Debug.WriteLine($"Debug eat: {rewardPoints}");
-
-
-
-            _ogerCook.AddPointsAndFame(rewardPoints, fame);
-
-            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
-            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
-
-        }
-
+        //Animation and timer for eating here
+        assignedTable.emptyPlatesMugs();
+        hasFinishedEating = true;
     }
 
 
@@ -185,9 +171,21 @@ internal class Guest : Component
         return (points, fame);
     }
 
-
-    public void leave()
+    public void giveFeedbackAndLeave(Player _ogerCook)
     {
+        if (order != null)
+        {
+            (int rewardPoints, int fame) = judgeOrder();
+
+            Debug.WriteLine($"Debug eat: {rewardPoints}");
+
+            _ogerCook.AddPointsAndFame(rewardPoints, fame);
+
+            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
+            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+        }
+        //add visual guest point feedback here
+        _perspectiveManager.activeOrders.Remove(order);
         _totalGuestNumber--;
         assignedTable.guest = null;
         _perspectiveManager._guests.Remove(this);
@@ -213,6 +211,10 @@ internal class Guest : Component
             {
                 //_spriteBatch.DrawString(_font, "!", new Vector2(this.position.X + 17, this.position.Y - 15), Color.Red);
                 _spriteBatch.Draw(exclamationPoint, new Rectangle((int)this.position.X + 17, (int)this.position.Y - 5, exclamationPoint.Width, exclamationPoint.Height), Color.White);
+            }
+            else if (hasFinishedEating)
+            {
+
             }
         }
 
