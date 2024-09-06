@@ -4,11 +4,14 @@ using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
 
 internal class Table : StaticObject
 {
+    PerspectiveManager _perspectiveManager;
+
     public static int capacity = 4;
     public int occupiedSpots;
     public Guest guest;
@@ -25,6 +28,7 @@ internal class Table : StaticObject
         : base(texture, position, _dest, _src, perspectiveManager)
     {
         tableNumber = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new");
+        _perspectiveManager = perspectiveManager;
 
         occupiedSpots = 0;
         tableID = tableIDCount;
@@ -57,13 +61,22 @@ internal class Table : StaticObject
                     //Debug.WriteLine("Order taken");
                 }
             }
-            else if (!_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
+            else if (!guest.hasFinishedEating && !_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
             {
                 interactionManager._interactionTextline = "Press [E] to put this on table";
                 interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
                     addOrderItem(_ogerCook);
+                }
+            }
+            else if (guest.hasFinishedEating)
+            {
+                interactionManager._interactionTextline = "Press [E] to get guest feedback";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    guest.giveFeedbackAndLeave(_ogerCook);
                 }
             }
             else
@@ -77,13 +90,39 @@ internal class Table : StaticObject
             interactionManager._allowedInteraction = true;
             if (inputManager.pressedE)
             {
-                
+                cleanUp(_ogerCook);
             }
         }
         else
         {
             interactionManager._allowedInteraction = false;
         }
+    }
+
+    public void emptyPlatesMugs()
+    {
+        foreach (Component tableItem in tableContents)
+        {
+            if (tableItem is Mug)
+            {
+                (tableItem as Mug).empty();
+            }
+            else if ((tableItem as Plate).plateContents.Count != 0)
+            {
+                (tableItem as Plate).empty();
+            }
+        }
+    }
+    public void cleanUp(Player ogerCook)
+    {
+        foreach (Component tableItem in tableContents)
+        {
+            _perspectiveManager._dynamicObjects.Remove(tableItem);
+        }
+        tableContents.Clear();
+        occupiedSpots = 0;
+        _perspectiveManager._dynamicObjects.Add(new TrashBag(_perspectiveManager));
+        ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
     }
 
     public override int getHeight()
@@ -115,7 +154,7 @@ internal class Table : StaticObject
         _ogerCook.changeAppearence(1);
 
         tableContents.Add(item);
-        item.position = freePosition();
+        item.position = item is Plate ? freePosition() : freePosition() + new Vector2(2, 0); //if item is mug, offset position to right
         occupiedSpots++;
 
         if (item is Plate && (item as Plate).recipe is not null)
@@ -135,7 +174,7 @@ internal class Table : StaticObject
         {
             Debug.WriteLine("Order now finished!");
             tableOrderfinished = true;
-            guest.eat(_ogerCook);
+            guest.eat();
         }
     }
 

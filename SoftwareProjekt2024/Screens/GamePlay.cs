@@ -142,6 +142,7 @@ public class GamePlay
         Plate.withSalad = _content.Load<Texture2D>("Food/salad_plate");
         Plate.withMeat_Salad = _content.Load<Texture2D>("Food/meat_salad_plate");
         Plate.withFries = _content.Load<Texture2D>("Food/fries_plate");
+        Plate.dirty = _content.Load<Texture2D>("Food/plate_dirty");
 
         /* mug types */
         Mug.beerEmpty = _content.Load<Texture2D>("Food/beer_empty");
@@ -189,6 +190,7 @@ public class GamePlay
         Player.withPlate_FullBurger = _content.Load<Texture2D>("Models/Oger_Plate_Full_Burger");
         Player.withBeerEmpty = _content.Load<Texture2D>("Models/Oger_Beer_Empty");
         Player.withBeerFull = _content.Load<Texture2D>("Models/Oger_Beer_Full");
+        Player.withTrash = _content.Load<Texture2D>("Models/Oger_Trash");
 
         _ogerCook = new Player(Player.plain,
                               new Vector2(_mapWidthPx / 2, _mapHeightPx / 4),
@@ -422,7 +424,7 @@ public class GamePlay
         _tileManager.Draw(_spriteBatch, _tileSize, 8, _tileSize, _perspectiveManager);
 
         _perspectiveManager.draw(_spriteBatch);
-        
+
         //Draw collision rectangle
         /*
         (Rectangle leftBounds, Rectangle rightBounds, Rectangle upBounds, Rectangle downBounds) = _collisionManager.CalcPlayerBounds(_ogerCook);

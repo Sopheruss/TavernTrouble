@@ -26,5 +26,12 @@ namespace SoftwareProjekt2024.Components
             texture = beerFull;
             state = (int)Component.States.BeerFull;
         }
+
+        public void empty()
+        {
+            isFilled = false;
+            texture = beerEmpty;
+            state = (int)Component.States.BeerEmpty;
+        }
     }
 }
