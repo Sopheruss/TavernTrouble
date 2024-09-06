@@ -212,6 +212,7 @@ public class GamePlay
         Guest.wizardYellow = _content.Load<Texture2D>("Npc/Wizard_Npc_Yellow");
         Guest.wizardPurple = _content.Load<Texture2D>("Npc/Wizard_Npc_Purple");
         Guest.spawnAnimationTexture = _content.Load<Texture2D>("Npc/Spritesheet_Spawn_Animation");
+        Guest.exclamationPoint = _content.Load<Texture2D>("Feedback/exclamation");
 
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
