@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,15 +16,18 @@ internal class Table : StaticObject
     List<Component> tableContents;
     public bool tableOrderfinished;
 
-    public BitmapFont tableNumber;
-    Vector2 tableNumberSize;
-    string tableNum;
+    public static Texture2D one;
+    public static Texture2D two;
+    public static Texture2D three;
+    public static Texture2D four;
+    public static Texture2D five;
+    public static Texture2D six;
+    public static Texture2D seven;
+    public static Texture2D eight;
 
     public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
-        tableNumber = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new");
-
         occupiedSpots = 0;
         tableID = tableIDCount;
         tableIDCount++;
@@ -156,6 +158,40 @@ internal class Table : StaticObject
             {
                 item.draw(_spriteBatch); //drawing Contents here to make them appear on top of table
             }
+        }
+
+        drawNumber(tableID, 22, 41, _spriteBatch, position, 1);
+
+    }
+
+    public static void drawNumber(int tableNumber, int spacerX, int spacerY, SpriteBatch _spriteBatch, Vector2 position, int scale)
+    {
+        switch (tableNumber)
+        {
+            case 0:
+                _spriteBatch.Draw(one, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 1:
+                _spriteBatch.Draw(two, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 2:
+                _spriteBatch.Draw(three, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 3:
+                _spriteBatch.Draw(four, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 4:
+                _spriteBatch.Draw(five, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 5:
+                _spriteBatch.Draw(six, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 6:
+                _spriteBatch.Draw(seven, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
+            case 7:
+                _spriteBatch.Draw(eight, new Rectangle((int)position.X + spacerX, (int)position.Y + spacerY, one.Width * scale, one.Height * scale), Color.White);
+                break;
         }
     }
 }

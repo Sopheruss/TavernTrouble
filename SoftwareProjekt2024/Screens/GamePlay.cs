@@ -166,6 +166,16 @@ public class GamePlay
         /* other dynamic objects */
         //Bun.bunTexture = _content.Load<Texture2D>("")
 
+        /* table numbers */
+        Table.one = _content.Load<Texture2D>("Numbers/one");
+        Table.two = _content.Load<Texture2D>("Numbers/two");
+        Table.three = _content.Load<Texture2D>("Numbers/three");
+        Table.four = _content.Load<Texture2D>("Numbers/four");
+        Table.five = _content.Load<Texture2D>("Numbers/five");
+        Table.six = _content.Load<Texture2D>("Numbers/six");
+        Table.seven = _content.Load<Texture2D>("Numbers/seven");
+        Table.eight = _content.Load<Texture2D>("Numbers/eight");
+
         /* map */
         _tileManager = new TileManager();
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
