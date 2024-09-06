@@ -25,7 +25,7 @@ namespace SoftwareProjekt2024.Logik
         public bool isFinished;
         int completedComponents; // abgeschlossenen Komponenten je Bestellung
         private Stopwatch timerBestellung;  // Timer für Bestellung
-        private const int timeLimitInSeconds = 120; // 2 Minuten Zeitlimit
+        private const int timeLimitInSeconds = 180; // 3 Minuten Zeitlimit
 
         public Order(int _drinksCount, List<Recipe> _recipes)
         {
@@ -99,13 +99,20 @@ namespace SoftwareProjekt2024.Logik
 
         public void draw(SpriteBatch _spriteBatch, Vector2 position)
         {
+            TimeSpan remainingTime = GetRemainingTime();
+
+
+
             int width = orderSheet.Width * 3;
             int height = orderSheet.Height * 3;
             _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
 
-            // Draw Timer:
+            if (remainingTime < TimeSpan.FromSeconds(30)) {
 
-            TimeSpan remainingTime = GetRemainingTime();
+                _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.Tomato);
+            }
+
+            // Draw Timer:
             Vector2 timerPosition = new Vector2(position.X + 10, position.Y + height - 25);                                                        // Scale
             _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black, 0f, Vector2.Zero, 0.85f, SpriteEffects.None, 0f);
 
