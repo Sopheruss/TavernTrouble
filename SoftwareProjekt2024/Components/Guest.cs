@@ -116,7 +116,8 @@ internal class Guest : Component
 
     public void takeOrder() //placeholder
     {
-        order = new Order(0, new List<Recipe> { new Recipe("Burger"), new Recipe("Burger"), new Recipe("Fries") });
+        // number is drinkCount
+        order = new Order(2, new List<Recipe> { new Recipe("Burger"), });
         _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }

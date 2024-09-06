@@ -124,18 +124,28 @@ namespace SoftwareProjekt2024.Logik
             {
                 if (recipe.currTexture != null)
                 {
-                    // Define size of the icon (for example, scaling down by half)
+                    // Define size of icon (for example, scaling down by half)
                     int iconSize = 25;
 
-                    // Draw texture at the current icon position
+                    // Draw texture at current icon position
                     _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X-10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
 
-                    // Move the icon position (x-coords) for the next recipe 
+                    // Move icon position (x-coords) for next recipe 
                     iconPosition.X += iconSize + 5;  //padding between icons in pixels
                 }
             }
 
-            //_spriteBatch.Draw(Mug.beerFull,new Rectangle((int)iconPosition.X-30)
+
+
+            Vector2 drinkIconPosition = new Vector2(iconPosition.X, iconPosition.Y + 100); // reset pos so no overlap happens
+            for (int i = 0; i < drinksCount; i++)
+            {
+                _spriteBatch.Draw(Mug.beerFull,new Rectangle ((int)iconPosition.X - 35, (int)iconPosition.Y + 80, 25,25), Color.White);
+                
+                // Move the icon position (x-coords) for next drink
+                iconPosition.X += 25 + 5;
+
+            }
 
         }
     }
