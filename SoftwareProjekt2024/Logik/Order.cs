@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,7 +29,9 @@ namespace SoftwareProjekt2024.Logik
         private Stopwatch timerBestellung;  // Timer für Bestellung
         private const int timeLimitInSeconds = 120; // 2 Minuten Zeitlimit
 
-        public Order(int _drinksCount, List<Recipe> _recipes)
+        public int tableIDtoOrder;
+
+        public Order(int _drinksCount, List<Recipe> _recipes, int tableID)
         {
             recipes = _recipes;
             missingRecipes = new List<Recipe>(recipes);
@@ -36,6 +39,7 @@ namespace SoftwareProjekt2024.Logik
             missingDrinksCount = drinksCount;
             completedComponents = 0;
 
+            tableIDtoOrder = tableID;
 
             timerBestellung = new Stopwatch();
             timerBestellung.Start();
@@ -134,6 +138,7 @@ namespace SoftwareProjekt2024.Logik
             int height = orderSheet.Height * 3;
             _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
 
+            Table.drawNumber(tableIDtoOrder, 76, 15, _spriteBatch, position, 3);
             //draw call for Recipe icons and timer here
         }
     }
