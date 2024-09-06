@@ -2,18 +2,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace SoftwareProjekt2024.Logik
 {
     public class Order
     {
 
-        // for future reference:
-        // public static Order CurrentOrder { get; set; }
+
         public static Texture2D orderSheet;
         public static Texture2D orderStrip;
         public static BitmapFont bmfont;
@@ -29,7 +28,9 @@ namespace SoftwareProjekt2024.Logik
         private Stopwatch timerBestellung;  // Timer für Bestellung
         private const int timeLimitInSeconds = 120; // 2 Minuten Zeitlimit
 
-        public Order(int _drinksCount, List<Recipe> _recipes)
+        public int tableIDtoOrder;
+
+        public Order(int _drinksCount, List<Recipe> _recipes, int tableID)
         {
             recipes = _recipes;
             missingRecipes = new List<Recipe>(recipes);
@@ -37,6 +38,7 @@ namespace SoftwareProjekt2024.Logik
             missingDrinksCount = drinksCount;
             completedComponents = 0;
 
+            tableIDtoOrder = tableID;
 
             timerBestellung = new Stopwatch();
             timerBestellung.Start();
@@ -108,10 +110,12 @@ namespace SoftwareProjekt2024.Logik
             // Draw Timer:
 
             TimeSpan remainingTime = GetRemainingTime();
-            Vector2 timerPosition = new Vector2(position.X+10, position.Y + height-25);                                                        // Scale
-            _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black,0f,Vector2.Zero,0.85f,SpriteEffects.None,0f);
+            Vector2 timerPosition = new Vector2(position.X + 10, position.Y + height - 25);                                                        // Scale
+            _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black, 0f, Vector2.Zero, 0.85f, SpriteEffects.None, 0f);
 
 
+            Table.drawNumber(tableIDtoOrder, 76, 15, _spriteBatch, position, 3);
+            //draw call for Recipe icons and timer here
         }
     }
 }

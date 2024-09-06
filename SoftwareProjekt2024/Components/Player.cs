@@ -62,8 +62,8 @@ internal class Player : Component
 
     private void UpdatePlayerLevel()
     {
-        // Calculate level based on fame points
-        int newPlayerLevel = (int)(famePoints / 10);
+        // Calculate level based on fame points, every 8th fame point = level up
+        int newPlayerLevel = (int)(famePoints / 4);
         if (newPlayerLevel > playerlevel)
         {
             playerlevel = newPlayerLevel;

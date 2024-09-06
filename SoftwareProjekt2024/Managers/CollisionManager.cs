@@ -80,7 +80,7 @@ namespace SoftwareProjekt2024.Managers
 
             foreach (Guest guest in _perspectiveManager._guests)
             {
-                Rectangle guestRect = new Rectangle((int)guest.position.X + 9, (int)guest.position.Y + 32, guest.Rect.Width - 19, guest.Rect.Height);
+                Rectangle guestRect = new Rectangle((int)guest.position.X + 9, (int)guest.position.Y + 32, guest.Rect.Width - 19, guest.Rect.Height - 15);
 
                 if (guestRect.Intersects(bounds))
                 {

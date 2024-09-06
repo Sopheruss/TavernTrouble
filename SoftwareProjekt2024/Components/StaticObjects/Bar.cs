@@ -129,7 +129,7 @@ internal class Bar : StaticObject
                     ClearBar(_ogerCook, positionWhilePickedUp);
                 }
             }
-            else if (barContents[0] is Plate && (barContents[0] as Plate).recipe != null && !(barContents[0] as Plate).recipe.isFinished)
+            /*else if (barContents[0] is Plate && (barContents[0] as Plate).recipe != null && !(barContents[0] as Plate).recipe.isFinished)
             {
                 interactionManager._interactionTextline = "Press [E] to grab unfinished meal";
                 interactionManager._allowedInteraction = true;
@@ -137,7 +137,7 @@ internal class Bar : StaticObject
                 {
                     ClearBar(_ogerCook, positionWhilePickedUp);
                 }
-            }
+            }*/
             else if (barContents[0] is Mug && (barContents[0] as Mug).isFilled)
             {
                 interactionManager._interactionTextline = "Press [E] to grab beer";

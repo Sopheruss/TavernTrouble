@@ -54,9 +54,19 @@ namespace SoftwareProjekt2024.Components.StaticObjects
                     perspectiveManager._dynamicObjects.Add(new Mug(Mug.beerEmpty, positionWhilePickedUp, perspectiveManager));
                     _ogerCook.pickUp(perspectiveManager._dynamicObjects.Last());
                 }
-                else
+            }
+            else if (!_ogerCook.inventoryIsEmpty())
+            {
+                interactionManager._interactionTextline = "Press [E] to throw this away";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
                 {
-                    interactionManager._allowedInteraction = false;
+                    Component item = _ogerCook.inventory[0];
+                    perspectiveManager._dynamicObjects.Remove(item);
+                    //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
+                    //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.texture = Player.plain;
                 }
             }
             else if (!_ogerCook.inventoryIsEmpty())

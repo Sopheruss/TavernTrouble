@@ -47,7 +47,7 @@ public class MainMenu
         _creditsButton = new Button(
             Content.Load<Texture2D>("Buttons/creditsButton"),
             Content.Load<Texture2D>("Buttons/creditsButtonHovering"),
-            new Vector2(screenWidth - 70, screenHeight - 70));
+            new Vector2(70, screenHeight - 70));
 
         _background = Content.Load<Texture2D>("Background/background");
         _backgroundRect = new Rectangle(0, 0, screenWidth, screenHeight);

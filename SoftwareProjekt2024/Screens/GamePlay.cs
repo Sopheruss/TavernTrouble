@@ -53,9 +53,16 @@ public class GamePlay
 
     BitmapFont bmfont;
     private int score;
+    private int playerLevel;
 
     Texture2D _scordeBord;
     Rectangle _scordeBordRect;
+
+    Texture2D _postIt;
+    Rectangle _postItRect;
+    Texture2D _postItFlap;
+    Rectangle _postItFlapRect;
+
 
     Player _ogerCook;
 
@@ -100,7 +107,6 @@ public class GamePlay
 
         // Initialize stopwatch
         _timer = new Stopwatch();
-
 
         // Initialize Penumbra lighting system
         _penumbra = new PenumbraComponent(_game);
@@ -161,6 +167,16 @@ public class GamePlay
         /* other dynamic objects */
         //Bun.bunTexture = _content.Load<Texture2D>("")
 
+        /* table numbers */
+        Table.one = _content.Load<Texture2D>("Numbers/one");
+        Table.two = _content.Load<Texture2D>("Numbers/two");
+        Table.three = _content.Load<Texture2D>("Numbers/three");
+        Table.four = _content.Load<Texture2D>("Numbers/four");
+        Table.five = _content.Load<Texture2D>("Numbers/five");
+        Table.six = _content.Load<Texture2D>("Numbers/six");
+        Table.seven = _content.Load<Texture2D>("Numbers/seven");
+        Table.eight = _content.Load<Texture2D>("Numbers/eight");
+
         /* map */
         _tileManager = new TileManager();
         _tileManager.textureAtlas = _content.Load<Texture2D>("Map/atlas");
@@ -214,6 +230,8 @@ public class GamePlay
         Guest.wizardYellow = _content.Load<Texture2D>("Npc/Wizard_Npc_Yellow");
         Guest.wizardPurple = _content.Load<Texture2D>("Npc/Wizard_Npc_Purple");
         Guest.spawnAnimationTexture = _content.Load<Texture2D>("Npc/Spritesheet_Spawn_Animation");
+        Guest.exclamationPoint = _content.Load<Texture2D>("Feedback/exclamation");
+        Guest.exclamationPointGreen = _content.Load<Texture2D>("Feedback/exclamationGreen");
 
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
@@ -244,12 +262,14 @@ public class GamePlay
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
         Order.bmfont = _content.Load<BitmapFont>("Fonts/font_new");
 
-        /* sounds */
-        // grill, bar, usw... soonTM
-
         /* score Bord*/
         _scordeBord = _content.Load<Texture2D>("OrderBar/scoreBord");
         _scordeBordRect = new Rectangle(_screenWidth - 110, _pauseButton.Height - bmfont.LineHeight, _scordeBord.Width, _scordeBord.Height);
+
+        _postIt = _content.Load<Texture2D>("OrderBar/PostIt");
+        _postItRect = new Rectangle(_screenWidth - 100 - _scordeBord.Width, _pauseButton.Height - bmfont.LineHeight, _postIt.Width * 8, _postIt.Height * 5);
+        _postItFlap = _content.Load<Texture2D>("OrderBar/PostItFlap");
+        _postItFlapRect = new Rectangle(_screenWidth - 100 - _scordeBord.Width, _pauseButton.Height - bmfont.LineHeight, _postIt.Width * 8, _postIt.Height * 5);
 
         /* order */
         Order.orderStrip = _content.Load<Texture2D>("OrderBar/Order_Strip");
@@ -349,6 +369,7 @@ public class GamePlay
 
             _ogerCook.Update();
 
+
             if (!BeerBarrel.interactedBarrel)
             {
                 _inputManager.Update();
@@ -401,9 +422,9 @@ public class GamePlay
 
 
 
-    // call this method to add to current displayed score
-    // (currently only in interactionManager)
 
+
+    // call this method to add to current displayed score
     public void IncreaseScore(int increment)
     {
         score += increment;
@@ -456,6 +477,14 @@ public class GamePlay
 
         _spriteBatch.Draw(_scordeBord, _scordeBordRect, Color.White);
         _spriteBatch.DrawString(bmfont, "Score: \n" + score, new Vector2(_screenWidth - 100, _pauseButton.Height - bmfont.LineHeight + 10), Color.White);
+
+        _spriteBatch.Draw(_postIt, _postItRect, Color.White);
+
+        playerLevel = _ogerCook.GetPlayerLevel();
+        _spriteBatch.DrawString(bmfont, "Lvl: " + playerLevel, new Vector2(_postItRect.X + 4, _postItRect.Y + 5), Color.Black);
+
+        _spriteBatch.Draw(_postItFlap, _postItFlapRect, Color.White);
+
         _pauseButton.Draw(_spriteBatch);
         _cookBookButton.Draw(_spriteBatch);
         _helpButton.Draw(_spriteBatch);
