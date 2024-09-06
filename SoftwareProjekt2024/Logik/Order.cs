@@ -125,7 +125,7 @@ namespace SoftwareProjekt2024.Logik
                 if (recipe.currTexture != null)
                 {
                     // Define the size of the icon (for example, scaling down by half)
-                    int iconSize = recipe.currTexture.Width / 2;
+                    int iconSize = 30;
 
                     // Draw the recipe texture at the current icon position
                     _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X, (int)iconPosition.Y, iconSize, iconSize), Color.White);
