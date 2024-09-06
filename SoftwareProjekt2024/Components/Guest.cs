@@ -136,7 +136,7 @@ internal class Guest : Component
 
         while (nExistingComponents < nNeededComponents)
         {
-            if(nMeals < maxMeals)
+            if (nMeals < maxMeals)
             {
                 Random random = new Random();
                 int componentResult = random.Next(2);
@@ -146,7 +146,7 @@ internal class Guest : Component
                     int recipeResult = random.Next(nRecipes);
                     if (recipeNames[recipeResult] == "burger")
                     {
-                        if(nBurgers < maxBurgers)
+                        if (nBurgers < maxBurgers)
                         {
                             nBurgers++;
                         }
@@ -170,7 +170,7 @@ internal class Guest : Component
                 nExistingComponents++;
             }
         }
-        order = new Order(nDrinks, meals);
+        order = new Order(nDrinks, meals, assignedTableID);
         _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }
