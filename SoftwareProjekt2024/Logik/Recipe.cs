@@ -36,7 +36,6 @@ namespace SoftwareProjekt2024.Logik
             {
                 case "Burger":
                     currTexture = burger;
-                    Debug.WriteLine("burgir");
                     break;
                 case "Fries":
                     currTexture = fries;
