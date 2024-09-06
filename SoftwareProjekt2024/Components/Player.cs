@@ -60,10 +60,37 @@ internal class Player : Component
         UpdatePlayerLevel();
     }
 
+
+    // Debug to add Points by hand (see Guest-Class)
+    public void DebugAddFamePoints(float fame)
+    {
+        Debug.WriteLine("Adding fame points manually: " + fame);
+        famePoints += fame;
+
+        UpdatePlayerLevel();
+    }
+
+
+
     private void UpdatePlayerLevel()
     {
-        // Calculate level based on fame points, every 8th fame point = level up
-        int newPlayerLevel = (int)(famePoints / 4);
+        int levelUpThreshold;
+
+        // Determine the fame points required to level up
+        if (playerlevel < 5)
+        {
+            // Before level 5, every 4th fame point level up
+            levelUpThreshold = 4;
+        }
+        else
+        {
+            // After level 10, every 6th fame point level up
+            levelUpThreshold = 6;
+        }
+
+        // Calculate the new player level based on the fame points and level-up threshold
+        int newPlayerLevel = (int)(famePoints / levelUpThreshold);
+
         if (newPlayerLevel > playerlevel)
         {
             playerlevel = newPlayerLevel;
@@ -76,6 +103,25 @@ internal class Player : Component
         return playerlevel;
     }
 
+    public int GetDifficulty()
+    {
+        if (playerlevel <= 2)
+        {
+            return 1;
+        }
+        else if (playerlevel >= 3 && playerlevel <= 4)
+        {
+            return 2;
+        }
+        else if (playerlevel >= 5 && playerlevel <= 6)
+        {
+            return 3;
+        }
+        else 
+        {
+            return 4;
+        }
+    }
 
     public void Load()
     {

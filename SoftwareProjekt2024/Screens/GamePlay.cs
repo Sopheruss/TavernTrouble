@@ -256,7 +256,7 @@ public class GamePlay
         _collisionManager = new CollisionManager(_tileManager);
         _inputManager = new InputManager(_game, _ogerCook, _collisionManager, _perspectiveManager);
         _interactionManager = new InteractionManager(_tileManager, _ogerCook, _perspectiveManager, _inputManager);
-        _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer);
+        _gameplayLoopManager = new GameplayLoopManager(_perspectiveManager, _timer, _ogerCook);
 
         /* font */
         bmfont = _content.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
@@ -276,6 +276,10 @@ public class GamePlay
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
         Order.orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
         //_orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
+        Order.beer = _content.Load<Texture2D>("Icons/beer");
+        Recipe.fries = _content.Load<Texture2D>("Icons/fries");
+        Recipe.burger = _content.Load<Texture2D>("Icons/burger");
+
 
         /* Letter */
         _letter = new Letter(_content, _spriteBatch, _screenWidth, _screenHeight, new Vector2(_screenWidth / 2 - 553, _screenHeight / 2 - 329 - 20 - (int)_keyPressLetterSize.Y)); //numbers hard coded on size of letter Rect
