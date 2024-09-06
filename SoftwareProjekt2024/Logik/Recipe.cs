@@ -9,7 +9,7 @@ namespace SoftwareProjekt2024.Logik
     public class Recipe
     {
 
-        public static Texture2D beer;
+        
         public static Texture2D burger;
         public static Texture2D fries;
         public Texture2D currTexture;
@@ -39,9 +39,6 @@ namespace SoftwareProjekt2024.Logik
                     break;
                 case "Fries":
                     currTexture = fries;
-                    break;
-                case "Beer":
-                    currTexture = beer;
                     break;
             }
         }
