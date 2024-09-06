@@ -119,19 +119,19 @@ namespace SoftwareProjekt2024.Logik
             // Starting position to draw the icons (adjust based on your layout)
             Vector2 iconPosition = new Vector2(position.X + 20, position.Y + 20);
 
-            // Iterate over the list of recipes and draw their corresponding textures
+            // Iterate over list of recipes and draw their corresponding textures
             foreach (Recipe recipe in recipes)
             {
                 if (recipe.currTexture != null)
                 {
-                    // Define the size of the icon (for example, scaling down by half)
-                    int iconSize = 30;
+                    // Define size of the icon (for example, scaling down by half)
+                    int iconSize = 25;
 
-                    // Draw the recipe texture at the current icon position
-                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X, (int)iconPosition.Y, iconSize, iconSize), Color.White);
+                    // Draw texture at the current icon position
+                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X-10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
 
-                    // Move the icon position down for the next recipe (adjust spacing as needed)
-                    iconPosition.Y += iconSize + 10;  // Adding 10 pixels of padding between icons
+                    // Move the icon position (x-coords) for the next recipe 
+                    iconPosition.X += iconSize + 5;  //padding between icons in pixels
                 }
             }
 
