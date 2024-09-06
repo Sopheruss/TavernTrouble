@@ -13,6 +13,11 @@ namespace SoftwareProjekt2024.Logik
             {"Fries", new List<Type>() {typeof(Potato) } }
         };
 
+        public static List<string> recipeNames = new List<string>()
+        {
+            "Burger", "Fries"
+        };
+
         public string name;
         public bool isFinished;
         public List<Type> recipeContents;

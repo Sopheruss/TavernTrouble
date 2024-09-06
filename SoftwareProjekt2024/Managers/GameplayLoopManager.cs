@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SoftwareProjekt2024.Managers
 {
-    public class GameplayLoopManager
+    internal class GameplayLoopManager
     {
         public PerspectiveManager _perspectiveManager;
 
@@ -13,11 +13,14 @@ namespace SoftwareProjekt2024.Managers
 
         public int timebetweenNextGuest = 3;   //in seconds
         public bool newGuestAddedFlag;
-        public GameplayLoopManager(PerspectiveManager perspectiveManager, Stopwatch timer)
+        Player _ogerCook;
+
+        public GameplayLoopManager(PerspectiveManager perspectiveManager, Stopwatch timer, Player ogerCook)
         {
             _perspectiveManager = perspectiveManager;
             _timer = timer;
             newGuestAddedFlag = false;
+            _ogerCook = ogerCook;
         }
 
         public void Update()
@@ -40,7 +43,7 @@ namespace SoftwareProjekt2024.Managers
 
         public void addNewGuest()
         {
-            _perspectiveManager._guests.Add(new Guest(Guest.fairyGreen, new Vector2(0, 0), _perspectiveManager));
+            _perspectiveManager._guests.Add(new Guest(Guest.fairyGreen, new Vector2(0, 0), _perspectiveManager, _ogerCook));
             _perspectiveManager._guests.Last().assignTable();
         }
     }

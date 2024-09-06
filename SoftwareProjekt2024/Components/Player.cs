@@ -75,6 +75,25 @@ internal class Player : Component
         return playerlevel;
     }
 
+    public int GetDifficulty()
+    {
+        if (playerlevel <= 2)
+        {
+            return 1;
+        }
+        else if (playerlevel >= 3 && playerlevel <= 4)
+        {
+            return 2;
+        }
+        else if (playerlevel >= 5 && playerlevel <= 6)
+        {
+            return 3;
+        }
+        else 
+        {
+            return 4;
+        }
+    }
 
     public void Load()
     {
