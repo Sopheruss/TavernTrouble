@@ -135,6 +135,8 @@ namespace SoftwareProjekt2024.Logik
                 }
             }
 
+            //_spriteBatch.Draw(Mug.beerFull,new Rectangle((int)iconPosition.X-30)
+
         }
     }
 }
