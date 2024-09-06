@@ -198,6 +198,26 @@ internal class Guest : Component
         //Animation and timer for eating here
         assignedTable.emptyPlatesMugs();
         hasFinishedEating = true;
+
+        //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
+
+        if (order != null)
+        {
+            // order.CompleteComponent();
+            (int rewardPoints, int fame) = judgeOrder();
+
+            Debug.WriteLine($"Debug eat: {rewardPoints}");
+
+
+
+            _ogerCook.AddPointsAndFame(rewardPoints, fame);
+            //_ogerCook.DebugAddFamePoints(36);
+
+            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
+            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+
+        }
+
     }
 
 

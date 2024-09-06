@@ -17,6 +17,8 @@ namespace SoftwareProjekt2024.Logik
         public static Texture2D orderStrip;
         public static BitmapFont bmfont;
 
+        public static Texture2D beer;
+
         public List<Recipe> recipes;
         public List<Recipe> missingRecipes;
         public int drinksCount;
@@ -26,7 +28,7 @@ namespace SoftwareProjekt2024.Logik
         public bool isFinished;
         int completedComponents; // abgeschlossenen Komponenten je Bestellung
         private Stopwatch timerBestellung;  // Timer für Bestellung
-        private const int timeLimitInSeconds = 120; // 2 Minuten Zeitlimit
+        private const int timeLimitInSeconds = 180; // 3 Minuten Zeitlimit
 
         public int tableIDtoOrder;
 
@@ -103,16 +105,53 @@ namespace SoftwareProjekt2024.Logik
 
         public void draw(SpriteBatch _spriteBatch, Vector2 position)
         {
+            TimeSpan remainingTime = GetRemainingTime();
+
+
+
             int width = orderSheet.Width * 3;
             int height = orderSheet.Height * 3;
             _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
 
-            // Draw Timer:
+            if (remainingTime < TimeSpan.FromSeconds(30)) {
 
-            TimeSpan remainingTime = GetRemainingTime();
+                _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.Tomato);
+            }
+
+            // Draw Timer:
             Vector2 timerPosition = new Vector2(position.X + 10, position.Y + height - 25);                                                        // Scale
             _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black, 0f, Vector2.Zero, 0.85f, SpriteEffects.None, 0f);
 
+            // Starting position to draw the icons (adjust based on your layout)
+            Vector2 iconPosition = new Vector2(position.X + 20, position.Y + 20);
+
+            // Iterate over list of recipes and draw their corresponding textures
+            foreach (Recipe recipe in recipes)
+            {
+                if (recipe.currTexture != null)
+                {
+                    // Define size of icon (for example, scaling down by half)
+                    int iconSize = 25;
+
+                    // Draw texture at current icon position
+                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X-10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
+
+                    // Move icon position (x-coords) for next recipe 
+                    iconPosition.X += iconSize + 5;  //padding between icons in pixels
+                }
+            }
+
+
+
+            Vector2 drinkIconPosition = new Vector2(iconPosition.X, iconPosition.Y + 100); // reset pos so no overlap happens
+            for (int i = 0; i < drinksCount; i++)
+            {
+                _spriteBatch.Draw(beer,new Rectangle ((int)iconPosition.X - 35, (int)iconPosition.Y + 80, 25,25), Color.White);
+                
+                // Move the icon position (x-coords) for next drink
+                iconPosition.X += 25 + 5;
+
+            }
 
             Table.drawNumber(tableIDtoOrder, 76, 15, _spriteBatch, position, 3);
             //draw call for Recipe icons and timer here
