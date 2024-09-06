@@ -5,15 +5,13 @@ using SoftwareProjekt2024.Components;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace SoftwareProjekt2024.Logik
 {
     public class Order
     {
 
-        // for future reference:
-        // public static Order CurrentOrder { get; set; }
+
         public static Texture2D orderSheet;
         public static Texture2D orderStrip;
         public static BitmapFont bmfont;
@@ -108,8 +106,8 @@ namespace SoftwareProjekt2024.Logik
             // Draw Timer:
 
             TimeSpan remainingTime = GetRemainingTime();
-            Vector2 timerPosition = new Vector2(position.X+10, position.Y + height-25);                                                        // Scale
-            _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black,0f,Vector2.Zero,0.85f,SpriteEffects.None,0f);
+            Vector2 timerPosition = new Vector2(position.X + 10, position.Y + height - 25);                                                        // Scale
+            _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black, 0f, Vector2.Zero, 0.85f, SpriteEffects.None, 0f);
 
 
         }
