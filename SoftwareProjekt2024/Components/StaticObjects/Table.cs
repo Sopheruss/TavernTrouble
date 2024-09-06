@@ -31,9 +31,8 @@ internal class Table : StaticObject
     public Table(Texture2D texture, Vector2 position, Rectangle _dest, Rectangle _src, PerspectiveManager perspectiveManager)
         : base(texture, position, _dest, _src, perspectiveManager)
     {
-        tableNumber = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new");
         _perspectiveManager = perspectiveManager;
-        
+
         occupiedSpots = 0;
         tableID = tableIDCount;
         tableIDCount++;

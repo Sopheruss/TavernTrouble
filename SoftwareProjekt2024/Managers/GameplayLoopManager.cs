@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using SoftwareProjekt2024.Components;
+using SoftwareProjekt2024.Components.StaticObjects;
 using System.Diagnostics;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace SoftwareProjekt2024.Managers
             int timeInSeconds = (int)_timer.ElapsedMilliseconds / 1000;
             if (timeInSeconds % timebetweenNextGuest == 0 && !newGuestAddedFlag)
             {
-                if (Guest._totalGuestNumber < 8) //only as many guests as table 
+                if (Guest._totalGuestNumber < 8 && tableAvailable()) //only as many guests as table 
                 {
                     addNewGuest();
                     newGuestAddedFlag = true;
@@ -37,6 +38,18 @@ namespace SoftwareProjekt2024.Managers
             }
         }
 
+        public bool tableAvailable()
+        {
+            foreach (Table table in _perspectiveManager._tables)
+            {
+                if (!table.isClean() || table.hasGuest())   //pick first clean and free table
+                {
+                    continue;
+                }
+                return true;
+            }
+            return false;
+        }
 
         public void addNewGuest()
         {

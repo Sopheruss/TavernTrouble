@@ -189,6 +189,7 @@ internal class Guest : Component
         _totalGuestNumber--;
         assignedTable.guest = null;
         _perspectiveManager._guests.Remove(this);
+        //Debug.WriteLine(_perspectiveManager._guests.Count);
         _drawGuest = false;
         _availableGuests.Add(this._chosenTexture);
     }
