@@ -5,7 +5,6 @@ using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Screens;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Managers;
 
@@ -50,11 +49,11 @@ public class PerspectiveManager
     public void drawOrders(SpriteBatch spriteBatch)
     {
         spriteBatch.Draw(Order.orderStrip, GamePlay._orderStripRect, Color.White); //40 * 40
-        Vector2 orderPosition = new Vector2(60, 20);    //Startposition
+        Vector2 orderPosition = new Vector2(61, 20);    //Startposition
         foreach (Order order in activeOrders)
         {
             order.draw(spriteBatch, orderPosition);
-            orderPosition.X += 120;
+            orderPosition.X += 128;
         }
     }
 
