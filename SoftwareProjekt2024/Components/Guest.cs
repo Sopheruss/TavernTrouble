@@ -13,9 +13,9 @@ namespace SoftwareProjekt2024.Components;
 
 internal class Guest : Component
 {
-    Player _ogerCook;
-    AnimationManager _guestAnimationManager;
-    AnimationManager _spawnAnimationManager;
+    readonly Player _ogerCook;
+    readonly AnimationManager _guestAnimationManager;
+    readonly AnimationManager _spawnAnimationManager;
     public PerspectiveManager _perspectiveManager;
 
     public Texture2D _chosenTexture;
@@ -43,6 +43,7 @@ internal class Guest : Component
 
     private bool _drawGuest;
     private bool _drawSpawn;
+    private bool _drawDespawn;
 
     public static List<Texture2D> _availableGuests;
     public static int _totalGuestNumber;
@@ -73,6 +74,7 @@ internal class Guest : Component
                 };
         }
 
+
         _font = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
 
         _totalGuestNumber++;
@@ -88,6 +90,7 @@ internal class Guest : Component
         hasFinishedEating = false;
         _drawGuest = false;
         _drawSpawn = true;
+        _drawDespawn = false;
 
         _chosenTexture = ChooseTexture(CreateRandomIntegerTexture());
     }
@@ -115,9 +118,24 @@ internal class Guest : Component
     {
         _guestAnimationManager.Update();
 
-        if (_spawnAnimationManager.activeFrame == 4) { _drawGuest = true; }
+        if (_spawnAnimationManager.activeFrame == 4)
+        {
+            _drawGuest = true;
+        }
 
-        if (_spawnAnimationManager.activeFrame == 6) { _drawSpawn = false; }
+        if (_spawnAnimationManager.activeFrame == 6 && _drawSpawn)
+        {
+            _drawSpawn = false;
+            _spawnAnimationManager.ResetAnimation();
+        }
+
+        //STARTED DESPAWN ANIMATION BUT STUCK 
+        if (_spawnAnimationManager.activeFrame == 6 && _drawDespawn)
+        {
+            _drawDespawn = false;
+
+
+        }
 
         _spawnAnimationManager.Update();
     }
@@ -243,7 +261,7 @@ internal class Guest : Component
         return (points, fame);
     }
 
-    public void giveFeedbackAndLeave(Player _ogerCook)
+    public void giveFeedback(Player _ogerCook)
     {
         if (order != null)
         {
@@ -255,13 +273,21 @@ internal class Guest : Component
 
             Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
             Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
+
+            //_drawDespawn = true;
+
+            leave();
         }
         //add visual guest point feedback here
+
+    }
+
+    public void leave()
+    {
         _perspectiveManager.activeOrders.Remove(order);
         _totalGuestNumber--;
         assignedTable.guest = null;
         _perspectiveManager._guests.Remove(this);
-        //Debug.WriteLine(_perspectiveManager._guests.Count);
         _drawGuest = false;
         _availableGuests.Add(this._chosenTexture);
     }
@@ -291,7 +317,7 @@ internal class Guest : Component
             }
         }
 
-        if (_drawSpawn)
+        if (_drawSpawn || _drawDespawn)
         {
             _spriteBatch.Draw(
             spawnAnimationTexture,                       //texture 

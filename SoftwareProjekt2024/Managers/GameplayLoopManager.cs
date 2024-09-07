@@ -12,9 +12,11 @@ namespace SoftwareProjekt2024.Managers
 
         Stopwatch _timer;
 
-        public int timebetweenNextGuest = 3;   //in seconds
+        public int timebetweenNextGuest = 30;   //in seconds
         public bool newGuestAddedFlag;
-        Player _ogerCook;
+        readonly Player _ogerCook;
+
+        int maxGuestPerDifficulty;
 
         public GameplayLoopManager(PerspectiveManager perspectiveManager, Stopwatch timer, Player ogerCook)
         {
@@ -22,14 +24,18 @@ namespace SoftwareProjekt2024.Managers
             _timer = timer;
             newGuestAddedFlag = false;
             _ogerCook = ogerCook;
+
+            maxGuestPerDifficulty = 3;
         }
 
         public void Update()
         {
+            HowManyGuests(_ogerCook.GetDifficulty()); //calculates how many guests are allowed to spawn at the same time, depending on the deifficulty 
+
             int timeInSeconds = (int)_timer.ElapsedMilliseconds / 1000;
             if (timeInSeconds % timebetweenNextGuest == 0 && !newGuestAddedFlag)
             {
-                if (Guest._totalGuestNumber < 8 && tableAvailable()) //only as many guests as table 
+                if (Guest._totalGuestNumber < 8 && tableAvailable() && Guest._totalGuestNumber < maxGuestPerDifficulty) //only as many guests as difficulty allows, but max. 8
                 {
                     addNewGuest();
                     newGuestAddedFlag = true;
@@ -52,6 +58,25 @@ namespace SoftwareProjekt2024.Managers
                 return true;
             }
             return false;
+        }
+
+        public void HowManyGuests(int difficultiy)
+        {
+            switch (difficultiy)
+            {
+                case 1:
+                    maxGuestPerDifficulty = 3;
+                    break;
+                case 2:
+                    maxGuestPerDifficulty = 4;
+                    break;
+                case 3:
+                    maxGuestPerDifficulty = 6;
+                    break;
+                case 4:
+                    maxGuestPerDifficulty = 8;
+                    break;
+            }
         }
 
         public void addNewGuest()

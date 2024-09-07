@@ -124,7 +124,7 @@ public class TileManager
         //DrawLayer(spriteBatch, objectsLayer, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, dekoLayerObjects, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         DrawLayer(spriteBatch, dekoLayerNonObjects, textureAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
-        DrawLayer(spriteBatch, shadowLayer, shadowAtlas, displayTileSize, 7, pixelTileSize);
+        DrawLayer(spriteBatch, shadowLayer, shadowAtlas, displayTileSize, numTilesPerRow, pixelTileSize);
         //DrawLayer(spriteBatch, collisionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
         //DrawLayer(spriteBatch, interactionLayer, hitboxes, displayTileSize, 1, pixelTileSize); // hitboxes only has one tile per row
     }
@@ -335,6 +335,25 @@ public class TileManager
                     };
 
                     penumbra.Lights.Add(BehindKartoffelBox);
+                    break;
+                case 144:
+                    _perspectiveManager._nonInteractables.Add(new Bar_Middle(textureAtlas, new Vector2(dest.X, dest.Y), dest, src, _perspectiveManager));
+
+                    Hull BarHull_middle = new Hull(new Vector2[]
+                      {
+                        new Vector2(dest.X, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width - 20, dest.Y + 20),
+                        new Vector2(dest.X + dest.Width - 20, dest.Y + dest.Height),
+                        new Vector2(dest.X, dest.Y + dest.Height)
+                      }
+                          );
+
+                    if (!BarHull_middle.Valid)
+                    {
+                        Console.WriteLine("Hull invalid!");
+                    }
+                    else penumbra.Hulls.Add(BarHull_middle);
+
                     break;
             }
         }

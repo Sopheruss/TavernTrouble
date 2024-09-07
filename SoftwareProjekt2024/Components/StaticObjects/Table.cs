@@ -79,7 +79,7 @@ internal class Table : StaticObject
                 interactionManager._allowedInteraction = true;
                 if (inputManager.pressedE)
                 {
-                    guest.giveFeedbackAndLeave(_ogerCook);
+                    guest.giveFeedback(_ogerCook);
                 }
             }
             else

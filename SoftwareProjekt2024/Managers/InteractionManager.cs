@@ -5,7 +5,6 @@ using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Managers;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024;
 
@@ -118,8 +117,8 @@ internal class InteractionManager
      * Plates: 14
      * Bierkrug: 15
      * Mülleimer: 16
-     * Barflächen 0-12 oben : 20 - 32
-     * Barflächen 0-12 unten : 40 - 52
+     * Barflächen 0-12 oben : 20 - 32 ohne 26
+     * Barflächen 0-12 unten : 40 - 52 ohne 46
      * Tisch 1: 60
      * Tisch 2: 61
      * Tisch 3: 62
@@ -139,17 +138,17 @@ internal class InteractionManager
                 _allowedInteraction = false;
                 _interactionTextline = null;
                 break;
-            
+
             case 1:
                 CookBook.HandleInteraction(this, _inputManager);
                 break;
-            
+
             case >= 2 and <= 3:
                 int workstationID = tileID - 2;
                 Workstation workstation = _perspectiveManager._workstations[workstationID];
                 workstation.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
-            
+
             case 4:
                 BeerBarrel.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 break;
@@ -167,7 +166,7 @@ internal class InteractionManager
                 Cuttingboard cuttingBoard = _perspectiveManager._cuttingBoards[cuttingBoardID];
                 cuttingBoard.HandleInteraction(_ogerCook, positionWhilePickedUp, this, _inputManager);
                 break;
-            
+
             case 10:
                 PotatoCrate.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
@@ -196,7 +195,7 @@ internal class InteractionManager
                 Trash.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp, this, _inputManager);
                 break;
 
-            case >= 20 and <= 32:
+            case >= 20 and <= 31:
                 int obereBarflächenID = tileID - 20;
                 Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
                 obereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
