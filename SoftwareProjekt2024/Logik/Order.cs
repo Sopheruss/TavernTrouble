@@ -113,7 +113,8 @@ namespace SoftwareProjekt2024.Logik
             int height = orderSheet.Height * 3;
             _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
 
-            if (remainingTime < TimeSpan.FromSeconds(30)) {
+            if (remainingTime < TimeSpan.FromSeconds(30))
+            {
 
                 _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.Tomato);
             }
@@ -134,7 +135,7 @@ namespace SoftwareProjekt2024.Logik
                     int iconSize = 25;
 
                     // Draw texture at current icon position
-                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X-10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
+                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X - 10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
 
                     // Move icon position (x-coords) for next recipe 
                     iconPosition.X += iconSize + 5;  //padding between icons in pixels
