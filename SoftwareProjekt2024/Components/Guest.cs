@@ -41,6 +41,7 @@ internal class Guest : Component
     public int assignedTableID;
     public Table assignedTable;
     public bool markForRemovel;
+
     private bool _drawGuest;
     private bool _drawSpawn;
     private bool _drawDespawn;
@@ -136,6 +137,7 @@ internal class Guest : Component
         {
             _drawDespawn = false;
             leave();
+            _spawnAnimationManager.ResetAnimation();
         }
 
         _spawnAnimationManager.Update();
