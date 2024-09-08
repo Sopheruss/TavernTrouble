@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace SoftwareProjekt2024.Components;
 
@@ -245,6 +245,7 @@ internal class Guest : Component
             //no eating animation in this case, maybe just leave?
         }
 
+        // _ogerCook.DebugAddFamePoints(150); -> cheat
         //Animation and timer for eating here
         assignedTable.emptyPlatesMugs();
         hasFinishedEating = true;

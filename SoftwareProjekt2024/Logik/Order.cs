@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Logik
 {
@@ -123,7 +123,7 @@ namespace SoftwareProjekt2024.Logik
             Vector2 timerPosition = new Vector2(position.X + 10, position.Y + height - 25);                                                        // Scale
             _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black, 0f, Vector2.Zero, 0.85f, SpriteEffects.None, 0f);
 
-            // Starting position to draw the icons (adjust based on your layout)
+            // Starting position to draw the icons 
             Vector2 iconPosition = new Vector2(position.X + 20, position.Y + 20);
 
             // Iterate over list of recipes and draw their corresponding textures
