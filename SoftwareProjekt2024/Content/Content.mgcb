@@ -814,7 +814,7 @@
 /processorParam:TextureFormat=Color
 /build:Kessel/Kessel_Spritesheet.png
 
-#begin Map/atlas.png
+#begin Map/atlas.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -824,7 +824,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Map/atlas.png
+/build:Map/atlas.PNG
 
 #begin Map/hitboxes.png
 /importer:TextureImporter
