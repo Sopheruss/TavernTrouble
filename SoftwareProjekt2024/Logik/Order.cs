@@ -150,7 +150,7 @@ namespace SoftwareProjekt2024.Logik
             for (int i = 0; i < drinksCount; i++)
             {
                 // Draw drink icon at drinkIconPosition
-                _spriteBatch.Draw(beer, new Rectangle((int)drinkIconPosition.X - 10, (int)drinkIconPosition.Y - 15, 25, 25), Color.White);
+                _spriteBatch.Draw(beer, new Rectangle((int)drinkIconPosition.X - 10, (int)drinkIconPosition.Y - 17, 25, 25), Color.White);
 
                 // Move the drinkIconPosition (x-coords) for next drink
                 drinkIconPosition.X += 25 + 5;
