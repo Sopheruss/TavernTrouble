@@ -40,7 +40,7 @@ internal class Guest : Component
     public Order order;
     public int assignedTableID;
     public Table assignedTable;
-
+    public bool markForRemovel;
     private bool _drawGuest;
     private bool _drawSpawn;
     private bool _drawDespawn;
@@ -88,9 +88,11 @@ internal class Guest : Component
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
         hasFinishedEating = false;
+
         _drawGuest = false;
         _drawSpawn = true;
         _drawDespawn = false;
+        markForRemovel = false;
 
         _chosenTexture = ChooseTexture(CreateRandomIntegerTexture());
     }
@@ -133,8 +135,7 @@ internal class Guest : Component
         if (_spawnAnimationManager.activeFrame == 6 && _drawDespawn)
         {
             _drawDespawn = false;
-
-
+            leave();
         }
 
         _spawnAnimationManager.Update();
@@ -195,20 +196,39 @@ internal class Guest : Component
 
     public void assignTable()
     {
+        List<Table> _availableTables = new List<Table>();
+
         foreach (Table table in _perspectiveManager._tables)
         {
             if (!table.isClean() || table.hasGuest())   //pick first clean and free table
             {
                 continue;
             }
-            assignedTableID = table.tableID;
-            assignedTable = table;
-            table.guest = this;
-            position = new Vector2(table.position.X + 12, table.position.Y - 18);
-            //Debug.WriteLine("Table " + table.tableID + " assigned new guest");
-            break;
+
+            _availableTables.Add(table);
         }
+
+        int rndNum = CreateRandomIntegerTable(_availableTables.Count);
+
+        assignedTableID = _availableTables[rndNum].tableID;
+        assignedTable = _availableTables[rndNum];
+        _availableTables[rndNum].guest = this;
+        position = new Vector2(_availableTables[rndNum].position.X + 12, _availableTables[rndNum].position.Y - 18);
+
+
+        //assignedTableID = table.tableID;
+        //assignedTable = table;
+        //table.guest = this;
+        //position = new Vector2(table.position.X + 12, table.position.Y - 18);
+
         //negative feedback if no table is clean needed here
+    }
+
+    public static int CreateRandomIntegerTable(int _availableTables)
+    {
+        Random rnd = new();
+        int num = rnd.Next(0, _availableTables);
+        return num; //Generates a number between 0 and free tables  
     }
 
     public void eat()
@@ -274,9 +294,8 @@ internal class Guest : Component
             Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
             Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
 
-            //_drawDespawn = true;
+            _drawDespawn = true;
 
-            leave();
         }
         //add visual guest point feedback here
 
@@ -287,7 +306,8 @@ internal class Guest : Component
         _perspectiveManager.activeOrders.Remove(order);
         _totalGuestNumber--;
         assignedTable.guest = null;
-        _perspectiveManager._guests.Remove(this);
+        //_perspectiveManager._guests.Remove(this);
+        this.markForRemovel = true;
         _drawGuest = false;
         _availableGuests.Add(this._chosenTexture);
     }

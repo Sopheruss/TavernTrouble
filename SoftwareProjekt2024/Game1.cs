@@ -56,6 +56,7 @@ public class Game1 : Game
 
     public Game1()
     {
+
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -77,6 +78,8 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
+        Window.Title = "Tavern Trouble - Feast a Beast";
+
         base.Initialize();
     }
 

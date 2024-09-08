@@ -386,6 +386,8 @@ public class GamePlay
                 guest.Update();
             }
 
+            _perspectiveManager._guests.RemoveAll(guest => guest.markForRemovel == true);
+
             // only Update Kessel/Grill/CookBook when Animation is supposed to play
             if (CookBook._playCookBookAnimation) { CookBook.Update(); }
             if (Kessel._activeKesselState == KesselStates.ANIMATIONKESSEL) { Kessel.Update(); }
