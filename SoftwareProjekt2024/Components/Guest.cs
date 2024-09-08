@@ -52,6 +52,8 @@ internal class Guest : Component
 
     readonly int maxMeals = 3;
     readonly int maxBurgers = 2;
+    readonly int maxDrinks = 3;
+
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager, Player ogerCook) : base(texture, position, perspectiveManager)
     {
@@ -186,7 +188,14 @@ internal class Guest : Component
                 }
                 else
                 {
-                    nDrinks++;
+                    if (nDrinks <= maxDrinks)
+                    {
+                        nDrinks++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
                 nExistingComponents++;
             }
@@ -200,6 +209,7 @@ internal class Guest : Component
         _perspectiveManager.activeOrders.Add(order);
         hasOrdered = true;
     }
+
 
     public void assignTable()
     {
