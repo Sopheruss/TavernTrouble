@@ -144,15 +144,18 @@ namespace SoftwareProjekt2024.Logik
 
 
 
-            Vector2 drinkIconPosition = new Vector2(iconPosition.X, iconPosition.Y + 100); // reset pos so no overlap happens
+            // Define a new position for drinks
+            Vector2 drinkIconPosition = new Vector2(position.X + 20, iconPosition.Y + 100);  // Reset position so no overlap happens
+
             for (int i = 0; i < drinksCount; i++)
             {
-                _spriteBatch.Draw(beer, new Rectangle((int)iconPosition.X - 10, (int)iconPosition.Y + 80, 25, 25), Color.White);
+                // Draw drink icon at drinkIconPosition
+                _spriteBatch.Draw(beer, new Rectangle((int)drinkIconPosition.X - 10, (int)drinkIconPosition.Y - 15, 25, 25), Color.White);
 
-                // Move the icon position (x-coords) for next drink
-                iconPosition.X += 25 + 5;
-
+                // Move the drinkIconPosition (x-coords) for next drink
+                drinkIconPosition.X += 25 + 5;
             }
+
 
             Table.drawNumber(tableIDtoOrder, 76, 15, _spriteBatch, position, 3);
             //draw call for Recipe icons and timer here

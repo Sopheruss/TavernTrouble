@@ -245,7 +245,7 @@ internal class Guest : Component
             //no eating animation in this case, maybe just leave?
         }
 
-        // _ogerCook.DebugAddFamePoints(150); -> cheat
+        // _ogerCook.DebugAddFamePoints(150); //-> cheat
         //Animation and timer for eating here
         assignedTable.emptyPlatesMugs();
         hasFinishedEating = true;
