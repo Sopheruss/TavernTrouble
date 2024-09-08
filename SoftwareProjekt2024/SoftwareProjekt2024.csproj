@@ -36,7 +36,6 @@
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Penumbra.DesktopGL" Version="3.0.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.5.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\OptionMenu\" />
