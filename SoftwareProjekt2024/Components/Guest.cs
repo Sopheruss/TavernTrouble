@@ -113,6 +113,13 @@ internal class Guest : Component
 
     public void Update()
     {
+        if (!assignedTable.tableOrderfinished && order != null && order.IsTimeUp())
+        {
+            assignedTable.tableOrderfinished = true;
+            eat();
+            //add visual feedback for not completing order on time here, e.g. texture = angryGuest
+        }
+
         _guestAnimationManager.Update();
 
         if (_spawnAnimationManager.activeFrame == 4) { _drawGuest = true; }
@@ -195,29 +202,14 @@ internal class Guest : Component
 
     public void eat()
     {
+        if (assignedTable.isClean())
+        {
+            //no eating animation in this case, maybe just leave?
+        }
+
         //Animation and timer for eating here
         assignedTable.emptyPlatesMugs();
         hasFinishedEating = true;
-
-        //logik um Teller zu leeren und Bestellungszettel zu entfernen hier
-
-        if (order != null)
-        {
-            // order.CompleteComponent();
-            (int rewardPoints, int fame) = judgeOrder();
-
-            Debug.WriteLine($"Debug eat: {rewardPoints}");
-
-
-
-            _ogerCook.AddPointsAndFame(rewardPoints, fame);
-            //_ogerCook.DebugAddFamePoints(36);
-
-            Debug.WriteLine($"Der Spieler hat {rewardPoints} Punkte erhalten.");
-            Debug.WriteLine($"Der Spieler hat jetzt insgesamt {_ogerCook.totalPoints} Punkte und {_ogerCook.famePoints} Ruhm.");
-
-        }
-
     }
 
 
@@ -228,13 +220,21 @@ internal class Guest : Component
         int fame = 0;
 
         int completedComponents = (order.recipes.Count - order.missingRecipes.Count) + (order.drinksCount - order.missingDrinksCount);
-        points = completedComponents * 10;
+        points = completedComponents * 10;          //10 points for each completed component
+        points -= order.missingRecipes.Count * 2;   //-2 for each missing drink or recipe
+        points -= order.missingDrinksCount * 2;
+
         if (order.isFinished && order.wrongComponentsCount == 0) { } //Maybe add bonus points for a perfectly handled order here?
         Debug.WriteLine($"judgeOrderA: {points}");
 
         if (order.wrongComponentsCount > 0)
         {
             points += order.wrongComponentsCount * (-2);
+        }
+
+        if (order.IsTimeUp())
+        {
+            points -= 10;   //negative feedback for not finishing on time here
         }
 
         fame = points / 5; //
@@ -264,6 +264,11 @@ internal class Guest : Component
         //Debug.WriteLine(_perspectiveManager._guests.Count);
         _drawGuest = false;
         _availableGuests.Add(this._chosenTexture);
+
+        if (assignedTable.isClean())
+        {
+            assignedTable.tableOrderfinished = false;
+        }
     }
 
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
