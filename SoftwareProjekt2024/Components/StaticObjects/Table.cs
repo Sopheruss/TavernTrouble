@@ -64,7 +64,7 @@ internal class Table : StaticObject
                     //Debug.WriteLine("Order taken");
                 }
             }
-            else if (!guest.hasFinishedEating && !_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
+            else if (!tableOrderfinished && !_ogerCook.inventoryIsEmpty() && guest.hasOrdered && occupiedSpots < capacity && (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug))
             {
                 interactionManager._interactionTextline = "Press [E] to put this on table";
                 interactionManager._allowedInteraction = true;
@@ -87,7 +87,7 @@ internal class Table : StaticObject
                 interactionManager._allowedInteraction = false;
             }
         }
-        else if (!isClean() && _ogerCook.inventoryIsEmpty())
+        else if (!isClean() && (_ogerCook.inventoryIsEmpty() || _ogerCook.inventory[0] is TrashBag))
         {
             interactionManager._interactionTextline = "Press [E] to clean table";
             interactionManager._allowedInteraction = true;
@@ -123,9 +123,13 @@ internal class Table : StaticObject
             _perspectiveManager._dynamicObjects.Remove(tableItem);
         }
         tableContents.Clear();
+        tableOrderfinished = false;
         occupiedSpots = 0;
-        _perspectiveManager._dynamicObjects.Add(new TrashBag(_perspectiveManager));
-        ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+        if (ogerCook.inventoryIsEmpty())
+        {
+            _perspectiveManager._dynamicObjects.Add(new TrashBag(_perspectiveManager));
+            ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
+        }
     }
 
     public override int getHeight()
@@ -176,6 +180,7 @@ internal class Table : StaticObject
         if (orderFinished())
         {
             Debug.WriteLine("Order now finished!");
+            guest.order.StopTimer();
             tableOrderfinished = true;
             guest.eat();
         }

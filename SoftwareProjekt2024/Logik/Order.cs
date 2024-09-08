@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Logik
 {
@@ -113,7 +113,8 @@ namespace SoftwareProjekt2024.Logik
             int height = orderSheet.Height * 3;
             _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
 
-            if (remainingTime < TimeSpan.FromSeconds(30)) {
+            if (remainingTime < TimeSpan.FromSeconds(30))
+            {
 
                 _spriteBatch.Draw(orderSheet, new Rectangle((int)position.X, (int)position.Y, width, height), Color.Tomato);
             }
@@ -122,7 +123,7 @@ namespace SoftwareProjekt2024.Logik
             Vector2 timerPosition = new Vector2(position.X + 10, position.Y + height - 25);                                                        // Scale
             _spriteBatch.DrawString(bmfont, $"{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}", timerPosition, Color.Black, 0f, Vector2.Zero, 0.85f, SpriteEffects.None, 0f);
 
-            // Starting position to draw the icons (adjust based on your layout)
+            // Starting position to draw the icons 
             Vector2 iconPosition = new Vector2(position.X + 20, position.Y + 20);
 
             // Iterate over list of recipes and draw their corresponding textures
@@ -134,7 +135,7 @@ namespace SoftwareProjekt2024.Logik
                     int iconSize = 25;
 
                     // Draw texture at current icon position
-                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X-10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
+                    _spriteBatch.Draw(recipe.currTexture, new Rectangle((int)iconPosition.X - 10, (int)iconPosition.Y + 30, iconSize, iconSize), Color.White);
 
                     // Move icon position (x-coords) for next recipe 
                     iconPosition.X += iconSize + 5;  //padding between icons in pixels
@@ -143,15 +144,18 @@ namespace SoftwareProjekt2024.Logik
 
 
 
-            Vector2 drinkIconPosition = new Vector2(iconPosition.X, iconPosition.Y + 100); // reset pos so no overlap happens
+            // Define a new position for drinks
+            Vector2 drinkIconPosition = new Vector2(position.X + 20, iconPosition.Y + 100);  // Reset position so no overlap happens
+
             for (int i = 0; i < drinksCount; i++)
             {
-                _spriteBatch.Draw(beer, new Rectangle((int)iconPosition.X - 10, (int)iconPosition.Y + 80, 25, 25), Color.White);
+                // Draw drink icon at drinkIconPosition
+                _spriteBatch.Draw(beer, new Rectangle((int)drinkIconPosition.X - 10, (int)drinkIconPosition.Y - 17, 25, 25), Color.White);
 
-                // Move the icon position (x-coords) for next drink
-                iconPosition.X += 25 + 5;
-
+                // Move the drinkIconPosition (x-coords) for next drink
+                drinkIconPosition.X += 25 + 5;
             }
+
 
             Table.drawNumber(tableIDtoOrder, 76, 15, _spriteBatch, position, 3);
             //draw call for Recipe icons and timer here
