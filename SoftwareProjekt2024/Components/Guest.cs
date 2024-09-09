@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace SoftwareProjekt2024.Components;
 
@@ -317,7 +317,6 @@ internal class Guest : Component
             assignedTable.tableOrderfinished = false;
         }
     }
-
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
         if (_drawGuest)
