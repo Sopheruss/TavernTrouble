@@ -195,13 +195,13 @@ internal class InteractionManager
                 Trash.HandleInteraction(_ogerCook, _perspectiveManager, positionWhilePickedUp, this, _inputManager);
                 break;
 
-            case >= 20 and <= 28:
+            case >= 20 and <= 29:
                 int obereBarflächenID = tileID - 20;
                 Bar obereBarfläche = _perspectiveManager._barFlächen[obereBarflächenID];
                 obereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
                 break;
 
-            case >= 40 and <= 48:
+            case >= 40 and <= 49:
                 int untereBarflächenID = tileID - 40;
                 Bar untereBarfläche = _perspectiveManager._barFlächen[untereBarflächenID];
                 untereBarfläche.HandleInteraction(_perspectiveManager, positionWhilePickedUp, _ogerCook, this, _inputManager);
