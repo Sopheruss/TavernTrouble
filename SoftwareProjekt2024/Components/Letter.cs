@@ -38,7 +38,7 @@ internal class Letter
             "\nAnyway, someone has to take care of the tavern for me. " +
             "\n So be a charm and take care of it for me, will you." +
             "\nHere are some ground rules, to get started:" +
-            "\n\n - speak with guests to take their order" +
+            "\n\n - speak with guests to take their order but only empty handed" +
             "\n - for recipes take a look in the cook book" +
             "\n - carry only finished food on the plates around" +
             "\n - chop ingredients on the cutting board and prepare them in the cauldron or grill" +
