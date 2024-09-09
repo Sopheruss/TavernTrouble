@@ -35,8 +35,8 @@ internal class Letter
 
         _letterContent = "Hey Kiddo," +
             "\nsince you are reading this, i am probably dead... " +
-            "\nAnyway, someone has to take care of the tavern for me." +
-            "\nBe a charm and take care of it for me, will you." +
+            "\nAnyway, someone has to take care of the tavern for me. " +
+            "\n So be a charm and take care of it for me, will you." +
             "\nHere are some ground rules, to get started:" +
             "\n\n - speak with guests to take their order" +
             "\n - for recipes take a look in the cook book" +
@@ -45,10 +45,12 @@ internal class Letter
             "\n - if you make a mistake, you can always throw stuff away" +
             "\n - carry the finished food to your customers, don't let them wait!" +
             "\n - be mindful of the time, it quickly runs out before you know it" +
+            "\n - let your guests eat in peace, but dont forget to collect what they owe" +
+            "\n - and dont forget to clean the tables, otherwise no new guests will come" +
             "\n\nThat should be it, good luck and have fun!" +
             "\nYours truly," +
             "\nGrandma " +
-            "\n\nPS: If you forget some rules you can access the letter in the lower right corner.";
+            "\nPS: If you forget some rules you can access the letter in the lower right corner.";
 
         _letter = Content.Load<Texture2D>("Background/letter");
 
