@@ -276,9 +276,12 @@ public class GamePlay
         _orderStripRect = new Rectangle(0, 0, _screenWidth, 30 + _pauseButton.Height);
         Order.orderSheet = _content.Load<Texture2D>("OrderBar/Order_Sheet");
         //_orderSheetRect = new Rectangle(_pauseButton.Width + 30, _pauseButton.Height / 2, _orderSheet.Width * 3, _orderSheet.Height * 3);
+        Order.greenCheck = _content.Load<Texture2D>("OrderBar/Order_Sheet_Green_Check");
+        Order.redCross = _content.Load<Texture2D>("OrderBar/Order_Sheet_Red_X");
         Order.beer = _content.Load<Texture2D>("Icons/beer");
         Recipe.fries = _content.Load<Texture2D>("Icons/fries");
         Recipe.burger = _content.Load<Texture2D>("Icons/burger");
+
 
 
         /* Letter */

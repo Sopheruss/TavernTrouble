@@ -18,6 +18,8 @@ namespace SoftwareProjekt2024.Logik
         public static BitmapFont bmfont;
 
         public static Texture2D beer;
+        public static Texture2D greenCheck;
+        public static Texture2D redCross;
 
         public List<Recipe> recipes;
         public List<Recipe> missingRecipes;
@@ -26,6 +28,7 @@ namespace SoftwareProjekt2024.Logik
         public int wrongComponentsCount;
 
         public bool isFinished;
+        public bool hasCheck = false;
         int completedComponents; // abgeschlossenen Komponenten je Bestellung
         private Stopwatch timerBestellung;  // Timer für Bestellung
         private const int timeLimitInSeconds = 180; // 3 Minuten Zeitlimit
@@ -164,7 +167,15 @@ namespace SoftwareProjekt2024.Logik
 
 
             Table.drawNumber(tableIDtoOrder, 76, 15, _spriteBatch, position, 3);
-            //draw call for Recipe icons and timer here
+
+            if (IsTimeUp())
+            {
+                _spriteBatch.Draw(redCross, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
+            }
+            else if (hasCheck)
+            {
+                _spriteBatch.Draw(greenCheck, new Rectangle((int)position.X, (int)position.Y, width, height), Color.White);
+            }
         }
     }
 }

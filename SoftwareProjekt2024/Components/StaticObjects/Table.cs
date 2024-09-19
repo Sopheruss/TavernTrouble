@@ -179,6 +179,7 @@ internal class Table : StaticObject
 
         if (orderFinished())
         {
+            guest.order.hasCheck = true;
             Debug.WriteLine("Order now finished!");
             guest.order.StopTimer();
             tableOrderfinished = true;
