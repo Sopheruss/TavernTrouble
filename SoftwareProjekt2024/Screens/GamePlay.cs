@@ -381,10 +381,29 @@ public class GamePlay
             _interactionManager.Update();
             _gameplayLoopManager.Update();
 
-            foreach (Guest guest in _perspectiveManager._guests)
+            //stopps timer of orders in pause menu, but ugly 
+            if (Game1.activeScene == Scenes.GAMEPLAY)
             {
-                guest.Update();
+                foreach (Guest guest in _perspectiveManager._guests)
+                {
+                    guest.Update();
+                    if (guest.hasOrdered)
+                    {
+                        guest.order.StartTimer();
+                    }
+                }
             }
+            else
+            {
+                foreach (Guest guest in _perspectiveManager._guests)
+                {
+                    if (guest.hasOrdered || guest.hasOrdered && guest.hasFinishedEating)
+                    {
+                        guest.order.StopTimer();
+                    }
+                }
+            }
+
 
             _perspectiveManager._guests.RemoveAll(guest => guest.markForRemovel == true);
 

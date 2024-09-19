@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Logik
 {
@@ -43,7 +43,7 @@ namespace SoftwareProjekt2024.Logik
             tableIDtoOrder = tableID;
 
             timerBestellung = new Stopwatch();
-            timerBestellung.Start();
+            StartTimer();
         }
 
         public void addRecipe(string recipeName)
@@ -86,6 +86,12 @@ namespace SoftwareProjekt2024.Logik
         {
             // Zeitlimit von 2 Minuten erreicht?
             return timerBestellung.Elapsed.TotalSeconds >= timeLimitInSeconds;
+        }
+
+        //Timer start (in Gameplay)
+        public void StartTimer()
+        {
+            timerBestellung.Start();
         }
 
         // Timer stoppen (falls nötig)

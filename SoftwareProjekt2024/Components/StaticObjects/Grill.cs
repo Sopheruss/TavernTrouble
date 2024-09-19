@@ -7,9 +7,7 @@ using System.Collections.Generic;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
-/* ToDo for Interaction: 
-    - Bug when retry on grill -> timer not resetted?
- */
+
 enum GrillStates
 {
     EMPTYGRILL,
