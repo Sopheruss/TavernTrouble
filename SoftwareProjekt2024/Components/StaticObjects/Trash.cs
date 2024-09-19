@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SoftwareProjekt2024.Managers;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SoftwareProjekt2024.Components.StaticObjects
 {
@@ -57,30 +58,24 @@ namespace SoftwareProjekt2024.Components.StaticObjects
             }
             else if (!_ogerCook.inventoryIsEmpty())
             {
-                interactionManager._interactionTextline = "Press [E] to throw this away";
-                interactionManager._allowedInteraction = true;
-                if (inputManager.pressedE)
+                if (_ogerCook.inventory[0] is Plate || _ogerCook.inventory[0] is Mug)
                 {
-                    Component item = _ogerCook.inventory[0];
-                    perspectiveManager._dynamicObjects.Remove(item);
-                    //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
-                    //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
-                    _ogerCook.inventory.Clear();
-                    _ogerCook.texture = Player.plain;
+                    interactionManager._allowedInteraction = false;
+                    return;
                 }
-            }
-            else if (!_ogerCook.inventoryIsEmpty())
-            {
-                interactionManager._interactionTextline = "Press [E] to throw this away";
-                interactionManager._allowedInteraction = true;
-                if (inputManager.pressedE)
+                else
                 {
-                    Component item = _ogerCook.inventory[0];
-                    perspectiveManager._dynamicObjects.Remove(item);
-                    //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
-                    //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
-                    _ogerCook.inventory.Clear();
-                    _ogerCook.texture = Player.plain;
+                    interactionManager._interactionTextline = "Press [E] to throw this away";
+                    interactionManager._allowedInteraction = true;
+                    if (inputManager.pressedE)
+                    {
+                        Component item = _ogerCook.inventory[0];
+                        perspectiveManager._dynamicObjects.Remove(item);
+                        //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
+                        //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
+                        _ogerCook.inventory.Clear();
+                        _ogerCook.texture = Player.plain;
+                    }
                 }
             }
             else

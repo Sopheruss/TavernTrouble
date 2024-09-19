@@ -33,6 +33,20 @@ namespace SoftwareProjekt2024.Components.StaticObjects
                     _ogerCook.pickUp(_perspectiveManager._dynamicObjects.Last());
                 }
             }
+            else if (!_ogerCook.inventoryIsEmpty() && _ogerCook.inventory[0] is Meat && !(_ogerCook.inventory[0] as Meat).isPrepared())
+            {
+                interactionManager._interactionTextline = "Press [E] to put meat back";
+                interactionManager._allowedInteraction = true;
+                if (inputManager.pressedE)
+                {
+                    Component item = _ogerCook.inventory[0];
+                    _perspectiveManager._dynamicObjects.Remove(item);
+                    //int index = perspectiveManager._dynamicObjects.FindIndex(x => x == item);
+                    //Debug.WriteLine(perspectiveManager._dynamicObjects.Count);
+                    _ogerCook.inventory.Clear();
+                    _ogerCook.texture = Player.plain;
+                }
+            }
             else
             {
                 interactionManager._allowedInteraction = false;

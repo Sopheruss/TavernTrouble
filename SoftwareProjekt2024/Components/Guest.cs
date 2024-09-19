@@ -52,8 +52,8 @@ internal class Guest : Component
     BitmapFont _font;
 
     readonly int maxMeals = 3;
-    readonly int maxBurgers = 2;
     readonly int maxDrinks = 3;
+    readonly int maxBurgers = 2;
 
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager, Player ogerCook) : base(texture, position, perspectiveManager)
@@ -158,8 +158,8 @@ internal class Guest : Component
         int nExistingComponents = 0;
         int nDrinks = 0;
         int nMeals = 0;
-        int nRecipes = Recipe.recipes.Count;
         int nBurgers = 0;
+        int nRecipes = Recipe.recipes.Count;
 
         List<Recipe> meals = new List<Recipe>();
         List<string> recipeNames = Recipe.recipes.Keys.ToList<string>();
