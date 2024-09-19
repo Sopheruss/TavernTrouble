@@ -190,7 +190,7 @@ internal class Guest : Component
                 }
                 else
                 {
-                    if (nDrinks <= maxDrinks)
+                    if (nDrinks < maxDrinks)
                     {
                         nDrinks++;
                     }
