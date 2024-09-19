@@ -168,6 +168,7 @@ public class GamePlay
         //Bun.bunTexture = _content.Load<Texture2D>("")
 
         /* table numbers */
+        Table.tableIDCount = 0; // we need to set this to 0 - otherwise the old value remains after restarts
         Table.one = _content.Load<Texture2D>("Numbers/one");
         Table.two = _content.Load<Texture2D>("Numbers/two");
         Table.three = _content.Load<Texture2D>("Numbers/three");
