@@ -13,6 +13,7 @@ namespace SoftwareProjekt2024.Components;
 
 internal class Guest : Component
 {
+    public static int orderCounter = 0;
     readonly Player _ogerCook;
     readonly AnimationManager _guestAnimationManager;
     readonly AnimationManager _spawnAnimationManager;
@@ -154,62 +155,102 @@ internal class Guest : Component
 
     public void takeOrder()
     {
-        int nNeededComponents = _ogerCook.GetDifficulty();
-        int nExistingComponents = 0;
-        int nDrinks = 0;
-        int nMeals = 0;
-        int nBurgers = 0;
-        int nRecipes = Recipe.recipes.Count;
-
-        List<Recipe> meals = new List<Recipe>();
-        List<string> recipeNames = Recipe.recipes.Keys.ToList<string>();
-
-        while (nExistingComponents < nNeededComponents)
+        if (orderCounter == 0)
         {
-            if (nMeals < maxMeals)
-            {
-                Random random = new Random();
-                int componentResult = random.Next(2);
+            List<Recipe> cheatedMeals = new List<Recipe>();
+            order = new Order(1, cheatedMeals, assignedTableID);
+            _perspectiveManager.activeOrders.Add(order);
+            hasOrdered = true;
+            orderCounter++;
+        }
+        else if (orderCounter == 1)
+        {
+            List<Recipe> cheatedMeals = new List<Recipe>();
+            cheatedMeals.Add(new Recipe("Burger"));
+            order = new Order(0, cheatedMeals, assignedTableID);
+            _perspectiveManager.activeOrders.Add(order);
+            hasOrdered = true;
+            orderCounter++;
+        }
+        else if (orderCounter == 2)
+        {
+            List<Recipe> cheatedMeals = new List<Recipe>();
+            cheatedMeals.Add(new Recipe("Fries"));
+            order = new Order(1, cheatedMeals, assignedTableID);
+            _perspectiveManager.activeOrders.Add(order);
+            hasOrdered = true;
+            orderCounter++;
+        }
+        else if (orderCounter == 3)
+        {
+            List<Recipe> cheatedMeals = new List<Recipe>();
+            cheatedMeals.Add(new Recipe("Burger"));
+            cheatedMeals.Add(new Recipe("Fries"));
+            order = new Order(1, cheatedMeals, assignedTableID);
+            _perspectiveManager.activeOrders.Add(order);
+            hasOrdered = true;
+            orderCounter++;
+        }
+        else
+        {
+            int nNeededComponents = _ogerCook.GetDifficulty();
+            int nExistingComponents = 0;
+            int nDrinks = 0;
+            int nMeals = 0;
+            int nBurgers = 0;
+            int nRecipes = Recipe.recipes.Count;
 
-                if (componentResult == 0)
+            List<Recipe> meals = new List<Recipe>();
+            List<string> recipeNames = Recipe.recipes.Keys.ToList<string>();
+
+            while (nExistingComponents < nNeededComponents)
+            {
+                if (nMeals < maxMeals)
                 {
-                    int recipeResult = random.Next(nRecipes);
-                    if (recipeNames[recipeResult] == "burger")
+                    Random random = new Random();
+                    int componentResult = random.Next(2);
+
+                    if (componentResult == 0)
                     {
-                        if (nBurgers < maxBurgers)
+                        int recipeResult = random.Next(nRecipes);
+                        if (recipeNames[recipeResult] == "burger")
                         {
-                            nBurgers++;
+                            if (nBurgers < maxBurgers)
+                            {
+                                nBurgers++;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                        nMeals++;
+                        meals.Add(new Recipe(recipeNames[recipeResult]));
+                    }
+                    else
+                    {
+                        if (nDrinks < maxDrinks)
+                        {
+                            nDrinks++;
                         }
                         else
                         {
                             continue;
                         }
                     }
-                    nMeals++;
-                    meals.Add(new Recipe(recipeNames[recipeResult]));
+                    nExistingComponents++;
                 }
                 else
                 {
-                    if (nDrinks < maxDrinks)
-                    {
-                        nDrinks++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    nDrinks++;
+                    nExistingComponents++;
                 }
-                nExistingComponents++;
             }
-            else
-            {
-                nDrinks++;
-                nExistingComponents++;
-            }
+            order = new Order(nDrinks, meals, assignedTableID);
+            _perspectiveManager.activeOrders.Add(order);
+            hasOrdered = true;
+            orderCounter++;
         }
-        order = new Order(nDrinks, meals, assignedTableID);
-        _perspectiveManager.activeOrders.Add(order);
-        hasOrdered = true;
     }
 
 
