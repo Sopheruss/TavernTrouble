@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using SoftwareProjekt2024.Components.Ingredients;
 using SoftwareProjekt2024.Managers;
-using System.Diagnostics.Metrics;
 using System.Timers;
 
 namespace SoftwareProjekt2024.Components.StaticObjects;
@@ -24,7 +22,7 @@ internal class BeerBarrel : StaticObject
         {
             _beerBarrelTimer.Close();
         }
-        
+
         count = 0;
 
         // Load the sound effect and create an instance
@@ -36,18 +34,18 @@ internal class BeerBarrel : StaticObject
         UpdateVolume();
     }
 
-        public static bool AllowedInteraction(Player ogerCook)
+    public static bool AllowedInteraction(Player ogerCook)
+    {
+        if (!ogerCook.inventoryIsEmpty() && ogerCook.inventory[0] is Mug && (ogerCook.inventory[0] as Mug).isFilled)
         {
-            if (!ogerCook.inventoryIsEmpty() && ogerCook.inventory[0] is Mug && (ogerCook.inventory[0] as Mug).isFilled)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
-        
+        else
+        {
+            return false;
+        }
+    }
+
     public override int getHeight()
     {
         return dest.Height - 10;
@@ -79,7 +77,7 @@ internal class BeerBarrel : StaticObject
                 soundInstanceBeer.Play();
             }
         }
-        else if(interactedBarrel && count < 3)
+        else if (interactedBarrel && count < 3)
         {
             int seconds = 3;
             interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until tankard is full";
@@ -93,14 +91,16 @@ internal class BeerBarrel : StaticObject
 
     public static void Update(Player _ogerCook)
     {
+        Player._playerAnimationManager.interruptAnimation = true;
         if (count >= 3)
         {
+            Player._playerAnimationManager.interruptAnimation = false;
             _beerBarrelTimer.Close(); //to fucking dispose the timer, not with dispose apparently 
             count = 0;
             _ogerCook.changeAppearence((int)States.BeerFull);
             interactedBarrel = false;
 
-         // Stop the sound effect if it's still playing
+            // Stop the sound effect if it's still playing
             if (soundInstanceBeer.State == SoundState.Playing)
             {
                 soundInstanceBeer.Stop();
