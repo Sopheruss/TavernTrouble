@@ -94,7 +94,7 @@ internal class Grill : StaticObject
                 soundInstanceGrill.Play();
             }
         }
-        else if(_activeGrillState == GrillStates.ANIMATIONGRILL)
+        else if (_activeGrillState == GrillStates.ANIMATIONGRILL)
         {
             int seconds = 10;
             interactionManager._interactionTextline = "Wait " + (seconds - count) + " seconds until patty is done";

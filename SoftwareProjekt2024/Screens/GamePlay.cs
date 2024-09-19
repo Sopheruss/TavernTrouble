@@ -234,6 +234,16 @@ public class GamePlay
         Guest.exclamationPoint = _content.Load<Texture2D>("Feedback/exclamation");
         Guest.exclamationPointGreen = _content.Load<Texture2D>("Feedback/exclamationGreen");
 
+        Guest.fairyGreenEating = _content.Load<Texture2D>("Npc/Eating/Fairy_Green_Eating");
+        Guest.fairyRedEating = _content.Load<Texture2D>("Npc/Eating/Fairy_Red_Eating");
+        Guest.fairyBlueEating = _content.Load<Texture2D>("Npc/Eating/Fairy_Blue_Eating");
+        Guest.ogerBlueEating = _content.Load<Texture2D>("Npc/Eating/Oger_Blue_Eating");
+        Guest.ogerOrangeEating = _content.Load<Texture2D>("Npc/Eating/Oger_Orange_Eating");
+        Guest.ogerPinkEating = _content.Load<Texture2D>("Npc/Eating/Oger_Pink_Eating");
+        Guest.wizardRedEating = _content.Load<Texture2D>("Npc/Eating/Wizard_Red_Eating");
+        Guest.wizardYellowEating = _content.Load<Texture2D>("Npc/Eating/Wizard_Yellow_Eating");
+        Guest.wizardPurpleEating = _content.Load<Texture2D>("Npc/Eating/Wizard_Purple_Eating");
+
         /* kessel */
         Kessel._kesselTextureFull = _content.Load<Texture2D>("Kessel/Kessel_Done");
         Kessel._kesselTextureAnimation = _content.Load<Texture2D>("Kessel/Kessel_Spritesheet");

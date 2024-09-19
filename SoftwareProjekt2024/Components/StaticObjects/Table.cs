@@ -183,7 +183,8 @@ internal class Table : StaticObject
             Debug.WriteLine("Order now finished!");
             guest.order.StopTimer();
             tableOrderfinished = true;
-            guest.eat();
+            guest._eatingTimer.Start();
+            guest.isEating = true;
         }
     }
 
