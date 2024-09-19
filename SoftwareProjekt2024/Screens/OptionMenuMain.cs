@@ -186,9 +186,11 @@ internal class OptionMenuMain
 
         _returnButton.Draw(_spriteBatch);
 
+
+
         _spriteBatch.DrawString(bmfont, _fullScreen, new Vector2(_midScreenWidth + _quaterScreenWidth - _fullScreenTextSize.X / 2, 200), Color.Black);
-        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_fullScreenRect.X + _fullScreenOn.Width + 20, 250), Color.Black);
-        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_fullScreenRect.X - _onSize.X - 20, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOffText, new Vector2(_fullScreenRect.X - _offSize.X - 20, 250), Color.Black);
+        _spriteBatch.DrawString(bmfont, _fullScreenOnText, new Vector2(_fullScreenRect.X + _fullScreenOn.Width + 20, 250), Color.Black);
         _spriteBatch.Draw(_fullScreenOn, _fullScreenRect, Color.White);
 
         _spriteBatch.DrawString(bmfont, _controls, new Vector2(_quaterScreenWidth - (_controlsTextSize.X / 2), 200), Color.Black);

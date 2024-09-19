@@ -285,7 +285,7 @@ internal class Guest : Component
 
         if (order.IsTimeUp())
         {
-            points -= 10;   //negative feedback for not finishing on time here
+            points -= 5;   //negative feedback for not finishing on time here
         }
 
         fame = points / 5; //
