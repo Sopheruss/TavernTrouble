@@ -55,7 +55,7 @@ internal class Guest : Component
     public Table assignedTable;
     public bool markForRemovel;
 
-    private Timer _eatingTimer;
+    public Timer _eatingTimer;
     private int count;
 
     private bool _drawGuest;
@@ -157,8 +157,8 @@ internal class Guest : Component
     }
     public static Texture2D ChooseTextureEating(int wichTexture)
     {
-        Texture2D guestTextureEating = _availableGuests[wichTexture];
-        _availableGuests.RemoveAt(wichTexture);
+        Texture2D guestTextureEating = _availableGuestsEating[wichTexture];
+        _availableGuestsEating.RemoveAt(wichTexture);
         return guestTextureEating;
     }
 
@@ -175,10 +175,14 @@ internal class Guest : Component
 
     public void Update()
     {
+        if (isEating)
+        {
+            eat();
+        }
+
         if (!assignedTable.tableOrderfinished && order != null && order.IsTimeUp())
         {
             assignedTable.tableOrderfinished = true;
-            eat();
             isEating = true;
             _eatingTimer.Start();
             //add visual feedback for not completing order on time here, e.g. texture = angryGuest
@@ -315,7 +319,6 @@ internal class Guest : Component
 
         // _ogerCook.DebugAddFamePoints(150); //-> cheat
         //Animation and timer for eating here
-        assignedTable.emptyPlatesMugs();
 
         if (count >= 3)
         {
@@ -323,6 +326,7 @@ internal class Guest : Component
             hasFinishedEating = true;
             isEating = false;
             count = 0;
+            assignedTable.emptyPlatesMugs();
         }
     }
 
