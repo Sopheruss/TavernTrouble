@@ -1486,6 +1486,12 @@
 /processorParam:Quality=Best
 /build:Sounds/pour-beer.wav
 
+#begin Sounds/ring.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/ring.wav
+
 #begin Sounds/woodland_fantasy.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
