@@ -63,8 +63,7 @@ internal class Guest : Component
     private bool _drawSpawn;
     private bool _drawDespawn;
 
-    public static List<Texture2D> _availableGuests;
-    public static List<Texture2D> _availableGuestsEating;
+    public static List<(Texture2D, Texture2D)> _availableGuests;
     public static int _totalGuestNumber;
 
     BitmapFont _font;
@@ -91,34 +90,18 @@ internal class Guest : Component
 
         if (_availableGuests == null)
         {
-            _availableGuests = new List<Texture2D>
+            _availableGuests = new List<(Texture2D, Texture2D)>
                 {
-                    fairyGreen,
-                    fairyRed,
-                    fairyBlue,
-                    ogerOrange,
-                    ogerBlue,
-                    ogerPink,
-                    wizardRed,
-                    wizardPurple,
-                    wizardYellow
+                    (fairyGreen, fairyGreenEating),
+                    (fairyRed,fairyRedEating),
+                    (fairyBlue, fairyBlueEating),
+                    (ogerOrange, ogerOrangeEating),
+                    (ogerBlue, ogerBlueEating),
+                    (ogerPink, ogerPinkEating),
+                    (wizardRed, wizardRedEating),
+                    (wizardPurple, wizardPurpleEating),
+                    (wizardYellow, wizardYellowEating)
                 };
-        }
-
-        if (_availableGuestsEating == null)
-        {
-            _availableGuestsEating = new List<Texture2D>
-            {
-                fairyGreenEating,
-                fairyRedEating,
-                fairyBlueEating,
-                ogerOrangeEating,
-                ogerBlueEating,
-                ogerPinkEating,
-                wizardRedEating,
-                wizardPurpleEating,
-                wizardYellowEating
-            };
         }
 
         if (_eatingTimer != null)
@@ -151,8 +134,9 @@ internal class Guest : Component
         markForRemovel = false;
 
         int rnd = CreateRandomIntegerTexture();
-        _chosenTexture = ChooseTexture(rnd);
-        _chosenTextureEating = ChooseTextureEating(rnd);
+        (Texture2D, Texture2D) pair = ChooseTexture(rnd);
+        _chosenTexture = pair.Item1;
+        _chosenTextureEating = pair.Item2;
     }
 
     public override int getHeight()
@@ -160,17 +144,11 @@ internal class Guest : Component
         return Rect.Height - 10;
     }
 
-    public static Texture2D ChooseTexture(int wichTexture)
+    public static (Texture2D, Texture2D) ChooseTexture(int wichTexture)
     {
-        Texture2D guestTexture = _availableGuests[wichTexture];
+        (Texture2D, Texture2D) guestTexture = _availableGuests[wichTexture];
         _availableGuests.RemoveAt(wichTexture);
         return guestTexture;
-    }
-    public static Texture2D ChooseTextureEating(int wichTexture)
-    {
-        Texture2D guestTextureEating = _availableGuestsEating[wichTexture];
-        _availableGuestsEating.RemoveAt(wichTexture);
-        return guestTextureEating;
     }
 
     public static int CreateRandomIntegerTexture()
@@ -409,8 +387,7 @@ internal class Guest : Component
         //_perspectiveManager._guests.Remove(this);
         this.markForRemovel = true;
         _drawGuest = false;
-        _availableGuests.Add(this._chosenTexture);
-        _availableGuestsEating.Add(this._chosenTextureEating);
+        _availableGuests.Add((this._chosenTexture, this._chosenTextureEating));
 
         if (assignedTable.isClean())
         {
