@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Timers;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components.StaticObjects;
 using SoftwareProjekt2024.Logik;
 using SoftwareProjekt2024.Managers;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components;
 
@@ -74,8 +74,6 @@ internal class Guest : Component
     readonly int maxBurgers = 2;
 
     SoundEffectInstance soundInstanceBell;
-    private bool bellSoundPlayed; // Flag to check if sound was played
-
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager, Player ogerCook) : base(texture, position, perspectiveManager)
     {
@@ -88,10 +86,8 @@ internal class Guest : Component
             soundInstanceBell.Dispose();
         soundInstanceBell = bellSound.CreateInstance();
         soundInstanceBell.IsLooped = false;
+        soundInstanceBell.Play();
         UpdateBellVolume();
-
-
-
 
         if (_availableGuests == null)
         {
@@ -208,17 +204,12 @@ internal class Guest : Component
         if (_spawnAnimationManager.activeFrame == 4)
         {
             _drawGuest = true;
-            // soundInstanceBell.Play();
-            // bellSoundPlayed = true;
         }
 
         if (_spawnAnimationManager.activeFrame == 6 && _drawSpawn)
         {
             _drawSpawn = false;
             _spawnAnimationManager.ResetAnimation();
-            // soundInstanceBell.Stop();
-
-
         }
 
         //STARTED DESPAWN ANIMATION BUT STUCK 
@@ -227,7 +218,6 @@ internal class Guest : Component
             _drawDespawn = false;
             leave();
             _spawnAnimationManager.ResetAnimation();
-            //bellSoundPlayed = false;
         }
 
         _spawnAnimationManager.Update();
