@@ -23,6 +23,7 @@ public class AnimationManager
 
     public int RowPos { get; set; }
     int colPos;
+    public bool interruptAnimation;
 
     public bool PlayAnimation { get; set; }
 
@@ -33,6 +34,7 @@ public class AnimationManager
         this.numFrames = numFrames;
         this.numColumns = numColumns;
         this.size = size;
+        this.interruptAnimation = false;
 
         counter = 0;
         activeFrame = 0;
@@ -46,6 +48,9 @@ public class AnimationManager
 
     public void Update()
     {
+        if (interruptAnimation == true)
+            return;
+
         if (PlayAnimation == true)
         {
             StartAnimation();

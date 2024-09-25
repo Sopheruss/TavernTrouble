@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components;
 using SoftwareProjekt2024.Components.StaticObjects;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace SoftwareProjekt2024.Logik
 {
@@ -34,6 +34,7 @@ namespace SoftwareProjekt2024.Logik
         private const int timeLimitInSeconds = 180; // 3 Minuten Zeitlimit
 
         public int tableIDtoOrder;
+        private TimeSpan remainingTime;
 
         public Order(int _drinksCount, List<Recipe> _recipes, int tableID)
         {
@@ -100,21 +101,30 @@ namespace SoftwareProjekt2024.Logik
         // Timer stoppen (falls nötig)
         public void StopTimer()
         {
-            timerBestellung.Stop();
+            Debug.WriteLine("Stopping timer...");
+            if (timerBestellung.IsRunning)
+            {
+                timerBestellung.Stop();
+                Debug.WriteLine("Timer stopped successfully.");
+            }
+            else
+            {
+                Debug.WriteLine("Timer was not running.");
+            }
         }
 
         // Somehow need to draw it on OrderSheet... in Gameplay...
         public TimeSpan GetRemainingTime()
         {
-            if (IsTimeUp())
-                return TimeSpan.Zero;
+            if (isFinished)
+                return remainingTime;
 
             return TimeSpan.FromSeconds(timeLimitInSeconds) - timerBestellung.Elapsed;
         }
 
         public void draw(SpriteBatch _spriteBatch, Vector2 position)
         {
-            TimeSpan remainingTime = GetRemainingTime();
+            remainingTime = GetRemainingTime();
 
 
 

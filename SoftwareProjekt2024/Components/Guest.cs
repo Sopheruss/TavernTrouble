@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using SoftwareProjekt2024.Components.StaticObjects;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Timers;
 
 namespace SoftwareProjekt2024.Components;
 
@@ -20,6 +22,7 @@ internal class Guest : Component
     public PerspectiveManager _perspectiveManager;
 
     public Texture2D _chosenTexture;
+    public Texture2D _chosenTextureEating;
 
     public static Texture2D fairyGreen;
     public static Texture2D fairyRed;
@@ -31,23 +34,37 @@ internal class Guest : Component
     public static Texture2D wizardYellow;
     public static Texture2D wizardPurple;
 
+    public static Texture2D fairyGreenEating;
+    public static Texture2D fairyRedEating;
+    public static Texture2D fairyBlueEating;
+    public static Texture2D ogerBlueEating;
+    public static Texture2D ogerOrangeEating;
+    public static Texture2D ogerPinkEating;
+    public static Texture2D wizardRedEating;
+    public static Texture2D wizardYellowEating;
+    public static Texture2D wizardPurpleEating;
+
     public static Texture2D exclamationPoint;
     public static Texture2D exclamationPointGreen;
 
     public static Texture2D spawnAnimationTexture;
 
     public bool hasOrdered;
+    public bool isEating;
     public bool hasFinishedEating;
     public Order order;
     public int assignedTableID;
     public Table assignedTable;
     public bool markForRemovel;
 
+    public Timer _eatingTimer;
+    private int count;
+
     private bool _drawGuest;
     private bool _drawSpawn;
     private bool _drawDespawn;
 
-    public static List<Texture2D> _availableGuests;
+    public static List<(Texture2D, Texture2D)> _availableGuests;
     public static int _totalGuestNumber;
 
     BitmapFont _font;
@@ -56,28 +73,46 @@ internal class Guest : Component
     readonly int maxDrinks = 3;
     readonly int maxBurgers = 2;
 
+    SoundEffectInstance soundInstanceBell;
 
     public Guest(Texture2D texture, Vector2 position, PerspectiveManager perspectiveManager, Player ogerCook) : base(texture, position, perspectiveManager)
     {
         _ogerCook = ogerCook;
         perspectiveManager._sortedComponents.Add(this);
 
+
+        var bellSound = Game1.ContentManager.Load<SoundEffect>("Sounds/ring");
+        if (soundInstanceBell != null)
+            soundInstanceBell.Dispose();
+        soundInstanceBell = bellSound.CreateInstance();
+        soundInstanceBell.IsLooped = false;
+        soundInstanceBell.Play();
+        UpdateBellVolume();
+
         if (_availableGuests == null)
         {
-            _availableGuests = new List<Texture2D>
+            _availableGuests = new List<(Texture2D, Texture2D)>
                 {
-                    fairyGreen,
-                    fairyRed,
-                    fairyBlue,
-                    ogerOrange,
-                    ogerBlue,
-                    ogerPink,
-                    wizardRed,
-                    wizardPurple,
-                    wizardYellow
+                    (fairyGreen, fairyGreenEating),
+                    (fairyRed,fairyRedEating),
+                    (fairyBlue, fairyBlueEating),
+                    (ogerOrange, ogerOrangeEating),
+                    (ogerBlue, ogerBlueEating),
+                    (ogerPink, ogerPinkEating),
+                    (wizardRed, wizardRedEating),
+                    (wizardPurple, wizardPurpleEating),
+                    (wizardYellow, wizardYellowEating)
                 };
         }
 
+        if (_eatingTimer != null)
+        {
+            _eatingTimer.Close();
+        }
+        count = 0;
+
+        _eatingTimer = new Timer(1000);
+        _eatingTimer.Elapsed += Tick;
 
         _font = Game1.ContentManager.Load<BitmapFont>("Fonts/font_new"); // load font from content-manager using monogame.ext importer/exporter
 
@@ -92,13 +127,17 @@ internal class Guest : Component
         _perspectiveManager = perspectiveManager;
         hasOrdered = false;
         hasFinishedEating = false;
+        isEating = false;
 
         _drawGuest = false;
         _drawSpawn = true;
         _drawDespawn = false;
         markForRemovel = false;
 
-        _chosenTexture = ChooseTexture(CreateRandomIntegerTexture());
+        int rnd = CreateRandomIntegerTexture();
+        (Texture2D, Texture2D) pair = ChooseTexture(rnd);
+        _chosenTexture = pair.Item1;
+        _chosenTextureEating = pair.Item2;
     }
 
     public override int getHeight()
@@ -106,9 +145,9 @@ internal class Guest : Component
         return Rect.Height - 10;
     }
 
-    public static Texture2D ChooseTexture(int wichTexture)
+    public static (Texture2D, Texture2D) ChooseTexture(int wichTexture)
     {
-        Texture2D guestTexture = _availableGuests[wichTexture];
+        (Texture2D, Texture2D) guestTexture = _availableGuests[wichTexture];
         _availableGuests.RemoveAt(wichTexture);
         return guestTexture;
     }
@@ -119,13 +158,23 @@ internal class Guest : Component
         int num = rnd.Next(0, _availableGuests.Count);
         return num; //Generates a number between 0 and 8 -> is number of different textures 
     }
+    private void Tick(object sender, ElapsedEventArgs e)
+    {
+        count++;
+    }
 
     public void Update()
     {
+        if (isEating)
+        {
+            eat();
+        }
+
         if (!assignedTable.tableOrderfinished && order != null && order.IsTimeUp())
         {
             assignedTable.tableOrderfinished = true;
-            eat();
+            isEating = true;
+            _eatingTimer.Start();
             //add visual feedback for not completing order on time here, e.g. texture = angryGuest
         }
 
@@ -152,6 +201,15 @@ internal class Guest : Component
 
         _spawnAnimationManager.Update();
     }
+
+    private void UpdateBellVolume()
+    {
+        if (soundInstanceBell != null)
+        {
+            soundInstanceBell.Volume = Game1.VolumeLevel;
+        }
+    }
+
 
     public void takeOrder()
     {
@@ -300,8 +358,15 @@ internal class Guest : Component
 
         // _ogerCook.DebugAddFamePoints(150); //-> cheat
         //Animation and timer for eating here
-        assignedTable.emptyPlatesMugs();
-        hasFinishedEating = true;
+
+        if (count >= 3)
+        {
+            _eatingTimer.Close();
+            hasFinishedEating = true;
+            isEating = false;
+            count = 0;
+            assignedTable.emptyPlatesMugs();
+        }
     }
 
 
@@ -363,7 +428,7 @@ internal class Guest : Component
         //_perspectiveManager._guests.Remove(this);
         this.markForRemovel = true;
         _drawGuest = false;
-        _availableGuests.Add(this._chosenTexture);
+        _availableGuests.Add((this._chosenTexture, this._chosenTextureEating));
 
         if (assignedTable.isClean())
         {
@@ -372,7 +437,7 @@ internal class Guest : Component
     }
     public override void draw(SpriteBatch _spriteBatch) // generalisierter Aufruf der Spritedraw Methode
     {
-        if (_drawGuest)
+        if (_drawGuest && !isEating)
         {
             _spriteBatch.Draw(
             _chosenTexture,                              //texture 
@@ -393,6 +458,18 @@ internal class Guest : Component
             {
                 _spriteBatch.Draw(exclamationPointGreen, new Rectangle((int)this.position.X + 17, (int)this.position.Y - 5, exclamationPoint.Width, exclamationPoint.Height), Color.White);
             }
+        }
+        else if (_drawGuest && isEating)
+        {
+            _spriteBatch.Draw(
+           _chosenTextureEating,                        //texture 
+           this.Rect,                                  //destinationRectangle
+           _guestAnimationManager.GetFrame(),         //sourceRectangle (frame) 
+           Color.White,                              //color
+           0f,                                      //rotation 
+           Vector2.Zero,                           //origin
+           SpriteEffects.None,                    //effects
+           1f);                                  //layer depth
         }
 
         if (_drawSpawn || _drawDespawn)

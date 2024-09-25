@@ -15,7 +15,7 @@ internal class Table : StaticObject
     public int occupiedSpots;
     public Guest guest;
     public int tableID;
-    static int tableIDCount = 0;
+    public static int tableIDCount = 0;
     List<Component> tableContents;
     public bool tableOrderfinished;
 
@@ -183,7 +183,8 @@ internal class Table : StaticObject
             Debug.WriteLine("Order now finished!");
             guest.order.StopTimer();
             tableOrderfinished = true;
-            guest.eat();
+            guest._eatingTimer.Start();
+            guest.isEating = true;
         }
     }
 

@@ -46,7 +46,6 @@ internal class CreditsScreen
         {
             "Developed by TeamNowak",
             "Produced for Acagamics e.V. - 3D Game Project 2024",
-            " ",
             "--Music--",
             "'Woodland Fantasy' by Matthew Pablo",
             "'Track 22', from 'The Nine Lives of Er The Cat' by tcarisland",
@@ -55,6 +54,7 @@ internal class CreditsScreen
             "'Boiling Water Sound' by andatha",
             "'Fire Crackling Heavy Crackles' by Finnolia Productions Inc",
             "'Pour Beer Fast' by Maximilian Kotzur (Re-Focus)",
+            "'Service Bell Ring' by AlaskaRobotics",
             //" ",
             "--Fonts--",
             "GravityBold8 by John Watson",
